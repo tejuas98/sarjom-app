@@ -8,6 +8,7 @@ export function Navbar({
   isOffline,
   onToggleOffline,
   onOpenDrawer,
+  onOpenWizard,
   activeTab,
   onSelectTab,
 }) {
@@ -108,6 +109,17 @@ export function Navbar({
           >
             <WifiOff size={16} />
             {isOffline ? 'ऑफलाइन सक्रिय' : 'ऑनलाइन'}
+          </button>
+
+          {/* 60-Second Teacher Onboarding Tour */}
+          <button
+            onClick={onOpenWizard}
+            className="btn-brutal btn-forest"
+            style={{ padding: '7px 14px', fontSize: '0.85rem' }}
+            title="60 सेकंड त्वरित शिक्षक ऑनबोर्डिंग विज़ार्ड"
+          >
+            <Sparkles size={16} />
+            ऑनबोर्डिंग
           </button>
 
           {/* Teacher Phonetic Guide Drawer Trigger */}

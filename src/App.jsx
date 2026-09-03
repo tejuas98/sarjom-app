@@ -10,6 +10,7 @@ import { DictionarySearch } from './components/DictionarySearch';
 import { NeuralModelInspector } from './components/NeuralModelInspector';
 import { AcousticPronunciationCoach } from './components/AcousticPronunciationCoach';
 import { JuryBenchmarkingMatrix } from './components/JuryBenchmarkingMatrix';
+import { TeacherOnboardingWizard } from './components/TeacherOnboardingWizard';
 import { TeacherDrawer } from './components/TeacherDrawer';
 import { offlineStorage } from './services/offlineStorage';
 import { toast } from 'sonner';
@@ -22,6 +23,7 @@ export default function App() {
   });
   const [activeTab, setActiveTab] = useState('voice');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
@@ -57,6 +59,7 @@ export default function App() {
         isOffline={isOffline}
         onToggleOffline={handleToggleOffline}
         onOpenDrawer={() => setIsDrawerOpen(true)}
+        onOpenWizard={() => setIsWizardOpen(true)}
         activeTab={activeTab}
         onSelectTab={setActiveTab}
       />
@@ -79,6 +82,14 @@ export default function App() {
         isOpen={isDrawerOpen}
         onOpenChange={setIsDrawerOpen}
         selectedLang={selectedLang}
+      />
+
+      {/* 5. 60-Second Teacher Rapid Onboarding Wizard Modal */}
+      <TeacherOnboardingWizard
+        isOpen={isWizardOpen}
+        onClose={() => setIsWizardOpen(false)}
+        selectedLang={selectedLang}
+        onSelectLang={handleSelectLang}
       />
 
       {/* 5. Official Footer */}
