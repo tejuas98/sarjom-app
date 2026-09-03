@@ -6,10 +6,16 @@
 [![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-~34%20MB%20(Budget%20%E2%89%A42GB)-brightgreen.svg)](#7-the-engineering-truth-34-mb-ram-vs-4-gb-google-gemma-models)
 [![Latency SLA](https://img.shields.io/badge/Voice%20Latency-24ms%20--%2048ms%20(SLA%20%3C%203.0s)-success.svg)](#voice-to-voice-engine)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
+[![Deep Math & Architecture Spec](https://img.shields.io/badge/Technical%20Spec-Mathematics%20%26%20Engineering%20Deep%20Dive-purple.svg)](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)
 
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
 Developed for the **Department of Higher & Technical Education, Government of Jharkhand** in support of the state's **PALASH Mother Tongue-Based Multilingual Education (MTB-MLE)** programme.
+
+> 📚 **Companion Deep-Dive Engineering Documents:**
+> * 🔬 **[TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)** — Complete mathematical derivations (Attention, Quantization, Formants, FFT), V8 memory profiling, and pure JavaScript tensor execution.
+> * 📑 **[DATA_AND_RESEARCH_REFERENCES.md](./DATA_AND_RESEARCH_REFERENCES.md)** — Exhaustive audit of all research publications, JEPC data, UNICEF reports, and CIIL corpora.
+
 
 ---
 
