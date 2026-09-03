@@ -1,0 +1,301 @@
+/* ==========================================================================
+   PALASH SETU (पलाश सेतु) — DESIGN SYSTEM & TOKENS
+   Jharkhand MTB-MLE Vernacular Primary Education Design System
+   Headings: Cabin Sketch / Finger Paint ("Create Like A Child")
+   Body: Inter ("Edit Like A Scientist")
+   Scripts: Noto Sans Devanagari & Noto Sans Ol Chiki
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Jharkhand Sal Forest & Palash Bloom */
+  --color-forest: #0E5B37;
+  --color-forest-light: #167D4D;
+  --color-forest-subtle: #E8F4ED;
+  --color-forest-border: #9DCBAF;
+
+  --color-palash: #D95A27;
+  --color-palash-light: #EA6E3B;
+  --color-palash-subtle: #FDF0E9;
+  
+  --color-ochre: #E5A93C;
+  --color-ochre-subtle: #FEF8EC;
+
+  --color-slate: #1A2421;
+  --color-slate-muted: #566761;
+  --color-border: #1A2421;
+  
+  --color-bg: #FBF9F5;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F6F4EF;
+  --color-surface-tint: #F3EFE6;
+
+  --color-error: #D32F2F;
+  --color-success: #2E7D32;
+  --color-info: #0288D1;
+
+  /* Typography */
+  --font-sketch: 'Cabin Sketch', 'Finger Paint', cursive, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-deva: 'Noto Sans Devanagari', 'Inter', sans-serif;
+  --font-olchiki: 'Noto Sans Ol Chiki', 'Inter', sans-serif;
+
+  /* Tactical Neubrutalist Shadows & Borders */
+  --border-thick: 2px solid var(--color-border);
+  --border-thin: 1px solid var(--color-border);
+  --shadow-flat: 2px 2px 0px var(--color-border);
+  --shadow-card: 4px 4px 0px var(--color-border);
+  --shadow-hover: 6px 6px 0px var(--color-border);
+  --shadow-active: 1px 1px 0px var(--color-border);
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-bounce: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-smooth: all 0.2s ease-in-out;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-slate);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography classes */
+.font-sketch {
+  font-family: var(--font-sketch);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-olchiki {
+  font-family: var(--font-olchiki);
+}
+
+.font-deva {
+  font-family: var(--font-deva);
+}
+
+/* Headings with Sketch aesthetic */
+h1, h2, h3, .heading-sketch {
+  font-family: var(--font-sketch);
+  color: var(--color-slate);
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p, span, button, input, select, textarea {
+  font-family: var(--font-body);
+}
+
+/* Interactive Card & Button Styles */
+.card-brutal {
+  background: var(--color-surface);
+  border: var(--border-thick);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+
+.card-brutal:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-brutal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  background-color: var(--color-surface);
+  color: var(--color-slate);
+  transition: var(--transition-bounce);
+  user-select: none;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+.btn-primary {
+  background-color: var(--color-forest);
+  color: #FFFFFF;
+}
+.btn-primary:hover {
+  background-color: var(--color-forest-light);
+}
+
+.btn-palash {
+  background-color: var(--color-palash);
+  color: #FFFFFF;
+}
+.btn-palash:hover {
+  background-color: var(--color-palash-light);
+}
+
+.btn-ochre {
+  background-color: var(--color-ochre);
+  color: var(--color-slate);
+}
+
+.btn-subtle {
+  background-color: var(--color-forest-subtle);
+  color: var(--color-forest);
+  border-color: var(--color-forest);
+}
+
+/* Badges & Tags */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: var(--border-thin);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-forest {
+  background: var(--color-forest-subtle);
+  color: var(--color-forest);
+  border-color: var(--color-forest-border);
+}
+
+.badge-palash {
+  background: var(--color-palash-subtle);
+  color: var(--color-palash);
+  border-color: #F8C3AC;
+}
+
+.badge-ochre {
+  background: var(--color-ochre-subtle);
+  color: #8C5F08;
+  border-color: #F5DEAE;
+}
+
+/* Tablet Layout Container */
+.tablet-canvas {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 20px 80px 20px;
+}
+
+/* Audio Pulse / Latency Gauge Animation */
+@keyframes pulseWave {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.audio-pulse {
+  animation: pulseWave 1.4s ease-in-out infinite;
+}
+
+/* Flashcard 3D flip */
+.flip-card-container {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-container.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: var(--color-forest-subtle);
+}
+
+/* Print Stylesheet for Bilingual Worksheets */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print, nav, .tablet-status-bar, .tab-navigation, .btn-print-hide {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .worksheet-printable {
+    box-shadow: none !important;
+    border: 2px solid #000000 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    page-break-after: always;
+  }
+}

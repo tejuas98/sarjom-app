@@ -1,0 +1,17 @@
+{
+  "short_name": "PALASH Setu",
+  "name": "PALASH Setu (पलाश सेतु) — Mother Tongue Pedagogy",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0E5B37",
+  "theme_color": "#0E5B37",
+  "display": "standalone",
+  "orientation": "landscape",
+  "description": "Offline Vernacular Pedagogy and Real-Time Translation Tool for Jharkhand MTB-MLE Primary Education"
+}
