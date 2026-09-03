@@ -12,6 +12,7 @@
 ## Table of Contents
 1. [The Grand Unified System Architecture Diagram (ASCII)](#1-the-grand-unified-system-architecture-diagram-ascii)
    * 1.5 [The 3-Stage Input · Process · Output (IPO) Architecture Diagram](#15-the-3-stage-input--process--output-ipo-architecture-diagram)
+   * 1.6 [Exhaustive System Workflow & If-Else Decision Flowchart](#16-exhaustive-system-workflow--if-else-decision-flowchart)
 2. [Visual Graphical Mermaid Architecture Diagram](#2-visual-graphical-mermaid-architecture-diagram)
 3. [Component-by-Component & Zone-by-Zone Deep Breakdown](#3-component-by-component--zone-by-zone-deep-breakdown)
    * 3.1 Zone A: Physical World & Classroom Acoustic Environment
@@ -160,6 +161,133 @@ For intuitive comprehension during hackathon jury evaluation and technical archi
 * **Stage 1 (INPUT)**: Captures teacher microphone audio (75–82 dB noise), two-way student tribal speech, capacitive touch slate strokes, and rural parent phone QR scans.
 * **Stage 2 (PROCESS)**: Applies Web Audio DSP 300Hz–3.4kHz noise gate $\to$ Vectorized TF-IDF Cosine Similarity engine (**0.022 ms latency**) $\to$ Agglutinative Munda morphology transducer with 80:20 NIPUN transition rules.
 * **Stage 3 (OUTPUT)**: Renders native Ol Chiki (`ᱡᱚᱦᱟᱨ`) / Warang Chiti orthography, synthesizes dual-channel audio speech (TTS), renders 300 DPI printable Audio QR worksheets, and dispatches encrypted offline JSON records to e-Vidyavahini 2.0.
+
+---
+
+## 1.6 Exhaustive System Workflow & If-Else Decision Flowchart
+
+While high-level block diagrams summarize architectural components, mission-critical field operations require deterministic state machines. Below is the **Exhaustive System Workflow & If-Else Decision Flowchart**, detailing how SARJOM executes across hardware initialization, network volatility, acoustic noise gating, multilingual branching, and parent home-learning verification.
+
+<div align="center" style="margin: 20px 0;">
+  <a href="./public/sarjom_detailed_flowchart.png" title="Click to view full resolution flowchart">
+    <img src="./public/sarjom_detailed_flowchart.png" alt="SARJOM Detailed System Workflow & Decision Flowchart" width="100%" style="border-radius: 14px; border: 3px solid #10B981; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  </a>
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 8px;">
+    <strong>Figure 1.3: SARJOM Detailed Execution Logic, Branching Conditions & Error Fallbacks</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_detailed_flowchart.svg"><em>[Vector SVG Format]</em></a>
+  </p>
+</div>
+
+### 1.6.1 Exhaustive Textual Breakdown of Decision Logic
+
+1. **Level 1: Launch & Connectivity Verification**:
+   - **Trigger**: Teacher boots device and opens SARJOM PWA container.
+   - **Decision (`if (navigator.onLine)`):**
+     - **YES (Online)**: Dispatches non-blocking HTTP handshake to `https://evidyavahini.jharkhand.gov.in/api/v2/handshake`. Syncs latest state curriculum updates and flushes pending offline formative assessment queues.
+     - **NO (Offline)**: Locks immediately into **100% Offline Edge Mode**. Service Worker intercepts all requests, serving precached WebAssembly, SVG fonts, and in-memory Munda lexical dictionaries. Zero network error dialogs are shown.
+   - **Convergence**: Loads District & School UDISE Profile (e.g. *Rajkiya Primary School, Tantnagar, West Singhbhum*, UDISE: 20240301102). Dialect engine auto-tunes to Santhali, Ho, or Mundari.
+
+2. **Level 2: 4-Way Pedagogical Mode Selection**:
+   - The teacher selects one of 4 classroom execution tracks based on the active lesson phase:
+     - **Branch A: Real-Time Classroom Dialogue**:
+       - Captures teacher's spoken Hindi audio stream under high ambient classroom noise (75–82 dB).
+       - Passes signal into **Web Audio DSP 300Hz–3.4kHz Bandpass Noise Gate**.
+       - **Decision (`if (SNR > 12 dB)`):**
+         - **NO (Heavy Rain on Tin Roof / Screaming Noise)**: Seamlessly triggers **Noise Fallback**, rendering high-contrast 1-tap visual prompt chips so teaching is never interrupted.
+         - **YES (Clear Speech Detected)**: Runs **Sparse TF-IDF N-Gram Vectorizer**. Matches query against 1,240+ FLN terms using Cosine Similarity space (**0.022 ms measured latency**).
+       - Passes match vector to **Munda Morphology Transducer** (assembling agglutinative affixes and generating Ol Chiki / Warang Chiti Unicode + Devanagari/Roman phonetics).
+     - **Branch B: NIPUN Bharat FLN Curriculum Studio**:
+       - Loads Day-by-Day 8-Week competency plan for Balvatika, Class 1, or Class 2.
+       - Enforces the **80:20 Transition Scaffolding Formula** (80% mother tongue in Balvatika $\to$ 80% Hindi in Class 3).
+       - Teacher administers in-class continuous formative check.
+       - **Decision (`if (Student FLN Competency Target Achieved)`):**
+         - **YES**: Triggers instant positive reinforcement in the child's mother tongue (*"Besh ge! शाबाश!"*).
+         - **NO**: Automatically spawns **3D Remedial Visual Flashcards** for targeted reinforcement.
+     - **Branch C: Printable Bilingual Worksheet Studio & Audio QR**:
+       - Teacher generates printable A4 numeracy or literacy sheet with embedded Ol Chiki / Warang Chiti glyphs.
+       - Browser executes client-side **Reed-Solomon Level M QR Encoding**, embedding the audio playback URL directly into the SVG print layout.
+       - Sheet is printed at 300 DPI for take-home assignment.
+       - **Decision (`if (Parent Scans QR Code on Basic Smartphone)`):**
+         - **YES**: Launches **🌳 सरजोम ध्वनि साथी Web Player** in any standard mobile browser with zero app installation required. Non-literate tribal parents tap the large speaker button to hear authentic tribal pronunciation.
+     - **Branch D: Oral Reading Fluency (ORF) Acoustic Coach**:
+       - Student reads displayed tribal prompt aloud into tablet microphone.
+       - Real-time Web Audio analyzer extracts vowel formant resonance peaks ($F_1: 300-900$ Hz, $F_2: 800-2500$ Hz).
+       - **Decision (`if (Acoustic Formant Distance >= 70% Accuracy && WPM in target range)`):**
+         - **YES**: Awards student an on-screen **Fluency Mastery Badge** and logs milestone to portfolio.
+         - **NO**: Activates **Phonetic Audio Modeling**, playing slowed native pronunciation with Devanagari guidance.
+
+3. **Level 3: Unified Local Commitment & Governance Audit**:
+   - All 4 branches converge into an **Encrypted Offline IndexedDB Transactional Commit**.
+   - Audit trail is timestamped with UDISE code, teacher ID, and timestamp, queued for background sync or MicroSD card sneakernet upload to e-Vidyavahini 2.0.
+   - System terminates transaction with **`✅ PROCESS COMPLETE`**.
+
+---
+
+### 1.6.2 Output Mermaid Flowchart Code
+
+```mermaid
+flowchart TD
+    Start(["🚀 User Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available?"}
+    
+    %% Level 1: Connectivity
+    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync & Handshake\ne-Vidyavahini 2.0 REST connected"]
+    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Edge Mode\nService Worker & IndexedDB active"]
+    
+    CloudSync --> LoadProfile["🏫 Load District & UDISE Profile\n(Dumka, West Singhbhum, Khunti)"]
+    OfflineEdge --> LoadProfile
+    
+    %% Level 2: Mode Selection
+    LoadProfile --> ModeSelect{"📚 Select Classroom Mode?"}
+    
+    %% Branch 1: Real-Time Dialogue
+    ModeSelect -->|1. Real-Time Dialogue| MicCap["🎙️ Teacher Voice Audio Capture\n(75-82 dB ambient noise)"]
+    MicCap --> DSPGate["⚙️ Web Audio DSP Noise Gate\n(Bandpass 300Hz-3.4kHz filter)"]
+    DSPGate --> CheckSNR{"Acoustic SNR > 12 dB?"}
+    CheckSNR -->|NO / Heavy Rain| NoiseFallback["⚠️ Noise Fallback\nUse 1-Tap Prompt Chips"]
+    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.022 ms measured latency)"]
+    NoiseFallback --> VectorMatch
+    VectorMatch --> MundaTrans["🔤 Munda Morphology & Script\n(Ol Chiki / Warang Chiti / Deva)"]
+    
+    %% Branch 2: NIPUN FLN
+    ModeSelect -->|2. NIPUN FLN| FLNPlan["📖 Day-by-Day NIPUN FLN Plan\n(8-Week Balvatika to Class 3)"]
+    FLNPlan --> Scaffold["📊 80:20 Transition Scaffolding\n80% Tribal (Balvatika) ➔ 80% Hindi (Class 3)"]
+    Scaffold --> CheckFLN{"FLN Target Achieved?"}
+    CheckFLN -->|YES| Praise["🎉 Positive Reinforcement\nNative praise: 'Besh ge! शाबाश!'"]
+    CheckFLN -->|NO| Remedial["🛠️ Remedial Flashcard Deck\nVisual 3D Flip cards reinforcement"]
+    
+    %% Branch 3: Worksheets & QR
+    ModeSelect -->|3. Worksheets & QR| GenSheet["📄 Generate NIPUN Worksheet\n(Numeracy, Words, Tracing)"]
+    GenSheet --> QRGen["📱 Dynamic Audio QR Generator\nReed-Solomon Level M client encoding"]
+    QRGen --> PrintDoc["🖨️ 300 DPI Print / Save PDF\nTake-home sheet given to child"]
+    PrintDoc --> CheckScan{"Parent Phone Scanned?"}
+    CheckScan -->|YES| AudioComp["🌳 सरजोम ध्वनि साथी Web Player\nZero install: Illiterate parents hear tribal audio"]
+    
+    %% Branch 4: ORF Reading Fluency
+    ModeSelect -->|4. Reading Fluency| StudentRead["🗣️ Student Oral Reading\nReads native script prompt aloud"]
+    StudentRead --> Formant["🔬 Formant Extractor (F1, F2)\nDSP Euclidean distance to native phonemes"]
+    Formant --> CheckORF{"Accuracy >= 70% & WPM OK?"}
+    CheckORF -->|YES| FluencyPass["🌟 Fluency Mastered Badge\nLogged to Student Portfolio"]
+    CheckORF -->|NO| PhoneGuide["👂 Phonetic Audio Modeling\nSlows playback & shows Devanagari cue"]
+    
+    %% Convergence to Persistence
+    MundaTrans --> DBCommit["💾 Encrypted Offline IndexedDB Commit\n(Local persistence & EVV queue)"]
+    Praise --> DBCommit
+    Remedial --> DBCommit
+    AudioComp --> DBCommit
+    FluencyPass --> DBCommit
+    PhoneGuide --> DBCommit
+    
+    DBCommit --> Done(["✅ PROCESS COMPLETE"])
+
+    style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
+    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckSNR fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style CheckScan fill:#451A03,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+    style CheckORF fill:#3B0764,stroke:#A855F7,stroke-width:2px,color:#E9D5FF
+    style Done fill:#064E3B,stroke:#10B981,stroke-width:3px,color:#FFFFFF
+```
 
 ---
 

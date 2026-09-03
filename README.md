@@ -876,7 +876,7 @@ Below is a complete reference of every active interactive control in the SARJOM 
 * **Automated Test Suite**: **12 OF 12 TESTS PASSED CLEANLY (100% SUCCESS RATE)** via `node run_hard_tests.js`.
 * **Micro-Benchmark Latency**: **0.022 ms (22 microseconds)** — **135,901x faster** than the mandatory $\le$3.0s SIH SLA.
 * **Low-Cost Tablet Memory Footprint**: Active runtime heap is **5.07 MB** (fits easily in $\le$2GB tablet limit with <2% RAM utilization).
-* **Multi-State Screenshot Matrix**: 13 automated screenshots captured across all connectivity states, language selections, and curriculum tabs in [`public/screenshots/`](./public/screenshots/).
+* **Multi-State Screenshot Matrix**: 22 automated screenshots captured across all connectivity states, language selections, curriculum tabs, neural models, decision flowcharts, audio deck, and modals in [`public/screenshots/`](./public/screenshots/).
 
 ```bash
 # Run automated unit and latency stress tests:

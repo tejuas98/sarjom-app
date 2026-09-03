@@ -16,7 +16,9 @@ import {
 import { toast } from 'sonner';
 
 export function NeuralModelInspector({ selectedLang }) {
-  const [activeView, setActiveView] = useState('flowchart'); // 'flowchart' | 'ipo' | 'inference'
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const initialView = (urlParams && urlParams.get('view')) || 'flowchart';
+  const [activeView, setActiveView] = useState(initialView); // 'flowchart' | 'ipo' | 'inference'
   const [testInput, setTestInput] = useState('किताब खोलो और पढ़ो');
   const [neuralOutput, setNeuralOutput] = useState(() =>
     customNeuralEngine.infer('किताब खोलो और पढ़ो', selectedLang)
