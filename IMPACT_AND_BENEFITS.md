@@ -1,15 +1,15 @@
-# PALASH Setu: Comprehensive Impact & Multi-Dimensional Benefits Master Dossier
+# PALASH Setu: Impact Assessment & Multi-Tiered Benefits
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Focus](https://img.shields.io/badge/Document%20Focus-Total%20Impact%20%26%20Multi--Tiered%20Benefits-darkgreen.svg)](#1-executive-impact-summary-the-human-transformation)
+[![Focus](https://img.shields.io/badge/Document%20Focus-Impact%20%26%20Multi--Tiered%20Benefits-darkgreen.svg)](#1-executive-impact-summary-the-human-transformation)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"An exhaustive, evidence-based master dossier detailing every dimension of Impact and Benefit—Pedagogical, Psychological, Teacher Wellbeing, Cultural, Community, Economic, and State Governance—delivered by PALASH Setu across Jharkhand's 5,000+ tribal primary schools."**
+> **"An exhaustive, evidence-based assessment detailing every dimension of Impact and Benefit—Pedagogical, Psychological, Teacher Wellbeing, Cultural, Community, Economic, and State Governance—delivered by PALASH Setu across Jharkhand's 5,000+ tribal primary schools."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [Executive Impact Summary: The Human Transformation](#1-executive-impact-summary-the-human-transformation)
 2. [The 8 Dimensions of Multi-Tiered Benefits](#2-the-8-dimensions-of-multi-tiered-benefits)
    * 2.1 Pedagogical & Foundational Learning Benefits (FLN Mastery & Reading Speed)

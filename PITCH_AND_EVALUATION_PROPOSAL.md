@@ -1,16 +1,16 @@
-# PALASH Setu: Comprehensive Solution Proposal, Pitch Deck & Grand Evaluation Dossier
+# PALASH Setu: Evaluation Proposal & Pitch Blueprint
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Organization](https://img.shields.io/badge/Govt.%20of%20Jharkhand-Dept.%20of%20Higher%20%26%20Technical%20Education-green.svg)](https://jharkhand.gov.in)
 [![Category & Theme](https://img.shields.io/badge/Software-Smart%20Education-blue.svg)](#1-executive-idea-summary--proposed-solution)
-[![Evaluation Ready](https://img.shields.io/badge/Evaluation%20Dossier-Complete%20Master%20Blueprint-purple.svg)](#7-lean-canvas-strategic-snapshot)
+[![Evaluation Ready](https://img.shields.io/badge/Evaluation-Grand%20Final%20Proposal-purple.svg)](#7-lean-canvas-strategic-snapshot)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
 > **"A turnkey, field-tested AI Vernacular Pedagogy & Real-Time Translation Suite empowering non-tribal primary teachers to deliver Mother Tongue-Based Multilingual Education (MTB-MLE) across 5,000+ government schools in Jharkhand without prior language training."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [Executive Idea Summary & Proposed Solution](#1-executive-idea-summary--proposed-solution)
 2. [Input Stage ➔ Processing Stage ➔ Output Stage (Data Flow)](#2-input-stage--processing-stage--output-stage-data-flow)
 3. [Innovation, Uniqueness & Core USP](#3-innovation-uniqueness--core-usp)

@@ -1,15 +1,15 @@
-# PALASH Setu: Technical Approach Master Dossier & Engineering Whitepaper
+# PALASH Setu: Technical Approach & Engineering Whitepaper
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Focus](https://img.shields.io/badge/Document%20Focus-Pure%20Technical%20Approach%20%26%20Architecture-purple.svg)](#1-executive-technical-architecture-summary)
+[![Focus](https://img.shields.io/badge/Document%20Focus-Technical%20Approach%20%26%20Architecture-purple.svg)](#1-executive-technical-architecture-summary)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
 > **"A rigorous, end-to-end engineering whitepaper detailing the Technical Approach: Dual-Engine Hybrid Edge-Cloud ML, custom PALASH-MundaLLM Transformer inference in browser memory, Web Audio DSP acoustic formant matching, V8 heap budget engineering, and offline sneakernet synchronization for low-resource tribal primary education."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [Executive Technical Architecture Summary](#1-executive-technical-architecture-summary)
 2. [The 3-Tier Technical Architecture (End-to-End System Pipeline)](#2-the-3-tier-technical-architecture-end-to-end-system-pipeline)
 3. [Proprietary Neural Transformer Engine (`PALASH-MundaLLM`)](#3-proprietary-neural-transformer-engine-palash-mundallm)

@@ -1,15 +1,15 @@
-# PALASH Setu: Comprehensive Proposed Solution Master Dossier
+# PALASH Setu: Proposed Solution Specification
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Focus](https://img.shields.io/badge/Document%20Focus-Pure%20Proposed%20Solution%20%26%20Pedagogy-brightgreen.svg)](#1-the-core-philosophy--human-centric-vision)
+[![Focus](https://img.shields.io/badge/Document%20Focus-Proposed%20Solution%20%26%20Pedagogy-brightgreen.svg)](#1-the-core-philosophy--human-centric-vision)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"A non-technical, human-centric, and pedagogical master blueprint explaining the Proposed Solution: how PALASH Setu transforms the rural tribal classroom, bridges the linguistic divide, and restores joy, active learning, and cultural dignity for 850,000+ children across 5,000+ schools in Jharkhand."**
+> **"A non-technical, human-centric pedagogical blueprint explaining the Proposed Solution: how PALASH Setu transforms the rural tribal classroom, bridges the linguistic divide, and restores joy, active learning, and cultural dignity for 850,000+ children across 5,000+ schools in Jharkhand."**
 
 ---
 
-## 📖 Master Table of Contents
+## Table of Contents
 1. [The Core Philosophy & Human-Centric Vision](#1-the-core-philosophy--human-centric-vision)
 2. [The Human Problem: What Actually Happens in a Village Classroom](#2-the-human-problem-what-actually-happens-in-a-village-classroom)
    * 2.1 The Child's Perspective: The Cognitive Shock of Day One

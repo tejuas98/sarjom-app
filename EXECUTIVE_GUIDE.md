@@ -1,15 +1,15 @@
-# PALASH Setu: The Universal Executive Guide (For Tech & Non-Tech Readers)
+# PALASH Setu: Executive Guide (Technical & Non-Technical Overview)
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
-[![Target Audience](https://img.shields.io/badge/Readership-Engineers%2C%20Educators%2C%20IAS%20Officers%20%26%20Jury-blueviolet.svg)](#the-60-second-summary-for-everyone)
+[![Target Audience](https://img.shields.io/badge/Readership-Engineers%2C%20Educators%2C%20Administrators%20%26%20Jury-blueviolet.svg)](#the-60-second-summary-for-everyone)
 [![Organization](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"If you have 5 minutes to understand PALASH Setu—whether you are an IAS Education Secretary, a Senior AI Scientist, a Primary School Principal, or an Evaluation Jury Member—this document explains exactly what it is, why it was created, how it works in practice, and why it succeeds where others failed."**
+> **"A concise overview of PALASH Setu—for Technical Evaluators, Education Administrators, Primary School Educators, and Jury Members—explaining what the system is, why it was created, how it operates in practice, and why it succeeds where cloud models fail."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [The 60-Second Summary for Everyone](#the-60-second-summary-for-everyone)
 2. [The Side-by-Side Dual Perspective: Non-Tech vs. Tech Comparison Table](#the-side-by-side-dual-perspective-non-tech-vs-tech-comparison-table)
 3. [PART I: THE NON-TECH MASTER GUIDE (Heart, Humanity & Pedagogy)](#part-i-the-non-tech-master-guide-heart-humanity--pedagogy)

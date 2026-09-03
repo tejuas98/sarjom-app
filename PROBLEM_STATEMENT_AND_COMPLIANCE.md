@@ -1,15 +1,15 @@
-# PALASH Setu: Official Problem Statement Dossier, Mandate Compliance Charts & Master Field Manual
+# PALASH Setu: Problem Statement & Regulatory Compliance
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Compliance Status](https://img.shields.io/badge/Official%20Mandate-100%25%20Verified%20%26%20Exceeded-brightgreen.svg)](#2-official-mandate-vs-palash-setu-compliance-matrix)
+[![Compliance Status](https://img.shields.io/badge/Official%20Mandate-Verified%20%26%20Exceeded-brightgreen.svg)](#2-official-mandate-vs-palash-setu-compliance-matrix)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
 > **"A dedicated reference manual containing the verbatim government problem statement, official compliance matrices, architectural flowcharts, acoustic decibel models, and live classroom dialogue transcripts for the PALASH MTB-MLE Programme in Jharkhand."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [Official Problem Statement Specification (Verbatim Text)](#1-official-problem-statement-specification-verbatim-text)
 2. [Official Mandate vs. PALASH Setu Compliance Matrix](#2-official-mandate-vs-palash-setu-compliance-matrix)
 3. [Jharkhand Tribal Demographics & District-by-District School Profiles](#3-jharkhand-tribal-demographics--district-by-district-school-profiles)

@@ -1,15 +1,15 @@
-# PALASH Setu: Fully Connected End-to-End System Architecture Flowchart & Technical Deep-Dive
+# PALASH Setu: End-to-End System Architecture
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Architecture Status](https://img.shields.io/badge/System%20Architecture-100%25%20Connected%20%26%20Interlinked-brightgreen.svg)](#1-the-grand-unified-system-architecture-diagram-ascii)
+[![Architecture Status](https://img.shields.io/badge/System%20Architecture-Connected%20Pipeline-brightgreen.svg)](#1-the-grand-unified-system-architecture-diagram-ascii)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"An exhaustive, wire-by-wire architectural blueprint mapping the complete lifecycle of data across the Physical Classroom, Low-End Tablet Hardware, Web Audio DSP, On-Device Neural Transformer, React Presentation Layer, Offline Storage, and the State-Level e-Vidyavahini 2.0 Sneakernet."**
+> **"An architectural blueprint mapping the complete lifecycle of data across the Physical Classroom, Low-End Tablet Hardware, Web Audio DSP, On-Device Neural Transformer, React Presentation Layer, Offline Storage, and the State-Level e-Vidyavahini 2.0 Sneakernet."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [The Grand Unified System Architecture Diagram (ASCII)](#1-the-grand-unified-system-architecture-diagram-ascii)
 2. [Visual Graphical Mermaid Architecture Diagram](#2-visual-graphical-mermaid-architecture-diagram)
 3. [Component-by-Component & Zone-by-Zone Deep Breakdown](#3-component-by-component--zone-by-zone-deep-breakdown)

@@ -1,15 +1,15 @@
-# PALASH Setu: Comprehensive Feasibility & Multi-Dimensional Impact Master Dossier
+# PALASH Setu: Comprehensive Feasibility Assessment
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Focus](https://img.shields.io/badge/Document%20Focus-Total%20Feasibility%20%26%20Exhaustive%20Impact-success.svg)](#1-executive-summary-the-twin-pillars-of-feasibility--impact)
+[![Focus](https://img.shields.io/badge/Document%20Focus-Feasibility%20Assessment-success.svg)](#1-executive-summary-the-twin-pillars-of-feasibility--impact)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"A rigorous, 360-degree master evaluation dossier analyzing every facet of Feasibility (Technical, Operational, Financial, Acoustic, Power, Legal) and every dimension of Impact (Pedagogical, Psychological, Social, Cultural, Administrative, Economic) for the statewide rollout of PALASH Setu across Jharkhand's 5,000+ tribal primary schools."**
+> **"A rigorous, 360-degree evaluation analyzing every facet of Feasibility (Technical, Operational, Financial, Acoustic, Power, Legal) for the statewide rollout of PALASH Setu across Jharkhand's 5,000+ tribal primary schools."**
 
 ---
 
-## 📑 Master Index
+## Table of Contents
 1. [Executive Summary: The Twin Pillars of Feasibility & Impact](#1-executive-summary-the-twin-pillars-of-feasibility--impact)
 2. [PART I: THE COMPLETE FEASIBILITY AUDIT](#part-i-the-complete-feasibility-audit)
    * 2.1 Technical Feasibility (Hardware, OS & V8 Memory Profiling)
