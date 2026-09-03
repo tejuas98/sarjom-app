@@ -9,6 +9,19 @@ import { CLASSROOM_PHRASES } from '../data/classroomPhrases';
 import { NIPUN_LESSONS } from '../data/nipunCurriculum';
 
 /**
+ * Normalizes Hindi text by trimming, stripping punctuation, and standardizing whitespace
+ */
+export function normalizeHindi(text) {
+  if (!text) return '';
+  return text
+    .toString()
+    .trim()
+    .replace(/[।|!?,.\-—_]/g, '')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+}
+
+/**
  * Generates an n-gram frequency vector for semantic similarity calculation
  */
 function vectorizeText(text) {

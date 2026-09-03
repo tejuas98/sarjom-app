@@ -1,6 +1,6 @@
 import React from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers } from 'lucide-react';
+import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers, Sparkles } from 'lucide-react';
 
 export function Navbar({
   selectedLang,

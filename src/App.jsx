@@ -24,6 +24,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('voice');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [isTabletFrame, setIsTabletFrame] = useState(true);
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
@@ -43,26 +44,74 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-bg)' }}>
-      {/* 1. Android Tablet Diagnostic & Jharkhand EVV Status Bar */}
-      <TabletSimulatorBar
-        isOffline={isOffline}
-        toggleOffline={handleToggleOffline}
-        selectedLang={selectedLang}
-        onSelectLang={handleSelectLang}
-      />
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: isTabletFrame ? '#0F172A' : 'var(--color-bg)',
+        padding: isTabletFrame ? '24px 12px' : '0',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        transition: 'all 0.3s ease',
+      }}
+    >
+      {/* Gyanodaya 10.1" Tablet Device Bezel Container */}
+      <div
+        style={{
+          width: '100%',
+          maxWidth: isTabletFrame ? '1200px' : '100%',
+          backgroundColor: 'var(--color-bg)',
+          borderRadius: isTabletFrame ? '24px' : '0',
+          border: isTabletFrame ? '12px solid #1E293B' : 'none',
+          boxShadow: isTabletFrame
+            ? '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 2px #334155'
+            : 'none',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          minHeight: isTabletFrame ? '850px' : '100vh',
+        }}
+      >
+        {/* Tablet Top Bezel Camera Dot */}
+        {isTabletFrame && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '4px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#0F172A',
+              border: '1px solid #334155',
+              zIndex: 100,
+            }}
+          />
+        )}
 
-      {/* 2. Top Header & Navigation Bar */}
-      <Navbar
-        selectedLang={selectedLang}
-        onSelectLang={handleSelectLang}
-        isOffline={isOffline}
-        onToggleOffline={handleToggleOffline}
-        onOpenDrawer={() => setIsDrawerOpen(true)}
-        onOpenWizard={() => setIsWizardOpen(true)}
-        activeTab={activeTab}
-        onSelectTab={setActiveTab}
-      />
+        {/* 1. Android Tablet Diagnostic & Jharkhand EVV Status Bar */}
+        <TabletSimulatorBar
+          isOffline={isOffline}
+          toggleOffline={handleToggleOffline}
+          selectedLang={selectedLang}
+          onSelectLang={handleSelectLang}
+          isTabletFrame={isTabletFrame}
+          onToggleTabletFrame={() => setIsTabletFrame((prev) => !prev)}
+        />
+
+        {/* 2. Top Header & Navigation Bar */}
+        <Navbar
+          selectedLang={selectedLang}
+          onSelectLang={handleSelectLang}
+          isOffline={isOffline}
+          onToggleOffline={handleToggleOffline}
+          onOpenDrawer={() => setIsDrawerOpen(true)}
+          onOpenWizard={() => setIsWizardOpen(true)}
+          activeTab={activeTab}
+          onSelectTab={setActiveTab}
+        />
 
       {/* 3. Main Tablet Canvas */}
       <main className="tablet-canvas" style={{ flex: 1, width: '100%' }}>
@@ -85,12 +134,14 @@ export default function App() {
       />
 
       {/* 5. 60-Second Teacher Rapid Onboarding Wizard Modal */}
-      <TeacherOnboardingWizard
-        isOpen={isWizardOpen}
-        onClose={() => setIsWizardOpen(false)}
-        selectedLang={selectedLang}
-        onSelectLang={handleSelectLang}
-      />
+      {isWizardOpen && (
+        <TeacherOnboardingWizard
+          isOpen={isWizardOpen}
+          onClose={() => setIsWizardOpen(false)}
+          selectedLang={selectedLang}
+          onSelectLang={handleSelectLang}
+        />
+      )}
 
       {/* 5. Official Footer */}
       <footer
@@ -132,6 +183,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

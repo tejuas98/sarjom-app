@@ -52,7 +52,7 @@ export const JHARKHAND_SCHOOL_PROFILES = [
   },
 ];
 
-export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onSelectLang }) {
+export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onSelectLang, isTabletFrame, onToggleTabletFrame }) {
   const [selectedSchoolId, setSelectedSchoolId] = useState(
     selectedLang === 'ho'
       ? 'school_west_singhbhum'
@@ -143,10 +143,31 @@ export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onS
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {onToggleTabletFrame && (
+            <button
+              onClick={onToggleTabletFrame}
+              style={{
+                padding: '2px 8px',
+                fontSize: '0.72rem',
+                borderRadius: '4px',
+                border: '1px solid #70C28A',
+                backgroundColor: isTabletFrame ? '#70C28A' : 'transparent',
+                color: isTabletFrame ? '#0F172A' : '#70C28A',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+              title="टैबलेट बेज़ेल और फुल-स्क्रीन डेस्कटॉप दृश्य के बीच स्विच करें"
+            >
+              📱 {isTabletFrame ? 'टैबलेट व्यू' : 'फुल-स्क्रीन'}
+            </button>
+          )}
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <ShieldCheck size={13} color="#70C28A" />
-            <span>Android 9.0+ अनुकूलित</span>
+            <span>Android 9.0+</span>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF' }}>
             <BatteryCharging size={13} color="#70C28A" /> 88%

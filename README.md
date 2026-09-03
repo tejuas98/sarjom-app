@@ -21,6 +21,11 @@
 
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
+<div align="center" style="margin: 20px 0;">
+  <img src="./public/palash_setu_prototype_demo.gif" alt="PALASH Setu Live Classroom Tablet Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
+  <p><strong>Interactive Walkthrough</strong>: Gyanodaya 10.1" Classroom Tablet Simulation, Sub-50ms Neural Voice Translation, Two-Way Student Ear, NIPUN FLN Curriculum Studio, A4 QR Worksheets, Digital Slate & Tri-Lingual Lexicon &nbsp;·&nbsp; <a href="./public/palash_setu_prototype_demo.mp4"><strong>[📹 Download Full MP4 Video]</strong></a></p>
+</div>
+
 ---
 
 ### Official Problem Statement Compliance Matrix &nbsp;|&nbsp; [Jump to Detailed Implementation Breakdown ↓](#detailed-implementation-breakdown-of-each-compliance-mandate)
