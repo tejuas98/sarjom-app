@@ -2,6 +2,7 @@
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
+[![Prototype Walkthrough](https://img.shields.io/badge/Prototype%20Walkthrough-Screenshots%20%26%20Analysis-purple.svg)](./PROTOTYPE_README.md)
 [![Test Suite Status](https://img.shields.io/badge/Automated%20Tests-12%2F12%20Passed%20(100%25)-brightgreen.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![Latency Benchmark](https://img.shields.io/badge/Voice%20Latency-0.022%20ms%20(SLA%20%3C%203.0s)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-~34%20MB%20(Budget%20%E2%89%A42GB)-blue.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
@@ -25,6 +26,8 @@
   <img src="./public/palash_setu_live_click_demo.gif" alt="PALASH Setu Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
   <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (palash_setu_live_click_demo.mp4)]</strong></a></p>
 </div>
+
+> 📸 **Visual Prototype Walkthrough**: For an exhaustive, screenshot-by-screenshot analysis explaining **what each feature is for, why it works under the hood, and how it solves the classroom crisis**, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
 
 ---
 
@@ -249,9 +252,10 @@ This section provides technical and operational evidence explaining how each req
 ### Tier 6: Research, References, Operating Manual & Evaluation Proposal
 * 17. [Installation, Local Execution & Physical Tablet Guide](#17-installation-local-execution--physical-tablet-guide)
 * 18. [Section-by-Section & Button-by-Button Operating Breakdown](#18-section-by-section--button-by-button-operating-breakdown) &nbsp;|&nbsp; [📖 Full Manual (OPERATING_GUIDE_AND_BUTTON_MANUAL.md)](./OPERATING_GUIDE_AND_BUTTON_MANUAL.md)
-* 19. [Automated Test Results & Hardware Benchmark Dossier (12/12 Passed)](./TEST_RESULTS_AND_BENCHMARKS.md)
-* 20. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
-* 21. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
+* 19. [Interactive Prototype Walkthrough & Module Analysis (PROTOTYPE_README.md)](./PROTOTYPE_README.md)
+* 20. [Automated Test Results & Hardware Benchmark Dossier (12/12 Passed)](./TEST_RESULTS_AND_BENCHMARKS.md)
+* 21. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
+* 22. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
 
 ---
 
