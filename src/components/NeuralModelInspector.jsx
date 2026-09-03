@@ -16,7 +16,7 @@ import {
 import { toast } from 'sonner';
 
 export function NeuralModelInspector({ selectedLang }) {
-  const [activeView, setActiveView] = useState('ipo'); // 'ipo' | 'inference'
+  const [activeView, setActiveView] = useState('flowchart'); // 'flowchart' | 'ipo' | 'inference'
   const [testInput, setTestInput] = useState('किताब खोलो और पढ़ो');
   const [neuralOutput, setNeuralOutput] = useState(() =>
     customNeuralEngine.infer('किताब खोलो और पढ़ो', selectedLang)
@@ -73,14 +73,21 @@ export function NeuralModelInspector({ selectedLang }) {
         </div>
       </div>
 
-      {/* Sub-view switcher: IPO Pipeline vs Live Transformer */}
+      {/* Sub-view switcher: Flowchart vs IPO Pipeline vs Live Transformer */}
       <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button
+          onClick={() => setActiveView('flowchart')}
+          className={`btn-brutal ${activeView === 'flowchart' ? 'btn-forest' : 'btn-subtle'}`}
+          style={{ padding: '8px 18px', fontSize: '0.88rem' }}
+        >
+          🔄 विस्तृत डिसिजन फ़्लोचार्ट (If-Else Logic)
+        </button>
         <button
           onClick={() => setActiveView('ipo')}
           className={`btn-brutal ${activeView === 'ipo' ? 'btn-forest' : 'btn-subtle'}`}
           style={{ padding: '8px 18px', fontSize: '0.88rem' }}
         >
-          📐 3-स्टेज Input · Process · Output (IPO) आर्किटेक्चर
+          📐 3-स्टेज Input · Process · Output (IPO)
         </button>
         <button
           onClick={() => setActiveView('inference')}
@@ -91,7 +98,57 @@ export function NeuralModelInspector({ selectedLang }) {
         </button>
       </div>
 
-      {activeView === 'ipo' ? (
+      {activeView === 'flowchart' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Visual Detailed Flowchart */}
+          <div
+            className="card-brutal"
+            style={{
+              padding: '16px',
+              backgroundColor: '#090D16',
+              borderRadius: 'var(--radius-lg)',
+              overflow: 'hidden',
+              textAlign: 'center',
+            }}
+          >
+            <img
+              src="/sarjom_detailed_flowchart.png"
+              alt="SARJOM Detailed System Workflow & Decision Flowchart"
+              style={{ width: '100%', maxWidth: '1200px', borderRadius: '12px' }}
+            />
+          </div>
+
+          {/* Quick Interactive Summary Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
+            <div className="card-brutal" style={{ padding: '16px', backgroundColor: '#FFFFFF', borderTop: '4px solid #0284C7' }}>
+              <div style={{ fontWeight: 800, color: '#0284C7', fontSize: '0.92rem' }}>1. नेटवर्क व हार्डवेयर सत्यापन</div>
+              <p style={{ fontSize: '0.8rem', color: '#475569', margin: '6px 0 0 0', lineHeight: 1.4 }}>
+                ऐप खुलते ही कनेक्टिविटी जाँची जाती है—ऑनलाइन होने पर ई-विद्यावाहिनी 2.0 से सिंक, ऑफलाइन होने पर 100% PWA कैश।
+              </p>
+            </div>
+            <div className="card-brutal" style={{ padding: '16px', backgroundColor: '#FFFFFF', borderTop: '4px solid #10B981' }}>
+              <div style={{ fontWeight: 800, color: '#10B981', fontSize: '0.92rem' }}>2. वर्षा व कक्षा शोर फ़िल्टरिंग</div>
+              <p style={{ fontSize: '0.8rem', color: '#475569', margin: '6px 0 0 0', lineHeight: 1.4 }}>
+                Web Audio DSP 300Hz-3.4kHz बैंडपास गेट से टिन शेड वर्षा के 75-82 dB शोर को हटाकर साफ ध्वनि निष्कर्षित करता है।
+              </p>
+            </div>
+            <div className="card-brutal" style={{ padding: '16px', backgroundColor: '#FFFFFF', borderTop: '4px solid #F59E0B' }}>
+              <div style={{ fontWeight: 800, color: '#F59E0B', fontSize: '0.92rem' }}>3. निपुण भारत 80:20 संक्रमण</div>
+              <p style={{ fontSize: '0.8rem', color: '#475569', margin: '6px 0 0 0', lineHeight: 1.4 }}>
+                बालवाटिका (80% मातृभाषा) से कक्षा 3 (80% हिंदी) तक क्रमिक ब्रिजिंग। सफल होने पर स्वदेशी शाबाशी, अन्यथा उपचारात्मक कार्ड।
+              </p>
+            </div>
+            <div className="card-brutal" style={{ padding: '16px', backgroundColor: '#FFFFFF', borderTop: '4px solid #A855F7' }}>
+              <div style={{ fontWeight: 800, color: '#A855F7', fontSize: '0.92rem' }}>4. गृह-अध्ययन ऑडियो क्यूआर</div>
+              <p style={{ fontSize: '0.8rem', color: '#475569', margin: '6px 0 0 0', lineHeight: 1.4 }}>
+                प्रिंटेड वर्कशीट पर क्यूआर स्कैन करने पर निरक्षर माता-पिता के साधारण फोन पर सही मातृभाषा उच्चारण वेबपेज खुलता है।
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeView === 'ipo' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Visual SVG Diagram Display */}
           <div
@@ -171,7 +228,9 @@ export function NeuralModelInspector({ selectedLang }) {
             </div>
           </div>
         </div>
-      ) : (
+      )}
+
+      {activeView === 'inference' && (
         <>
           {/* Model Spec Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>

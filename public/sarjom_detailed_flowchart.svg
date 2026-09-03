@@ -1,0 +1,341 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1200" width="100%" height="100%" style="background:#090D16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F2042"/>
+    </linearGradient>
+    <linearGradient id="greenCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064E3B"/>
+      <stop offset="100%" stop-color="#022C22"/>
+    </linearGradient>
+    <linearGradient id="amberCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350F"/>
+      <stop offset="100%" stop-color="#451A03"/>
+    </linearGradient>
+    <linearGradient id="purpleCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#581C87"/>
+      <stop offset="100%" stop-color="#3B0764"/>
+    </linearGradient>
+    <linearGradient id="redCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="100%" stop-color="#500724"/>
+    </linearGradient>
+    <!-- Filter -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <!-- Marker -->
+    <marker id="mGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+    </marker>
+    <marker id="mBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="mAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="mRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="1200" fill="url(#bgGrad)"/>
+
+  <!-- ================= TOP HEADER ================= -->
+  <g transform="translate(60, 40)">
+    <!-- Title -->
+    <text x="0" y="24" fill="#10B981" font-size="24" font-weight="900" letter-spacing="1">SARJOM (सरजोम) — DETAILED SYSTEM WORKFLOW &amp; DECISION FLOWCHART</text>
+    <text x="0" y="48" fill="#94A3B8" font-size="13">Exhaustive If-Else Decision Logic: Classroom Launch, Acoustic DSP, On-Device AI, Audio QR &amp; e-Vidyavahini 2.0</text>
+
+    <!-- Badges Top Right -->
+    <g transform="translate(980, 0)">
+      <rect width="160" height="34" rx="8" fill="#D97706" filter="url(#shadow)"/>
+      <text x="80" y="22" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="800">SIH 2026 · SIH26042</text>
+
+      <rect x="175" width="165" height="34" rx="8" fill="#0284C7" filter="url(#shadow)"/>
+      <text x="257" y="22" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="800">TEAM KARASUNO</text>
+    </g>
+  </g>
+
+  <!-- Horizontal Divider -->
+  <line x1="60" y1="110" x2="1380" y2="110" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- ================= LEVEL 1: APP LAUNCH & CONNECTIVITY ================= -->
+  <!-- Start Node -->
+  <g transform="translate(620, 130)">
+    <rect width="200" height="46" rx="23" fill="#0284C7" stroke="#38BDF8" stroke-width="2" filter="url(#shadow)"/>
+    <text x="100" y="28" text-anchor="middle" fill="#FFFFFF" font-size="14" font-weight="800">🚀 User Opens SARJOM App</text>
+  </g>
+
+  <!-- Flow 1 down -->
+  <line x1="720" y1="176" x2="720" y2="205" stroke="#38BDF8" stroke-width="2" marker-end="url(#mBlue)"/>
+
+  <!-- Decision 1: Network? -->
+  <g transform="translate(600, 210)">
+    <polygon points="120,0 240,30 120,60 0,30" fill="#78350F" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+    <text x="120" y="34" text-anchor="middle" fill="#FEF3C7" font-size="12" font-weight="800">🌐 Internet Available?</text>
+  </g>
+
+  <!-- Decision 1 Left: Online -->
+  <path d="M 600 240 L 410 240 L 410 280" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <rect x="470" y="226" width="60" height="18" rx="4" fill="#064E3B"/>
+  <text x="500" y="239" text-anchor="middle" fill="#A7F3D0" font-size="10" font-weight="700">YES (Online)</text>
+
+  <g transform="translate(290, 285)">
+    <rect width="240" height="52" rx="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="23" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">Cloud Sync &amp; Handshake</text>
+    <text x="120" y="40" text-anchor="middle" fill="#6EE7B7" font-size="10">e-Vidyavahini 2.0 REST API connected</text>
+  </g>
+
+  <!-- Decision 1 Right: Offline -->
+  <path d="M 840 240 L 1030 240 L 1030 280" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <rect x="910" y="226" width="60" height="18" rx="4" fill="#78350F"/>
+  <text x="940" y="239" text-anchor="middle" fill="#FDE68A" font-size="10" font-weight="700">NO (Offline)</text>
+
+  <g transform="translate(910, 285)">
+    <rect width="240" height="52" rx="10" fill="#78350F" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="23" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">100% Offline Edge Mode</text>
+    <text x="120" y="40" text-anchor="middle" fill="#FDE68A" font-size="10">Service Worker &amp; IndexedDB active</text>
+  </g>
+
+  <!-- Converge paths to Hardware / UDISE init -->
+  <path d="M 410 337 L 410 370 L 640 370 L 640 395" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <path d="M 1030 337 L 1030 370 L 800 370 L 800 395" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+
+  <!-- UDISE Profile Box -->
+  <g transform="translate(560, 400)">
+    <rect width="320" height="54" rx="12" fill="#1E293B" stroke="#475569" stroke-width="2" filter="url(#shadow)"/>
+    <text x="160" y="24" text-anchor="middle" fill="#F8FAFC" font-size="12" font-weight="800">🏫 Load District &amp; School UDISE Profile</text>
+    <text x="160" y="42" text-anchor="middle" fill="#94A3B8" font-size="10">Auto-calibrates language: Santhali, Ho, or Mundari</text>
+  </g>
+
+  <!-- Flow 2 down -->
+  <line x1="720" y1="454" x2="720" y2="485" stroke="#38BDF8" stroke-width="2" marker-end="url(#mBlue)"/>
+
+  <!-- ================= LEVEL 2: 4-WAY PEDAGOGICAL MODES ================= -->
+  <!-- Decision 2: Select Mode -->
+  <g transform="translate(560, 490)">
+    <polygon points="160,0 320,32 160,64 0,32" fill="#1E3A8A" stroke="#38BDF8" stroke-width="2" filter="url(#shadow)"/>
+    <text x="160" y="36" text-anchor="middle" fill="#DBEAFE" font-size="13" font-weight="800">📚 Select Classroom Mode?</text>
+  </g>
+
+  <!-- 4 Branch Connectors -->
+  <!-- Branch 1: Voice Dialogue (Leftmost) -->
+  <path d="M 560 522 L 200 522 L 200 580" fill="none" stroke="#38BDF8" stroke-width="2" marker-end="url(#mBlue)"/>
+  <text x="360" y="515" text-anchor="middle" fill="#38BDF8" font-size="11" font-weight="700">1. Real-Time Dialogue</text>
+
+  <!-- Branch 2: NIPUN Curriculum (Mid-Left) -->
+  <path d="M 640 554 L 540 554 L 540 580" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <text x="590" y="570" text-anchor="middle" fill="#10B981" font-size="11" font-weight="700">2. NIPUN FLN</text>
+
+  <!-- Branch 3: Audio QR Worksheets (Mid-Right) -->
+  <path d="M 800 554 L 900 554 L 900 580" fill="none" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <text x="850" y="570" text-anchor="middle" fill="#F59E0B" font-size="11" font-weight="700">3. Worksheets &amp; QR</text>
+
+  <!-- Branch 4: ORF Acoustic Coach (Rightmost) -->
+  <path d="M 880 522 L 1240 522 L 1240 580" fill="none" stroke="#A855F7" stroke-width="2" marker-end="url(#mBlue)"/>
+  <text x="1080" y="515" text-anchor="middle" fill="#A855F7" font-size="11" font-weight="700">4. Reading Fluency (ORF)</text>
+
+
+  <!-- ================= BRANCH 1: VOICE DIALOGUE ENGINE ================= -->
+  <!-- Node: Microphone Capture -->
+  <g transform="translate(80, 585)">
+    <rect width="240" height="50" rx="10" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🎙️ Teacher Voice Audio Capture</text>
+    <text x="120" y="38" text-anchor="middle" fill="#94A3B8" font-size="10">Captures under 75-82 dB noise</text>
+  </g>
+
+  <!-- DSP Noise Gate -->
+  <line x1="200" y1="635" x2="200" y2="660" stroke="#38BDF8" stroke-width="2" marker-end="url(#mBlue)"/>
+  <g transform="translate(80, 665)">
+    <rect width="240" height="48" rx="10" fill="#0F2042" stroke="#38BDF8" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="21" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">Web Audio DSP Noise Gate</text>
+    <text x="120" y="37" text-anchor="middle" fill="#93C5FD" font-size="10">Bandpass 300Hz-3.4kHz tin-roof filter</text>
+  </g>
+
+  <!-- Decision: Audio Quality Clear? -->
+  <line x1="200" y1="713" x2="200" y2="735" stroke="#38BDF8" stroke-width="2" marker-end="url(#mBlue)"/>
+  <g transform="translate(80, 740)">
+    <polygon points="120,0 240,26 120,52 0,26" fill="#78350F" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+    <text x="120" y="30" text-anchor="middle" fill="#FEF3C7" font-size="11" font-weight="800">Acoustic SNR &gt; 12 dB?</text>
+  </g>
+
+  <!-- Fallback: High Noise -->
+  <path d="M 80 766 L 30 766 L 30 840 L 75 840" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#mRed)"/>
+  <text x="45" y="755" fill="#FCA5A5" font-size="9" font-weight="700">NO</text>
+  <g transform="translate(80, 815)">
+    <rect width="180" height="46" rx="8" fill="#500724" stroke="#EF4444" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="90" y="20" text-anchor="middle" fill="#FEE2E2" font-size="10" font-weight="700">⚠️ Noise Fallback</text>
+    <text x="90" y="35" text-anchor="middle" fill="#FCA5A5" font-size="9">Use 1-Tap Prompt Chips</text>
+  </g>
+
+  <!-- Yes: Vectorized Cosine Match -->
+  <line x1="200" y1="792" x2="200" y2="875" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <rect x="205" y="800" width="35" height="16" rx="3" fill="#064E3B"/>
+  <text x="222" y="812" text-anchor="middle" fill="#A7F3D0" font-size="9" font-weight="700">YES</text>
+
+  <g transform="translate(80, 880)">
+    <rect width="240" height="52" rx="10" fill="#0A1C14" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="800">⚡ Vector TF-IDF Cosine Match</text>
+    <text x="120" y="38" text-anchor="middle" fill="#6EE7B7" font-size="10">Measured: 0.022 ms Latency</text>
+  </g>
+
+  <!-- Morphological & Script Output -->
+  <line x1="200" y1="932" x2="200" y2="960" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <g transform="translate(80, 965)">
+    <rect width="240" height="60" rx="10" fill="#143D2A" stroke="#34D399" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">Munda Morphology &amp; Script</text>
+    <text x="120" y="38" text-anchor="middle" fill="#A7F3D0" font-size="10">Ol Chiki (ᱡᱚᱦᱟᱨ) / Warang Chiti</text>
+    <text x="120" y="52" text-anchor="middle" fill="#FDE68A" font-size="9">Dual Devanagari &amp; Roman phonetics</text>
+  </g>
+
+
+  <!-- ================= BRANCH 2: NIPUN FLN CURRICULUM ================= -->
+  <g transform="translate(420, 585)">
+    <rect width="240" height="50" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">📖 Day-by-Day NIPUN FLN</text>
+    <text x="120" y="38" text-anchor="middle" fill="#94A3B8" font-size="10">8-Week Balvatika to Class 3 Plan</text>
+  </g>
+
+  <line x1="540" y1="635" x2="540" y2="670" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <g transform="translate(420, 675)">
+    <rect width="240" height="50" rx="10" fill="#0A1C14" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="800">80:20 Transition Scaffolding</text>
+    <text x="120" y="38" text-anchor="middle" fill="#6EE7B7" font-size="10">80% Tribal (Balvatika) ➔ 80% Hindi (Class 3)</text>
+  </g>
+
+  <!-- Decision: Formative Assessment Check -->
+  <line x1="540" y1="725" x2="540" y2="760" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <g transform="translate(420, 765)">
+    <polygon points="120,0 240,26 120,52 0,26" fill="#132E22" stroke="#10B981" stroke-width="2" filter="url(#shadow)"/>
+    <text x="120" y="30" text-anchor="middle" fill="#A7F3D0" font-size="11" font-weight="800">FLN Target Achieved?</text>
+  </g>
+
+  <!-- Yes -> Praise -->
+  <line x1="540" y1="817" x2="540" y2="865" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <text x="555" y="845" fill="#A7F3D0" font-size="9" font-weight="700">YES</text>
+  <g transform="translate(420, 870)">
+    <rect width="240" height="50" rx="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🎉 Positive Reinforcement</text>
+    <text x="120" y="38" text-anchor="middle" fill="#6EE7B7" font-size="10">Native praise: "Besh ge! शाबाश!"</text>
+  </g>
+
+  <!-- No -> Remedial -->
+  <path d="M 420 791 L 370 791 L 370 910 L 415 910" fill="none" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#mAmber)"/>
+  <text x="385" y="780" fill="#FDE68A" font-size="9" font-weight="700">NO</text>
+  <g transform="translate(420, 940)">
+    <rect width="240" height="50" rx="10" fill="#451A03" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🛠️ Remedial Flashcard Deck</text>
+    <text x="120" y="38" text-anchor="middle" fill="#FDE68A" font-size="10">Visual 3D Flip cards for reinforcement</text>
+  </g>
+
+
+  <!-- ================= BRANCH 3: AUDIO QR WORKSHEETS ================= -->
+  <g transform="translate(780, 585)">
+    <rect width="240" height="50" rx="10" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">📄 Generate NIPUN Worksheet</text>
+    <text x="120" y="38" text-anchor="middle" fill="#94A3B8" font-size="10">Numeracy, Matching &amp; Tracing</text>
+  </g>
+
+  <line x1="900" y1="635" x2="900" y2="670" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <g transform="translate(780, 675)">
+    <rect width="240" height="50" rx="10" fill="#2D1E16" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="800">Dynamic Audio QR Generator</text>
+    <text x="120" y="38" text-anchor="middle" fill="#FDE68A" font-size="10">Reed-Solomon Level M client encoding</text>
+  </g>
+
+  <line x1="900" y1="725" x2="900" y2="760" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <g transform="translate(780, 765)">
+    <rect width="240" height="50" rx="10" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🖨️ 300 DPI Print / Save PDF</text>
+    <text x="120" y="38" text-anchor="middle" fill="#CBD5E1" font-size="10">Take-home sheet given to student</text>
+  </g>
+
+  <!-- Decision: Parent Phone Scan -->
+  <line x1="900" y1="815" x2="900" y2="850" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <g transform="translate(780, 855)">
+    <polygon points="120,0 240,26 120,52 0,26" fill="#451A03" stroke="#F59E0B" stroke-width="2" filter="url(#shadow)"/>
+    <text x="120" y="30" text-anchor="middle" fill="#FDE68A" font-size="11" font-weight="800">Parent Phone Scanned?</text>
+  </g>
+
+  <line x1="900" y1="907" x2="900" y2="945" stroke="#F59E0B" stroke-width="2" marker-end="url(#mAmber)"/>
+  <text x="915" y="930" fill="#FDE68A" font-size="9" font-weight="700">YES</text>
+  <g transform="translate(780, 950)">
+    <rect width="240" height="60" rx="10" fill="#2D1E16" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="800">🌳 सरजोम ध्वनि साथी Web Player</text>
+    <text x="120" y="38" text-anchor="middle" fill="#FDE68A" font-size="10">Zero app install required</text>
+    <text x="120" y="52" text-anchor="middle" fill="#FCD34D" font-size="9">Illiterate parents hear correct tribal audio</text>
+  </g>
+
+
+  <!-- ================= BRANCH 4: ORF ACOUSTIC COACH ================= -->
+  <g transform="translate(1120, 585)">
+    <rect width="240" height="50" rx="10" fill="#1E293B" stroke="#A855F7" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🗣️ Student Oral Reading</text>
+    <text x="120" y="38" text-anchor="middle" fill="#94A3B8" font-size="10">Reads native script prompt aloud</text>
+  </g>
+
+  <line x1="1240" y1="635" x2="1240" y2="670" stroke="#A855F7" stroke-width="2" marker-end="url(#mBlue)"/>
+  <g transform="translate(1120, 675)">
+    <rect width="240" height="50" rx="10" fill="#3B0764" stroke="#A855F7" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="800">Formant Extractor (F1, F2)</text>
+    <text x="120" y="38" text-anchor="middle" fill="#E9D5FF" font-size="10">DSP Euclidean distance to native phonemes</text>
+  </g>
+
+  <!-- Decision: Formant Distance Score >= 75%? -->
+  <line x1="1240" y1="725" x2="1240" y2="760" stroke="#A855F7" stroke-width="2" marker-end="url(#mBlue)"/>
+  <g transform="translate(1120, 765)">
+    <polygon points="120,0 240,26 120,52 0,26" fill="#3B0764" stroke="#A855F7" stroke-width="2" filter="url(#shadow)"/>
+    <text x="120" y="30" text-anchor="middle" fill="#E9D5FF" font-size="11" font-weight="800">Accuracy &gt;= 70% &amp; WPM OK?</text>
+  </g>
+
+  <!-- Pass -> Mastered -->
+  <line x1="1240" y1="817" x2="1240" y2="865" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <text x="1255" y="845" fill="#A7F3D0" font-size="9" font-weight="700">YES</text>
+  <g transform="translate(1120, 870)">
+    <rect width="240" height="50" rx="10" fill="#064E3B" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">🌟 Fluency Mastered Badge</text>
+    <text x="120" y="38" text-anchor="middle" fill="#6EE7B7" font-size="10">Logged to Student Portfolio</text>
+  </g>
+
+  <!-- Fail -> Phonetic Assistance -->
+  <path d="M 1360 791 L 1390 791 L 1390 940 L 1365 940" fill="none" stroke="#EF4444" stroke-width="1.5" marker-end="url(#mRed)"/>
+  <text x="1370" y="780" fill="#FCA5A5" font-size="9" font-weight="700">NO</text>
+  <g transform="translate(1120, 940)">
+    <rect width="240" height="50" rx="10" fill="#500724" stroke="#EF4444" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="120" y="22" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">👂 Phonetic Audio Modeling</text>
+    <text x="120" y="38" text-anchor="middle" fill="#FCA5A5" font-size="10">Slows playback &amp; shows Devanagari cue</text>
+  </g>
+
+
+  <!-- ================= LEVEL 3: CONVERGENCE & COMPLETION ================= -->
+  <!-- Convergence Lines from all branches to Central Persistence -->
+  <path d="M 200 1025 L 200 1060 L 680 1060" fill="none" stroke="#38BDF8" stroke-width="2"/>
+  <path d="M 540 990 L 540 1060 L 680 1060" fill="none" stroke="#10B981" stroke-width="2"/>
+  <path d="M 900 1010 L 900 1060 L 760 1060" fill="none" stroke="#F59E0B" stroke-width="2"/>
+  <path d="M 1240 990 L 1240 1060 L 760 1060" fill="none" stroke="#A855F7" stroke-width="2"/>
+
+  <!-- Line down into Persistence Node -->
+  <line x1="720" y1="1060" x2="720" y2="1085" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+
+  <!-- Encrypted Offline IndexedDB Storage -->
+  <g transform="translate(540, 1085)">
+    <rect width="360" height="46" rx="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="180" y="20" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">💾 Encrypted Offline IndexedDB Commit</text>
+    <text x="180" y="36" text-anchor="middle" fill="#A7F3D0" font-size="9">Local persistence with automatic MicroSD / EVV sync queue</text>
+  </g>
+
+  <!-- Final Completion Node -->
+  <line x1="720" y1="1131" x2="720" y2="1150" stroke="#10B981" stroke-width="2" marker-end="url(#mGreen)"/>
+  <g transform="translate(590, 1150)">
+    <rect width="260" height="38" rx="19" fill="#064E3B" stroke="#10B981" stroke-width="2" filter="url(#shadow)"/>
+    <text x="130" y="24" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="900">✅ PROCESS COMPLETE</text>
+  </g>
+
+</svg>

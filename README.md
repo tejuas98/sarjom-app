@@ -224,6 +224,7 @@ This section provides technical and operational evidence explaining how each req
 ### Tier 3: Technical Approach & Architecture
 * 9. [The Dual-Engine Hybrid AI/ML Architecture](#4-the-dual-engine-hybrid-aiml-architecture)
   * 9.0 [Input-Process-Output (IPO) Architectural Pipeline](#40-the-input-process-output-ipo-architectural-pipeline)
+  * 9.0.1 [Detailed If-Else Operational Workflow Flowchart](#401-detailed-if-else-operational-workflow-flowchart)
   * 9.1 Master Architectural Flowchart (ASCII Diagram)
   * 9.2 Tier 1: Cloud & BRC Server Pipeline (LoRA Fine-Tuning)
   * 9.3 Tier 2: 100% Offline Edge ML Transducer Engine
@@ -491,6 +492,20 @@ To give evaluators, jury members, and technical architects an immediate, intuiti
 | **1. INPUT STAGE** | • Teacher Hindi Voice (75-82 dB Noise)<br />• Two-Way Student Ear (Tribal Audio)<br />• Digital Slate Touch & Chips<br />• Worksheet Audio QR Scans | Microphone & touch capture; converts physical classroom signals into digital streams ($\le 100$ ms). |
 | **2. PROCESS STAGE** | • 1. Acoustic DSP Noise Gate (300Hz-3.4kHz)<br />• 2. Vectorized TF-IDF Cosine Space<br />• 3. Munda Morphology & Script Transducer | Filters acoustic rain noise; executes sub-0.05ms vector matching; applies 80:20 NIPUN transition rules (**0.022 ms measured latency**). |
 | **3. OUTPUT STAGE** | • Native Ol Chiki & Warang Chiti Orthography<br />• Dual Voice Audio Speech Synthesis (TTS)<br />• Bilingual 300 DPI Worksheets with Audio QR<br />• e-Vidyavahini 2.0 Encrypted Offline Sync | Delivers visual scripts, clear audio pronunciation, print-ready home materials, and zero-loss governance records. |
+
+### 4.0.1 Detailed If-Else Operational Workflow Flowchart
+
+Below is the complete decision-logic flowchart showing how the system branches across internet availability, acoustic noise gates, 80:20 NIPUN transition targets, Audio QR home scans, and oral reading fluency assessments:
+
+<div align="center" style="margin: 20px 0;">
+  <a href="./public/sarjom_detailed_flowchart.png" title="Click to view high-resolution flowchart">
+    <img src="./public/sarjom_detailed_flowchart.png" alt="SARJOM Detailed System Workflow & Decision Flowchart" width="100%" style="border-radius: 14px; border: 3px solid #10B981; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  </a>
+  <p style="font-size: 0.9rem; color: #4B5563; margin-top: 8px;">
+    <strong>Figure 4.2: SARJOM Detailed Execution Logic, Branching Conditions & Fallbacks</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_detailed_flowchart.svg"><em>[Vector SVG Format]</em></a>
+  </p>
+</div>
 
 SARJOM operates on a **Dual-Engine Hybrid Machine Learning Architecture** engineered to balance high-end neural intelligence with extreme rural edge constraints:
 

@@ -365,6 +365,30 @@ Demystifies complex AI for government officials. Demonstrates that SARJOM is not
 
 ---
 
+## Module 15: Detailed System Workflow & If-Else Decision Flowchart
+
+### Prototype Screenshot:
+![Detailed Decision Flowchart](./public/screenshots/17_detailed_decision_flowchart_view.png)
+*Interactive If-Else Operational Workflow Flowchart inside the SARJOM Neural Model Inspector*
+
+### 1. What It Is For:
+Provides a transparent, exhaustive software engineering state machine illustrating how SARJOM executes from the exact millisecond a teacher launches the app, through network verification, acoustic noise gating, multilingual branching, and parent home-learning verification.
+
+### 2. Why It Works (Engineering Mechanics):
+* **Level 1 Connectivity Check**: Detects if internet is present. If yes, runs non-blocking e-Vidyavahini 2.0 REST sync; if no, locks immediately into 100% Offline Edge Mode with local IndexedDB.
+* **School & UDISE Profile**: Dynamically binds target district (e.g. Dumka / West Singhbhum / Khunti) to prime the corresponding Munda language model (Santhali, Ho, or Mundari).
+* **4-Way Branching Decisions**:
+  1. *Real-Time Dialogue*: Evaluates acoustic SNR ($> 12$ dB). If heavy tin-roof rain noise degrades audio, seamlessly falls back to 1-tap visual prompt chips. If clear, fires TF-IDF Cosine Match (0.022 ms).
+  2. *NIPUN FLN*: Tracks child competency against the 80:20 formula. If mastered, triggers spoken mother-tongue praise (*"Besh ge!"*); if struggling, launches 3D remedial flashcards.
+  3. *Audio QR Worksheets*: Dynamically encodes Reed-Solomon QR codes on 300 DPI printables for illiterate parents to hear correct tribal audio on basic smartphones.
+  4. *Reading Fluency (ORF)*: Measures real-time formant frequencies (F1, F2). If accuracy $\ge 70\%$, awards fluency badge; otherwise, provides slowed acoustic modeling.
+* **Level 3 Persistence**: Commits all actions to encrypted local IndexedDB before terminating cleanly with `✅ PROCESS COMPLETE`.
+
+### 3. How It Solves the Crisis:
+Eliminates system unpredictability in remote rural schools. Every real-world failure mode (torrential monsoon noise, internet loss, student mispronunciation, parent illiteracy) is accounted for with deterministic fallback branches.
+
+---
+
 ## 3. Summary of Verified Technical Benchmarks
 
 | Evaluation Dimension | Mandated SIH Target | Measured SARJOM Result | Compliance Status |

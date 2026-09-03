@@ -11,6 +11,9 @@
 
 ## Table of Contents
 1. [Executive Technical Architecture Summary](#1-executive-technical-architecture-summary)
+   * 1.1 [Technical Paradigm & Metric Matrix](#11-technical-paradigm)
+   * 1.2 [The Input-Process-Output (IPO) Architectural Pipeline](#12-the-input-process-output-ipo-architectural-pipeline)
+   * 1.3 [Detailed System Workflow & If-Else Decision Flowchart](#13-detailed-system-workflow--if-else-decision-flowchart)
 2. [The 3-Tier Technical Architecture (End-to-End System Pipeline)](#2-the-3-tier-technical-architecture-end-to-end-system-pipeline)
 3. [Proprietary Neural Transformer Engine (`PALASH-MundaLLM`)](#3-proprietary-neural-transformer-engine-palash-mundallm)
    * 3.1 Model Topology & Hyperparameter Specifications
@@ -131,6 +134,84 @@ flowchart LR
 | | **2. Dual Speech Audio (TTS)** | On-device speech synthesizer speaks tribal terms clearly through tablet speaker for correct acoustic modeling. | Real-time stream |
 | | **3. Bilingual Audio QR Worksheets** | Browser renders 300 DPI print-ready worksheets with dynamic on-device generated Audio QR code for home practice. | Instant Client Print |
 | | **4. e-Vidyavahini 2.0 Sync** | Formative assessment records are batched into encrypted offline IndexedDB and synced via MicroSD or CRC Wi-Fi. | Zero-loss offline |
+
+### 1.3 Detailed System Workflow & If-Else Decision Flowchart
+
+Beyond high-level data stages, real classroom deployment requires deterministic handling of noisy audio, offline edge state machines, student comprehension failures, and parental home engagement. Below is the **Exhaustive If-Else Operational Workflow Flowchart**:
+
+<div align="center" style="margin: 20px 0;">
+  <a href="./public/sarjom_detailed_flowchart.png" title="Click to view full resolution flowchart">
+    <img src="./public/sarjom_detailed_flowchart.png" alt="SARJOM Detailed System Workflow & Decision Flowchart" width="100%" style="border-radius: 14px; border: 3px solid #10B981; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  </a>
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 8px;">
+    <strong>Figure 1.2: SARJOM Detailed Execution Logic, Branching Conditions & Fallbacks</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_detailed_flowchart.svg"><em>[Vector SVG Format]</em></a>
+  </p>
+</div>
+
+```mermaid
+flowchart TD
+    Start(["🚀 User Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available?"}
+    
+    %% Level 1: Connectivity
+    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync & Handshake\ne-Vidyavahini 2.0 REST connected"]
+    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Edge Mode\nService Worker & IndexedDB active"]
+    
+    CloudSync --> LoadProfile["🏫 Load District & UDISE Profile\n(Dumka, West Singhbhum, Khunti)"]
+    OfflineEdge --> LoadProfile
+    
+    %% Level 2: Mode Selection
+    LoadProfile --> ModeSelect{"📚 Select Classroom Mode?"}
+    
+    %% Branch 1: Real-Time Dialogue
+    ModeSelect -->|1. Real-Time Dialogue| MicCap["🎙️ Teacher Voice Audio Capture\n(75-82 dB ambient noise)"]
+    MicCap --> DSPGate["⚙️ Web Audio DSP Noise Gate\n(Bandpass 300Hz-3.4kHz filter)"]
+    DSPGate --> CheckSNR{"Acoustic SNR > 12 dB?"}
+    CheckSNR -->|NO / Heavy Rain| NoiseFallback["⚠️ Noise Fallback\nUse 1-Tap Prompt Chips"]
+    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.022 ms measured latency)"]
+    NoiseFallback --> VectorMatch
+    VectorMatch --> MundaTrans["🔤 Munda Morphology & Script\n(Ol Chiki / Warang Chiti / Deva)"]
+    
+    %% Branch 2: NIPUN FLN
+    ModeSelect -->|2. NIPUN FLN| FLNPlan["📖 Day-by-Day NIPUN FLN Plan\n(8-Week Balvatika to Class 3)"]
+    FLNPlan --> Scaffold["📊 80:20 Transition Scaffolding\n80% Tribal (Balvatika) ➔ 80% Hindi (Class 3)"]
+    Scaffold --> CheckFLN{"FLN Target Achieved?"}
+    CheckFLN -->|YES| Praise["🎉 Positive Reinforcement\nNative praise: 'Besh ge! शाबाश!'"]
+    CheckFLN -->|NO| Remedial["🛠️ Remedial Flashcard Deck\nVisual 3D Flip cards reinforcement"]
+    
+    %% Branch 3: Worksheets & QR
+    ModeSelect -->|3. Worksheets & QR| GenSheet["📄 Generate NIPUN Worksheet\n(Numeracy, Words, Tracing)"]
+    GenSheet --> QRGen["📱 Dynamic Audio QR Generator\nReed-Solomon Level M client encoding"]
+    QRGen --> PrintDoc["🖨️ 300 DPI Print / Save PDF\nTake-home sheet given to child"]
+    PrintDoc --> CheckScan{"Parent Phone Scanned?"}
+    CheckScan -->|YES| AudioComp["🌳 सरजोम ध्वनि साथी Web Player\nZero install: Illiterate parents hear tribal audio"]
+    
+    %% Branch 4: ORF Reading Fluency
+    ModeSelect -->|4. Reading Fluency| StudentRead["🗣️ Student Oral Reading\nReads native script prompt aloud"]
+    StudentRead --> Formant["🔬 Formant Extractor (F1, F2)\nDSP Euclidean distance to native phonemes"]
+    Formant --> CheckORF{"Accuracy >= 70% & WPM OK?"}
+    CheckORF -->|YES| FluencyPass["🌟 Fluency Mastered Badge\nLogged to Student Portfolio"]
+    CheckORF -->|NO| PhoneGuide["👂 Phonetic Audio Modeling\nSlows playback & shows Devanagari cue"]
+    
+    %% Convergence to Persistence
+    MundaTrans --> DBCommit["💾 Encrypted Offline IndexedDB Commit\n(Local persistence & EVV queue)"]
+    Praise --> DBCommit
+    Remedial --> DBCommit
+    AudioComp --> DBCommit
+    FluencyPass --> DBCommit
+    PhoneGuide --> DBCommit
+    
+    DBCommit --> Done(["✅ PROCESS COMPLETE"])
+
+    style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
+    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckSNR fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style CheckScan fill:#451A03,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+    style CheckORF fill:#3B0764,stroke:#A855F7,stroke-width:2px,color:#E9D5FF
+    style Done fill:#064E3B,stroke:#10B981,stroke-width:3px,color:#FFFFFF
+```
 
 ---
 
