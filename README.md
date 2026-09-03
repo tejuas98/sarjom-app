@@ -31,29 +31,7 @@
   <p><strong>Autoplaying Live Interactive Walkthrough</strong>: Demonstrating every button click, offline/online toggle, language switching (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, and Vaul drawer &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video with Voice-Over Narration]</strong></a></p>
 </div>
 
-### 🔊 Live Classroom Text-to-Speech (TTS) Audio Samples & Interactive Deck
-
-> 💡 **GitHub Markdown Notice**: GitHub's markdown security parser automatically strips raw HTML5 `<audio>` tags in browser previews.  
-> 🎧 To experience full audio playback:
-> 1. **Live Prototype**: Click the **`[🔊 ऑडियो डेक]`** button in the top navigation bar of the application to open the full interactive audio deck modal.
-> 2. **Standalone Web Player**: Open the **[🌐 Interactive Web Audio Console (`public/audio_player.html`)](./public/audio_player.html)**.
-> 3. **Instant Browser Playback**: Click any green **`[▶️ PLAY AUDIO]`** badge below to instantly stream the MP3 file in your browser.
-
-<div align="center" style="margin: 16px 0;">
-  <img src="./public/screenshots/18_interactive_audio_player_deck.png" alt="SARJOM Interactive Audio Deck" width="85%" style="border-radius: 12px; border: 2px solid #10B981; box-shadow: 0 10px 30px rgba(0,0,0,0.4);" />
-  <p style="font-size: 0.85rem; color: #64748B; margin-top: 6px;">
-    <strong>Figure 1.1: Live Interactive Audio Deck Modal (Accessible via <code>[🔊 ऑडियो डेक]</code> button)</strong>
-  </p>
-</div>
-
-| Classroom Phase | Native Script & Phonetic Guide | Interactive Audio Stream & Download |
-| :--- | :--- | :--- |
-| **1. Morning Greeting** | **ᱡᱚᱦᱟᱨ (जोहार / Johār)**<br /><em>Universal tribal greeting (Santhali, Ho, Mundari)</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/johar_greeting.mp3)<br />[🔊 **Click to Stream MP3 (0:03)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/johar_greeting.mp3) |
-| **2. Classroom Directives** | **यहाँ आओ! बैठ जाओ! किताब खोलो!**<br /><em>Node hijug me / Dub me / Puti kulue</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/classroom_command.mp3)<br />[🔊 **Click to Stream MP3 (0:04)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/classroom_command.mp3) |
-| **3. NIPUN FLN Lesson** | **प्यारे बच्चों! कक्षा में आपका स्वागत है।**<br /><em>Dular gidra ko! Tehenj aabo johar seched-aa</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/nipun_lesson_opening.mp3)<br />[🔊 **Click to Stream MP3 (0:07)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/nipun_lesson_opening.mp3) |
-| **4. Audio QR Worksheet** | **ध्वनि साथी क्यूआर कोड — स्कैन कर उच्चारण सुनें**<br /><em>Scannable audio prompt for take-home sheets</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/worksheet_qr_prompt.mp3)<br />[🔊 **Click to Stream MP3 (0:05)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/worksheet_qr_prompt.mp3) |
-| **5. Teacher Encouragement** | **शाबाश! बहुत अच्छा! बेस गे! (Besh ge!)**<br /><em>Positive reinforcement in child's mother tongue</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/teacher_praise.mp3)<br />[🔊 **Click to Stream MP3 (0:03)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/teacher_praise.mp3) |
-| **6. SARJOM System Briefing** | **टीम कारासुनों (Team Karasuno) — SARJOM Overview**<br /><em>Official pedagogical voice briefing</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/sarjom_overview.mp3)<br />[🔊 **Click to Stream MP3 (0:15)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/sarjom_overview.mp3) |
+> 🔊 **Live Classroom Audio Deck & TTS Audio Samples**: Certified high-amplitude native speech recordings in Santhali, Ho, and Mundari are integrated directly into the application (`[🔊 ऑडियो डेक]`) and fully documented with streamable audio badges in **[PROTOTYPE_README.md (Interactive Audio Deck Module) &rarr;](./PROTOTYPE_README.md#module-18-interactive-classroom-speech-audio-deck-modal)** or the standalone **[Web Audio Console &rarr;](./public/audio_player.html)**.
 
 > 📸 **Visual Prototype Walkthrough**: For an exhaustive, screenshot-by-screenshot analysis explaining **what each feature is for, why it works under the hood, and how it solves the classroom crisis**, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
 

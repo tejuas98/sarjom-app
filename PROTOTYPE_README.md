@@ -557,6 +557,17 @@ Provides a dedicated in-app audio cockpit accessible via the `[🔊 ऑडिय
 ### 3. How It Solves the Crisis:
 Solves the acoustic modeling problem for teachers who cannot read or pronounce indigenous phonemes. The teacher simply taps the target phrase to play high-amplitude native speech to the classroom.
 
+### 🎧 Certified Native Speech Recordings & Audio Stream Badges:
+
+| Classroom Phase | Native Script & Phonetic Guide | Interactive Audio Stream & Direct Download |
+| :--- | :--- | :--- |
+| **1. Morning Greeting** | **ᱡᱚᱦᱟᱨ (जोहार / Johār)**<br /><em>Universal tribal greeting (Santhali, Ho, Mundari)</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/johar_greeting.mp3)<br />[🔊 **Click to Stream MP3 (0:03)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/johar_greeting.mp3) |
+| **2. Classroom Directives** | **यहाँ आओ! बैठ जाओ! किताब खोलो!**<br /><em>Node hijug me / Dub me / Puti kulue</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/classroom_command.mp3)<br />[🔊 **Click to Stream MP3 (0:04)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/classroom_command.mp3) |
+| **3. NIPUN FLN Lesson** | **प्यारे बच्चों! कक्षा में आपका स्वागत है।**<br /><em>Dular gidra ko! Tehenj aabo johar seched-aa</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/nipun_lesson_opening.mp3)<br />[🔊 **Click to Stream MP3 (0:07)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/nipun_lesson_opening.mp3) |
+| **4. Audio QR Worksheet** | **ध्वनि साथी क्यूआर कोड — स्कैन कर उच्चारण सुनें**<br /><em>Scannable audio prompt for take-home sheets</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/worksheet_qr_prompt.mp3)<br />[🔊 **Click to Stream MP3 (0:05)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/worksheet_qr_prompt.mp3) |
+| **5. Teacher Encouragement** | **शाबाश! बहुत अच्छा! बेस गे! (Besh ge!)**<br /><em>Positive reinforcement in child's mother tongue</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/teacher_praise.mp3)<br />[🔊 **Click to Stream MP3 (0:03)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/teacher_praise.mp3) |
+| **6. SARJOM System Briefing** | **टीम कारासुनों (Team Karasuno) — SARJOM Overview**<br /><em>Official pedagogical voice briefing</em> | [![▶️ Play Audio](https://img.shields.io/badge/▶%EF%B8%8F_PLAY_AUDIO-10B981?style=for-the-badge&logoColor=white)](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/sarjom_overview.mp3)<br />[🔊 **Click to Stream MP3 (0:15)**](https://raw.githubusercontent.com/tejuas98/PALASH-Setu/main/public/audio/sarjom_overview.mp3) |
+
 ---
 
 ## Module 19: Gyanodaya 10.1" Tablet Simulation vs. Fullscreen Mode
