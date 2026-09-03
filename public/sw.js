@@ -28,7 +28,13 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Cache first, fallback to network
+  const url = new URL(event.request.url);
+  // Never cache or intercept Vite dev server modules or local development requests
+  if (url.hostname === 'localhost' || url.port === '5173' || url.pathname.startsWith('/src/') || url.pathname.startsWith('/@') || url.pathname.startsWith('/node_modules/')) {
+    return;
+  }
+
+  // Cache first, fallback to network for production offline PWA
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
