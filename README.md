@@ -41,6 +41,7 @@
 ---
 
 > 📚 **Companion Master Evaluation & Engineering Dossiers:**
+> * 🎯 **[UNIVERSAL_EXECUTIVE_GUIDE_TECH_AND_NONTECH.md](./UNIVERSAL_EXECUTIVE_GUIDE_TECH_AND_NONTECH.md)** — **The Universal Rosetta Stone (5-Minute Read)**: Dual-perspective master guide for both Tech (engineers, architects, data scientists) and Non-Tech (IAS officers, educators, jury members) explaining what PALASH Setu is, why it exists, and how it works.
 > * 🌟 **[PROPOSED_SOLUTION_MASTER_DOSSIER.md](./PROPOSED_SOLUTION_MASTER_DOSSIER.md)** — **Exclusively Dedicated to the Proposed Solution**: Non-technical, human-centric pedagogical blueprint (A Day in the Life of a Tribal Classroom, 8 Solution Pillars, Empathy Engine, 1-Tablet/35-Students model, and Cultural Impact).
 > * ⚡ **[TECHNICAL_APPROACH_MASTER_DOSSIER.md](./TECHNICAL_APPROACH_MASTER_DOSSIER.md)** — **Exclusively Dedicated to the Technical Approach**: End-to-end engineering whitepaper (3-Tier Architecture, PALASH-MundaLLM Transformer, Web Audio DSP Noise Gate, V8 Heap Optimization, and Sneakernet Protocol).
 > * 🗺️ **[FULLY_CONNECTED_SYSTEM_ARCHITECTURE_FLOWCHART.md](./FULLY_CONNECTED_SYSTEM_ARCHITECTURE_FLOWCHART.md)** — **Fully Connected System Architecture**: Grand 7-Zone ASCII flowchart, visual Mermaid diagram, and wire-by-wire data lifecycle walkthroughs.
