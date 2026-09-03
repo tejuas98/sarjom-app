@@ -16,11 +16,11 @@
 Below is the live, automated continuous recording of SARJOM running inside a Google Chrome headless test environment on a simulated Gyanodaya 10.1" classroom tablet. Every click displays a visual pulse ripple indicator and a real-time HUD action label:
 
 <div align="center" style="margin: 24px 0;">
-  <img src="./public/palash_setu_live_click_demo.gif" alt="SARJOM Interactive Click-by-Click Video Demo" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Interactive Click-by-Click Video Demo" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
   <p style="margin-top: 10px; font-size: 0.95rem; color: #4B5563;">
     <strong>Continuous Interactive Walkthrough (43s HD)</strong> &nbsp;·&nbsp;
-    <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 (palash_setu_live_click_demo.mp4)]</strong></a> &nbsp;·&nbsp;
-    <a href="./public/palash_setu_live_click_demo.gif"><strong>[🖼️ View Animation GIF]</strong></a>
+    <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 (sarjom_live_click_demo.mp4)]</strong></a> &nbsp;·&nbsp;
+    <a href="./public/sarjom_live_click_demo.gif"><strong>[🖼️ View Animation GIF]</strong></a>
   </p>
 </div>
 

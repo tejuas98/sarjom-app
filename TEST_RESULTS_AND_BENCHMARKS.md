@@ -59,8 +59,8 @@ TEST SUMMARY: 12 OF 12 TESTS PASSED CLEANLY (100% SUCCESS RATE)
 > 🎬 **Automated High-Definition Interaction Video**: Below is the continuous recording of every single user click, toggle switch, language shift, prompt translation, audio synthesis trigger, worksheet print layout, digital slate drawing, and Vaul drawer pull-up with animated click ripples and real-time HUD action captions:
 
 <div align="center">
-  <img src="./public/palash_setu_live_click_demo.gif" alt="SARJOM Live Click-Through Video Recording" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
-  <p><strong>Download Full Resolution Video</strong>: <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 palash_setu_live_click_demo.mp4 (912 KB, 43s HD)]</strong></a> &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.gif"><strong>[🖼️ High-Res GIF (1.5 MB)]</strong></a></p>
+  <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Live Click-Through Video Recording" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <p><strong>Download Full Resolution Video</strong>: <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 sarjom_live_click_demo.mp4 (912 KB, 43s HD)]</strong></a> &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.gif"><strong>[🖼️ High-Res GIF (1.5 MB)]</strong></a></p>
 </div>
 
 ---

@@ -188,11 +188,13 @@ async function clickElementByText(page, text, actionLabel) {
   console.log(`Total captured frames: ${frameIndex}`);
   console.log('Compiling frames with ffmpeg into MP4 video and animated GIF...');
 
-  const mp4Out = path.resolve('./public/palash_setu_live_click_demo.mp4');
-  const gifOut = path.resolve('./public/palash_setu_live_click_demo.gif');
+  const mp4Out = path.resolve('./public/sarjom_live_click_demo.mp4');
+  const gifOut = path.resolve('./public/sarjom_live_click_demo.gif');
+  const legacyMp4 = path.resolve('./public/palash_setu_live_click_demo.mp4');
+  const legacyGif = path.resolve('./public/palash_setu_live_click_demo.gif');
   const brainDir = '/Users/toru/.gemini/antigravity-ide/brain/60d77a60-605e-4115-9231-5d1461bdb8c6';
 
-  // 1. Generate MP4 video (4 fps, smooth transitions, h264)
+  // 1. Generate MP4 video (3 fps, smooth transitions, h264)
   const ffmpegMp4Cmd = `/opt/homebrew/bin/ffmpeg -y -framerate 3 -i ${FRAMES_DIR}/frame_%05d.png -c:v libx264 -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" ${mp4Out}`;
   execSync(ffmpegMp4Cmd);
   console.log(`MP4 video generated successfully: ${mp4Out}`);
@@ -202,9 +204,13 @@ async function clickElementByText(page, text, actionLabel) {
   execSync(ffmpegGifCmd);
   console.log(`GIF animation generated successfully: ${gifOut}`);
 
-  // Copy to brain artifacts directory
+  // Also sync to legacy paths and brain artifacts
+  fs.copyFileSync(mp4Out, legacyMp4);
+  fs.copyFileSync(gifOut, legacyGif);
+  fs.copyFileSync(mp4Out, path.join(brainDir, 'sarjom_live_click_demo.mp4'));
+  fs.copyFileSync(gifOut, path.join(brainDir, 'sarjom_live_click_demo.gif'));
   fs.copyFileSync(mp4Out, path.join(brainDir, 'palash_setu_live_click_demo.mp4'));
   fs.copyFileSync(gifOut, path.join(brainDir, 'palash_setu_live_click_demo.gif'));
 
-  console.log('All video and GIF artifacts generated and copied to brain directory!');
+  console.log('All video and GIF artifacts generated and copied to public and brain directories!');
 })();

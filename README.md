@@ -23,8 +23,8 @@
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
 <div align="center">
-  <img src="./public/palash_setu_live_click_demo.gif" alt="SARJOM Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
-  <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (palash_setu_live_click_demo.mp4)]</strong></a></p>
+  <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
+  <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (sarjom_live_click_demo.mp4)]</strong></a></p>
 </div>
 
 > 📸 **Visual Prototype Walkthrough**: For an exhaustive, screenshot-by-screenshot analysis explaining **what each feature is for, why it works under the hood, and how it solves the classroom crisis**, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
