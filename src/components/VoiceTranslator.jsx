@@ -595,8 +595,8 @@ export function VoiceTranslator({ selectedLang }) {
 
               <div
                 style={{
-                  marginTop: '20px',
-                  padding: '24px',
+                  marginTop: '16px',
+                  padding: '20px',
                   backgroundColor: 'var(--color-forest-subtle)',
                   borderRadius: 'var(--radius-lg)',
                   border: '2px solid var(--color-forest)',
@@ -606,7 +606,7 @@ export function VoiceTranslator({ selectedLang }) {
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase' }}>
                   छात्र का आशय (Meaning for Teacher):
                 </div>
-                <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--color-slate)', margin: '12px 0' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-slate)', margin: '10px 0' }}>
                   {history.find((h) => h.direction === 'student')?.targetText ||
                     'बाएं से छात्र का वाक्य चुनें या माइक में बोलने दें...'}
                 </div>
@@ -614,10 +614,107 @@ export function VoiceTranslator({ selectedLang }) {
                   (विलंबता: {measuredLatency} ms • Sub-3-Second SLA ✅)
                 </div>
               </div>
+
+              {/* Real-World Teacher Pedagogical Counter-Response Assistant */}
+              <div style={{ marginTop: '16px' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-slate)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span>🗣️</span>
+                  <span>शिक्षक का प्रत्युत्तर (Teacher Counter-Responses in Mother Tongue):</span>
+                </div>
+                <p style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', margin: '0 0 10px 0' }}>
+                  छात्र की बात सुनकर शिक्षक इनमें से किसी एक पर टैप करें। सिस्टम छात्र को उसकी मातृभाषा में उत्तर सुनाएगा:
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {[
+                    {
+                      id: 'resp_water',
+                      hindiPrompt: 'हाँ, जाओ पानी पीकर तुरंत आ जाओ।',
+                      ho: 'हे, सेनोः मे दाः ञु केते हिजुः मे।',
+                      mundari: 'हे, सेनोः मे दाः ञू केते हिजू-मे।',
+                      santhali: 'ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ᱾',
+                      santhaliPhonetic: 'हें, चालाग मे दाग ञु काते लोगोन हिजुग मे।',
+                    },
+                    {
+                      id: 'resp_doubt',
+                      hindiPrompt: 'कोई बात नहीं, इस चित्र को देखो और दोबारा सुनो।',
+                      ho: 'का काजी, नेना चित्र नेल मे आर आजोम मे।',
+                      mundari: 'का काजी, ने चित्र नेलेमे आर आयूम-एपे।',
+                      santhali: 'ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ᱾',
+                      santhaliPhonetic: 'चेद हों बां, नोवा चितार ञेल मे आर आजोम मे।',
+                    },
+                    {
+                      id: 'resp_check',
+                      hindiPrompt: 'बहुत सुंदर लिखा है! शाबाश, अपनी जगह बैठो।',
+                      ho: 'बुगीते ओल अकाना! दूब मे आपन जाइगा रे।',
+                      mundari: 'बेस ओलेकड़ाम! दुबपे आपन ठाईं रे।',
+                      santhali: 'ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ ᱚᱞ ᱟᱠᱟᱱᱟ! ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ ᱨᱮ ᱫᱩᱲᱩᱵ ᱢᱮ᱾',
+                      santhaliPhonetic: 'अडि नापाय ओल आकाना! आमाग जायगा रे दुड़ुब मे।',
+                    },
+                    {
+                      id: 'resp_sick',
+                      hindiPrompt: 'थोड़ा आराम करो और पानी पियो।',
+                      ho: 'हुडिंग दूब मे आर दाः ञु मे।',
+                      mundari: 'हुडिंग आराम मे आर दाः ञू मे।',
+                      santhali: 'ᱠᱟᱹᱴᱤᱡ ᱡᱤᱨᱟᱹᱣ ᱢᱮ ᱟᱨ ᱫᱟᱜ ᱧᱩᱭ ᱢᱮ᱾',
+                      santhaliPhonetic: 'काटिज जिराव मे आर दाग ञुय मे।',
+                    },
+                  ].map((resp) => {
+                    const tribalText =
+                      selectedLang === 'santhali'
+                        ? resp.santhali
+                        : selectedLang === 'ho'
+                        ? resp.ho
+                        : resp.mundari;
+                    const phonetic =
+                      selectedLang === 'santhali'
+                        ? resp.santhaliPhonetic
+                        : tribalText;
+
+                    return (
+                      <button
+                        key={resp.id}
+                        type="button"
+                        onClick={() => {
+                          handleSpeakAudio(phonetic, resp.hindiPrompt);
+                          addToHistory(resp.hindiPrompt, { nativeScript: tribalText, phoneticDeva: phonetic }, 'teacher');
+                          toast.success(`शिक्षक प्रत्युत्तर उच्चारित: "${resp.hindiPrompt}"`);
+                        }}
+                        className="btn-brutal"
+                        style={{
+                          padding: '10px 12px',
+                          textAlign: 'left',
+                          backgroundColor: '#FFFFFF',
+                          border: '1.5px solid var(--color-border)',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          gap: '10px',
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                            {resp.hindiPrompt}
+                          </div>
+                          <div
+                            className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
+                            style={{ fontSize: '0.95rem', color: 'var(--color-forest)', marginTop: '2px' }}
+                          >
+                            {tribalText}
+                          </div>
+                        </div>
+                        <span className="badge-tag badge-palash" style={{ flexShrink: 0 }}>
+                          <Volume2 size={12} /> सुनाएं
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
-            <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', padding: '12px', backgroundColor: 'var(--color-bg)', borderRadius: 'var(--radius-sm)' }}>
-              🤝 <strong>सहानुभूतिपूर्ण संवाद:</strong> छात्र की बात को समझकर उसे आत्मविश्वास दें और हिंदी शब्द का परिचय कराएं।
+            <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', padding: '12px', backgroundColor: 'var(--color-bg)', borderRadius: 'var(--radius-sm)', marginTop: '12px' }}>
+              📢 <strong>कक्षा ध्वनि प्रबंधन:</strong> 30+ छात्रों की कक्षा में टैबलेट को ब्लूटूथ स्पीकर (Bluetooth Speaker) या 3.5mm Aux माइक से जोड़कर सुनाएं ताकि अंतिम पंक्ति तक स्पष्ट आवाज़ पहुंचे।
             </div>
           </div>
         </div>
