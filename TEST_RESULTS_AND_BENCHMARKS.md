@@ -54,7 +54,18 @@ TEST SUMMARY: 12 OF 12 TESTS PASSED CLEANLY (100% SUCCESS RATE)
 
 ---
 
-## 2. 1,000-Iteration Stress Benchmark vs. SIH SLA
+## 2. Interactive Live Click-Through Video Walkthrough
+
+> 🎬 **Automated High-Definition Interaction Video**: Below is the continuous recording of every single user click, toggle switch, language shift, prompt translation, audio synthesis trigger, worksheet print layout, digital slate drawing, and Vaul drawer pull-up with animated click ripples and real-time HUD action captions:
+
+<div align="center">
+  <img src="./public/palash_setu_live_click_demo.gif" alt="PALASH Setu Live Click-Through Video Recording" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <p><strong>Download Full Resolution Video</strong>: <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 palash_setu_live_click_demo.mp4 (912 KB, 43s HD)]</strong></a> &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.gif"><strong>[🖼️ High-Res GIF (1.5 MB)]</strong></a></p>
+</div>
+
+---
+
+## 3. 1,000-Iteration Stress Benchmark vs. SIH SLA
 
 The Smart India Hackathon problem statement mandates a translation latency of **$\le$ 3.0 seconds (3,000 ms)**. PALASH Setu utilizes an on-device TF-IDF vectorizer and vectorized cosine similarity engine that eliminates cloud roundtrips entirely:
 

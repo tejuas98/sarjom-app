@@ -21,9 +21,9 @@
 
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
-<div align="center" style="margin: 20px 0;">
-  <img src="./public/palash_setu_prototype_demo.gif" alt="PALASH Setu Live Classroom Tablet Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
-  <p><strong>Interactive Walkthrough</strong>: Gyanodaya 10.1" Classroom Tablet Simulation, Sub-50ms Neural Voice Translation, Two-Way Student Ear, NIPUN FLN Curriculum Studio, A4 QR Worksheets, Digital Slate & Tri-Lingual Lexicon &nbsp;·&nbsp; <a href="./public/palash_setu_prototype_demo.mp4"><strong>[📹 Download Full MP4 Video]</strong></a></p>
+<div align="center">
+  <img src="./public/palash_setu_live_click_demo.gif" alt="PALASH Setu Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
+  <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (palash_setu_live_click_demo.mp4)]</strong></a></p>
 </div>
 
 ---
