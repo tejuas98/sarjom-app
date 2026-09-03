@@ -23,9 +23,25 @@
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
 <div align="center">
-  <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
-  <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (sarjom_live_click_demo.mp4)]</strong></a></p>
+  <!-- Autoplay Loop Demonstration -->
+  <a href="./public/sarjom_live_click_demo.mp4" title="Click to open full video with sound">
+    <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Live Click-by-Click Autoplay Video Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
+  </a>
+  <p><strong>Autoplaying Live Interactive Walkthrough</strong>: Demonstrating every button click, offline/online toggle, language switching (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, and Vaul drawer &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video with Voice-Over Narration]</strong></a></p>
 </div>
+
+### 🔊 Live Classroom Text-to-Speech (TTS) & Audio Pronunciation Player
+
+> 🎧 **Listen to Native Tribal Speech Synthesis**: Below are real audio samples generated on-device by SARJOM's offline speech engine for non-native Hindi teachers and tribal students:
+
+| Classroom Phase | Native Script & Phonetic Guide | Live Text-to-Speech Player |
+| :--- | :--- | :--- |
+| **1. Morning Greeting** | **ᱡᱚᱦᱟᱨ (जोहार / Johār)**<br /><em>Universal tribal greeting (Santhali, Ho, Mundari)</em> | <audio controls src="./public/audio/johar_greeting.mp3" style="width: 250px;"></audio> |
+| **2. Classroom Directives** | **यहाँ आओ! बैठ जाओ! किताब खोलो!**<br /><em>Node hijug me / Dub me / Puti kulue</em> | <audio controls src="./public/audio/classroom_command.mp3" style="width: 250px;"></audio> |
+| **3. NIPUN FLN Lesson** | **प्यारे बच्चों! कक्षा में आपका स्वागत है।**<br /><em>Dular gidra ko! Tehenj aabo johar seched-aa</em> | <audio controls src="./public/audio/nipun_lesson_opening.mp3" style="width: 250px;"></audio> |
+| **4. Audio QR Worksheet** | **ध्वनि साथी क्यूआर कोड — स्कैन कर उच्चारण सुनें**<br /><em>Scannable audio prompt for take-home sheets</em> | <audio controls src="./public/audio/worksheet_qr_prompt.mp3" style="width: 250px;"></audio> |
+| **5. Teacher Encouragement** | **शाबाश! बहुत अच्छा! बेस गे! (Besh ge!)**<br /><em>Positive reinforcement in child's mother tongue</em> | <audio controls src="./public/audio/teacher_praise.mp3" style="width: 250px;"></audio> |
+| **6. SARJOM System Briefing** | **टीम कारासुनों (Team Karasuno) — SARJOM Overview**<br /><em>Official pedagogical voice briefing</em> | <audio controls src="./public/audio/sarjom_overview.mp3" style="width: 250px;"></audio> |
 
 > 📸 **Visual Prototype Walkthrough**: For an exhaustive, screenshot-by-screenshot analysis explaining **what each feature is for, why it works under the hood, and how it solves the classroom crisis**, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
 
