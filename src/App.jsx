@@ -13,6 +13,7 @@ import { JuryBenchmarkingMatrix } from './components/JuryBenchmarkingMatrix';
 import { TeacherOnboardingWizard } from './components/TeacherOnboardingWizard';
 import { TeacherDrawer } from './components/TeacherDrawer';
 import { JuryEvaluationTourModal } from './components/JuryEvaluationTourModal';
+import { AudioPlayerModal } from './components/AudioPlayerModal';
 import { offlineStorage } from './services/offlineStorage';
 import { toast } from 'sonner';
 
@@ -24,6 +25,7 @@ export default function App() {
   const initialDrawer = urlParams ? urlParams.get('drawer') === 'true' : false;
   const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
   const initialTour = urlParams ? urlParams.get('tour') === 'true' : false;
+  const initialAudio = urlParams ? urlParams.get('audio') === 'true' : false;
   const initialFrame = urlParams && urlParams.has('frame') ? urlParams.get('frame') === 'true' : true;
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
@@ -32,6 +34,7 @@ export default function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawer);
   const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
   const [isJuryTourOpen, setIsJuryTourOpen] = useState(initialTour);
+  const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
   const [isTabletFrame, setIsTabletFrame] = useState(initialFrame);
 
   const handleSelectLang = (langId) => {
@@ -118,6 +121,7 @@ export default function App() {
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onOpenWizard={() => setIsWizardOpen(true)}
           onOpenJuryTour={() => setIsJuryTourOpen(true)}
+          onOpenAudioPlayer={() => setIsAudioPlayerOpen(true)}
           activeTab={activeTab}
           onSelectTab={setActiveTab}
         />
@@ -158,6 +162,14 @@ export default function App() {
           isOpen={isJuryTourOpen}
           onClose={() => setIsJuryTourOpen(false)}
           onNavigateTab={(tabId) => setActiveTab(tabId)}
+        />
+      )}
+
+      {/* 6.5 Interactive Audio Player Deck Modal */}
+      {isAudioPlayerOpen && (
+        <AudioPlayerModal
+          isOpen={isAudioPlayerOpen}
+          onClose={() => setIsAudioPlayerOpen(false)}
         />
       )}
 

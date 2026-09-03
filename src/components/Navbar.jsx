@@ -1,6 +1,6 @@
 import React from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers, Sparkles, Award } from 'lucide-react';
+import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers, Sparkles, Award, Volume2 } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -10,6 +10,7 @@ export function Navbar({
   onOpenDrawer,
   onOpenWizard,
   onOpenJuryTour,
+  onOpenAudioPlayer,
   activeTab,
   onSelectTab,
 }) {
@@ -142,6 +143,17 @@ export function Navbar({
           >
             <Award size={16} />
             ज्यूरी टूर
+          </button>
+
+          {/* 🔊 Live Audio Player Deck Modal */}
+          <button
+            onClick={onOpenAudioPlayer}
+            className="btn-brutal btn-forest"
+            style={{ padding: '7px 14px', fontSize: '0.85rem' }}
+            title="इंटरएक्टिव ऑडियो डेक (Live Vernacular Speech Samples)"
+          >
+            <Volume2 size={16} />
+            ऑडियो डेक
           </button>
         </div>
       </div>
