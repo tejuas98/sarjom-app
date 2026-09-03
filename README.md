@@ -126,98 +126,125 @@ This section provides technical and operational evidence explaining how each req
 
 ---
 
-### Core Engineering & Proposal Documentation
+### Core Documentation Architecture (By Evaluation Tiers)
 
-* **[EXECUTIVE_GUIDE.md](./EXECUTIVE_GUIDE.md)** — **Executive Overview (5-Minute Read)**: Dual-perspective summary for both Technical Evaluators (architects, data scientists) and Policy Evaluators (administrators, educators) explaining system architecture and classroom utility.
-* **[PROPOSED_SOLUTION.md](./PROPOSED_SOLUTION.md)** — **Proposed Solution Specification**: In-depth pedagogical blueprint detailing the classroom workflow, 8 functional pillars, empathy engine, 1-tablet per 35-students model, and cultural integration.
+#### Tier 1: Problem Statement & Regulatory Context
+* **[PROBLEM_STATEMENT_AND_COMPLIANCE.md](./PROBLEM_STATEMENT_AND_COMPLIANCE.md)** — **Problem Statement & Regulatory Compliance**: Verbatim government problem statement, official mandate verification, and real classroom transcripts.
+* **[EXECUTIVE_GUIDE.md](./EXECUTIVE_GUIDE.md)** — **Executive Overview (5-Minute Read)**: Dual-perspective summary for both Technical Evaluators (architects, data scientists) and Policy Evaluators (administrators, educators).
+
+#### Tier 2: Proposed Solution (Pedagogy & Classroom Workflow)
+* **[PROPOSED_SOLUTION.md](./PROPOSED_SOLUTION.md)** — **Proposed Solution Specification**: In-depth pedagogical blueprint detailing classroom workflows, 8 functional pillars, empathy engine, 1-tablet per 35-students model, and cultural integration.
+
+#### Tier 3: Technical Approach & Architecture
 * **[TECHNICAL_APPROACH.md](./TECHNICAL_APPROACH.md)** — **Technical Approach & Engineering Whitepaper**: Complete breakdown of the 3-Tier Architecture, PALASH-MundaLLM Transformer runtime, Web Audio DSP noise filtration, and V8 heap optimizations.
 * **[SYSTEM_ARCHITECTURE.md](./SYSTEM_ARCHITECTURE.md)** — **End-to-End System Architecture**: 7-Zone system flowchart, visual Mermaid diagram, and wire-by-wire data lifecycle analysis.
-* **[FEASIBILITY_ANALYSIS.md](./FEASIBILITY_ANALYSIS.md)** — **Comprehensive Feasibility Assessment**: Audit across 8 dimensions of feasibility (Hardware, Connectivity, Acoustics, Electrical power, Teacher usability, Device ratio, Financial ₹0 capex, and DPDP 2023 compliance).
-* **[IMPACT_AND_BENEFITS.md](./IMPACT_AND_BENEFITS.md)** — **Impact Assessment & Multi-Tiered Benefits**: Analysis covering pedagogical outcomes, child psychology, teacher wellbeing, script preservation, ₹900+ Cr state savings, and 5-year projections.
-* **[PITCH_AND_EVALUATION_PROPOSAL.md](./PITCH_AND_EVALUATION_PROPOSAL.md)** — **Evaluation Proposal & Pitch Blueprint**: Structured presentation deck covering Input-Process-Output flows, Lean Canvas, risk mitigation matrix, and scaling roadmap.
-* **[PROBLEM_STATEMENT_AND_COMPLIANCE.md](./PROBLEM_STATEMENT_AND_COMPLIANCE.md)** — **Problem Statement & Regulatory Compliance**: Verbatim government problem statement, official mandate verification, and real classroom transcripts.
 * **[TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)** — **Mathematical Specifications**: Formal mathematical derivations (Self-Attention, INT8 Quantization, Formants, FFT), V8 memory profiling, and JavaScript tensor forward pass.
+
+#### Tier 4: Feasibility & Viability Analysis
+* **[FEASIBILITY_ANALYSIS.md](./FEASIBILITY_ANALYSIS.md)** — **Comprehensive Feasibility Assessment**: Audit across 8 dimensions of feasibility (Hardware, Connectivity, Acoustics, Electrical power, Teacher usability, Device ratio, Financial ₹0 capex, and DPDP 2023 compliance).
+
+#### Tier 5: Impact & Multi-Tiered Benefits
+* **[IMPACT_AND_BENEFITS.md](./IMPACT_AND_BENEFITS.md)** — **Impact Assessment & Multi-Tiered Benefits**: Analysis covering pedagogical outcomes (3x FLN leap), child psychology, teacher wellbeing, script preservation, ₹900+ Cr state savings, and 5-year projections.
+
+#### Tier 6: Research, References & Evaluation Proposal
 * **[DATA_AND_RESEARCH_REFERENCES.md](./DATA_AND_RESEARCH_REFERENCES.md)** — **Academic & Research Citations**: Audit of state reports, UNICEF publications, CIIL corpora, and Unicode standards.
-
-
-
+* **[PITCH_AND_EVALUATION_PROPOSAL.md](./PITCH_AND_EVALUATION_PROPOSAL.md)** — **Evaluation Proposal & Pitch Blueprint**: Structured presentation deck covering Input-Process-Output flows, Lean Canvas, risk mitigation matrix, and scaling roadmap.
 
 ---
 
-## 📖 Master Table of Contents
-1. [Executive Summary & The Jharkhand Crisis](#1-executive-summary--the-jharkhand-crisis)
-   * 1.1 The Ground Reality & Tribal Demographics
-   * 1.2 The Human Scaling Bottleneck: Why MTB-MLE Cannot Be Realised at Scale
-   * 1.3 What Does "Limited Digital NLP Resources" Mean Technically?
-   * 1.4 The Classroom Shock & The Cognitive Wall
-2. [Technical Post-Mortem: Why Existing Solutions & Government Portals Failed](#2-technical-post-mortem-why-existing-solutions--government-portals-failed)
-   * 2.1 Bhashini / AI4Bharat IndicTrans2 Architecture Breakdown
-   * 2.2 Adi Vaani Platform (Ministry of Tribal Affairs / IIT Delhi)
-   * 2.3 J-Guruji Mobile App (Dept. of School Education & Literacy, Jharkhand)
-   * 2.4 Gyanodaya Scheme Low-Cost Tablet Realities
-   * 2.5 Google Translate & Meta NLLB Linguistic Blindspots
-   * 2.6 OpenAI Whisper & Cloud LLM Failure Modes in Saranda Forest
-3. [Linguistic Foundations: Austroasiatic (North Munda) Family Deep Dive](#3-linguistic-foundations-austroasiatic-north-munda-family-deep-dive)
-   * 3.1 Ho (𑢹𑣉𑣉 / Warang Chiti)
-   * 3.2 Mundari (मुण्डारी / Mundari Bani / Devanagari)
-   * 3.3 Santhali (ᱥᱟᱱᱛᱟᱲᱤ / Ol Chiki)
-   * 3.4 Agglutinative & Polysynthetic Morphology Rules
-   * 3.5 Pronominal Clitics, Inclusivity/Exclusivity, and Dual Numbering
-   * 3.6 Checked Consonants & Glottal Stops
-4. [The Dual-Engine Hybrid AI/ML Architecture](#4-the-dual-engine-hybrid-aiml-architecture)
-   * 4.1 Master Architectural Flowchart (ASCII Diagram)
-   * 4.2 Tier 1: Cloud & BRC Server Pipeline (LoRA Fine-Tuning)
-   * 4.3 Tier 2: 100% Offline Edge ML Transducer Engine
-   * 4.4 Semantic Vector Cosine Similarity Search Engine
-   * 4.5 Closed-Domain Finite State Transducer (FST) Mathematical Formulation
-5. [PALASH-MundaLLM: Our Custom Proprietary Neural Transformer](#5-palash-mundallm-our-custom-proprietary-neural-transformer)
-   * 5.1 Why We Rejected Third-Party API Wrappers
-   * 5.2 Mathematical Formulation from First Principles
-   * 5.3 PyTorch Architecture Specification (`ml/palash_munda_transformer.py`)
-   * 5.4 Custom Munda Subword BPE Tokenizer (Ol Chiki, Warang Chiti, Devanagari)
-   * 5.5 Dynamic INT8 Quantization: Compressing 14.2M Parameters into 14.8 MB
-   * 5.6 Pure Client-Side JavaScript Tensor Engine (`src/services/customNeuralMundaEngine.js`)
-   * 5.7 Live Scaled Dot-Product Attention Heatmap Inspector
-6. [The Closed-Loop Two-Way Classroom Dialogue Assistant](#6-the-closed-loop-two-way-classroom-dialogue-assistant)
-   * 6.1 Teacher ➔ Student (Hindi to Tribal Mother Tongue)
-   * 6.2 The Student Q&A Dilemma: What Happens When a Tribal Child Asks a Question?
-   * 6.3 One-Tap Pedagogical Counter-Response Assistant
-   * 6.4 Real-World Classroom Transcripts & Dialogues
-7. [The Engineering Truth: 34 MB RAM vs. 4 GB Google Gemma Models](#7-the-engineering-truth-34-mb-ram-vs-4-gb-google-gemma-models)
-   * 7.1 The Fallacy of Running 4B/7B LLMs on 2GB Tablets
-   * 7.2 Memory Allocations of Android 9.0/10.0 Go Edition
-   * 7.3 How Bounded-Domain Pedagogy Achieves Sub-50ms Latency in ~34 MB RAM
-8. [Real-World Classroom Acoustics & Hardware Management](#8-real-world-classroom-acoustics--hardware-management)
-   * 8.1 The Physical Classroom Challenge: Rain on Tin Roofs & Verandas
-   * 8.2 The Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
-   * 8.3 High-Contrast Big Visual Display Mode
-9. [AI Oral Reading Fluency (ORF) Acoustic Coach](#9-ai-oral-reading-fluency-orf-acoustic-coach)
-   * 9.1 NIPUN Bharat FLN Oral Reading Fluency Mandates
-   * 9.2 Real-Time Web Audio DSP & Ambient Noise Cancellation
-   * 9.3 Formant Distance Matching ($F_1, F_2$) Against Native Phonemes
-   * 9.4 Scoring Metrics: Pronunciation Accuracy (%), WPM, and Native Script Praise
-10. [Official Governance Integration: e-Vidyavahini 2.0 (EVV) & UDISE+](#10-official-governance-integration-e-vidyavahini-20-evv--udise)
-    * 10.1 Jharkhand Unified Education MIS Architecture
-    * 10.2 Real School Profiles: West Singhbhum, Khunti, and Dumka
-    * 10.3 One-Click EVV Data Synchronization Payload
-    * 10.4 BRC Sneakernet MicroSD / Pen-Drive CSV Export Protocol
-11. [Printable Bilingual Worksheets with Dynamic QR Audio Companion](#11-printable-bilingual-worksheets-with-dynamic-qr-audio-companion)
-    * 11.1 The Reality of Device Scarcity in Rural Schools
-    * 11.2 `@media print` A4 Print-Optimized Layout Architecture
-    * 11.3 Dynamic QR Code Audio Companion for Home Reinforcement
-12. [Digital Chalkboard Slate & Cultural Folklore Storytelling](#12-digital-chalkboard-slate--cultural-folklore-storytelling)
-    * 12.1 Multi-Touch HTML5 Canvas Blackboard with Authentic Chalk Physics
-    * 12.2 Ol Chiki & Warang Chiti Letter Tracing Overlays
-    * 12.3 Culturally Rooted Tribal Folk Tales (Sarhul, Nature, Animals)
-13. [Tri-Lingual Lexicon Comparative Search](#13-tri-lingual-lexicon-comparative-search)
-    * 13.1 Side-by-Side 1,240+ Word Foundational Vocabulary Index
-    * 13.2 Interactive Audio Pronunciation Triggers
-14. [NIPUN Bharat FLN Alignment & Structured Curriculum](#14-nipun-bharat-fln-alignment--structured-curriculum)
-    * 14.1 Balvatika to Class 3 Pedagogical Progression
-    * 14.2 80:20 Mother-Tongue-to-Hindi Transition Formula
-15. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
-16. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
-17. [Installation, Local Execution & iPad Simulator Verification](#17-installation-local-execution--ipad-simulator-verification)
+## Table of Contents (Organized by Logical Tiers)
+
+### Tier 1: Problem Statement & Linguistic Context
+* 1. [Executive Summary & The Jharkhand Crisis](#1-executive-summary--the-jharkhand-crisis)
+  * 1.1 The Ground Reality & Tribal Demographics
+  * 1.2 The Human Scaling Bottleneck: Why MTB-MLE Cannot Be Realised at Scale
+  * 1.3 What Does "Limited Digital NLP Resources" Mean Technically?
+  * 1.4 The Classroom Shock & The Cognitive Wall
+* 2. [Technical Post-Mortem: Why Existing Solutions & Government Portals Failed](#2-technical-post-mortem-why-existing-solutions--government-portals-failed)
+  * 2.1 Bhashini / AI4Bharat IndicTrans2 Architecture Breakdown
+  * 2.2 Adi Vaani Platform (Ministry of Tribal Affairs / IIT Delhi)
+  * 2.3 J-Guruji Mobile App (Dept. of School Education & Literacy, Jharkhand)
+  * 2.4 Gyanodaya Scheme Low-Cost Tablet Realities
+  * 2.5 Google Translate & Meta NLLB Linguistic Blindspots
+  * 2.6 OpenAI Whisper & Cloud LLM Failure Modes in Saranda Forest
+* 3. [Linguistic Foundations: Austroasiatic (North Munda) Family Deep Dive](#3-linguistic-foundations-austroasiatic-north-munda-family-deep-dive)
+  * 3.1 Ho (𑢹𑣉𑣉 / Warang Chiti)
+  * 3.2 Mundari (मुण्डारी / Mundari Bani / Devanagari)
+  * 3.3 Santhali (ᱥᱟᱱᱛᱟᱲᱤ / Ol Chiki)
+  * 3.4 Agglutinative & Polysynthetic Morphology Rules
+  * 3.5 Pronominal Clitics, Inclusivity/Exclusivity, and Dual Numbering
+  * 3.6 Checked Consonants & Glottal Stops
+
+### Tier 2: Proposed Solution (Pedagogy & Classroom Workflow)
+* 4. [The Closed-Loop Two-Way Classroom Dialogue Assistant](#6-the-closed-loop-two-way-classroom-dialogue-assistant)
+  * 4.1 Teacher ➔ Student (Hindi to Tribal Mother Tongue)
+  * 4.2 The Student Q&A Dilemma: What Happens When a Tribal Child Asks a Question?
+  * 4.3 One-Tap Pedagogical Counter-Response Assistant
+  * 4.4 Real-World Classroom Transcripts & Dialogues
+* 5. [Printable Bilingual Worksheets with Dynamic QR Audio Companion](#11-printable-bilingual-worksheets-with-dynamic-qr-audio-companion)
+  * 5.1 The Reality of Device Scarcity in Rural Schools
+  * 5.2 `@media print` A4 Print-Optimized Layout Architecture
+  * 5.3 Dynamic QR Code Audio Companion for Home Reinforcement
+* 6. [Digital Chalkboard Slate & Cultural Folklore Storytelling](#12-digital-chalkboard-slate--cultural-folklore-storytelling)
+  * 6.1 Multi-Touch HTML5 Canvas Blackboard with Authentic Chalk Physics
+  * 6.2 Ol Chiki & Warang Chiti Letter Tracing Overlays
+  * 6.3 Culturally Rooted Tribal Folk Tales (Sarhul, Nature, Animals)
+* 7. [Tri-Lingual Lexicon Comparative Search](#13-tri-lingual-lexicon-comparative-search)
+  * 7.1 Side-by-Side 1,240+ Word Foundational Vocabulary Index
+  * 7.2 Interactive Audio Pronunciation Triggers
+* 8. [NIPUN Bharat FLN Alignment & Structured Curriculum](#14-nipun-bharat-fln-alignment--structured-curriculum)
+  * 8.1 Balvatika to Class 3 Pedagogical Progression
+  * 8.2 80:20 Mother-Tongue-to-Hindi Transition Formula
+
+### Tier 3: Technical Approach & Architecture
+* 9. [The Dual-Engine Hybrid AI/ML Architecture](#4-the-dual-engine-hybrid-aiml-architecture)
+  * 9.1 Master Architectural Flowchart (ASCII Diagram)
+  * 9.2 Tier 1: Cloud & BRC Server Pipeline (LoRA Fine-Tuning)
+  * 9.3 Tier 2: 100% Offline Edge ML Transducer Engine
+  * 9.4 Semantic Vector Cosine Similarity Search Engine
+  * 9.5 Closed-Domain Finite State Transducer (FST) Mathematical Formulation
+* 10. [PALASH-MundaLLM: Our Custom Proprietary Neural Transformer](#5-palash-mundallm-our-custom-proprietary-neural-transformer)
+  * 10.1 Why We Rejected Third-Party API Wrappers
+  * 10.2 Mathematical Formulation from First Principles
+  * 10.3 PyTorch Architecture Specification (`ml/palash_munda_transformer.py`)
+  * 10.4 Custom Munda Subword BPE Tokenizer (Ol Chiki, Warang Chiti, Devanagari)
+  * 10.5 Dynamic INT8 Quantization: Compressing 14.2M Parameters into 14.8 MB
+  * 10.6 Pure Client-Side JavaScript Tensor Engine (`src/services/customNeuralMundaEngine.js`)
+  * 10.7 Live Scaled Dot-Product Attention Heatmap Inspector
+* 11. [AI Oral Reading Fluency (ORF) Acoustic Coach](#9-ai-oral-reading-fluency-orf-acoustic-coach)
+  * 11.1 NIPUN Bharat FLN Oral Reading Fluency Mandates
+  * 11.2 Real-Time Web Audio DSP & Ambient Noise Cancellation
+  * 11.3 Formant Distance Matching ($F_1, F_2$) Against Native Phonemes
+  * 11.4 Scoring Metrics: Pronunciation Accuracy (%), WPM, and Native Script Praise
+
+### Tier 4: Feasibility & Viability Analysis
+* 12. [The Engineering Truth: 34 MB RAM vs. 4 GB Google Gemma Models](#7-the-engineering-truth-34-mb-ram-vs-4-gb-google-gemma-models)
+  * 12.1 The Fallacy of Running 4B/7B LLMs on 2GB Tablets
+  * 12.2 Memory Allocations of Android 9.0/10.0 Go Edition
+  * 12.3 How Bounded-Domain Pedagogy Achieves Sub-50ms Latency in ~34 MB RAM
+* 13. [Real-World Classroom Acoustics & Hardware Management](#8-real-world-classroom-acoustics--hardware-management)
+  * 13.1 The Physical Classroom Challenge: Rain on Tin Roofs & Verandas
+  * 13.2 The Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
+  * 13.3 High-Contrast Big Visual Display Mode
+* 14. [The Rural Sneakernet & Power Resilience Protocol](#104-brc-sneakernet-microsd--pen-drive-csv-export-protocol)
+  * 14.1 Zero-Connectivity Cache-First Service Worker Operation
+  * 14.2 Battery Longevity during 48-Hour Rural Village Power Outages
+
+### Tier 5: Impact & Multi-Tiered Benefits
+* 15. [Official Governance Integration: e-Vidyavahini 2.0 (EVV) & UDISE+](#10-official-governance-integration-e-vidyavahini-20-evv--udise)
+  * 15.1 Jharkhand Unified Education MIS Architecture
+  * 15.2 Real School Profiles: West Singhbhum, Khunti, and Dumka
+  * 15.3 One-Click EVV Data Synchronization Payload
+  * 15.4 BRC Sneakernet MicroSD / Pen-Drive CSV Export Protocol
+* 16. [Statewide Learning & Fiscal Impact](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
+  * 16.1 3x FLN Mastery & Primary Dropout Reduction (From 38.4% to < 9.5%)
+  * 16.2 ₹900+ Crores State Budget Savings vs. Recruiting 25,000 Teachers
+  * 16.3 5-Year Quantitative Scaling Projections (850,000+ Children Impacted)
+
+### Tier 6: Research, References & Evaluation Proposal
+* 17. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
+* 18. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
+* 19. [Installation, Local Execution & iPad Simulator Verification](#17-installation-local-execution--ipad-simulator-verification)
 
 ---
 
