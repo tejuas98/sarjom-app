@@ -36,8 +36,8 @@
 ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
                                    ZONE A: PHYSICAL WORLD & CLASSROOM ENVIRONMENT
 ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-   [Teacher Hindi Speech]    [Child Tribal Speech]     [Monsoon Rain Noise]     [Bluetooth Gali-Speaker]    [Paper A4 Sheet]
-   ("किताब खोलो बच्चों")     ("ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ")      (75dB - 82dB on Tin Roof) (85dB+ Classroom Audio)    (Printed Worksheet)
+   [Teacher Hindi Speech]    [Child Tribal Speech]     [Monsoon Rain Noise]     [Smart Classroom Soundbar]  [Paper A4 Sheet]
+   ("किताब खोलो बच्चों")     ("ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ")      (75dB - 82dB on Tin Roof) (85dB+ Room Audio Unit)    (Printed Worksheet)
             │                         │                         │                         ▲                        ▲
             ▼                         ▼                         ▼                         │                        │
 ══════════════════════════════════════════════════════════════════════════════════════════╪════════════════════════╪═════
@@ -151,7 +151,7 @@ graph TD
         T_Voice["Teacher Hindi Voice"]
         S_Voice["Student Tribal Voice"]
         Rain["Monsoon Rain Noise (75-82 dB)"]
-        Spk["Bluetooth Gali-Speaker (85 dB+)"]
+        Spk["Smart Classroom Audio Soundbar (85 dB+)"]
         Paper["Printed A4 Worksheet with QR"]
     end
 
@@ -248,7 +248,7 @@ graph TD
 * **Teacher Voice**: Standard Hindi input spoken at normal classroom conversational volume (~60 dB to 65 dB).
 * **Child Voice**: Indigenous tribal speech in Ho, Mundari, or Santhali, often spoken softly or timidly (~45 dB to 55 dB).
 * **Acoustic Noise Source**: Corrugated galvanized iron tin roofs in rural schools generate persistent, high-amplitude white-noise rumble during monsoon downpours (**75 dB to 82 dB**).
-* **Acoustic Projector**: Portable rechargeable 5W/10W mini-megaphones (**"गली स्पीकर"**) connected via Bluetooth A2DP or a 3.5mm Aux cable, delivering clear speech at **85 dB+**, overcoming classroom noise for all 35 students.
+* **Acoustic Projector**: Wall-mounted or desk-mounted **Smart Classroom Audio Soundbar / Audio Reinforcement System (कक्षा ध्वनि प्रवर्धन प्रणाली)** connected via Bluetooth A2DP or a 3.5mm Aux cable, delivering clear, rich speech at **85 dB+**, ensuring pristine audio clarity across the entire room for all 35 students.
 
 ### 3.2 Zone B: Low-Cost Tablet Hardware & OS Runtime ($\le$ 2GB RAM, Android 9+)
 * **Linux Kernel & Audio HAL**: Captures 16-bit PCM audio at 44.1 kHz via the device microphone.

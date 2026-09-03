@@ -99,7 +99,7 @@
    * 7.3 How Bounded-Domain Pedagogy Achieves Sub-50ms Latency in ~34 MB RAM
 8. [Real-World Classroom Acoustics & Hardware Management](#8-real-world-classroom-acoustics--hardware-management)
    * 8.1 The Physical Classroom Challenge: Rain on Tin Roofs & Verandas
-   * 8.2 The Solution: 5W/10W Portable Bluetooth "Gali-Speakers"
+   * 8.2 The Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
    * 8.3 High-Contrast Big Visual Display Mode
 9. [AI Oral Reading Fluency (ORF) Acoustic Coach](#9-ai-oral-reading-fluency-orf-acoustic-coach)
    * 9.1 NIPUN Bharat FLN Oral Reading Fluency Mandates
@@ -484,9 +484,9 @@ By executing a specialized **Finite State Transducer + INT8 Quantized Subword Ve
 ### 8.1 The Physical Classroom Challenge: Rain on Tin Roofs
 In remote schools across Chaibasa or Khunti, classes are held in brick rooms with tin roofs or open verandas. During monsoon rains, the ambient noise level routinely exceeds **75 to 80 dB**. A tablet’s internal 0.5-watt speaker is inaudible past the front desk.
 
-### 8.2 The Solution: 5W/10W Portable Bluetooth "Gali-Speakers"
-* Under the Samagra Shiksha and Gyanodaya grants, primary schools are provided with portable rechargeable **5W/10W mini-speakers ("गली स्पीकर")**.
-* PALASH Setu pairs automatically via Bluetooth or a standard 3.5mm Aux cable, projecting native pronunciation clearly to children seated in the back row.
+### 8.2 The Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
+* Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are provided with wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Reinforcement Systems (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
+* PALASH Setu pairs automatically via Bluetooth A2DP or a standard 3.5mm Aux cable, projecting native pronunciation clearly at **85 dB+** to children seated in the back row.
 
 ### 8.3 High-Contrast Big Visual Display Mode
 When ambient noise is overwhelming, PALASH Setu switches to **Big Visual Display Mode**, rendering high-contrast Ol Chiki and Warang Chiti characters alongside bright contextual illustrations so students understand visually even when audio is compromised.

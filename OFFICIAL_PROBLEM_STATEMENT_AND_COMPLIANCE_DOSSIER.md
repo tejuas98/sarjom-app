@@ -276,8 +276,8 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
   $$L_p(r) = L_p(r_0) - 20 \log_{10}\left(\frac{r}{r_0}\right)$$
   At $r = 6$m: $65 - 20 \log_{10}(6) \approx 65 - 15.56 = 49.44$ dB (Completely drowned out by rain!).
 
-### 5.2 Hardware Solution: Portable 5W/10W Bluetooth "Gali-Speakers"
-* Under the Samagra Shiksha and Gyanodaya schemes, schools are allocated portable rechargeable **5W/10W mini-megaphones ("गली स्पीकर")**.
+### 5.2 Hardware Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
+* Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are provided with wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Units (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
 * PALASH Setu connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring clear intelligibility across all 35 students in the room.
 
 ---

@@ -190,7 +190,7 @@ Is Match in Canonical FLN Lexicon?
 Render Ol Chiki / Warang Chiti Script + Hindi Pronunciation Guide
         │
         ▼
-Broadcast Native Spoken Audio via Bluetooth Gali-Speaker (85 dB+)
+Broadcast Native Spoken Audio via Smart Classroom Soundbar (85 dB+)
         │
         ▼
 Student Comprehends & Responds in Tribal Mother Tongue
@@ -340,7 +340,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
                                    System auto-sets target language to Ho & UDISE+ 20240301102.
                                    │
                                    ▼
-[ Step 2: Audio Speaker Test ]  ──► Plays test greeting ("Johār") through Bluetooth Gali-Speaker.
+[ Step 2: Audio Speaker Test ]  ──► Plays test greeting ("Johār") through Smart Classroom Soundbar.
                                    Teacher confirms audible volume to the back row.
                                    │
                                    ▼

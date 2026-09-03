@@ -60,7 +60,7 @@
     * 15.2 The Dynamic Audio QR Code Companion
 16. [Classroom Acoustics & Real-World Hardware Deployment Deep-Dive](#16-classroom-acoustics--real-world-hardware-deployment-deep-dive)
     * 16.1 Decibel Attenuation in Tin-Roof Rural Classrooms
-    * 16.2 Hardware Solution: Portable 5W/10W Bluetooth "Gali-Speakers"
+    * 16.2 Hardware Solution: Smart Classroom Audio Soundbar System
 
 ---
 
@@ -609,9 +609,9 @@ In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dum
 * During monsoon rain showers, acoustic ambient noise levels reach **75 dB to 82 dB**.
 * A budget tablet's built-in 0.5W speaker produces an output of only ~65 dB at 1 meter, attenuating to $< 50$ dB at the back row ($d = 6$ meters).
 
-### 16.2 Hardware Solution: Portable 5W/10W Bluetooth "Gali-Speakers"
-* Under the Samagra Shiksha and Gyanodaya schemes, schools are allocated portable rechargeable **5W/10W mini-megaphones ("गली स्पीकर")**.
-* PALASH Setu connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring clear intelligibility across all 35 students in the room.
+### 16.2 Hardware Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
+* Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are allocated wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Units (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
+* PALASH Setu connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring pristine audio clarity across the entire room for all 35 students.
 
 ---
 
