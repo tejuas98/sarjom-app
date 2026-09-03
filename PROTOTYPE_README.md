@@ -299,16 +299,29 @@ Proves to SIH evaluators that SARJOM is not a superficial API wrapper around Ope
 
 ## Module 11: 3-Stage Input · Process · Output (IPO) Architecture Pipeline
 
-### Prototype Screenshot:
+### Prototype Architecture Blueprint:
 
 <div align="center">
-  <img src="./public/screenshots/16_ipo_architecture_pipeline.png" alt="IPO Architecture Pipeline" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <a href="./public/sarjom_ipo_pipeline.png" title="Click to view full resolution IPO architecture blueprint">
+    <img src="./public/sarjom_ipo_pipeline.png" alt="SARJOM Input-Process-Output (IPO) Architecture Pipeline" width="100%" style="border-radius: 12px; border: 3px solid #10B981; box-shadow: 0 10px 30px rgba(0,0,0,0.25);" />
+  </a>
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 6px;">
+    <strong>Figure 11.1: Canonical 3-Stage Input · Process · Output (IPO) Architectural Blueprint</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_ipo_pipeline.svg"><em>[Vector SVG Format]</em></a>
+  </p>
 </div>
 
-### 1. What It Is For:
+<div align="center" style="margin-top: 14px;">
+  <img src="./public/screenshots/16_ipo_architecture_pipeline.png" alt="Live In-App IPO Pipeline View" width="100%" style="border-radius: 12px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 6px;">
+    <strong>Figure 11.2: Live In-App Interactive IPO Inspector View in Neural Model Tab (Unclipped)</strong>
+  </p>
+</div>
+
+### 🎯 1. Purpose & Scope (What It Is For):
 Provides technical evaluators, software architects, and state IT officers an immediate, standardized engineering view of how data flows through SARJOM—from physical classroom signals (Input) to on-device linguistic computation (Process) to classroom pedagogical assets (Output).
 
-### 2. Why It Works (Engineering Mechanics):
+### ⚙️ 2. Engineering Mechanics (Why It Works):
 * **Input Stage**: Ingests 4 multi-modal streams: Teacher Voice (75-82 dB ambient noise), Two-Way Student Ear (tribal speech), Digital Slate capacitive strokes, and take-home Worksheet Audio QR scans.
 * **Processing Stage**: 100% on-device edge execution:
   1. *Web Audio DSP Noise Gate*: 300Hz–3.4kHz bandpass filter suppressing monsoon roof noise.
@@ -316,23 +329,36 @@ Provides technical evaluators, software architects, and state IT officers an imm
   3. *Agglutinative Munda Transducer*: Reconstructs Austroasiatic morphology and enforces 80:20 NIPUN transition rules.
 * **Output Stage**: Delivers 4 immediate classroom outputs: Native script rendering (Ol Chiki/Warang Chiti), dual-channel audio speech synthesis (TTS), 300 DPI printable Audio QR worksheets, and encrypted offline JSON sync to e-Vidyavahini 2.0.
 
-### 3. How It Solves the Crisis:
+### 💡 3. Societal & Pedagogical Impact (How It Solves the Crisis):
 Demystifies complex AI for government officials. Demonstrates that SARJOM is not a black-box cloud dependent API, but an accountable, deterministic, 100% edge-computed pipeline built specifically for rural infrastructure realities.
 
 ---
 
 ## Module 12: Exhaustive If-Else Operational Workflow & Decision Flowchart
 
-### Prototype Screenshot:
+### Prototype Decision Flowchart:
 
 <div align="center">
-  <img src="./public/screenshots/17_detailed_decision_flowchart_view.png" alt="Detailed Decision Flowchart" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <a href="./public/sarjom_detailed_flowchart.png" title="Click to view full resolution decision flowchart">
+    <img src="./public/sarjom_detailed_flowchart.png" alt="SARJOM Detailed System Workflow & Decision Flowchart" width="100%" style="border-radius: 12px; border: 3px solid #10B981; box-shadow: 0 10px 30px rgba(0,0,0,0.25);" />
+  </a>
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 6px;">
+    <strong>Figure 12.1: End-to-End Decision Flowchart with If-Else Conditions & Noise Fallbacks</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_detailed_flowchart.svg"><em>[Vector SVG Format]</em></a>
+  </p>
 </div>
 
-### 1. What It Is For:
+<div align="center" style="margin-top: 14px;">
+  <img src="./public/screenshots/17_detailed_decision_flowchart_view.png" alt="Live In-App Flowchart View" width="100%" style="border-radius: 12px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 6px;">
+    <strong>Figure 12.2: Live In-App Flowchart State Machine View in Neural Model Tab (Unclipped)</strong>
+  </p>
+</div>
+
+### 🎯 1. Purpose & Scope (What It Is For):
 Provides a transparent, exhaustive software engineering state machine illustrating how SARJOM executes from the exact millisecond a teacher launches the app, through network verification, acoustic noise gating, multilingual branching, and parent home-learning verification.
 
-### 2. Why It Works (Engineering Mechanics):
+### ⚙️ 2. Engineering Mechanics (Why It Works):
 * **Level 1 Connectivity Check**: Detects if internet is present. If yes, runs non-blocking e-Vidyavahini 2.0 REST sync; if no, locks immediately into 100% Offline Edge Mode with local IndexedDB.
 * **School & UDISE Profile**: Dynamically binds target district (e.g. Dumka / West Singhbhum / Khunti) to prime the corresponding Munda language model (Santhali, Ho, or Mundari).
 * **4-Way Branching Decisions**:
@@ -342,8 +368,63 @@ Provides a transparent, exhaustive software engineering state machine illustrati
   4. *Reading Fluency (ORF)*: Measures real-time formant frequencies (F1, F2). If accuracy $\ge 70\%$, awards fluency badge; otherwise, provides slowed acoustic modeling.
 * **Level 3 Persistence**: Commits all actions to encrypted local IndexedDB before terminating cleanly with `✅ PROCESS COMPLETE`.
 
-### 3. How It Solves the Crisis:
+### 💡 3. Societal & Pedagogical Impact (How It Solves the Crisis):
 Eliminates system unpredictability in remote rural schools. Every real-world failure mode (torrential monsoon noise, internet loss, student mispronunciation, parent illiteracy) is accounted for with deterministic fallback branches.
+
+### 📊 4. Native GitHub Mermaid Flowchart:
+
+```mermaid
+flowchart TD
+    Start(["🚀 User Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available?"}
+    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync & Handshake\ne-Vidyavahini 2.0 REST connected"]
+    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Edge Mode\nService Worker & IndexedDB active"]
+    CloudSync --> LoadProfile["🏫 Load District & UDISE Profile\n(Dumka, West Singhbhum, Khunti)"]
+    OfflineEdge --> LoadProfile
+    LoadProfile --> ModeSelect{"📚 Select Classroom Mode?"}
+    
+    ModeSelect -->|1. Real-Time Dialogue| MicCap["🎙️ Teacher Voice Audio Capture\n(75-82 dB ambient noise)"]
+    MicCap --> DSPGate["⚙️ Web Audio DSP Noise Gate\n(Bandpass 300Hz-3.4kHz filter)"]
+    DSPGate --> CheckSNR{"Acoustic SNR > 12 dB?"}
+    CheckSNR -->|NO / Heavy Rain| NoiseFallback["⚠️ Noise Fallback\nUse 1-Tap Prompt Chips"]
+    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.022 ms measured latency)"]
+    NoiseFallback --> VectorMatch
+    VectorMatch --> MundaTrans["🔤 Munda Morphology & Script\n(Ol Chiki / Warang Chiti / Deva)"]
+    
+    ModeSelect -->|2. NIPUN FLN| FLNPlan["📖 Day-by-Day NIPUN FLN Plan\n(8-Week Balvatika to Class 3)"]
+    FLNPlan --> Scaffold["📊 80:20 Transition Scaffolding\n80% Tribal (Balvatika) ➔ 80% Hindi (Class 3)"]
+    Scaffold --> CheckFLN{"FLN Target Achieved?"}
+    CheckFLN -->|YES| Praise["🎉 Positive Reinforcement\nNative praise: 'Besh ge! शाबाश!'"]
+    CheckFLN -->|NO| Remedial["🛠️ Remedial Flashcard Deck\nVisual 3D Flip cards reinforcement"]
+    
+    ModeSelect -->|3. Worksheets & QR| GenSheet["📄 Generate NIPUN Worksheet\n(Numeracy, Words, Tracing)"]
+    GenSheet --> QRGen["📱 Dynamic Audio QR Generator\nReed-Solomon Level M client encoding"]
+    QRGen --> PrintDoc["🖨️ 300 DPI Print / Save PDF\nTake-home sheet given to child"]
+    PrintDoc --> CheckScan{"Parent Phone Scanned?"}
+    CheckScan -->|YES| AudioComp["🌳 सरजोम ध्वनि साथी Web Player\nZero install: Illiterate parents hear tribal audio"]
+    
+    ModeSelect -->|4. Reading Fluency| StudentRead["🗣️ Student Oral Reading\nReads native script prompt aloud"]
+    StudentRead --> Formant["🔬 Formant Extractor (F1, F2)\nDSP Euclidean distance to native phonemes"]
+    Formant --> CheckORF{"Accuracy >= 70% & WPM OK?"}
+    CheckORF -->|YES| FluencyPass["🌟 Fluency Mastered Badge\nLogged to Student Portfolio"]
+    CheckORF -->|NO| PhoneGuide["👂 Phonetic Audio Modeling\nSlows playback & shows Devanagari cue"]
+    
+    MundaTrans --> DBCommit["💾 Encrypted Offline IndexedDB Commit\n(Local persistence & EVV queue)"]
+    Praise --> DBCommit
+    Remedial --> DBCommit
+    AudioComp --> DBCommit
+    FluencyPass --> DBCommit
+    PhoneGuide --> DBCommit
+    DBCommit --> Done(["✅ PROCESS COMPLETE"])
+
+    style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
+    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckSNR fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style CheckScan fill:#451A03,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
+    style CheckORF fill:#3B0764,stroke:#A855F7,stroke-width:2px,color:#E9D5FF
+    style Done fill:#064E3B,stroke:#10B981,stroke-width:3px,color:#FFFFFF
+```
 
 ---
 
