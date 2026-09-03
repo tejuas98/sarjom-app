@@ -39,8 +39,13 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-bg)' }}>
-      {/* 1. Android Tablet Diagnostic Status Bar */}
-      <TabletSimulatorBar isOffline={isOffline} toggleOffline={handleToggleOffline} />
+      {/* 1. Android Tablet Diagnostic & Jharkhand EVV Status Bar */}
+      <TabletSimulatorBar
+        isOffline={isOffline}
+        toggleOffline={handleToggleOffline}
+        selectedLang={selectedLang}
+        onSelectLang={handleSelectLang}
+      />
 
       {/* 2. Top Header & Navigation Bar */}
       <Navbar
