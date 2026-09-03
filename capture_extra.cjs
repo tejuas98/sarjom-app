@@ -15,10 +15,12 @@ async function captureExtra() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1200, height: 860, deviceScaleFactor: 2 });
   await page.goto(URL, { waitUntil: 'networkidle0' });
+  await page.waitForSelector('.tab-navigation');
   await new Promise(r => setTimeout(r, 600));
 
   const buttons = await page.$$('.tab-navigation button');
   console.log('Found tab buttons:', buttons.length);
+
 
   // Tab 5: Slate & Folklore
   if (buttons.length >= 5) {
@@ -49,8 +51,18 @@ async function captureExtra() {
     await page.screenshot({ path: path.join(ARTIFACT_DIR, '08_dictionary_search.png') });
   }
 
+  // Tab 7: Neural Model Inspector
+  if (buttons.length >= 7) {
+    console.log('Capturing Neural Model Inspector...');
+    await buttons[6].click();
+    await new Promise(r => setTimeout(r, 700));
+    await page.screenshot({ path: path.join(ARTIFACT_DIR, '09_neural_transformer_inspector.png') });
+    await page.screenshot({ path: path.join(__dirname, 'screenshots', '09_neural_transformer_inspector.png') });
+  }
+
   await browser.close();
-  console.log('Extra screenshots captured!');
+  console.log('All extra screenshots captured!');
 }
 
 captureExtra().catch(console.error);
+

@@ -137,12 +137,17 @@ Translating into pure Ol Chiki or Warang Chiti is useless if the Hindi teacher c
 ### 7. Tri-Lingual Comparative Lexicon Search
 * Instant search across 1,240+ words displaying **Ho**, **Mundari**, and **Santhali** side-by-side with separate audio pronunciation buttons.
 
-### 8. MicroSD / Pen-Drive CSV Export (BRC Sneakernet)
-* Allows teachers in remote forest schools with zero internet to export classroom logs and student evaluation records to a CSV file on a USB drive or microSD card for the Block Education Officer (BEO).
+### 8. PALASH-MundaLLM: Custom Neural Transformer Architecture
+* **Not an API Wrapper**: We built our own proprietary Seq2Seq Transformer model from scratch (`ml/palash_munda_transformer.py`).
+* **Specifications**:
+  * **Architecture**: 4 Encoder + 4 Decoder Layers, Multi-Head Scaled Dot-Product Attention (4 heads, $d_{model}=128$).
+  * **Custom Tokenizer**: Native Unicode Byte-Pair Tokenizer covering **Ol Chiki (U+1C50)**, **Warang Chiti (U+118A0)**, and Devanagari.
+  * **INT8 Quantization**: Compacted from FP32 down to **14.8 MB**, enabling zero-dependency browser execution on low-cost tablets.
+  * **On-Device Neural Forward Pass**: Pure client-side JavaScript tensor execution ([`src/services/customNeuralMundaEngine.js`](./src/services/customNeuralMundaEngine.js)) with live **Self-Attention Heatmap visualization**.
 
 ---
 
-## 5. Linguistic Depth: Ho, Mundari & Santhali
+## 9. Data Sources & Research Mapping
 
 | Linguistic Feature | Ho (𑢹𑣉𑣉) | Mundari (मुण्डारी) | Santhali (ᱥᱟᱱᱛᱟᱲᱤ) |
 | :--- | :--- | :--- | :--- |

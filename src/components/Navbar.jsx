@@ -141,6 +141,7 @@ export function Navbar({
           { id: 'flashcards', label: '🎴 दृश्य फ्लैशकार्ड (Flashcards)', sub: 'सचित्र अभ्यास' },
           { id: 'slate', label: '🎨 डिजिटल स्लेट व लोककथा (Slate & Folklore)', sub: 'सांस्कृतिक शिक्षण' },
           { id: 'dictionary', label: '📖 त्रैभाषिक शब्दकोश (Lexicon Search)', sub: '1,240+ शब्द' },
+          { id: 'neural', label: '⚡ कस्टम ट्रांसफॉर्मर (PALASH-LLM)', sub: '14.2M प्राचल' },
         ].map((tab) => {
           const isActive = activeTab === tab.id;
           return (
