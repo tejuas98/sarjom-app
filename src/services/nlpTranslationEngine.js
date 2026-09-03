@@ -4,9 +4,9 @@
  * Runs 100% locally in browser without external server calls.
  */
 
-import { TRIBAL_LEXICON } from '../data/tribalLexicon';
-import { CLASSROOM_PHRASES } from '../data/classroomPhrases';
-import { NIPUN_LESSONS } from '../data/nipunCurriculum';
+import { TRIBAL_LEXICON } from '../data/tribalLexicon.js';
+import { CLASSROOM_PHRASES } from '../data/classroomPhrases.js';
+import { NIPUN_LESSONS } from '../data/nipunCurriculum.js';
 
 /**
  * Normalizes Hindi text by trimming, stripping punctuation, and standardizing whitespace

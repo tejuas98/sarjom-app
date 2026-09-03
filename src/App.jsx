@@ -16,15 +16,20 @@ import { offlineStorage } from './services/offlineStorage';
 import { toast } from 'sonner';
 
 export default function App() {
-  const [selectedLang, setSelectedLang] = useState(() => offlineStorage.getSelectedLanguage());
-  const [isOffline, setIsOffline] = useState(() => {
-    // Default to offline mode to showcase offline capability
-    return true;
-  });
-  const [activeTab, setActiveTab] = useState('voice');
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isWizardOpen, setIsWizardOpen] = useState(false);
-  const [isTabletFrame, setIsTabletFrame] = useState(true);
+  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const initialLang = (urlParams && urlParams.get('lang')) || offlineStorage.getSelectedLanguage() || 'santhali';
+  const initialOffline = urlParams && urlParams.has('offline') ? urlParams.get('offline') === 'true' : true;
+  const initialTab = (urlParams && urlParams.get('tab')) || 'voice';
+  const initialDrawer = urlParams ? urlParams.get('drawer') === 'true' : false;
+  const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
+  const initialFrame = urlParams && urlParams.has('frame') ? urlParams.get('frame') === 'true' : true;
+
+  const [selectedLang, setSelectedLang] = useState(initialLang);
+  const [isOffline, setIsOffline] = useState(initialOffline);
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawer);
+  const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
+  const [isTabletFrame, setIsTabletFrame] = useState(initialFrame);
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
