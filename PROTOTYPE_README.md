@@ -28,6 +28,8 @@ Below is the live, automated continuous recording of SARJOM running inside a Goo
 
 ### 🔊 Live Classroom Text-to-Speech (TTS) Audio Samples & Interactive Deck
 
+> 🔊 **Live Classroom Audio Deck & TTS Audio Samples**: Certified high-amplitude native speech recordings in Santhali, Ho, and Mundari are integrated directly into the application (`[🔊 ऑडियो डेक]`) and fully documented with streamable audio badges below or in the standalone **[Web Audio Console &rarr;](./public/audio_player.html)**.
+
 > 💡 **GitHub Markdown Notice**: GitHub's markdown security parser automatically strips raw HTML5 `<audio>` tags in browser previews.  
 > 🎧 To experience full audio playback:
 > 1. **Live Prototype**: Click the **`[🔊 ऑडियो डेक]`** button in the top navigation bar of the application to open the full interactive audio deck modal.

@@ -31,9 +31,7 @@
   <p><strong>Autoplaying Live Interactive Walkthrough</strong>: Demonstrating every button click, offline/online toggle, language switching (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, and Vaul drawer &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video with Voice-Over Narration]</strong></a></p>
 </div>
 
-> 🔊 **Live Classroom Audio Deck & TTS Audio Samples**: Certified high-amplitude native speech recordings in Santhali, Ho, and Mundari are integrated directly into the application (`[🔊 ऑडियो डेक]`) and fully documented with streamable audio badges in **[PROTOTYPE_README.md (Interactive Audio Deck Module) &rarr;](./PROTOTYPE_README.md#module-18-interactive-classroom-speech-audio-deck-modal)** or the standalone **[Web Audio Console &rarr;](./public/audio_player.html)**.
-
-> 📸 **Visual Prototype Walkthrough**: For an exhaustive, screenshot-by-screenshot analysis explaining **what each feature is for, why it works under the hood, and how it solves the classroom crisis**, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
+> 📸 **Interactive Prototype Walkthrough & Audio Deck**: For the exhaustive visual walkthrough, interactive audio deck, streamable classroom TTS samples, and feature-by-feature analysis, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
 
 ---
 
