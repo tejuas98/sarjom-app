@@ -1,4 +1,4 @@
-# PALASH Setu: End-to-End System Architecture
+# SARJOM: End-to-End System Architecture
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
@@ -252,7 +252,7 @@ graph TD
 
 ### 3.2 Zone B: Low-Cost Tablet Hardware & OS Runtime ($\le$ 2GB RAM, Android 9+)
 * **Linux Kernel & Audio HAL**: Captures 16-bit PCM audio at 44.1 kHz via the device microphone.
-* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. PALASH Setu’s total heap usage is **~34.2 MB**, ensuring zero danger of kernel `SIGKILL` (Exit Code 137).
+* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. SARJOM’s total heap usage is **~34.2 MB**, ensuring zero danger of kernel `SIGKILL` (Exit Code 137).
 * **Chromium V8 Engine**: High-performance JIT execution utilizing pre-allocated flat `Float32Array` buffers. Inner tensor loops avoid dynamic object instantiation, bounding garbage collection pause times to $< 1.5$ ms.
 
 ### 3.3 Zone C: PWA Offline Container & Zero-Loss Storage Engine
@@ -372,4 +372,4 @@ graph TD
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

@@ -1,4 +1,4 @@
-# PALASH Setu (पलाश सेतु) — Comprehensive Operating Guide & Button Reference Manual
+# SARJOM (सरजोम) — Comprehensive Operating Guide & Button Reference Manual
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
@@ -30,7 +30,7 @@
 
 ## 1. System Overview & Execution Modes
 
-PALASH Setu is engineered to run in **three distinct execution environments**:
+SARJOM is engineered to run in **three distinct execution environments**:
 
 1. **Desktop / Laptop Web Browser** (For curriculum design, lesson planning, and worksheet printing).
 2. **Classroom Tablet Simulator Mode** (Wraps the interface in an authentic **Gyanodaya 10.1" Android Tablet Bezel** with hardware borders and front camera notch).
@@ -88,13 +88,13 @@ To test the application on an actual physical tablet or smartphone connected to 
 
 ## 4. Installing as a 100% Offline PWA (No Internet)
 
-PALASH Setu is a **Progressive Web App (PWA)** compliant with the Government of Jharkhand's zero-connectivity mandate:
+SARJOM is a **Progressive Web App (PWA)** compliant with the Government of Jharkhand's zero-connectivity mandate:
 
 1. On your tablet or phone, tap the **Chrome Menu (⋮)** or Safari **Share Button (⎋)**.
 2. Select **"Add to Home Screen"** or **"Install App"**.
-3. A standalone app icon named **"पलाश सेतु"** will appear on your device's home screen.
+3. A standalone app icon named **"सरजोम"** will appear on your device's home screen.
 4. Turn ON Airplane Mode (disable Wi-Fi and Mobile Data).
-5. Tap the **पलाश सेतु** icon. The entire application, including voice synthesis, lessons, worksheets, slate, and lexicon, opens and runs **100% offline**!
+5. Tap the **सरजोम** icon. The entire application, including voice synthesis, lessons, worksheets, slate, and lexicon, opens and runs **100% offline**!
 
 ---
 
@@ -134,7 +134,7 @@ Located in the main white header bar:
 Tab: `🎙️ संवाद <3s अनुवाद`
 
 ### A. Translation Direction Toggle
-* **`[👨‍🏫 शिक्षक ➔ छात्र (Hindi to Tribal)]`**: Default mode. The teacher speaks or types in standard Hindi; PALASH Setu converts it to native tribal dialect with authentic script display and audio playback.
+* **`[👨‍🏫 शिक्षक ➔ छात्र (Hindi to Tribal)]`**: Default mode. The teacher speaks or types in standard Hindi; SARJOM converts it to native tribal dialect with authentic script display and audio playback.
 * **`[🧑‍🎓 छात्र ➔ शिक्षक (Tribal to Hindi)]`**: Reverse mode (**Two-Way Student Ear**). The non-tribal teacher taps this to listen to the tribal student speaking their mother tongue, translating their response back into Hindi so the teacher understands.
 
 ### B. Input & Interaction Controls
@@ -249,7 +249,7 @@ Trigger: Top bar button **`[✨ ऑनबोर्डिंग]`**
   * Tap **`[🔊 ध्वनि परीक्षण]`**: Tests classroom speaker volume.
   * Tap **`[🎙️ माइक कैलिब्रेशन]`**: Tests ambient noise suppression for noisy rural classrooms.
   * Tap **`[आगे बढ़ें ➡️]`**.
-* **चरण 3: पलाश सेतु शिक्षण प्रारंभ**: Summarizes key teaching tips. Tap **`[🚀 कक्षा शिक्षण प्रारंभ करें]`** to close the wizard and begin teaching!
+* **चरण 3: सरजोम शिक्षण प्रारंभ**: Summarizes key teaching tips. Tap **`[🚀 कक्षा शिक्षण प्रारंभ करें]`** to close the wizard and begin teaching!
 
 ---
 
@@ -259,7 +259,7 @@ Trigger: Top bar button **`[✨ ऑनबोर्डिंग]`**
 * **Cause**: Browsers previously cached an early development script before dependencies were deduplicated.
 * **Solution**: Open an **Incognito / Private Window** (`Cmd + Shift + N` / `Ctrl + Shift + N`) or press **Cmd + Shift + R** to clear cache. The dev server now has automatic cache bypass configured.
 
-### Q2: Does PALASH Setu need active internet in remote villages?
+### Q2: Does SARJOM need active internet in remote villages?
 * **No**. All translation vectors, audio synthesis, lessons, and worksheets are bundled on-device. It functions 100% offline.
 
 ### Q3: How do I toggle between Tablet View and Full Desktop View?

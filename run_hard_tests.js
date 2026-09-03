@@ -4,7 +4,7 @@ import { offlineStorage } from './src/services/offlineStorage.js';
 import { NIPUN_LESSONS } from './src/data/nipunCurriculum.js';
 
 console.log('================================================================================');
-console.log('PALASH SETU (पलाश सेतु) — HARD AUTOMATED TEST SUITE & HARDWARE BENCHMARKS');
+console.log('SARJOM (सरजोम) — HARD AUTOMATED TEST SUITE & HARDWARE BENCHMARKS');
 console.log('Smart India Hackathon 2026 | Problem Statement: SIH26042 | Govt of Jharkhand');
 console.log('================================================================================\n');
 

@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 
 (async () => {
   console.log('================================================================================');
-  console.log('PALASH SETU — COMPREHENSIVE RUNTIME & UI DEBUGGING AUDIT');
+  console.log('SARJOM — COMPREHENSIVE RUNTIME & UI DEBUGGING AUDIT');
   console.log('================================================================================\n');
 
   const browser = await puppeteer.launch({
@@ -35,7 +35,7 @@ const puppeteer = require('puppeteer-core');
   console.log('▶ [CHECK 2] Verifying Title & Semantic Root Elements ...');
   const title = await page.title();
   console.log(`  Page Title: "${title}"`);
-  if (!title.includes('PALASH Setu')) {
+  if (!title.includes('SARJOM')) {
     errors.push(`Unexpected title: ${title}`);
   }
 

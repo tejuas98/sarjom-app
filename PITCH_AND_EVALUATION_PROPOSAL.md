@@ -1,4 +1,4 @@
-# PALASH Setu: Evaluation Proposal & Pitch Blueprint
+# SARJOM: Evaluation Proposal & Pitch Blueprint
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Organization](https://img.shields.io/badge/Govt.%20of%20Jharkhand-Dept.%20of%20Higher%20%26%20Technical%20Education-green.svg)](https://jharkhand.gov.in)
@@ -29,7 +29,7 @@
     * 10.2 Pedagogical & Educational Impact
     * 10.3 Economic & Administrative Impact
 11. [National Alignment: NEP 2020, NIPUN Bharat & SDG 4](#11-national-alignment-nep-2020-nipun-bharat--sdg-4)
-12. [Existing State Systems vs. Proposed PALASH Setu System](#12-existing-state-systems-vs-proposed-palash-setu-system)
+12. [Existing State Systems vs. Proposed SARJOM System](#12-existing-state-systems-vs-proposed-palash-setu-system)
 13. [60-Second Teacher Onboarding Process](#13-60-second-teacher-onboarding-process)
 14. [Business Model, Sustainability & 5-Year Scaling Roadmap](#14-business-model-sustainability--5-year-scaling-roadmap)
 15. [Future Vision: The Next Frontier of Indigenous AI](#15-future-vision-the-next-frontier-of-indigenous-ai)
@@ -44,11 +44,11 @@ In Jharkhand, over **26.2% of the population belongs to Scheduled Tribes**, risi
 
 However, **over 90% of assigned government primary school teachers are Hindi-medium trained** and possess zero proficiency in tribal languages. This creates severe classroom alienation, classroom fear, 0% foundational reading comprehension, and catastrophic dropouts by Grade 3.
 
-### 1.2 The Proposed Solution: PALASH Setu (पलाश सेतु)
-PALASH Setu is an **all-in-one AI vernacular pedagogy and real-time translation software suite** designed to run **100% offline** on low-cost government Android tablets ($\le$ 2 GB RAM, Android 9.0+).
+### 1.2 The Proposed Solution: SARJOM (सरजोम)
+SARJOM is an **all-in-one AI vernacular pedagogy and real-time translation software suite** designed to run **100% offline** on low-cost government Android tablets ($\le$ 2 GB RAM, Android 9.0+).
 
 ```
-                      PALASH SETU AT A GLANCE (THE 6 PILLARS)
+                      SARJOM AT A GLANCE (THE 6 PILLARS)
                       
    ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐
    │ 1. Real-Time Speech    │  │ 2. Two-Way Student Ear │  │ 3. NIPUN FLN Studio    │
@@ -68,7 +68,7 @@ PALASH Setu is an **all-in-one AI vernacular pedagogy and real-time translation 
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 PALASH SETU THREE-STAGE DATA FLOW PIPELINE                       │
+│                                 SARJOM THREE-STAGE DATA FLOW PIPELINE                       │
 ├──────────────────────────┬───────────────────────────────────────┬───────────────────────────────┤
 │ 1. INPUT STAGE           │ 2. PROCESSING STAGE (ON-DEVICE AI/ML) │ 3. OUTPUT STAGE               │
 ├──────────────────────────┼───────────────────────────────────────┼───────────────────────────────┤
@@ -96,9 +96,9 @@ PALASH Setu is an **all-in-one AI vernacular pedagogy and real-time translation 
 
 ## 3. Innovation, Uniqueness & Core USP
 
-### 3.1 What Makes PALASH Setu Truly Unique (The "Unfair Advantages")
+### 3.1 What Makes SARJOM Truly Unique (The "Unfair Advantages")
 1. **Ultra-Low Memory Footprint (~34 MB RAM)**:
-   While commercial LLMs (Gemma, Llama, Whisper) require **4.5 GB to 8 GB of RAM** and immediately crash low-cost government tablets with Out-Of-Memory (`SIGKILL`), PALASH Setu's domain-bounded INT8 quantization runs in **~34 MB RAM**, using less than 2% of device memory.
+   While commercial LLMs (Gemma, Llama, Whisper) require **4.5 GB to 8 GB of RAM** and immediately crash low-cost government tablets with Out-Of-Memory (`SIGKILL`), SARJOM's domain-bounded INT8 quantization runs in **~34 MB RAM**, using less than 2% of device memory.
 2. **Proprietary Custom Transformer (PALASH-MundaLLM)**:
    Not a third-party API wrapper. A full 14.2M-parameter Transformer architecture implemented from mathematical first principles in PyTorch (`ml/palash_munda_transformer.py`) and executed directly in the browser via a pure JavaScript tensor forward-pass runtime with a live self-attention heatmap.
 3. **Closed-Loop Two-Way Student Q&A Assistant**:
@@ -218,7 +218,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 ```
 ┌─────────────────────────┬─────────────────────────┬─────────────────────────┬─────────────────────────┬─────────────────────────┐
 │ PROBLEM                 │ SOLUTION                │ UNIQUE VALUE PROP       │ UNFAIR ADVANTAGE        │ CUSTOMER SEGMENTS       │
-│ • 5,000+ tribal primary │ • PALASH Setu: 100%     │ Lightweight, offline,   │ • Custom 14.2M          │ • Primary: Dept. of     │
+│ • 5,000+ tribal primary │ • SARJOM: 100%     │ Lightweight, offline,   │ • Custom 14.2M          │ • Primary: Dept. of     │
 │   schools in Jharkhand  │   offline vernacular    │ voice-first AI pedagogy │   PALASH-MundaLLM       │   School Education &    │
 │   lack tribal teachers. │   suite for <=2GB RAM   │ running on <=2GB RAM    │   Transformer model.    │   Literacy, Jharkhand.  │
 │ • 90%+ non-tribal Hindi │   tablets.              │ tablets with sub-50ms   │ • Real e-Vidyavahini    │ • Secondary: 28,945     │
@@ -261,7 +261,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 
 ```
 ┌───────────────────────────────┬───────────────────────────────┬─────────────────────────────────────────┐
-│ POTENTIAL CHALLENGE / RISK    │ SEVERITY LEVEL                │ PALASH SETU RESOLUTION STRATEGY         │
+│ POTENTIAL CHALLENGE / RISK    │ SEVERITY LEVEL                │ SARJOM RESOLUTION STRATEGY         │
 ├───────────────────────────────┼───────────────────────────────┼─────────────────────────────────────────┤
 │ **1. Ambient Classroom Noise**│ HIGH (75dB - 82dB during      │ Web Audio DSP Bandpass Filter &         │
 │    (Tin roof rain, shouting)  │ monsoon rains)                │ Spectral Centroid Gate (300Hz - 3400Hz).│
@@ -307,11 +307,11 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 
 ---
 
-## 12. Existing State Systems vs. Proposed PALASH Setu System
+## 12. Existing State Systems vs. Proposed SARJOM System
 
 ```
 ┌────────────────────────────────┬────────────────────────────────┬────────────────────────────────┐
-│ FEATURE / CAPABILITY           │ EXISTING STATE PLATFORMS       │ PALASH SETU (PROPOSED SYSTEM)  │
+│ FEATURE / CAPABILITY           │ EXISTING STATE PLATFORMS       │ SARJOM (PROPOSED SYSTEM)  │
 ├────────────────────────────────┼────────────────────────────────┼────────────────────────────────┤
 │ **Real-Time Speech Translation**│ ❌ None (J-Guruji is 1-way MP4)│ ✅ Live Voice-to-Voice (24-48ms)│
 ├────────────────────────────────┼────────────────────────────────┼────────────────────────────────┤
@@ -333,7 +333,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 
 ## 13. 60-Second Teacher Onboarding Process
 
-📁 [`src/components/TeacherOnboardingWizard.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TeacherOnboardingWizard.jsx)
+📁 [`src/components/TeacherOnboardingWizard.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TeacherOnboardingWizard.jsx)
 
 ```
 [ Step 1: District Selection ] ──► Teacher selects district (e.g. West Singhbhum)
@@ -390,4 +390,4 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

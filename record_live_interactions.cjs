@@ -109,7 +109,7 @@ async function clickElementByText(page, text, actionLabel) {
   await page.waitForTimeout ? page.waitForTimeout(1000) : new Promise(r => setTimeout(r, 1000));
 
   console.log('Recording sequence 1: Initial Classroom View...');
-  await capture(page, 'PALASH Setu Gyanodaya 10.1" Tablet Initialized (Offline Ready)', 5);
+  await capture(page, 'SARJOM Gyanodaya 10.1" Tablet Initialized (Offline Ready)', 5);
 
   console.log('Recording sequence 2: Online / Offline Toggle...');
   await clickElementByText(page, 'ऑफलाइन मोड', 'Clicking Offline Toggle -> Switching to Online Connected Mode');

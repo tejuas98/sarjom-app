@@ -1,5 +1,5 @@
 /**
- * PALASH Setu Tribal Lexicon
+ * SARJOM Tribal Lexicon
  * Multilingual Foundational Literacy and Numeracy (FLN) Lexicon
  * Covering Hindi -> Ho, Mundari, and Santhali
  * Tailored for Hindi-medium primary school teachers under Jharkhand's MTB-MLE

@@ -47,12 +47,12 @@ export function Navbar({
               fontSize: '1.4rem',
             }}
           >
-            🌺
+            🌳
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <h1 style={{ fontSize: '1.75rem', margin: 0, color: 'var(--color-forest)' }}>
-                पलाश सेतु <span style={{ fontSize: '1.1rem', color: 'var(--color-palash)' }}>(PALASH Setu)</span>
+                सरजोम <span style={{ fontSize: '1.1rem', color: 'var(--color-palash)' }}>(SARJOM)</span>
               </h1>
               <span className="badge-tag badge-forest">झारखंड MTB-MLE</span>
             </div>

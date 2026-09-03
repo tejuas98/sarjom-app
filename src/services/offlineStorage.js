@@ -1,5 +1,5 @@
 /**
- * PALASH Setu Offline Storage Manager
+ * SARJOM Offline Storage Manager
  * Stores local assessments, custom worksheets, and teacher offline cache
  */
 

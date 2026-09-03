@@ -1,11 +1,11 @@
-# PALASH Setu: Executive Guide (Technical & Non-Technical Overview)
+# SARJOM: Executive Guide (Technical & Non-Technical Overview)
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Target Audience](https://img.shields.io/badge/Readership-Engineers%2C%20Educators%2C%20Administrators%20%26%20Jury-blueviolet.svg)](#the-60-second-summary-for-everyone)
 [![Organization](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"A concise overview of PALASH Setu—for Technical Evaluators, Education Administrators, Primary School Educators, and Jury Members—explaining what the system is, why it was created, how it operates in practice, and why it succeeds where cloud models fail."**
+> **"A concise overview of SARJOM—for Technical Evaluators, Education Administrators, Primary School Educators, and Jury Members—explaining what the system is, why it was created, how it operates in practice, and why it succeeds where cloud models fail."**
 
 ---
 
@@ -15,7 +15,7 @@
 3. [PART I: THE NON-TECH MASTER GUIDE (Heart, Humanity & Pedagogy)](#part-i-the-non-tech-master-guide-heart-humanity--pedagogy)
    * 3.1 The Silent Classroom: Why 850,000 Children Sit in Fear
    * 3.2 The Teacher's Crisis: Dedicated Educators Trapped by Language
-   * 3.3 What PALASH Setu Does Every Minute of the School Day
+   * 3.3 What SARJOM Does Every Minute of the School Day
    * 3.4 Why Existing Solutions (Google Translate, Mobile Apps) Failed
    * 3.5 The Real-World Human Transformation
 4. [PART II: THE TECH MASTER GUIDE (Architecture, Math & Systems Engineering)](#part-ii-the-tech-master-guide-architecture-math--systems-engineering)
@@ -114,8 +114,8 @@ They arrive in villages like Tantnagar or Shikaripara with genuine dedication. B
 
 Without a tool to bridge this divide, the teacher is forced to deliver monologues to a silent room, leading to deep professional frustration, teacher absenteeism, and systemic exhaustion.
 
-### 3.3 What PALASH Setu Does Every Minute of the School Day
-PALASH Setu acts as an ever-present, culturally fluent **Digital Vernacular Co-Teacher**:
+### 3.3 What SARJOM Does Every Minute of the School Day
+SARJOM acts as an ever-present, culturally fluent **Digital Vernacular Co-Teacher**:
 
 1. **The Teacher Speaks Hindi Naturally**: The teacher doesn't need to learn Ol Chiki or Warang Chiti. They speak normal Hindi into the tablet or tap pre-made classroom chips (*"नमस्ते बच्चों"*, *"किताब खोलो"*).
 2. **The Room Hears Spoken Tribal Audio**: The tablet immediately speaks the phrase aloud in natural, warm Ho, Mundari, or Santhali through the classroom soundbar.
@@ -146,7 +146,7 @@ The hardware reality in Jharkhand:
 * **Conclusion**: Running a commercial 4B/7B model on these tablets is physically and mathematically impossible.
 
 ### 4.2 The Solution: PALASH-MundaLLM & Dynamic INT8 Quantization
-PALASH Setu bypasses this bottleneck by recognizing that primary education (Classes 1–3) has a **closed, bounded vocabulary** of ~1,500 foundational words and 250 classroom dialogue patterns.
+SARJOM bypasses this bottleneck by recognizing that primary education (Classes 1–3) has a **closed, bounded vocabulary** of ~1,500 foundational words and 250 classroom dialogue patterns.
 
 We engineered **PALASH-MundaLLM**:
 * **Topology**: 4 Encoder Layers, 4 Decoder Layers, 4 Attention Heads, $d_{model}=128$, $d_{ff}=1024$.
@@ -161,7 +161,7 @@ We engineered **PALASH-MundaLLM**:
 ### 4.3 Digital Signal Processing (DSP): Filtering 80dB Monsoon Rain
 In rural classrooms with corrugated iron tin roofs, ambient monsoon rain noise reaches **75 dB to 82 dB**.
 
-PALASH Setu routes raw microphone PCM audio through a browser-native Web Audio DSP pipeline:
+SARJOM routes raw microphone PCM audio through a browser-native Web Audio DSP pipeline:
 1. **High-Pass Biquad Filter (Cutoff = 300 Hz)**: Completely attenuates low-frequency mechanical rain rumbling.
 2. **Low-Pass Biquad Filter (Cutoff = 3,400 Hz)**: Removes high-frequency hiss outside the human speech band.
 3. **Spectral Centroid Gate**: Computes frequency center of mass ($C = \frac{\sum f |X|}{\sum |X|}$). Discards frames where $C < 320\text{ Hz}$ to prevent ambient rain from triggering false translations.
@@ -236,4 +236,4 @@ Because 5,000+ schools lack reliable cellular connectivity, data cannot be synce
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

@@ -1,5 +1,5 @@
 /**
- * PALASH Setu Voice-to-Voice Translation & Speech Synthesis Service
+ * SARJOM Voice-to-Voice Translation & Speech Synthesis Service
  * Ensures round-trip voice translation stays well below the 3.0-second SLA.
  */
 

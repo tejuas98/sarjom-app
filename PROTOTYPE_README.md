@@ -1,4 +1,4 @@
-# PALASH Setu (पलाश सेतु) — Interactive Prototype Walkthrough
+# SARJOM (सरजोम) — Interactive Prototype Walkthrough
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Prototype Status](https://img.shields.io/badge/Prototype-Fully%20Operational%20(100%25%20Offline)-brightgreen.svg)](./index.html)
@@ -13,10 +13,10 @@
 
 ## 1. Interactive Click-by-Click Prototype Video
 
-Below is the live, automated continuous recording of PALASH Setu running inside a Google Chrome headless test environment on a simulated Gyanodaya 10.1" classroom tablet. Every click displays a visual pulse ripple indicator and a real-time HUD action label:
+Below is the live, automated continuous recording of SARJOM running inside a Google Chrome headless test environment on a simulated Gyanodaya 10.1" classroom tablet. Every click displays a visual pulse ripple indicator and a real-time HUD action label:
 
 <div align="center" style="margin: 24px 0;">
-  <img src="./public/palash_setu_live_click_demo.gif" alt="PALASH Setu Interactive Click-by-Click Video Demo" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  <img src="./public/palash_setu_live_click_demo.gif" alt="SARJOM Interactive Click-by-Click Video Demo" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
   <p style="margin-top: 10px; font-size: 0.95rem; color: #4B5563;">
     <strong>Continuous Interactive Walkthrough (43s HD)</strong> &nbsp;·&nbsp;
     <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 (palash_setu_live_click_demo.mp4)]</strong></a> &nbsp;·&nbsp;
@@ -54,7 +54,7 @@ Below is the live, automated continuous recording of PALASH Setu running inside 
 The **Voice Translator** is the teacher's primary communication cockpit during live classroom instruction. It allows a Hindi-speaking teacher—appointed from an urban district or non-tribal community without prior indigenous language training—to speak natural classroom directions, greetings, questions, and praise, and immediately delivers accurate tribal speech to the children. It also features the **"Two-Way Student Ear"**, which listens to a tribal student answering in their mother tongue and translates their response back to Hindi for the teacher.
 
 ### 2. Why It Works (Engineering Mechanics):
-* **Sub-50ms In-Memory Inference**: Rather than calling high-latency cloud APIs (Google Cloud Translate or Bhashini) which require stable 4G/5G and take 1,200ms to 4,000ms, PALASH Setu executes an on-device TF-IDF vectorizer and Cosine Similarity matrix directly in JavaScript.
+* **Sub-50ms In-Memory Inference**: Rather than calling high-latency cloud APIs (Google Cloud Translate or Bhashini) which require stable 4G/5G and take 1,200ms to 4,000ms, SARJOM executes an on-device TF-IDF vectorizer and Cosine Similarity matrix directly in JavaScript.
 * **Measured Benchmark**: Latency averages **0.022 ms (22 microseconds)**, exceeding the official $\le$ 3.0s SIH mandate by over **135,000x**.
 * **Dual Script Representation**: Renders the translation in both the indigenous script (**Ol Chiki** for Santhali, **Warang Chiti** for Ho) so literate students can read along, and in **Devanagari / Roman Phonetic Guide** (`Johār`, `Node hijug me`) so the teacher can speak it aloud with correct phonology.
 * **Native Web Speech API Synthesis**: Generates clear, high-amplitude phonetic pronunciation through the device speaker without downloading multi-gigabyte neural checkpoints.
@@ -74,7 +74,7 @@ In rural Jharkhand (e.g., Dumka or West Singhbhum), over **60% of Grade 1 tribal
 | *Amber Ribbon: 100% On-Device Mode Active, IndexedDB Ready* | *Green Ribbon: Connected to Central EVV Server, One-Click Sync* |
 
 ### 1. What It Is For:
-Schools in Saranda Forest (West Singhbhum) or rural Dumka frequently operate in **zero-connectivity shadow zones** where mobile towers do not exist, electricity is intermittent, and cellular data is absent for weeks. This toggle proves that PALASH Setu does not depend on cloud uptime: it functions with 100% fidelity without internet, while preserving state for automated syncing when the teacher visits the block development office (BDO) or receives cellular reception.
+Schools in Saranda Forest (West Singhbhum) or rural Dumka frequently operate in **zero-connectivity shadow zones** where mobile towers do not exist, electricity is intermittent, and cellular data is absent for weeks. This toggle proves that SARJOM does not depend on cloud uptime: it functions with 100% fidelity without internet, while preserving state for automated syncing when the teacher visits the block development office (BDO) or receives cellular reception.
 
 ### 2. Why It Works (Engineering Mechanics):
 * **Progressive Web App (PWA) Service Worker**: The `sw.js` engine precaches all application bundles (`index.html`, minified CSS, JS chunks, and SVG glyphs) via CacheStorage API (`palash-static-v1.0.0`).
@@ -83,7 +83,7 @@ Schools in Saranda Forest (West Singhbhum) or rural Dumka frequently operate in 
 * **Background Sync & MicroSD Sneakernet**: When connectivity resumes, the system detects `navigator.onLine` and synchronizes student progress to Jharkhand's administrative **e-Vidyavahini 2.0** portal using idempotent cryptographic payloads. In deep offline jungle schools, data can be exported to a physical MicroSD card and uploaded at the cluster resource centre (CRC).
 
 ### 3. How It Solves the Crisis:
-Over **90% of edtech applications submitted to government hackathons crash or display infinite loading spinners** when taken to rural primary schools because they rely on cloud LLM backends (OpenAI, Anthropic, Gemini) or online TTS APIs. PALASH Setu guarantees zero network failure, zero subscription bills for the Jharkhand Education Project Council (JEPC), and 100% classroom uptime 365 days a year.
+Over **90% of edtech applications submitted to government hackathons crash or display infinite loading spinners** when taken to rural primary schools because they rely on cloud LLM backends (OpenAI, Anthropic, Gemini) or online TTS APIs. SARJOM guarantees zero network failure, zero subscription bills for the Jharkhand Education Project Council (JEPC), and 100% classroom uptime 365 days a year.
 
 ---
 
@@ -105,7 +105,7 @@ Jharkhand is not linguistically homogeneous. Santhal Pargana speaks **Santhali**
 * **Context-Aware School Profiles**: Switching languages automatically updates the simulated school district (e.g., selecting Ho loads *Rajkiya Utkramit Primary School, Tantnagar, West Singhbhum*, UDISE: 20240301102).
 
 ### 3. How It Solves the Crisis:
-The official Problem Statement SIH26042 required support for **at least 1 tribal language** at the prototype stage. PALASH Setu supports **all 3 major tribal languages of Jharkhand** simultaneously, exceeding the requirement by **300%** and enabling immediate statewide deployment across 24 districts.
+The official Problem Statement SIH26042 required support for **at least 1 tribal language** at the prototype stage. SARJOM supports **all 3 major tribal languages of Jharkhand** simultaneously, exceeding the requirement by **300%** and enabling immediate statewide deployment across 24 districts.
 
 ---
 
@@ -153,7 +153,7 @@ Most tribal villages lack home internet, personal laptops, or digital tablets fo
 * **Print CSS Optimization**: Uses `@media print` directives to hide all simulator bars, navigation tabs, and system chrome, outputting a clean, formatted student worksheet on standard A4 paper.
 
 ### 3. How It Solves the Crisis:
-Many tribal parents are illiterate in both Hindi and English. When a child brings home standard Hindi homework, parents cannot help. With PALASH Setu worksheets, **any basic smartphone in the village can scan the QR code to play the teacher's voice pronouncing the exercise in Santhali or Ho**. This turns uneducated parents into active learning partners and extends the classroom into the tribal hamlet (*Tola*).
+Many tribal parents are illiterate in both Hindi and English. When a child brings home standard Hindi homework, parents cannot help. With SARJOM worksheets, **any basic smartphone in the village can scan the QR code to play the teacher's voice pronouncing the exercise in Santhali or Ho**. This turns uneducated parents into active learning partners and extends the classroom into the tribal hamlet (*Tola*).
 
 ---
 
@@ -217,7 +217,7 @@ A searchable tri-lingual dictionary serving as a permanent pedagogical reference
 * **Zero External Dependencies**: The entire dictionary database is embedded as static JSON, consuming less than **180 KB** of memory.
 
 ### 3. How It Solves the Crisis:
-Teachers posted to tribal schools previously had no standardized pedagogical dictionaries. Commercial dictionaries are bulky, expensive, and contain archaic literary vocabulary irrelevant to 6-year-old primary students. PALASH Setu provides curated, child-focused, classroom-tested vocabulary.
+Teachers posted to tribal schools previously had no standardized pedagogical dictionaries. Commercial dictionaries are bulky, expensive, and contain archaic literary vocabulary irrelevant to 6-year-old primary students. SARJOM provides curated, child-focused, classroom-tested vocabulary.
 
 ---
 
@@ -262,7 +262,7 @@ On the first day of posting, a teacher has zero time for complex configurations.
 * **Zero Configuration Burden**: All technical parameters (sample rates, vector thresholds, script fonts) are automatically tuned based on the chosen school profile.
 
 ### 3. How It Solves the Crisis:
-Government edtech projects often fail because teachers abandon complicated software with tedious login screens. PALASH Setu requires zero passwords, zero complex setups, and is 100% operational in 60 seconds.
+Government edtech projects often fail because teachers abandon complicated software with tedious login screens. SARJOM requires zero passwords, zero complex setups, and is 100% operational in 60 seconds.
 
 ---
 
@@ -276,7 +276,7 @@ Government edtech projects often fail because teachers abandon complicated softw
 | *Accurate representation of Jharkhand Govt Gyanodaya hardware* | *Clean presentation mode for laptops, smart TVs & projectors* |
 
 ### 1. What It Is For:
-Demonstrates that PALASH Setu is engineered specifically for the physical ergonomics of **Jharkhand Government's Gyanodaya Tablet Scheme** (10.1" IPS display, rugged protective rubber bumper, landscape classroom orientation), while maintaining responsive adaptability for school smartboards, laptops, and desktop computers.
+Demonstrates that SARJOM is engineered specifically for the physical ergonomics of **Jharkhand Government's Gyanodaya Tablet Scheme** (10.1" IPS display, rugged protective rubber bumper, landscape classroom orientation), while maintaining responsive adaptability for school smartboards, laptops, and desktop computers.
 
 ### 2. Why It Works (Engineering Mechanics):
 * **One-Click Simulator Switch**: Tapping `[📱 टैबलेट व्यू / फुल व्यू]` dynamically toggles the CSS device framing wrapper without reloading the application.
@@ -289,7 +289,7 @@ Guarantees that touch targets (minimum $48 \times 48$ px), font sizes, and layou
 
 ## 3. Summary of Verified Technical Benchmarks
 
-| Evaluation Dimension | Mandated SIH Target | Measured PALASH Setu Result | Compliance Status |
+| Evaluation Dimension | Mandated SIH Target | Measured SARJOM Result | Compliance Status |
 | :--- | :--- | :--- | :--- |
 | **Translation Latency** | Mandatory $\le$ 3.0 Seconds (3,000 ms) | **0.022 ms (22 microseconds)** | **135,901x Faster** |
 | **Language Coverage** | Minimum 1 tribal language | **3 Languages: Ho, Mundari, Santhali** | **300% Exceeded** |
@@ -302,4 +302,4 @@ Guarantees that touch targets (minimum $48 \times 48$ px), font sizes, and layou
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

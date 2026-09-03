@@ -290,7 +290,7 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
           ) : (
             <button
               onClick={() => {
-                toast.success('ऑनबोर्डिंग पूर्ण! पलाश सेतु में आपका स्वागत है।');
+                toast.success('ऑनबोर्डिंग पूर्ण! सरजोम में आपका स्वागत है।');
                 onClose();
               }}
               className="btn-brutal btn-forest"

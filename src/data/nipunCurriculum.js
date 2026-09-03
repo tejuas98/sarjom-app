@@ -1,5 +1,5 @@
 /**
- * PALASH Setu NIPUN Bharat FLN Curriculum Data
+ * SARJOM NIPUN Bharat FLN Curriculum Data
  * Aligned with National Mission on Foundational Literacy and Numeracy (NIPUN Bharat)
  * and Jharkhand State MTB-MLE Pedagogical Framework
  */

@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 
 (async () => {
   console.log('================================================================================');
-  console.log('PALASH SETU — 9-MODULE EXHAUSTIVE TAB & INTERACTION RUNTIME AUDIT');
+  console.log('SARJOM — 9-MODULE EXHAUSTIVE TAB & INTERACTION RUNTIME AUDIT');
   console.log('================================================================================\n');
 
   const browser = await puppeteer.launch({

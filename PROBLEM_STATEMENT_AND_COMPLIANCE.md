@@ -1,4 +1,4 @@
-# PALASH Setu: Problem Statement & Regulatory Compliance
+# SARJOM: Problem Statement & Regulatory Compliance
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
@@ -11,7 +11,7 @@
 
 ## Table of Contents
 1. [Official Problem Statement Specification (Verbatim Text)](#1-official-problem-statement-specification-verbatim-text)
-2. [Official Mandate vs. PALASH Setu Compliance Matrix](#2-official-mandate-vs-palash-setu-compliance-matrix)
+2. [Official Mandate vs. SARJOM Compliance Matrix](#2-official-mandate-vs-palash-setu-compliance-matrix)
 3. [Jharkhand Tribal Demographics & District-by-District School Profiles](#3-jharkhand-tribal-demographics--district-by-district-school-profiles)
 4. [Master Architectural Flowcharts (All Systems)](#4-master-architectural-flowcharts-all-systems)
    * 4.1 Master System Architecture (Cloud + Edge)
@@ -22,7 +22,7 @@
 5. [Classroom Acoustics, Decibel Attenuation & Hardware Protocols](#5-classroom-acoustics-decibel-attenuation--hardware-protocols)
 6. [The Engineering Truth: 34 MB RAM vs. 4 GB Google Gemma Models](#6-the-engineering-truth-34-mb-ram-vs-4-gb-google-gemma-models)
 7. [Real-World Classroom Dialogue Scripts (Verbatim Tribal Transcripts)](#7-real-world-classroom-dialogue-scripts-verbatim-tribal-transcripts)
-8. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#8-competitive-teardown-500-competing-teams-vs-palash-setu)
+8. [Competitive Teardown: 500 Competing Teams vs. SARJOM](#8-competitive-teardown-500-competing-teams-vs-palash-setu)
 9. [Official e-Vidyavahini 2.0 (EVV) JSON & CSV Schemas](#9-official-e-vidyavahini-20-evv-json--csv-schemas)
 
 ---
@@ -82,9 +82,9 @@
 
 ---
 
-## 2. Official Mandate vs. PALASH Setu Compliance Matrix
+## 2. Official Mandate vs. SARJOM Compliance Matrix
 
-| Line-by-Line Requirement | Official Mandate | PALASH Setu Implementation | Compliance Status |
+| Line-by-Line Requirement | Official Mandate | SARJOM Implementation | Compliance Status |
 | :--- | :--- | :--- | :--- |
 | **Language Coverage** | Minimum 1 tribal language at prototype | Delivered all **3 tribal languages**: **Ho (𑢹𑣉𑣉)**, **Mundari (मुण्डारी)**, and **Santhali (ᱥᱟᱱᱛᱟᱲᱤ)** | 🌟 **300% Exceeded** |
 | **Non-Native Usability** | Enable teachers without prior training | Phonetic guides in Devanagari & Roman, 1-tap prompts, native audio pronunciation | ✅ **100% Compliant** |
@@ -278,7 +278,7 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
 
 ### 5.2 Hardware Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
 * Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are provided with wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Units (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
-* PALASH Setu connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring clear intelligibility across all 35 students in the room.
+* SARJOM connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring clear intelligibility across all 35 students in the room.
 
 ---
 
@@ -287,7 +287,7 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
 * **The Scientific Fact**: A full 4-Billion parameter neural LLM (like Google Gemma 4B, Meta LLaMA 3B, or OpenAI Whisper) requires **4.5 GB to 8 GB of RAM**.
 * **Any hackathon team claiming they run an open-ended 7B model inside 34 MB of RAM is mathematically wrong.**
 * On the 28,945 Gyanodaya tablets (2GB total RAM), loading a 4GB model causes an instant **Out-Of-Memory (OOM) kernel kill (`SIGKILL`)**.
-* **How PALASH Setu Solves This**:
+* **How SARJOM Solves This**:
   1. Foundational Literacy and Numeracy (FLN) in Classes 1–3 is a **closed, bounded vocabulary** of ~1,500 core curriculum terms and 250 classroom prompts.
   2. Our Domain-Constrained Transducer + INT8 Quantized Semantic Vector index runs in **~34 MB of RAM**, leaving 98% of tablet memory free for the operating system!
 
@@ -324,11 +324,11 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
 
 ---
 
-## 8. Competitive Teardown: 500 Competing Teams vs. PALASH Setu
+## 8. Competitive Teardown: 500 Competing Teams vs. SARJOM
 
 ```
 ┌───────────────────────────┬───────────────────────────────────┬───────────────────────────────────┐
-│ Evaluation Parameter      │ 500 Competing Hackathon Teams     │ PALASH Setu (Our Solution)        │
+│ Evaluation Parameter      │ 500 Competing Hackathon Teams     │ SARJOM (Our Solution)        │
 ├───────────────────────────┼───────────────────────────────────┼───────────────────────────────────┤
 │ **1. Offline Execution**  │ ❌ Cloud API dependent (0 signal  │ ✅ 100% Offline: Operates in PWA  │
 │                           │    causes complete app crash)     │    browser cache with zero signal │
@@ -405,4 +405,4 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

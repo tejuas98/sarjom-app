@@ -224,7 +224,7 @@ export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onS
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '0.75rem', color: '#70C28A', backgroundColor: '#132C1E', padding: '2px 8px', borderRadius: 'var(--radius-pill)', border: '1px solid #234E35' }}>
-            JEPC PALASH 80:20 अनुपालन ✅
+            JEPC SARJOM 80:20 अनुपालन ✅
           </span>
 
           <button

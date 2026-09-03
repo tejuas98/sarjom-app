@@ -1,11 +1,11 @@
-# PALASH Setu: Deep Technical Specification, Mathematical Formulations & Engineering Blueprint
+# SARJOM: Deep Technical Specification, Mathematical Formulations & Engineering Blueprint
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Mathematical Rigor](https://img.shields.io/badge/Formulations-Complete%20Derivations-blue.svg)](#1-mathematical-foundations)
 [![Architecture Blueprint](https://img.shields.io/badge/Architecture-End--to--End%20Deep%20Dive-brightgreen.svg)](#4-client-side-pure-javascript-tensor-engine-implementation)
 [![Hardware Constraints](https://img.shields.io/badge/Hardware-Android%20Go%20%E2%89%A42GB%20RAM-red.svg)](#3-hardware--operating-system-budget-engineering)
 
-> **"A rigorous, formulaic, and architectural deep-dive into how PALASH Setu was engineered from mathematical first principles to deliver real-time, on-device AI vernacular pedagogy inside low-cost tablets with zero internet connectivity."**
+> **"A rigorous, formulaic, and architectural deep-dive into how SARJOM was engineered from mathematical first principles to deliver real-time, on-device AI vernacular pedagogy inside low-cost tablets with zero internet connectivity."**
 
 ---
 
@@ -158,7 +158,7 @@ Human vowels are distinguished by the resonant frequencies of the vocal tract:
 * $F_1$ (First Formant): Inversely related to vowel height (tongue position).
 * $F_2$ (Second Formant): Related to vowel frontness/backness.
 
-In our **Oral Reading Fluency (ORF)** engine ([`src/components/AcousticPronunciationCoach.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/AcousticPronunciationCoach.jsx)), we calculate the Euclidean distance in the $F_1 \times F_2$ Bark/Hertz acoustic plane:
+In our **Oral Reading Fluency (ORF)** engine ([`src/components/AcousticPronunciationCoach.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/AcousticPronunciationCoach.jsx)), we calculate the Euclidean distance in the $F_1 \times F_2$ Bark/Hertz acoustic plane:
 
 $$D_{\text{formant}} = \sqrt{\left(\frac{F_{1,\text{observed}} - F_{1,\text{native}}}{\sigma_1}\right)^2 + \left(\frac{F_{2,\text{observed}} - F_{2,\text{native}}}{\sigma_2}\right)^2}$$
 
@@ -227,19 +227,19 @@ Low-cost Gyanodaya tablets distributed in Jharkhand have strict kernel constrain
 ├────────────────────────────────────────────────────────────────────────┤
 │ Available Application Heap: ~448 MB                                    │
 │ ┌───────────────────────────┬────────────────────────────────────────┐ │
-│ │ PALASH Setu Footprint:    │ Safe Headroom:                         │ │
+│ │ SARJOM Footprint:    │ Safe Headroom:                         │ │
 │ │ ~34 MB RAM (INT8 Quantized)│ ~414 MB (Zero OOM Danger)              │ │
 │ └───────────────────────────┴────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-Because PALASH Setu runs in **~34 MB of RAM**, it operates with an enormous **400+ MB safety buffer**, guaranteeing that it will never be terminated by the OS.
+Because SARJOM runs in **~34 MB of RAM**, it operates with an enormous **400+ MB safety buffer**, guaranteeing that it will never be terminated by the OS.
 
 ---
 
 ## 4. Client-Side Pure JavaScript Tensor Engine Implementation
 
-📁 [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/customNeuralMundaEngine.js)
+📁 [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/customNeuralMundaEngine.js)
 
 To completely eliminate cloud dependencies, the neural tensor forward pass is written in pure, optimized JavaScript:
 
@@ -300,7 +300,7 @@ When playing spoken tribal words without cloud text-to-speech, the engine constr
 
 ## 6. Pedagogical Dialogue & Closed-Loop Two-Way Interaction
 
-📁 [`src/components/VoiceTranslator.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/VoiceTranslator.jsx)
+📁 [`src/components/VoiceTranslator.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/VoiceTranslator.jsx)
 
 ### 6.1 State Machine for Bidirectional Classroom Dialogue
 
@@ -348,10 +348,10 @@ When playing spoken tribal words without cloud text-to-speech, the engine constr
 
 ## 7. e-Vidyavahini 2.0 (EVV) & UDISE+ Synchronization Architecture
 
-📁 [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TabletSimulatorBar.jsx)
+📁 [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TabletSimulatorBar.jsx)
 
 ### 7.1 JSON Schema for State Academic Monitoring Database
-When the teacher clicks **"EVV सिंक (Sync)"**, PALASH Setu serializes local classroom FLN evaluations into the official Jharkhand e-Vidyavahini format:
+When the teacher clicks **"EVV सिंक (Sync)"**, SARJOM serializes local classroom FLN evaluations into the official Jharkhand e-Vidyavahini format:
 
 ```json
 {
@@ -383,7 +383,7 @@ When the teacher clicks **"EVV सिंक (Sync)"**, PALASH Setu serializes lo
 
 ## 8. Printable Worksheet Studio & Dynamic SVG QR Engine
 
-📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/WorksheetStudio.jsx)
+📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/WorksheetStudio.jsx)
 
 ### 8.1 `@media print` CSS Architecture
 The worksheet generator is engineered specifically for physical paper output:
@@ -402,10 +402,10 @@ When scanned by a parent with a basic smartphone, it streams the exact pronuncia
 
 ## 9. Interactive HTML5 Canvas Slate Engine
 
-📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/SlateAndFolklore.jsx)
+📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/SlateAndFolklore.jsx)
 
 ### 9.1 Quadratic Bézier Curve Stroke Smoothing Algorithm
-Budget capacitive tablet touchscreens often report jittery coordinate pairs $(x_t, y_t)$. Naive `lineTo()` produces jagged strokes. PALASH Setu calculates midpoint Bézier curves:
+Budget capacitive tablet touchscreens often report jittery coordinate pairs $(x_t, y_t)$. Naive `lineTo()` produces jagged strokes. SARJOM calculates midpoint Bézier curves:
 
 ```javascript
 function drawSmoothStroke(ctx, p1, p2) {
@@ -428,7 +428,7 @@ function drawSmoothStroke(ctx, p1, p2) {
 ## 10. Complete Codebase Architecture & File Dependency Map
 
 ```
-/Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/
+/Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/
 ├── ml/
 │   ├── palash_munda_transformer.py     # Custom Seq2Seq Transformer model definition in PyTorch
 │   ├── train_fine_tune_munda.py        # LoRA parameter-efficient fine-tuning & ONNX INT8 exporter
@@ -499,7 +499,7 @@ When evaluating national hackathons like the Smart India Hackathon (SIH), hundre
 └────────────────────┴──────────────────────────────────────────┴────────────────────────────────────────┘
 ```
 
-### Why PALASH Setu Decisively Defeats All 500 Competitors:
+### Why SARJOM Decisively Defeats All 500 Competitors:
 1. **Zero Cloud Dependency**: Operates 100% offline using service worker caching and IndexedDB local storage. Pulling the physical Ethernet or turning off WiFi results in zero service interruption.
 2. **True Low-RAM Edge Compatibility**: Uses dynamic INT8 quantization to achieve an active memory footprint of **~34 MB**, guaranteeing zero OOM kills on Android Go tablets.
 3. **Genuine Austroasiatic Coverage**: Provides authentic Unicode rendering for **Ho (Warang Chiti)**, **Mundari (Devanagari/Bani)**, and **Santhali (Ol Chiki)**, avoiding the 70% population blindspot of commercial models.
@@ -509,9 +509,9 @@ When evaluating national hackathons like the Smart India Hackathon (SIH), hundre
 
 ## 12. NIPUN Bharat FLN Alignment & Structured Curriculum Deep-Dive
 
-📁 [`src/components/LessonCurriculum.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/LessonCurriculum.jsx) & [`src/data/nipunCurriculum.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/nipunCurriculum.js)
+📁 [`src/components/LessonCurriculum.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/LessonCurriculum.jsx) & [`src/data/nipunCurriculum.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/nipunCurriculum.js)
 
-The National Initiative for Proficiency in Reading with Understanding and Numeracy (**NIPUN Bharat**) sets concrete benchmarks for foundational learning. PALASH Setu maps these directly to tribal pedagogy:
+The National Initiative for Proficiency in Reading with Understanding and Numeracy (**NIPUN Bharat**) sets concrete benchmarks for foundational learning. SARJOM maps these directly to tribal pedagogy:
 
 ### 12.1 The 80:20 Mother-Tongue-to-Hindi Transition Formula
 ```
@@ -533,7 +533,7 @@ Grade 3 (Age 8):               20% Mother Tongue ──► 80% Standard Curricul
 
 ## 13. Digital Chalkboard Slate & Cultural Folklore Storytelling Deep-Dive
 
-📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/SlateAndFolklore.jsx) & [`src/data/folkStories.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/folkStories.js)
+📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/SlateAndFolklore.jsx) & [`src/data/folkStories.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/folkStories.js)
 
 ### 13.1 HTML5 Canvas Blackboard Engineering
 * **Capacitive Touch Optimization**: Uses `pointerdown`, `pointermove`, and `pointerup` event listeners with `touch-action: none;` to prevent Android OS gesture conflicts (swipe-to-go-back or pull-to-refresh).
@@ -556,10 +556,10 @@ Primary tribal pedagogy cannot rely on urban or foreign fables; it must resonate
 
 ## 14. BRC Sneakernet MicroSD / Pen-Drive & Governance Flow Deep-Dive
 
-📁 [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TabletSimulatorBar.jsx)
+📁 [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TabletSimulatorBar.jsx)
 
 ### 14.1 The Complete Offline-to-Online Data Lifecycle
-In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dumka hills), internet access is non-existent. PALASH Setu implements the **Rural Sneakernet Architecture**:
+In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dumka hills), internet access is non-existent. SARJOM implements the **Rural Sneakernet Architecture**:
 
 ```
 [ Rural Primary School Classroom ]
@@ -586,10 +586,10 @@ In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dum
 
 ## 15. Printable Bilingual Worksheets & Dynamic Audio QR Companion Deep-Dive
 
-📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/WorksheetStudio.jsx)
+📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/WorksheetStudio.jsx)
 
 ### 15.1 Physical Printing Optimization
-* **Device Scarcity Solution**: A government school typically has only 1 teacher tablet for 35 children. PALASH Setu allows the teacher to generate and print physical paper worksheets on any standard A4 laser printer or block photocopy machine.
+* **Device Scarcity Solution**: A government school typically has only 1 teacher tablet for 35 children. SARJOM allows the teacher to generate and print physical paper worksheets on any standard A4 laser printer or block photocopy machine.
 * **`@media print` Rules**:
   * Strips navigation chrome, backgrounds, and interactive controls.
   * Preserves high-contrast black text on pure white paper (`#000000` on `#FFFFFF`).
@@ -611,12 +611,12 @@ In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dum
 
 ### 16.2 Hardware Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
 * Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are allocated wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Units (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
-* PALASH Setu connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring pristine audio clarity across the entire room for all 35 students.
+* SARJOM connects seamlessly over standard Bluetooth A2DP or a 3.5mm Aux cable, projecting native tribal pronunciations at **85 dB+**, ensuring pristine audio clarity across the entire room for all 35 students.
 
 ---
 
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*
 

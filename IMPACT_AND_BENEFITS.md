@@ -1,11 +1,11 @@
-# PALASH Setu: Impact Assessment & Multi-Tiered Benefits
+# SARJOM: Impact Assessment & Multi-Tiered Benefits
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
 [![Focus](https://img.shields.io/badge/Document%20Focus-Impact%20%26%20Multi--Tiered%20Benefits-darkgreen.svg)](#1-executive-impact-summary-the-human-transformation)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"An exhaustive, evidence-based assessment detailing every dimension of Impact and Benefit—Pedagogical, Psychological, Teacher Wellbeing, Cultural, Community, Economic, and State Governance—delivered by PALASH Setu across Jharkhand's 5,000+ tribal primary schools."**
+> **"An exhaustive, evidence-based assessment detailing every dimension of Impact and Benefit—Pedagogical, Psychological, Teacher Wellbeing, Cultural, Community, Economic, and State Governance—delivered by SARJOM across Jharkhand's 5,000+ tribal primary schools."**
 
 ---
 
@@ -38,7 +38,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 * **38.4% dropping out before completing primary school.**
 * **Teachers suffering severe burnout and professional exhaustion.**
 
-**PALASH Setu fundamentally reverses this reality.** By placing an offline, voice-first AI vernacular co-teacher on existing government tablets, it transforms the entire educational ecosystem—not in five years, but **tomorrow morning at 9:00 AM**.
+**SARJOM fundamentally reverses this reality.** By placing an offline, voice-first AI vernacular co-teacher on existing government tablets, it transforms the entire educational ecosystem—not in five years, but **tomorrow morning at 9:00 AM**.
 
 ---
 
@@ -74,7 +74,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 
 ### 2.2 Psychological & Child Wellbeing Benefits (Ending Fear & Fostering Joy)
 * **Elimination of Classroom Acoustic Terror**: A child is no longer confronted with loud, incomprehensible foreign commands. Hearing their home language (*"ᱡᱚᱦᱟᱨ"*, *"जोहार"*) creates immediate emotional comfort.
-* **Instant Resolution of Physical & Emotional Distress**: Tribal children often suffer in silence because they cannot say they are thirsty, hungry, or sick in Hindi. PALASH Setu’s **Two-Way Student Ear** decodes requests instantly:
+* **Instant Resolution of Physical & Emotional Distress**: Tribal children often suffer in silence because they cannot say they are thirsty, hungry, or sick in Hindi. SARJOM’s **Two-Way Student Ear** decodes requests instantly:
   * Child: *"ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ"* ➔ Teacher sees: *"छात्र ने पूछा: क्या मैं पानी पीने जाऊं?"*
   * Teacher taps: *"हाँ, जाओ पानी पीकर आओ"* ➔ Tablet speaks aloud in Santhali.
   * The child feels safe, cared for, and emotionally protected.
@@ -83,7 +83,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 ---
 
 ### 2.3 Teacher & Educator Benefits (Humanizing the Teaching Profession)
-* **Eliminating Teacher Burnout, Guilt & Isolation**: Sincere Hindi-medium teachers posted to remote forest blocks frequently suffer from deep feelings of helplessness and guilt because they cannot reach their students. PALASH Setu provides an instant digital co-pilot, restoring joy in teaching.
+* **Eliminating Teacher Burnout, Guilt & Isolation**: Sincere Hindi-medium teachers posted to remote forest blocks frequently suffer from deep feelings of helplessness and guilt because they cannot reach their students. SARJOM provides an instant digital co-pilot, restoring joy in teaching.
 * **Zero Typing Burden**: Teachers never have to learn complex keyboard layouts for Ol Chiki or Warang Chiti; they speak normal Hindi or tap one-touch pedagogical prompt chips.
 * **Organic Teacher Language Learning**: Through daily exposure to the Devanagari and Roman phonetic guides (*"शिक्षक हेतु उच्चारण"*), non-tribal teachers organically pick up basic conversational Ho, Mundari, and Santhali within 6 to 9 months of classroom use.
 * **Restoring the Guru-Shishya Bond**: Transforms classroom dynamics from disciplinary frustration to interactive learning, mutual respect, and shared laughter.
@@ -94,7 +94,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 * **Revitalizing UNESCO-Vulnerable Indigenous Scripts**:
   * **Ol Chiki (ᱚᱞ ᱪᱤᱠᱤ)**: Created by Pandit Raghunath Murmu in 1925; perfectly represents Santhali phonetics.
   * **Warang Chiti (𑢹𑣉𑣉 𑣞𑣂𑣑)**: Created by Lako Bodra for the Ho language.
-* **Halting Forced Devanagari/Roman Transliteration**: Most commercial apps force tribal languages into Hindi or English letters, slowly destroying indigenous scripts. PALASH Setu renders crisp, native Unicode glyphs across digital slates, visual flashcards, and printed worksheets.
+* **Halting Forced Devanagari/Roman Transliteration**: Most commercial apps force tribal languages into Hindi or English letters, slowly destroying indigenous scripts. SARJOM renders crisp, native Unicode glyphs across digital slates, visual flashcards, and printed worksheets.
 * **Ecological Indigenous Knowledge in the Curriculum**: Integrates Jharkhand's rich ecological heritage—stories celebrating the sacred **Sal tree (*Shorea robusta*)**, **Sarhul (*बाहा परब*)**, **Karam festival**, and ancient folktales teaching harmony with wildlife and nature.
 
 ---
@@ -113,7 +113,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 
 ```
 ┌────────────────────────────────────────────────────────┬────────────────────────────────────────────────────────┐
-│ TRADITIONAL POLICY RECRUITMENT APPROACH                │ PALASH SETU TECHNOLOGY LEVERAGE APPROACH               │
+│ TRADITIONAL POLICY RECRUITMENT APPROACH                │ SARJOM TECHNOLOGY LEVERAGE APPROACH               │
 ├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ • Attempting to recruit 25,000 fluent tribal teachers: │ • Immediately empowers the existing 28,945 teachers    │
 │   25,000 teachers × ₹30,000/month = **₹900 Cr / Year** │   using an intelligent digital co-pilot: **₹0 Capex**. │
@@ -154,7 +154,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 
 ```
 ┌───────────────────────────────────────────────┬───────────────────────────────────────────────┐
-│ BEFORE PALASH SETU (The Broken Reality)       │ AFTER PALASH SETU (The Empowered Reality)     │
+│ BEFORE SARJOM (The Broken Reality)       │ AFTER SARJOM (The Empowered Reality)     │
 ├───────────────────────────────────────────────┼───────────────────────────────────────────────┤
 │ **GPS Tantnagar, West Singhbhum (Ho Tribe)**  │ **GPS Tantnagar, West Singhbhum (Ho Tribe)**  │
 │ • Teacher stands at blackboard speaking Hindi │ • Teacher taps *"दूब मे आपन जाइगा रे"* on tab.│
@@ -197,11 +197,11 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 
 1. **The First Generation of Indigenous Readers**: Children who achieve foundational literacy in their mother tongue become confident, bilingual secondary school students, eventually entering higher technical education in engineering, medicine, and public administration.
 2. **Eradicating Generational Poverty**: Primary education completion is the single strongest predictor of intergenerational poverty reduction in tribal districts.
-3. **Preserving Human Knowledge Systems**: Austroasiatic languages encode thousands of years of botanical, medicinal, and ecological knowledge. By protecting Ho, Mundari, and Santhali in the primary classroom, PALASH Setu preserves this priceless heritage for the entire human race.
+3. **Preserving Human Knowledge Systems**: Austroasiatic languages encode thousands of years of botanical, medicinal, and ecological knowledge. By protecting Ho, Mundari, and Santhali in the primary classroom, SARJOM preserves this priceless heritage for the entire human race.
 
 ---
 
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

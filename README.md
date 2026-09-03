@@ -1,4 +1,4 @@
-# PALASH Setu (पलाश सेतु) — AI-Powered Vernacular Pedagogy & Real-Time Translation Suite
+# SARJOM (सरजोम) — AI-Powered Vernacular Pedagogy & Real-Time Translation Suite
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
@@ -23,7 +23,7 @@
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
 <div align="center">
-  <img src="./public/palash_setu_live_click_demo.gif" alt="PALASH Setu Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
+  <img src="./public/palash_setu_live_click_demo.gif" alt="SARJOM Live Click-by-Click Interactive Prototype Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
   <p><strong>Interactive Click-by-Click Walkthrough</strong>: Live video demonstration showing every single button click, offline/online toggle, language change (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, digital slate handwriting, and Vaul drawer slide-up with ripple click indicators &nbsp;·&nbsp; <a href="./public/palash_setu_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video (palash_setu_live_click_demo.mp4)]</strong></a></p>
 </div>
 
@@ -33,7 +33,7 @@
 
 ### Official Problem Statement Compliance Matrix &nbsp;|&nbsp; [Jump to Detailed Implementation Breakdown ↓](#detailed-implementation-breakdown-of-each-compliance-mandate)
 
-| Official Requirement in Problem Statement | Mandated Requirement | PALASH Setu Implementation | Compliance Status |
+| Official Requirement in Problem Statement | Mandated Requirement | SARJOM Implementation | Compliance Status |
 | :--- | :--- | :--- | :--- |
 | **1. Multi-Language Coverage** | Minimum 1 tribal language at prototype stage | [Delivered 3 Languages: Ho, Mundari & Santhali](#1-multi-language-coverage-ho-mundari-santhali) with authentic scripts | **300% Exceeded** |
 | **2. Non-Native Teacher Usability** | Enable Hindi-medium teachers without prior language training to deliver mother-tongue instruction | [Devanagari & Roman Phonetic Guides + 60s Wizard](#2-non-native-teacher-usability-without-prior-training) | **100% Compliant** |
@@ -58,15 +58,15 @@ This section provides technical and operational evidence explaining how each req
   * **Ho (𑢹𑣉𑣉)**: Rendered in authentic **Warang Chiti** script (Unicode block `U+118A0` to `U+118FF`) and Devanagari transliteration.
   * **Mundari (मुण्डारी)**: Rendered in standard Devanagari and Nagari orthography.
   * **Santhali (ᱥᱟᱱᱛᱟᱲᱤ)**: Rendered in authentic **Ol Chiki** script (Unicode block `U+1C50` to `U+1C7F`).
-* **Source Files**: [`src/data/tribalLexicon.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/tribalLexicon.js) (1,240+ verified lexical entries) and [`src/components/DictionarySearch.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/DictionarySearch.jsx).
+* **Source Files**: [`src/data/tribalLexicon.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/tribalLexicon.js) (1,240+ verified lexical entries) and [`src/components/DictionarySearch.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/DictionarySearch.jsx).
 
 #### 2. Non-Native Teacher Usability (Without Prior Training)
 * **Official Requirement**: Must empower Hindi-medium teachers without prior language training to deliver mother-tongue instruction.
 * **Our Implementation**:
   * **Phonetic Pronunciation Guides**: Every translated sentence displays a dedicated *"शिक्षक हेतु उच्चारण"* field showing phonetic transcription in familiar Devanagari and English transliteration, so teachers know how to shape vowels and consonants.
   * **One-Touch Classroom Prompt Chips**: Common commands (*"नमस्ते बच्चों"*, *"किताब खोलो"*, *"बहुत अच्छा"*) require zero typing and play audio with a single tap.
-  * **60-Second Onboarding Wizard**: A guided setup flow ([`src/components/TeacherOnboardingWizard.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TeacherOnboardingWizard.jsx)) configures district defaults and tests the classroom speaker in four simple taps.
-  * **Pedagogical Handbook**: Slide-up Vaul drawer ([`src/components/TeacherDrawer.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TeacherDrawer.jsx)) provides classroom management tips for non-tribal teachers.
+  * **60-Second Onboarding Wizard**: A guided setup flow ([`src/components/TeacherOnboardingWizard.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TeacherOnboardingWizard.jsx)) configures district defaults and tests the classroom speaker in four simple taps.
+  * **Pedagogical Handbook**: Slide-up Vaul drawer ([`src/components/TeacherDrawer.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TeacherDrawer.jsx)) provides classroom management tips for non-tribal teachers.
 
 #### 3. FLN Curriculum Translation (Scripts, Instructions, Prompts)
 * **Official Requirement**: Translate standard Hindi Foundational Literacy and Numeracy (FLN) lesson scripts, activity instructions, and assessment prompts.
@@ -74,7 +74,7 @@ This section provides technical and operational evidence explaining how each req
   * Formally mapped to **NIPUN Bharat Competency Codes** (`FLN-L1.01` to `FLN-L3.12` and `FLN-M1.01` to `FLN-M2.08`).
   * Structured day-by-day lesson scripts across 8 curriculum weeks (counting with forest leaves, family vocabulary, body parts, animals).
   * Follows the research-backed **80:20 Mother-Tongue-to-Hindi Transition Formula** across Balvatika, Class 1, Class 2, and Class 3.
-* **Source Files**: [`src/data/nipunCurriculum.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/nipunCurriculum.js) and [`src/components/LessonCurriculum.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/LessonCurriculum.jsx).
+* **Source Files**: [`src/data/nipunCurriculum.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/nipunCurriculum.js) and [`src/components/LessonCurriculum.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/LessonCurriculum.jsx).
 
 #### 4. Real-Time Voice-to-Voice Translation (Sub-3-Second Latency)
 * **Official Requirement**: Voice-to-voice translation allowing interactive dialogue with latency not exceeding 3.0 seconds.
@@ -82,7 +82,7 @@ This section provides technical and operational evidence explaining how each req
   * Achieved **24 ms to 48 ms total latency** (60 times faster than the 3,000 ms SLA limit!).
   * Pure on-device semantic vector cosine index lookup ($< 20$ ms) combined with our **PALASH-MundaLLM** Seq2Seq Transformer forward pass runtime executing directly in client browser memory.
   * Web Audio speech synthesis and frequency oscillator engine delivers instant acoustic feedback without round-trip network delays.
-* **Source Files**: [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/customNeuralMundaEngine.js), [`src/services/nlpTranslationEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/nlpTranslationEngine.js), and [`src/services/voiceTranslationService.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/voiceTranslationService.js).
+* **Source Files**: [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/customNeuralMundaEngine.js), [`src/services/nlpTranslationEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/nlpTranslationEngine.js), and [`src/services/voiceTranslationService.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/voiceTranslationService.js).
 
 #### 5. Interactive Two-Way Classroom Dialogue (Student Q&A)
 * **Official Requirement**: Conduct interactive classroom dialogue with tribal-language-speaking students.
@@ -92,7 +92,7 @@ This section provides technical and operational evidence explaining how each req
     2. The tablet decodes the utterance into clear Hindi for the teacher (*"छात्र ने पूछा: क्या मैं पानी पीने जाऊं?"*).
     3. The system generates **3 One-Tap Pedagogical Counter-Responses** in the student's mother tongue (*"हाँ, जाओ पानी पीकर आओ"*).
     4. The teacher taps one chip, and the tablet speaks the response aloud in the child's native tongue!
-* **Source Files**: [`src/components/VoiceTranslator.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/VoiceTranslator.jsx) and [`src/data/classroomPhrases.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/classroomPhrases.js).
+* **Source Files**: [`src/components/VoiceTranslator.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/VoiceTranslator.jsx) and [`src/data/classroomPhrases.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/classroomPhrases.js).
 
 #### 6. Auto-Generated Bilingual Worksheets (Aligned to NIPUN)
 * **Official Requirement**: Auto-generate bilingual worksheets aligned to the NIPUN Bharat learning outcomes framework.
@@ -100,14 +100,14 @@ This section provides technical and operational evidence explaining how each req
   * Overcomes rural hardware scarcity (1 teacher tablet for 35 children) by generating print-ready A4 worksheets.
   * Enforces CSS `@media print` 300 DPI high-contrast layout rules (`#000000` on `#FFFFFF`) for cheap xerox copy machines.
   * Embeds a **Dynamic SVG Audio QR Code** with Reed-Solomon Error Correction Level M. When children take the paper sheet home, parents can scan the code with any camera phone to hear the native audio lesson!
-* **Source Files**: [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/WorksheetStudio.jsx).
+* **Source Files**: [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/WorksheetStudio.jsx).
 
 #### 7. Visual Flashcard Sets Aligned to NIPUN Learning Outcomes
 * **Official Requirement**: Auto-generate visual flashcard sets aligned to NIPUN Bharat outcomes.
 * **Our Implementation**:
   * Interactive, touch-optimized flashcard deck displaying high-contrast authentic script glyphs (Ol Chiki, Warang Chiti, Devanagari), Romanized phonetics, and contextual illustrations.
   * Tap-to-flip cards with immediate native audio pronunciation triggers.
-* **Source Files**: [`src/components/FlashcardDeck.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/FlashcardDeck.jsx).
+* **Source Files**: [`src/components/FlashcardDeck.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/FlashcardDeck.jsx).
 
 #### 8. 100% Offline Operation on Low-Cost Tablets ($\le$ 2GB RAM, Android 9+)
 * **Official Requirement**: Must function offline on low-cost tablets ($\le$ 2 GB RAM, Android 9+) after initial synchronization.
@@ -115,7 +115,7 @@ This section provides technical and operational evidence explaining how each req
   * **Memory Optimization**: Active heap memory profiled at **~34.2 MB RAM** in Chromium V8, well within the strict 256 MB Android Go `dalvik.vm.heapgrowthlimit`, preventing kernel Out-Of-Memory (`SIGKILL` 137) crashes.
   * **Zero Network Dependency**: PWA Service Worker (`public/sw.js`) intercepts all network calls with a strict Cache-First policy. Pulling the SIM card or turning off WiFi results in zero service interruption.
   * **Local Storage**: All interactions, NIPUN evaluations, and offline states persist locally in IndexedDB.
-* **Source Files**: [`public/sw.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/public/sw.js) and [`src/services/offlineStorage.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/offlineStorage.js).
+* **Source Files**: [`public/sw.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/public/sw.js) and [`src/services/offlineStorage.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/offlineStorage.js).
 
 #### 9. State Administrative Linkage (Government of Jharkhand & e-Vidyavahini 2.0)
 * **Official Requirement**: Seamless integration into the Government of Jharkhand education administration.
@@ -123,7 +123,7 @@ This section provides technical and operational evidence explaining how each req
   * Diagnostic status bar displays live school metadata linked to official **UDISE+ School Codes** (e.g. Tantnagar: `20240301102`, Torpa: `20230200401`, Shikaripara: `20210501809`).
   * **Rural Sneakernet Serializer**: In forest schools without internet, teachers export logs to a USB OTG pen-drive (`झारखंड_कक्षा_संवाद_लॉग.csv`) with one click for monthly BRC meeting ingestion.
   * **e-Vidyavahini 2.0 REST Sync**: Dispatches batch synchronization payloads (`POST /api/v2/fln/sync`) directly to the state monitoring portal at JEPC Ranchi.
-* **Source Files**: [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/TabletSimulatorBar.jsx).
+* **Source Files**: [`src/components/TabletSimulatorBar.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/TabletSimulatorBar.jsx).
 
 #### 10. Submission Deliverables (Software + GitHub + Demo Video)
 * **Official Requirement**: A working software application submitted with a demo video and GitHub repository.
@@ -254,7 +254,7 @@ This section provides technical and operational evidence explaining how each req
 * 18. [Section-by-Section & Button-by-Button Operating Breakdown](#18-section-by-section--button-by-button-operating-breakdown) &nbsp;|&nbsp; [📖 Full Manual (OPERATING_GUIDE_AND_BUTTON_MANUAL.md)](./OPERATING_GUIDE_AND_BUTTON_MANUAL.md)
 * 19. [Interactive Prototype Walkthrough & Module Analysis (PROTOTYPE_README.md)](./PROTOTYPE_README.md)
 * 20. [Automated Test Results & Hardware Benchmark Dossier (12/12 Passed)](./TEST_RESULTS_AND_BENCHMARKS.md)
-* 21. [Competitive Teardown: 500 Competing Teams vs. PALASH Setu](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
+* 21. [Competitive Teardown: 500 Competing Teams vs. SARJOM](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
 * 22. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
 
 ---
@@ -381,7 +381,7 @@ To architect a genuinely deployable platform for Jharkhand, we conducted a rigor
 
 ## 3. Linguistic Foundations: Austroasiatic (North Munda) Family Deep Dive
 
-To develop an authentic linguistic engine, PALASH Setu incorporates grammatical, orthographic, and phonological rules derived from authoritative studies by the **Central Institute of Indian Languages (CIIL Mysore)** and native scholars:
+To develop an authentic linguistic engine, SARJOM incorporates grammatical, orthographic, and phonological rules derived from authoritative studies by the **Central Institute of Indian Languages (CIIL Mysore)** and native scholars:
 
 ```
                           AUSTROASIATIC LANGUAGE FAMILY
@@ -453,7 +453,7 @@ Munda languages possess a richer pronominal system than Hindi or English:
 
 ## 4. The Dual-Engine Hybrid AI/ML Architecture
 
-PALASH Setu operates on a **Dual-Engine Hybrid Machine Learning Architecture** engineered to balance high-end neural intelligence with extreme rural edge constraints:
+SARJOM operates on a **Dual-Engine Hybrid Machine Learning Architecture** engineered to balance high-end neural intelligence with extreme rural edge constraints:
 
 ```
                        ┌────────────────────────────────────────────────────────┐
@@ -554,7 +554,7 @@ Rather than calling external APIs, we engineered our own proprietary neural arch
 
 In a real classroom, dialogue cannot be a one-way monologue. A child speaks in their mother tongue; a non-tribal teacher speaks only Hindi. How do they actually communicate?
 
-PALASH Setu closes this loop with the **Two-Way Pedagogical Assistant**:
+SARJOM closes this loop with the **Two-Way Pedagogical Assistant**:
 
 ```
 Step 1: Child Speaks Mother Tongue 
@@ -593,14 +593,14 @@ Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
 * On Android Go edition tablets, the OS kills any single process that attempts to allocate more than **512 MB of RAM**.
 * **Any hackathon team claiming they execute open-ended 4B/7B LLMs on rural school tablets is technically unviable.**
 
-### 7.2 The PALASH Setu Bounded-Domain Breakthrough
+### 7.2 The SARJOM Bounded-Domain Breakthrough
 Early primary education (Classes 1–3) does not require open-domain generative conversation. It requires **Foundational Literacy and Numeracy (FLN)**:
 * A bounded, curated lexicon of ~1,500 core vocabulary words.
 * 250 common classroom pedagogical commands.
 * Mathematical counting sets (1 to 100).
 * Core cultural folklore.
 
-By executing a specialized **Finite State Transducer + INT8 Quantized Subword Vector Index**, PALASH Setu delivers:
+By executing a specialized **Finite State Transducer + INT8 Quantized Subword Vector Index**, SARJOM delivers:
 * **Active RAM Footprint**: **~34 MB** (Less than 2% of the tablet's 2GB capacity).
 * **Execution Latency**: **24 ms to 48 ms** (60x faster than the 3.0-second SLA limit).
 * **Stability**: **0% crash rate**, leaving 98% of tablet memory free for system stability.
@@ -614,10 +614,10 @@ In remote schools across Chaibasa or Khunti, classes are held in brick rooms wit
 
 ### 8.2 The Solution: Smart Classroom Audio Soundbar System (कक्षा ध्वनि प्रवर्धन प्रणाली)
 * Under the Samagra Shiksha and Gyanodaya ICT grants, primary schools are provided with wall-mounted or desktop **Smart Classroom Audio Soundbars / Audio Reinforcement Systems (कक्षा ध्वनि प्रवर्धन प्रणाली)**.
-* PALASH Setu pairs automatically via Bluetooth A2DP or a standard 3.5mm Aux cable, projecting native pronunciation clearly at **85 dB+** to children seated in the back row.
+* SARJOM pairs automatically via Bluetooth A2DP or a standard 3.5mm Aux cable, projecting native pronunciation clearly at **85 dB+** to children seated in the back row.
 
 ### 8.3 High-Contrast Big Visual Display Mode
-When ambient noise is overwhelming, PALASH Setu switches to **Big Visual Display Mode**, rendering high-contrast Ol Chiki and Warang Chiti characters alongside bright contextual illustrations so students understand visually even when audio is compromised.
+When ambient noise is overwhelming, SARJOM switches to **Big Visual Display Mode**, rendering high-contrast Ol Chiki and Warang Chiti characters alongside bright contextual illustrations so students understand visually even when audio is compromised.
 
 ---
 
@@ -638,7 +638,7 @@ When ambient noise is overwhelming, PALASH Setu switches to **Big Visual Display
 
 📁 [`src/components/TabletSimulatorBar.jsx`](./src/components/TabletSimulatorBar.jsx)
 
-PALASH Setu is designed to plug directly into Jharkhand's state educational administration:
+SARJOM is designed to plug directly into Jharkhand's state educational administration:
 
 ### 10.2 Real UDISE+ School Profiles:
 1. **West Singhbhum (प. सिंहभूम) — Ho Belt**:
@@ -693,11 +693,11 @@ Structured day-by-day lesson plans following the **80:20 Mother-Tongue-to-Hindi 
 
 ---
 
-## 15. Competitive Teardown: 500 Competing Teams vs. PALASH Setu
+## 15. Competitive Teardown: 500 Competing Teams vs. SARJOM
 
 📁 [`src/components/JuryBenchmarkingMatrix.jsx`](./src/components/JuryBenchmarkingMatrix.jsx) *(Tab 9: 🏆 ज्यूरी तुलना)*
 
-| Evaluation Parameter | 500 Competing Hackathon Teams | PALASH Setu (Our Solution) | Ground Reality in Jharkhand |
+| Evaluation Parameter | 500 Competing Hackathon Teams | SARJOM (Our Solution) | Ground Reality in Jharkhand |
 | :--- | :--- | :--- | :--- |
 | **100% Offline Execution** | ❌ Fails: Cloud API dependent; blackouts in forest schools | ✅ 100% Offline: Operates in browser cache with zero connectivity | Saranda Forest has 0 cellular signal |
 | **Hardware Budget (RAM)** | ❌ 4.5 GB - 8 GB VRAM (Llama-3/Gemma); crashes 2GB tablets with OOM | ✅ ~34 MB RAM (INT8 Quantized); < 2% memory load on 2GB tablets | 28,945 Gyanodaya tablets have only 2GB RAM |
@@ -714,7 +714,7 @@ Structured day-by-day lesson plans following the **80:20 Mother-Tongue-to-Hindi 
 
 ## 16. Comprehensive Research & Data Reference Audit
 
-All sources, research publications, and linguistic corpora utilized in PALASH Setu are fully audited in:  
+All sources, research publications, and linguistic corpora utilized in SARJOM are fully audited in:  
 📄 [`DATA_AND_RESEARCH_REFERENCES.md`](./DATA_AND_RESEARCH_REFERENCES.md)
 
 1. **Jharkhand PALASH MTB-MLE Programme**: JEPC, UNICEF India, and Language Learning Foundation (LLF).
@@ -759,7 +759,7 @@ npm run dev -- --host
 ### 5. Installing as a 100% Offline PWA (No Internet in Rural Schools)
 1. On your Android tablet or iPad, tap **Menu (⋮)** ➔ **"Add to Home Screen"** / **"Install App"**.
 2. Turn OFF Wi-Fi and Mobile Data (enable Airplane Mode).
-3. Tap the **पलाश सेतु** home screen icon. The app launches and operates **100% offline** with zero server dependence.
+3. Tap the **सरजोम** home screen icon. The app launches and operates **100% offline** with zero server dependence.
 
 ### 6. Production Build Verification
 ```bash
@@ -772,7 +772,7 @@ npm run preview
 
 ## 18. Section-by-Section & Button-by-Button Operating Breakdown
 
-Below is a complete reference of every active interactive control in the PALASH Setu interface:
+Below is a complete reference of every active interactive control in the SARJOM interface:
 
 | UI Section | Button / Control | Visual Label / Icon | Action When Clicked / Classroom Purpose |
 | :--- | :--- | :--- | :--- |
@@ -821,4 +821,4 @@ node run_hard_tests.js
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

@@ -1,5 +1,5 @@
 /**
- * PALASH Setu Offline NLP Translation & Phonetic Engine
+ * SARJOM Offline NLP Translation & Phonetic Engine
  * Designed for low-resource tribal languages: Ho, Mundari, Santhali
  * Runs 100% locally in browser without external server calls.
  */

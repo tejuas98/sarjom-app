@@ -81,7 +81,7 @@ export function JuryBenchmarkingMatrix() {
               ज्यूरी मूल्यांकन व प्रतिस्पर्धात्मक तुलना मैट्रिक्स (Jury Benchmark Matrix)
             </h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0' }}>
-              सामान्य 500 हैकाथॉन टीमों के दृष्टिकोण बनाम पलाश सेतु (PALASH Setu) का वस्तुनिष्ठ तकनीकी विश्लेषण
+              सामान्य 500 हैकाथॉन टीमों के दृष्टिकोण बनाम सरजोम (SARJOM) का वस्तुनिष्ठ तकनीकी विश्लेषण
             </p>
           </div>
         </div>
@@ -110,7 +110,7 @@ export function JuryBenchmarkingMatrix() {
                   अन्य 500 सामान्य टीमों का दृष्टिकोण
                 </th>
                 <th style={{ padding: '14px 18px', width: '45%', backgroundColor: '#0A3F26', color: '#A3E6C2' }}>
-                  पलाश सेतु (PALASH Setu) का समाधान
+                  सरजोम (SARJOM) का समाधान
                 </th>
               </tr>
             </thead>

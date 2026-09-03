@@ -1,4 +1,4 @@
-# PALASH Setu: Technical Approach & Engineering Whitepaper
+# SARJOM: Technical Approach & Engineering Whitepaper
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
@@ -48,7 +48,7 @@
 ## 1. Executive Technical Architecture Summary
 
 ### 1.1 Technical Paradigm
-PALASH Setu implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Architecture**:
+SARJOM implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Architecture**:
 * **Tier 1 (Cloud / Block Resource Centre)**: Executes high-capacity parameter-efficient fine-tuning (PEFT / LoRA) using PyTorch on rare Munda stems and compiles dynamic INT8 quantized weights.
 * **Tier 2 (On-Device Edge Tablet)**: Operates 100% offline inside the client tablet browser, executing a pure JavaScript tensor forward-pass runtime with sub-50ms latency in **~34 MB of RAM**.
 
@@ -111,10 +111,10 @@ PALASH Setu implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP 
 
 ## 3. Proprietary Neural Transformer Engine (`PALASH-MundaLLM`)
 
-📁 [`ml/palash_munda_transformer.py`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/ml/palash_munda_transformer.py) & [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/customNeuralMundaEngine.js)
+📁 [`ml/palash_munda_transformer.py`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/ml/palash_munda_transformer.py) & [`src/services/customNeuralMundaEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/customNeuralMundaEngine.js)
 
 ### 3.1 Model Topology & Hyperparameter Specifications
-Unlike competitors who merely wrap OpenAI or Google APIs, PALASH Setu features its own custom neural architecture tailored to Austroasiatic morphosyntax:
+Unlike competitors who merely wrap OpenAI or Google APIs, SARJOM features its own custom neural architecture tailored to Austroasiatic morphosyntax:
 
 ```
 ┌────────────────────────────────────┬───────────────────────────────────┐
@@ -167,7 +167,7 @@ In `src/services/customNeuralMundaEngine.js`, the neural forward pass is impleme
 
 ## 4. Computational Linguistics & Austroasiatic Morphology Transducer
 
-📁 [`src/services/nlpTranslationEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/nlpTranslationEngine.js) & [`src/data/tribalLexicon.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/data/tribalLexicon.js)
+📁 [`src/services/nlpTranslationEngine.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/nlpTranslationEngine.js) & [`src/data/tribalLexicon.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/tribalLexicon.js)
 
 ### 4.1 Polysynthetic & Agglutinative Word Formation Grammar (EBNF)
 North Munda languages (Ho, Mundari, Santhali) are agglutinative and polysynthetic. A single verb complex incorporates the subject, tense, aspect, transitivity, and direct object:
@@ -202,7 +202,7 @@ The engine strips inflectional affixes, maps canonical roots via cosine similari
 ```
 
 ### 4.3 Unicode Normalization: Ol Chiki & Warang Chiti
-PALASH Setu enforces native script integrity across all rendering paths:
+SARJOM enforces native script integrity across all rendering paths:
 * **Santhali (Ol Chiki)**: Unicode range `U+1C50` to `U+1C7F`.
 * **Ho (Warang Chiti)**: Unicode range `U+118A0` to `U+118FF`.
 * **Mundari**: Native Devanagari Unicode range `U+0900` to `U+097F`.
@@ -211,10 +211,10 @@ PALASH Setu enforces native script integrity across all rendering paths:
 
 ## 5. Classroom Audio & Acoustic DSP Engineering
 
-📁 [`src/services/voiceTranslationService.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/voiceTranslationService.js) & [`src/components/AcousticPronunciationCoach.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/AcousticPronunciationCoach.jsx)
+📁 [`src/services/voiceTranslationService.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/voiceTranslationService.js) & [`src/components/AcousticPronunciationCoach.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/AcousticPronunciationCoach.jsx)
 
 ### 5.1 Web Audio DSP Graph & Acoustic Noise Filtering Pipeline
-Classrooms in rural Jharkhand feature tin roofs that generate **75 dB to 82 dB** of low-frequency ambient vibration during monsoon showers. PALASH Setu implements a browser-native Web Audio DSP pipeline:
+Classrooms in rural Jharkhand feature tin roofs that generate **75 dB to 82 dB** of low-frequency ambient vibration during monsoon showers. SARJOM implements a browser-native Web Audio DSP pipeline:
 
 ```
 [ Microphone Raw Input ]
@@ -274,7 +274,7 @@ Low-cost government tablets (Gyanodaya Scheme: 2GB RAM, Android 9/10 Go Edition)
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                             SYSTEM RAM ALLOCATION BREAKDOWN (2 GB TABLET)                        │
 ├──────────────────────────────────────┬───────────────────────────────────┬───────────────────────┤
-│ Memory Component                     │ Commercial 4B LLM (Gemma/Llama)   │ PALASH Setu           │
+│ Memory Component                     │ Commercial 4B LLM (Gemma/Llama)   │ SARJOM           │
 ├──────────────────────────────────────┼───────────────────────────────────┼───────────────────────┤
 │ Android OS Core & Services           │ 900 MB                            │ 900 MB                │
 │ System UI & SurfaceFlinger           │ 250 MB                            │ 250 MB                │
@@ -295,7 +295,7 @@ To guarantee that the app never suffers from V8 garbage collection (GC) pauses d
 
 ## 7. PWA Offline Service Worker & Zero-Loss Storage Architecture
 
-📁 [`public/sw.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/public/sw.js) & [`src/services/offlineStorage.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/services/offlineStorage.js)
+📁 [`public/sw.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/public/sw.js) & [`src/services/offlineStorage.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/services/offlineStorage.js)
 
 ### 7.1 Cache-First Service Worker Strategy
 The service worker intercepts all HTTP fetch events, serving pre-cached production bundles instantly:
@@ -327,7 +327,7 @@ Persistent classroom interactions, teacher translations, and FLN evaluation logs
 
 ## 8. Print-Optimized Vector Engine & Dynamic Audio QR Companion
 
-📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/WorksheetStudio.jsx)
+📁 [`src/components/WorksheetStudio.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/WorksheetStudio.jsx)
 
 ### 8.1 CSS `@media print` 300 DPI Rendering Architecture
 * Completely eliminates interactive chrome, headers, and navigation bars during printing.
@@ -342,10 +342,10 @@ Persistent classroom interactions, teacher translations, and FLN evaluation logs
 
 ## 9. Interactive HTML5 Canvas Slate Engine
 
-📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/src/components/SlateAndFolklore.jsx)
+📁 [`src/components/SlateAndFolklore.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/SlateAndFolklore.jsx)
 
 ### 9.1 Midpoint Quadratic Bézier Curve Smoothing Algorithm
-Raw touch coordinates (`pointerdown`, `pointermove`) on cheap tablets are jagged and jittery. PALASH Setu smooths points using midpoint quadratic Bézier interpolation:
+Raw touch coordinates (`pointerdown`, `pointermove`) on cheap tablets are jagged and jittery. SARJOM smooths points using midpoint quadratic Bézier interpolation:
 
 ```javascript
 const midX = (prevPoint.x + currentPoint.x) / 2;
@@ -408,4 +408,4 @@ In the deepest forest zones with zero cellular connectivity for months, the teac
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

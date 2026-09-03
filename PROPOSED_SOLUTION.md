@@ -1,11 +1,11 @@
-# PALASH Setu: Proposed Solution Specification
+# SARJOM: Proposed Solution Specification
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
 [![Focus](https://img.shields.io/badge/Document%20Focus-Proposed%20Solution%20%26%20Pedagogy-brightgreen.svg)](#1-the-core-philosophy--human-centric-vision)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"A non-technical, human-centric pedagogical blueprint explaining the Proposed Solution: how PALASH Setu transforms the rural tribal classroom, bridges the linguistic divide, and restores joy, active learning, and cultural dignity for 850,000+ children across 5,000+ schools in Jharkhand."**
+> **"A non-technical, human-centric pedagogical blueprint explaining the Proposed Solution: how SARJOM transforms the rural tribal classroom, bridges the linguistic divide, and restores joy, active learning, and cultural dignity for 850,000+ children across 5,000+ schools in Jharkhand."**
 
 ---
 
@@ -15,8 +15,8 @@
    * 2.1 The Child's Perspective: The Cognitive Shock of Day One
    * 2.2 The Teacher's Dilemma: Good Intentions Trapped by Language
    * 2.3 The Silent Classroom Syndrome
-3. [The Proposed Solution: Introducing PALASH Setu](#3-the-proposed-solution-introducing-palash-setu)
-   * 3.1 What is PALASH Setu? (A Digital Vernacular Co-Teacher)
+3. [The Proposed Solution: Introducing SARJOM](#3-the-proposed-solution-introducing-palash-setu)
+   * 3.1 What is SARJOM? (A Digital Vernacular Co-Teacher)
    * 3.2 The 8 Solution Pillars (Classroom Capabilities)
 4. [A Day in the Life of a Tribal Primary Classroom (9:00 AM to 3:00 PM)](#4-a-day-in-the-life-of-a-tribal-primary-classroom-900-am-to-300-pm)
 5. [The Closed-Loop Empathy Engine: Two-Way Classroom Dialogue](#5-the-closed-loop-empathy-engine-two-way-classroom-dialogue)
@@ -29,7 +29,7 @@
    * 7.1 Tactile Slate Tracing for Early Motor Skills
    * 7.2 Culturally Grounded Indigenous Folklore (Sarhul & Nature)
 8. [AI Oral Reading Fluency (ORF) Pronunciation Coach](#8-ai-oral-reading-fluency-orf-pronunciation-coach)
-9. [How PALASH Setu Addresses Every Government Requirement](#9-how-palash-setu-addresses-every-government-requirement)
+9. [How SARJOM Addresses Every Government Requirement](#9-how-palash-setu-addresses-every-government-requirement)
 10. [Innovation, Uniqueness & Core Value Proposition](#10-innovation-uniqueness--core-value-proposition)
 11. [Multi-Dimensional Impact on Jharkhand](#11-multi-dimensional-impact-on-jharkhand)
     * 11.1 Impact on the Tribal Child
@@ -47,13 +47,13 @@ When a five-year-old child enters a primary school in the forest hills of West S
 
 Education fails when we force that child to surrender their voice at the school door.
 
-**PALASH Setu (पलाश सेतु)** was conceived not as a mechanical piece of software, but as a **compassionate classroom bridge**. It acts as an ever-present, culturally fluent **Vernacular Co-Teacher** sitting beside the non-tribal teacher, translating thoughts into spoken words, interpreting children’s questions, validating their heritage scripts, and ensuring that no child in Jharkhand is left sitting in frightened silence.
+**SARJOM (सरजोम)** was conceived not as a mechanical piece of software, but as a **compassionate classroom bridge**. It acts as an ever-present, culturally fluent **Vernacular Co-Teacher** sitting beside the non-tribal teacher, translating thoughts into spoken words, interpreting children’s questions, validating their heritage scripts, and ensuring that no child in Jharkhand is left sitting in frightened silence.
 
 ---
 
 ## 2. The Human Problem: What Actually Happens in a Village Classroom
 
-To understand why PALASH Setu is designed the way it is, one must step away from computers and look into a rural primary classroom in Jharkhand:
+To understand why SARJOM is designed the way it is, one must step away from computers and look into a rural primary classroom in Jharkhand:
 
 ### 2.1 The Child's Perspective: The Cognitive Shock of Day One
 * A child from a Santhal or Ho village has spent five years immersed in their mother tongue. At home, they hear: *"ᱫᱟᱜ ᱧᱩᱭ ᱢᱮ"* (Drink water), *"ᱦᱤᱡᱩᱜ ᱢᱮ"* (Come here), *"ᱟᱭᱳ"* (Mother).
@@ -74,12 +74,12 @@ This linguistic mismatch produces the **"Silent Classroom Syndrome"**:
 
 ---
 
-## 3. The Proposed Solution: Introducing PALASH Setu
+## 3. The Proposed Solution: Introducing SARJOM
 
-PALASH Setu is a comprehensive, voice-first classroom pedagogy platform specifically crafted for primary education (Balvatika and Classes 1 to 3). It runs directly on the teacher's state-issued tablet with **zero internet requirements**.
+SARJOM is a comprehensive, voice-first classroom pedagogy platform specifically crafted for primary education (Balvatika and Classes 1 to 3). It runs directly on the teacher's state-issued tablet with **zero internet requirements**.
 
 ```
-                   THE PALASH SETU CLASSROOM ECOSYSTEM
+                   THE SARJOM CLASSROOM ECOSYSTEM
                    
                ┌──────────────────────────────────────┐
                │    HINDI-MEDIUM PRIMARY TEACHER      │
@@ -88,7 +88,7 @@ PALASH Setu is a comprehensive, voice-first classroom pedagogy platform specific
                                   │
                                   ▼
                ┌──────────────────────────────────────┐
-               │         PALASH SETU SUITE            │
+               │         SARJOM SUITE            │
                │   • Instant Spoken Tribal Audio      │
                │   • Clear Phonetic "How-To-Speak"    │
                │   • Two-Way Child Question Decoder   │
@@ -150,11 +150,11 @@ PALASH Setu is a comprehensive, voice-first classroom pedagogy platform specific
 
 ## 4. A Day in the Life of a Tribal Primary Classroom (9:00 AM to 3:00 PM)
 
-Here is how PALASH Setu practically operates during a typical school day in GPS Tantnagar (West Singhbhum) or GPS Shikaripara (Dumka):
+Here is how SARJOM practically operates during a typical school day in GPS Tantnagar (West Singhbhum) or GPS Shikaripara (Dumka):
 
 ```
 ┌───────────┬────────────────────────────────────────────────────────────────────────────────────────────┐
-│ TIME      │ CLASSROOM PEDAGOGICAL ACTIVITY POWERED BY PALASH SETU                                      │
+│ TIME      │ CLASSROOM PEDAGOGICAL ACTIVITY POWERED BY SARJOM                                      │
 ├───────────┼────────────────────────────────────────────────────────────────────────────────────────────┤
 │ 09:00 AM  │ **Morning Assembly & Welcoming**:                                                          │
 │           │ The teacher turns on the tablet and taps *"जोहार बच्चों, अंदर आओ"*. The tablet             │
@@ -197,7 +197,7 @@ Here is how PALASH Setu practically operates during a typical school day in GPS 
 
 A critical flaw of past translation tools was that they assumed education is a lecture: the teacher talks, the child listens. In early childhood education, **the child talks more than the teacher**.
 
-PALASH Setu implements a **Closed-Loop Empathy Engine**:
+SARJOM implements a **Closed-Loop Empathy Engine**:
 
 ```
                               THE CLOSED-LOOP EMPATHY ENGINE
@@ -233,7 +233,7 @@ In urban private schools, every child might have an iPad. In a primary school in
 How does a single tablet transform 35 children?
 
 ### 6.1 The Printable Worksheet Studio
-* PALASH Setu generates **print-optimized bilingual worksheets**.
+* SARJOM generates **print-optimized bilingual worksheets**.
 * With one click, the teacher exports a high-contrast A4 master sheet.
 * The teacher makes 35 photocopies at the local Panchayat Bhawan or block market for a few rupees.
 * Every child gets their own physical paper worksheet with tracing lines, pictures, and dual-script vocabulary.
@@ -250,7 +250,7 @@ How does a single tablet transform 35 children?
 
 ### 7.1 Tactile Slate Tracing for Early Motor Skills
 * For centuries, tribal children in India began their learning journey writing on small stone slates with white chalk sticks.
-* PALASH Setu preserves this tactile heritage through its **Digital Blackboard Slate**:
+* SARJOM preserves this tactile heritage through its **Digital Blackboard Slate**:
   * Realistic friction textures simulating chalk on stone.
   * Eraser tool allowing endless practice without wasting paper.
   * Watermark tracing overlays for indigenous scripts (**Ol Chiki** and **Warang Chiti**).
@@ -271,17 +271,17 @@ Under India's **NIPUN Bharat Mission**, schools must track whether children achi
 
 **The Solution**:
 * The child speaks a target word into the tablet microphone.
-* PALASH Setu evaluates the voice against native acoustic sound patterns.
+* SARJOM evaluates the voice against native acoustic sound patterns.
 * It displays an **Accuracy Score (e.g. 96% शुद्धता)**, indicates whether the pronunciation was native, and displays praise in the child's own script.
 * This removes linguistic bias from grading and provides an objective, encouraging benchmark for foundational literacy.
 
 ---
 
-## 9. How PALASH Setu Addresses Every Government Requirement
+## 9. How SARJOM Addresses Every Government Requirement
 
 ```
 ┌──────────────────────────────────────────────┬────────────────────────────────────────────────────────┐
-│ OFFICIAL PROBLEM STATEMENT MANDATE           │ HOW PALASH SETU DIRECTLY FULFILLS IT                   │
+│ OFFICIAL PROBLEM STATEMENT MANDATE           │ HOW SARJOM DIRECTLY FULFILLS IT                   │
 ├──────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **1. Enable Non-Native Teachers**            │ Provides clear phonetic pronunciation guides, one-tap  │
 │                                              │ classroom chips, and spoken audio in 3 tribal tongues. │
@@ -316,7 +316,7 @@ Under India's **NIPUN Bharat Mission**, schools must track whether children achi
 
 ## 10. Innovation, Uniqueness & Core Value Proposition
 
-### Why PALASH Setu Stands Alone:
+### Why SARJOM Stands Alone:
 1. **It Does Not Require 20,000 New Teachers**: It immediately empowers the existing Hindi-medium teaching workforce in Jharkhand to deliver mother-tongue instruction tomorrow morning.
 2. **It Does Not Require New Tablets**: It runs on the **28,945 Gyanodaya tablets** already sitting in teachers' hands across Jharkhand.
 3. **It Does Not Require Internet Towers in Forests**: It functions in complete isolation in the deepest shadows of Saranda Forest or the Santhal hills.
@@ -348,4 +348,4 @@ Under India's **NIPUN Bharat Mission**, schools must track whether children achi
 ### 🏛️ Developed for:
 **Department of Higher & Technical Education, Government of Jharkhand**  
 **Smart India Hackathon 2026** | **Problem Statement: SIH26042**  
-*Lead Author & Maintainer: Tejas & PALASH Setu Engineering Team*
+*Lead Author & Maintainer: Team Karasuno (Lead: Tejas)*

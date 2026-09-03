@@ -11,7 +11,7 @@ export class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('PALASH Setu UI Error Boundary caught an error:', error, errorInfo);
+    console.error('SARJOM UI Error Boundary caught an error:', error, errorInfo);
   }
 
   render() {
