@@ -343,6 +343,28 @@ Ensures that any jury member or government stakeholder can immediately grasp the
 
 ---
 
+## Module 14: 3-Stage Input · Process · Output (IPO) Architecture Pipeline
+
+### Prototype Screenshot:
+![IPO Architecture Pipeline](./public/screenshots/16_ipo_architecture_pipeline.png)
+*Interactive Input · Process · Output (IPO) engineering pipeline view inside the Neural Model Inspector*
+
+### 1. What It Is For:
+Provides technical evaluators, software architects, and state IT officers an immediate, standardized engineering view of how data flows through SARJOM—from physical classroom signals (Input) to on-device linguistic computation (Process) to classroom pedagogical assets (Output).
+
+### 2. Why It Works (Engineering Mechanics):
+* **Input Stage**: Ingests 4 multi-modal streams: Teacher Voice (75-82 dB ambient noise), Two-Way Student Ear (tribal speech), Digital Slate capacitive strokes, and take-home Worksheet Audio QR scans.
+* **Processing Stage**: 100% on-device edge execution:
+  1. *Web Audio DSP Noise Gate*: 300Hz–3.4kHz bandpass filter suppressing monsoon roof noise.
+  2. *Vectorized TF-IDF Cosine Space*: Sparse token embeddings delivering 0.022 ms match latency.
+  3. *Agglutinative Munda Transducer*: Reconstructs Austroasiatic morphology and enforces 80:20 NIPUN transition rules.
+* **Output Stage**: Delivers 4 immediate classroom outputs: Native script rendering (Ol Chiki/Warang Chiti), dual-channel audio speech synthesis (TTS), 300 DPI printable Audio QR worksheets, and encrypted offline JSON sync to e-Vidyavahini 2.0.
+
+### 3. How It Solves the Crisis:
+Demystifies complex AI for government officials. Demonstrates that SARJOM is not a black-box cloud dependent API, but an accountable, deterministic, 100% edge-computed pipeline built specifically for rural infrastructure realities.
+
+---
+
 ## 3. Summary of Verified Technical Benchmarks
 
 | Evaluation Dimension | Mandated SIH Target | Measured SARJOM Result | Compliance Status |

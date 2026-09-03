@@ -16,6 +16,7 @@ import {
 import { toast } from 'sonner';
 
 export function NeuralModelInspector({ selectedLang }) {
+  const [activeView, setActiveView] = useState('ipo'); // 'ipo' | 'inference'
   const [testInput, setTestInput] = useState('किताब खोलो और पढ़ो');
   const [neuralOutput, setNeuralOutput] = useState(() =>
     customNeuralEngine.infer('किताब खोलो और पढ़ो', selectedLang)
@@ -57,7 +58,7 @@ export function NeuralModelInspector({ selectedLang }) {
           <Cpu size={24} color="var(--color-palash)" />
           <div>
             <h2 style={{ fontSize: '1.35rem', margin: 0 }}>
-              PALASH-MundaLLM: स्वदेशी न्यूरल ट्रांसफॉर्मर (Custom Neural Architecture)
+              SARJOM-MundaLLM: स्वदेशी न्यूरल ट्रांसफॉर्मर व IPO आर्किटेक्चर
             </h2>
             <p style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', margin: '2px 0 0 0' }}>
               झारखंड की जनजातीय भाषाओं (हो, मुण्डारी, संताली) हेतु विशेष रूप से प्रशिक्षित स्वदेशी एज मॉडल
@@ -72,8 +73,108 @@ export function NeuralModelInspector({ selectedLang }) {
         </div>
       </div>
 
-      {/* Model Spec Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+      {/* Sub-view switcher: IPO Pipeline vs Live Transformer */}
+      <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button
+          onClick={() => setActiveView('ipo')}
+          className={`btn-brutal ${activeView === 'ipo' ? 'btn-forest' : 'btn-subtle'}`}
+          style={{ padding: '8px 18px', fontSize: '0.88rem' }}
+        >
+          📐 3-स्टेज Input · Process · Output (IPO) आर्किटेक्चर
+        </button>
+        <button
+          onClick={() => setActiveView('inference')}
+          className={`btn-brutal ${activeView === 'inference' ? 'btn-palash' : 'btn-subtle'}`}
+          style={{ padding: '8px 18px', fontSize: '0.88rem' }}
+        >
+          ⚡ लाइव न्यूरल ट्रांसफॉर्मर व अटेंशन हीटमैप
+        </button>
+      </div>
+
+      {activeView === 'ipo' ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Visual SVG Diagram Display */}
+          <div
+            className="card-brutal"
+            style={{
+              padding: '16px',
+              backgroundColor: '#0F172A',
+              borderRadius: 'var(--radius-lg)',
+              overflow: 'hidden',
+              textAlign: 'center',
+            }}
+          >
+            <img
+              src="/sarjom_ipo_pipeline.png"
+              alt="SARJOM Input-Process-Output Pipeline Diagram"
+              style={{ width: '100%', maxWidth: '1050px', borderRadius: '12px' }}
+            />
+          </div>
+
+          {/* Interactive 3-Stage Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+            {/* Input Stage Card */}
+            <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #0284C7' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '1.2rem' }}>📥</span>
+                <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#0284C7' }}>
+                  1. इनपुट चरण (Input Stage)
+                </h3>
+              </div>
+              <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5, margin: '0 0 12px 0' }}>
+                कक्षा के भौतिक व डिजिटल संकेतों का वास्तविक समय अधिग्रहण:
+              </p>
+              <ul style={{ paddingLeft: '18px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, margin: 0 }}>
+                <li><strong>शिक्षक वाणी:</strong> हिंदी निर्देश (75-82 dB वर्षा/शोर में फ़िल्टर्ड)।</li>
+                <li><strong>दो-तरफ़ा छात्र श्रवण:</strong> संताली, हो, मुण्डारी मातृभाषा प्रतिउत्तर।</li>
+                <li><strong>डिजिटल स्लेट:</strong> कैपेसिटिव टच स्क्रीन पर लिपि अनुरेखण।</li>
+                <li><strong>ऑडियो क्यूआर:</strong> गृह-अध्ययन हेतु स्मार्टफोन कैमरा स्कैन।</li>
+              </ul>
+            </div>
+
+            {/* Processing Stage Card */}
+            <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #0E5B37' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '1.2rem' }}>⚙️</span>
+                <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#0E5B37' }}>
+                  2. प्रसंस्करण चरण (Processing Stage)
+                </h3>
+              </div>
+              <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5, margin: '0 0 12px 0' }}>
+                100% ऑन-डिवाइस एज शिक्षाशास्त्र व भाषाई संगणना:
+              </p>
+              <ul style={{ paddingLeft: '18px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, margin: 0 }}>
+                <li><strong>Web Audio DSP:</strong> 300Hz-3.4kHz बैंडपास नॉइज़ गेट।</li>
+                <li><strong>वेक्टर स्पेस कोसाइन:</strong> 0.022 ms अति-तीव्र अर्थगत मिलान।</li>
+                <li><strong>मुण्डा रूप-संरचना:</strong> ऑस्ट्रो-एशियाटिक प्रत्यय संयोजन।</li>
+                <li><strong>80:20 निपुण भारत:</strong> मातृभाषा से हिंदी क्रमिक संक्रमण।</li>
+              </ul>
+            </div>
+
+            {/* Output Stage Card */}
+            <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #D97706' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '1.2rem' }}>📤</span>
+                <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#D97706' }}>
+                  3. निर्गत चरण (Output Stage)
+                </h3>
+              </div>
+              <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5, margin: '0 0 12px 0' }}>
+                कक्षा में तुरंत क्रियान्वयन योग्य बहु-माध्यमी प्रतिफल:
+              </p>
+              <ul style={{ paddingLeft: '18px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.6, margin: 0 }}>
+                <li><strong>स्वदेशी लिपि:</strong> ओल चिकी (Ol Chiki) व वारंग क्षिति।</li>
+                <li><strong>द्विभाषी ध्वनि:</strong> मूल उच्चारण में स्पष्ट ऑडियो (TTS)।</li>
+                <li><strong>प्रिंट अभ्यास पत्र:</strong> ध्वनि साथी क्यूआर कोड युक्त पत्र।</li>
+                <li><strong>ई-विद्यावाहिनी सिंक:</strong> छात्र मूल्यांकन का ऑफ़लाइन JSON।</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Model Spec Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
         <div className="card-brutal" style={{ padding: '16px', backgroundColor: '#FFFFFF' }}>
           <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-slate-muted)' }}>
             न्यूरल आर्किटेक्चर (Architecture):
@@ -296,6 +397,8 @@ export function NeuralModelInspector({ selectedLang }) {
           </div>
         </div>
       </div>
+      </>
+    )}
     </div>
   );
 }

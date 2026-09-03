@@ -71,6 +71,67 @@ SARJOM implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Archi
 └───────────────────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
+### 1.2 The Input-Process-Output (IPO) Architectural Pipeline
+
+To provide a crystal-clear, intuitive architectural model for evaluators, system engineers, and government stakeholders, SARJOM follows a rigorously partitioned **3-Stage Input-Process-Output (IPO) Model**:
+
+<div align="center" style="margin: 20px 0;">
+  <img src="./public/sarjom_ipo_pipeline.png" alt="SARJOM Input-Process-Output (IPO) Architectural Pipeline" width="100%" style="border-radius: 14px; border: 3px solid #10B981; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  <p style="font-size: 0.85rem; color: #64748B; margin-top: 8px;">
+    <strong>Figure 1.1: SARJOM 3-Stage Input · Process · Output (IPO) Edge Architecture</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_ipo_pipeline.svg"><em>[Vector SVG Format]</em></a>
+  </p>
+</div>
+
+```mermaid
+flowchart LR
+    subgraph S1["1. INPUT STAGE (Classroom Signals)"]
+        direction TB
+        I1["🎙️ Teacher Voice (Hindi / Noisy Classroom)"]
+        I2["👂 Two-Way Student Ear (Santhali / Ho / Mundari)"]
+        I3["✍️ Digital Slate Touch & Quick Prompt Chips"]
+        I4["📱 Worksheet Audio QR Scan (Parent Phone)"]
+    end
+
+    subgraph S2["2. PROCESSING STAGE (SARJOM Edge Engine)"]
+        direction TB
+        P1["⚙️ 1. Acoustic DSP Noise Gate (300Hz-3.4kHz)"]
+        P2["⚡ 2. Vectorized TF-IDF Cosine Space (0.022ms)"]
+        P3["🔤 3. Munda Morphology & Script Transducer (80:20)"]
+        P1 --> P2 --> P3
+    end
+
+    subgraph S3["3. OUTPUT STAGE (Multi-Modal Classroom)"]
+        direction TB
+        O1["📜 Native Script Display (Ol Chiki / Warang Chiti)"]
+        O2["🔊 Dual Speech Synthesis (TTS Audio Pronunciation)"]
+        O3["📄 Bilingual Audio QR Worksheets (300 DPI Print)"]
+        O4["📊 e-Vidyavahini 2.0 Governance Sync (Offline JSON)"]
+    end
+
+    S1 ==> S2 ==> S3
+    
+    style S1 fill:#0F172A,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
+    style S2 fill:#0A1C14,stroke:#10B981,stroke-width:2px,color:#FFFFFF
+    style S3 fill:#170F0B,stroke:#F59E0B,stroke-width:2px,color:#FFFFFF
+```
+
+#### Detailed Breakdown of Each IPO Stage:
+
+| Pipeline Stage | Architectural Component | Input / Operation / Output Description | Latency / SLA |
+| :--- | :--- | :--- | :--- |
+| **Stage 1: INPUT** | **1. Acoustic Teacher Speech** | Non-tribal teacher speaks classroom instructions in standard Hindi into tablet microphone under 75–82 dB ambient noise. | $< 100$ ms capture |
+| | **2. Two-Way Student Voice** | Tribal child responds in their ancestral mother tongue (Santhali, Ho, or Mundari) during interactive Q&A. | $< 100$ ms capture |
+| | **3. Digital Slate Strokes** | Student draws character glyphs or touches capacitive prompt chips on the Gyanodaya 10.1" screen. | $< 8$ ms touch loop |
+| | **4. Audio QR Scan** | Non-literate village parent points basic smartphone camera at printed paper worksheet. | Direct Camera URL |
+| **Stage 2: PROCESS** | **1. Acoustic Noise Gate & DSP** | Web Audio API bandpass filter (300 Hz to 3,400 Hz) isolates vocal formants, suppressing monsoon tin-roof vibration. | $< 2$ ms DSP pass |
+| | **2. Vector Space TF-IDF Embedding** | Pre-computed sparse token n-gram matrix matches query vector against 1,240+ certified FLN terms via Cosine Similarity. | **0.022 ms (Measured)** |
+| | **3. Agglutinative Munda Transducer** | Handles Austroasiatic infixing and case affixes; applies JEPC 80:20 scaffolding and generates authentic Unicode. | $< 1.2$ ms assembly |
+| **Stage 3: OUTPUT** | **1. Native Script Display** | Renders authentic Ol Chiki (`ᱡᱚᱦᱟᱨ`), Warang Chiti, and Devanagari/Roman phonetics in high-contrast SVG glyphs. | 0 ms (DOM Render) |
+| | **2. Dual Speech Audio (TTS)** | On-device speech synthesizer speaks tribal terms clearly through tablet speaker for correct acoustic modeling. | Real-time stream |
+| | **3. Bilingual Audio QR Worksheets** | Browser renders 300 DPI print-ready worksheets with dynamic on-device generated Audio QR code for home practice. | Instant Client Print |
+| | **4. e-Vidyavahini 2.0 Sync** | Formative assessment records are batched into encrypted offline IndexedDB and synced via MicroSD or CRC Wi-Fi. | Zero-loss offline |
+
 ---
 
 ## 2. The 3-Tier Technical Architecture (End-to-End System Pipeline)

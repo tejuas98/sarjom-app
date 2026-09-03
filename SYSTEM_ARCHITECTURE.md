@@ -11,6 +11,7 @@
 
 ## Table of Contents
 1. [The Grand Unified System Architecture Diagram (ASCII)](#1-the-grand-unified-system-architecture-diagram-ascii)
+   * 1.5 [The 3-Stage Input · Process · Output (IPO) Architecture Diagram](#15-the-3-stage-input--process--output-ipo-architecture-diagram)
 2. [Visual Graphical Mermaid Architecture Diagram](#2-visual-graphical-mermaid-architecture-diagram)
 3. [Component-by-Component & Zone-by-Zone Deep Breakdown](#3-component-by-component--zone-by-zone-deep-breakdown)
    * 3.1 Zone A: Physical World & Classroom Acoustic Environment
@@ -139,6 +140,26 @@
    • Real-Time MTB-MLE Analytics Dashboard at Jharkhand Education Project Council (JEPC Ranchi)
 ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
+
+---
+
+## 1.5 The 3-Stage Input · Process · Output (IPO) Architecture Diagram
+
+For intuitive comprehension during hackathon jury evaluation and technical architectural reviews, SARJOM's entire dataflow is mapped into a canonical **3-Stage Input-Process-Output (IPO) Pipeline**:
+
+<div align="center" style="margin: 20px 0;">
+  <a href="./public/sarjom_ipo_pipeline.png" title="Click to view high-resolution image">
+    <img src="./public/sarjom_ipo_pipeline.png" alt="SARJOM Input-Process-Output (IPO) Architectural Pipeline" width="100%" style="border-radius: 14px; border: 3px solid #10B981; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
+  </a>
+  <p style="font-size: 0.9rem; color: #4B5563; margin-top: 8px;">
+    <strong>Figure 1.2: End-to-End Input · Process · Output (IPO) Architectural Blueprint</strong> &nbsp;|&nbsp;
+    <a href="./public/sarjom_ipo_pipeline.svg"><em>[Vector SVG Format]</em></a>
+  </p>
+</div>
+
+* **Stage 1 (INPUT)**: Captures teacher microphone audio (75–82 dB noise), two-way student tribal speech, capacitive touch slate strokes, and rural parent phone QR scans.
+* **Stage 2 (PROCESS)**: Applies Web Audio DSP 300Hz–3.4kHz noise gate $\to$ Vectorized TF-IDF Cosine Similarity engine (**0.022 ms latency**) $\to$ Agglutinative Munda morphology transducer with 80:20 NIPUN transition rules.
+* **Stage 3 (OUTPUT)**: Renders native Ol Chiki (`ᱡᱚᱦᱟᱨ`) / Warang Chiti orthography, synthesizes dual-channel audio speech (TTS), renders 300 DPI printable Audio QR worksheets, and dispatches encrypted offline JSON records to e-Vidyavahini 2.0.
 
 ---
 
