@@ -41,8 +41,10 @@
 ---
 
 > 📚 **Companion Deep-Dive Engineering Documents:**
+> * 📜 **[OFFICIAL_PROBLEM_STATEMENT_AND_COMPLIANCE_DOSSIER.md](./OFFICIAL_PROBLEM_STATEMENT_AND_COMPLIANCE_DOSSIER.md)** — Full verbatim government problem statement, official mandate compliance charts, all ASCII flowcharts, acoustic decibel models, and live classroom dialogue transcripts.
 > * 🔬 **[TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)** — Complete mathematical derivations (Attention, Quantization, Formants, FFT), V8 memory profiling, and pure JavaScript tensor execution.
 > * 📑 **[DATA_AND_RESEARCH_REFERENCES.md](./DATA_AND_RESEARCH_REFERENCES.md)** — Exhaustive audit of all research publications, JEPC data, UNICEF reports, and CIIL corpora.
+
 
 
 ---
