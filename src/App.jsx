@@ -8,6 +8,8 @@ import { FlashcardDeck } from './components/FlashcardDeck';
 import { SlateAndFolklore } from './components/SlateAndFolklore';
 import { DictionarySearch } from './components/DictionarySearch';
 import { NeuralModelInspector } from './components/NeuralModelInspector';
+import { AcousticPronunciationCoach } from './components/AcousticPronunciationCoach';
+import { JuryBenchmarkingMatrix } from './components/JuryBenchmarkingMatrix';
 import { TeacherDrawer } from './components/TeacherDrawer';
 import { offlineStorage } from './services/offlineStorage';
 import { toast } from 'sonner';
@@ -68,6 +70,8 @@ export default function App() {
         {activeTab === 'slate' && <SlateAndFolklore selectedLang={selectedLang} />}
         {activeTab === 'dictionary' && <DictionarySearch />}
         {activeTab === 'neural' && <NeuralModelInspector selectedLang={selectedLang} />}
+        {activeTab === 'orf' && <AcousticPronunciationCoach selectedLang={selectedLang} />}
+        {activeTab === 'benchmark' && <JuryBenchmarkingMatrix />}
       </main>
 
       {/* 4. Vaul Teacher Bottom Drawer */}

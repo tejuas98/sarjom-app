@@ -135,13 +135,15 @@ export function Navbar({
         className="tab-navigation"
       >
         {[
-          { id: 'voice', label: '🎙️ रीयल-टाइम संवाद (Live Speech)', sub: '<3s अनुवाद' },
-          { id: 'curriculum', label: '📚 निपुण भारत पाठ (NIPUN FLN)', sub: 'पाठ योजना' },
-          { id: 'worksheets', label: '📝 द्विभाषी अभ्यास पत्र (Worksheets)', sub: 'प्रिंट व क्यूआर' },
-          { id: 'flashcards', label: '🎴 दृश्य फ्लैशकार्ड (Flashcards)', sub: 'सचित्र अभ्यास' },
-          { id: 'slate', label: '🎨 डिजिटल स्लेट व लोककथा (Slate & Folklore)', sub: 'सांस्कृतिक शिक्षण' },
-          { id: 'dictionary', label: '📖 त्रैभाषिक शब्दकोश (Lexicon Search)', sub: '1,240+ शब्द' },
-          { id: 'neural', label: '⚡ कस्टम ट्रांसफॉर्मर (PALASH-LLM)', sub: '14.2M प्राचल' },
+          { id: 'voice', label: '🎙️ संवाद', sub: '<3s अनुवाद' },
+          { id: 'curriculum', label: '📚 निपुण पाठ', sub: 'FLN योजना' },
+          { id: 'worksheets', label: '📝 अभ्यास पत्र', sub: 'प्रिंट व क्यूआर' },
+          { id: 'flashcards', label: '🎴 फ्लैशकार्ड', sub: 'सचित्र' },
+          { id: 'slate', label: '🎨 स्लेट व लोककथा', sub: 'सांस्कृतिक' },
+          { id: 'dictionary', label: '📖 शब्दकोश', sub: '1,240+ शब्द' },
+          { id: 'neural', label: '⚡ न्यूरल LLM', sub: '14.2M कस्टम' },
+          { id: 'orf', label: '🎯 वाचन शुद्धता', sub: 'AI Coach' },
+          { id: 'benchmark', label: '🏆 ज्यूरी तुलना', sub: '500 टीम बेंचमार्क' },
         ].map((tab) => {
           const isActive = activeTab === tab.id;
           return (
