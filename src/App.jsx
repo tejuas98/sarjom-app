@@ -12,6 +12,7 @@ import { AcousticPronunciationCoach } from './components/AcousticPronunciationCo
 import { JuryBenchmarkingMatrix } from './components/JuryBenchmarkingMatrix';
 import { TeacherOnboardingWizard } from './components/TeacherOnboardingWizard';
 import { TeacherDrawer } from './components/TeacherDrawer';
+import { JuryEvaluationTourModal } from './components/JuryEvaluationTourModal';
 import { offlineStorage } from './services/offlineStorage';
 import { toast } from 'sonner';
 
@@ -22,6 +23,7 @@ export default function App() {
   const initialTab = (urlParams && urlParams.get('tab')) || 'voice';
   const initialDrawer = urlParams ? urlParams.get('drawer') === 'true' : false;
   const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
+  const initialTour = urlParams ? urlParams.get('tour') === 'true' : false;
   const initialFrame = urlParams && urlParams.has('frame') ? urlParams.get('frame') === 'true' : true;
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
@@ -29,6 +31,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawer);
   const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
+  const [isJuryTourOpen, setIsJuryTourOpen] = useState(initialTour);
   const [isTabletFrame, setIsTabletFrame] = useState(initialFrame);
 
   const handleSelectLang = (langId) => {
@@ -114,6 +117,7 @@ export default function App() {
           onToggleOffline={handleToggleOffline}
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onOpenWizard={() => setIsWizardOpen(true)}
+          onOpenJuryTour={() => setIsJuryTourOpen(true)}
           activeTab={activeTab}
           onSelectTab={setActiveTab}
         />
@@ -148,7 +152,16 @@ export default function App() {
         />
       )}
 
-      {/* 5. Official Footer */}
+      {/* 6. 3-Minute SIH Jury Evaluation Pitch Tour Modal */}
+      {isJuryTourOpen && (
+        <JuryEvaluationTourModal
+          isOpen={isJuryTourOpen}
+          onClose={() => setIsJuryTourOpen(false)}
+          onNavigateTab={(tabId) => setActiveTab(tabId)}
+        />
+      )}
+
+      {/* 7. Official Footer */}
       <footer
         className="no-print"
         style={{
@@ -176,7 +189,7 @@ export default function App() {
               झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग (Govt of Jharkhand)
             </div>
             <div>
-              पलाश मातृभाषा बहुभाषी शिक्षण कार्यक्रम (PALASH MTB-MLE) • स्मार्ट एजुकेशन थीम
+              सरजोम मातृभाषा बहुभाषी शिक्षण कार्यक्रम (SARJOM MTB-MLE) • टीम कारासुनों (Team Karasuno)
             </div>
           </div>
 

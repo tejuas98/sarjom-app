@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { Printer, Download, RefreshCw, CheckCircle2, QrCode, Sparkles, BookCheck } from 'lucide-react';
+import { Printer, Download, RefreshCw, CheckCircle2, QrCode, Sparkles, BookCheck, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
+import { ParentPhoneScanModal } from './ParentPhoneScanModal';
 
 export function WorksheetStudio({ selectedLang }) {
   const [worksheetType, setWorksheetType] = useState('numeracy'); // 'numeracy' | 'matching' | 'tracing'
   const [schoolName, setSchoolName] = useState('राजकीय प्राथमिक विद्यालय, खूंटी (झारखंड)');
   const [studentAnswers, setStudentAnswers] = useState({});
   const [isScoreChecked, setIsScoreChecked] = useState(false);
+  const [showPhoneScanModal, setShowPhoneScanModal] = useState(false);
 
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
 
@@ -123,6 +125,11 @@ export function WorksheetStudio({ selectedLang }) {
             </button>
           </div>
 
+          <button onClick={() => setShowPhoneScanModal(true)} className="btn-brutal btn-forest" style={{ padding: '8px 14px', fontSize: '0.85rem' }} title="सिमुलेट करें: ग्रामीण निरक्षर माता-पिता का फोन स्कैन">
+            <Smartphone size={16} />
+            फोन स्कैन सिमुलेशन
+          </button>
+
           <button onClick={handlePrint} className="btn-brutal btn-palash" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
             <Printer size={16} />
             प्रिंट / PDF निर्यात
@@ -156,7 +163,7 @@ export function WorksheetStudio({ selectedLang }) {
         >
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              झारखंड शिक्षा परियोजना परिषद • पलाश MTB-MLE कार्यक्रम
+              झारखंड शिक्षा परियोजना परिषद • सरजोम MTB-MLE कार्यक्रम
             </div>
             <h1 style={{ fontSize: '1.75rem', margin: '4px 0', color: 'var(--color-slate)' }}>
               निपुण भारत बुनियादी शिक्षण अभ्यास पत्र (FLN Worksheet)
@@ -446,6 +453,14 @@ export function WorksheetStudio({ selectedLang }) {
           </div>
         </div>
       </div>
+
+      {/* Parent Phone QR Scan Simulator Modal */}
+      <ParentPhoneScanModal
+        isOpen={showPhoneScanModal}
+        onClose={() => setShowPhoneScanModal(false)}
+        selectedLang={selectedLang}
+        worksheetType={worksheetType}
+      />
     </div>
   );
 }

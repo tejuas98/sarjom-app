@@ -2,6 +2,7 @@
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
+[![SIH Jury Pitch](https://img.shields.io/badge/SIH%20Jury%20Pitch-3--Min%20Pitch%20%26%20Q%26A%20Defense-orange.svg)](./DEPLOYMENT_AND_JURY_PITCH.md)
 [![Prototype Walkthrough](https://img.shields.io/badge/Prototype%20Walkthrough-Screenshots%20%26%20Analysis-purple.svg)](./PROTOTYPE_README.md)
 [![Test Suite Status](https://img.shields.io/badge/Automated%20Tests-12%2F12%20Passed%20(100%25)-brightgreen.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![Latency Benchmark](https://img.shields.io/badge/Voice%20Latency-0.022%20ms%20(SLA%20%3C%203.0s)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
@@ -269,9 +270,10 @@ This section provides technical and operational evidence explaining how each req
 * 17. [Installation, Local Execution & Physical Tablet Guide](#17-installation-local-execution--physical-tablet-guide)
 * 18. [Section-by-Section & Button-by-Button Operating Breakdown](#18-section-by-section--button-by-button-operating-breakdown) &nbsp;|&nbsp; [📖 Full Manual (OPERATING_GUIDE_AND_BUTTON_MANUAL.md)](./OPERATING_GUIDE_AND_BUTTON_MANUAL.md)
 * 19. [Interactive Prototype Walkthrough & Module Analysis (PROTOTYPE_README.md)](./PROTOTYPE_README.md)
-* 20. [Automated Test Results & Hardware Benchmark Dossier (12/12 Passed)](./TEST_RESULTS_AND_BENCHMARKS.md)
-* 21. [Competitive Teardown: 500 Competing Teams vs. SARJOM](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
-* 22. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
+* 20. [3-Minute Grand Finale Jury Pitch & Tough Q&A Defense Matrix (DEPLOYMENT_AND_JURY_PITCH.md)](./DEPLOYMENT_AND_JURY_PITCH.md)
+* 21. [Automated Test Results & Hardware Benchmark Dossier (12/12 Passed)](./TEST_RESULTS_AND_BENCHMARKS.md)
+* 22. [Competitive Teardown: 500 Competing Teams vs. SARJOM](#15-competitive-teardown-500-competing-teams-vs-palash-setu)
+* 23. [Comprehensive Research & Data Reference Audit](#16-comprehensive-research--data-reference-audit)
 
 ---
 

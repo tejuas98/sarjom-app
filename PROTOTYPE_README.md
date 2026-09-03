@@ -302,6 +302,47 @@ Guarantees that touch targets (minimum $48 \times 48$ px), font sizes, and layou
 
 ---
 
+## Module 12: Rural Parent Smartphone QR Audio Companion Simulator
+
+### Prototype Screenshot:
+![Parent Phone QR Simulation](./public/screenshots/14_parent_phone_qr_simulation.png)
+*Simulating what an illiterate tribal parent sees and hears when pointing any smartphone camera at the printed worksheet*
+
+### 1. What It Is For:
+Bridges the critical gap between classroom instruction and home reinforcement. In rural Jharkhand, most tribal parents cannot read or write Hindi, English, or formal tribal scripts. This feature simulates the exact zero-install mobile web page that launches on a parent's smartphone camera when scanning the take-home worksheet's **Dynamic Audio QR Code**.
+
+### 2. Why It Works (Engineering Mechanics):
+* **Ultra-Lightweight Mobile Web Component**: Designed with high-contrast UI, large touch targets, and zero app download requirements.
+* **Instant Native Speech Playback**: Features a prominent `[🔊 उच्चारण सुनें (Tap to Listen)]` button that plays authentic tribal speech synthesis for the exact exercises on the paper.
+* **Dialect-Calibrated Audio**: Dynamically switches vocabulary and phonemes depending on whether the worksheet is in Santhali (`ᱢᱤᱫ, ᱵᱟᱨ, ᱯᱮ`), Ho (`मियद, बारिया, आपिया`), or Mundari (`मियद, बारिया, आपिया`).
+
+### 3. How It Solves the Crisis:
+Eliminates generational educational exclusion. Illiterate parents are no longer helpless spectators; with a single camera tap, they can listen to correct tribal pronunciations alongside their children, fostering supportive home learning environments in remote hamlets (*Tolas*).
+
+---
+
+## Module 13: 3-Minute SIH Jury Evaluation Pitch Tour Modal
+
+### Prototype Screenshot:
+![Jury Evaluation Pitch Tour](./public/screenshots/15_jury_evaluation_pitch_tour.png)
+*Executive 4-slide interactive pitch modal accessible directly from the top navigation bar*
+
+### 1. What It Is For:
+Designed specifically for Smart India Hackathon jury members, evaluators, and state education directors who need an immediate, high-impact executive walkthrough of SARJOM's problem statement alignment, technical benchmarks, pedagogy, and governance roadmap in under 3 minutes.
+
+### 2. Why It Works (Engineering Mechanics):
+* **Interactive Guided Carousel**: 4 beautifully structured slides covering:
+  1. *Ground Reality*: Jharkhand's 5,000+ primary schools and 60% Grade 1 language shock crisis.
+  2. *Technical Benchmarks*: 0.022 ms latency, 5 MB RAM heap, and 100% offline PWA architecture.
+  3. *Pedagogy & Home Learning*: NIPUN Bharat 80:20 gradual transition formula and Audio QR sheets.
+  4. *Governance & Scale*: e-Vidyavahini 2.0 sync, MicroSD sneakernet, and 24-district turnkey rollout.
+* **Direct Deep-Linking Tabs**: Each slide contains an action button (e.g. `[🎙️ वास्तविक समय अनुवादक देखें]`) that directly navigates to the live feature inside the application.
+
+### 3. How It Solves the Crisis:
+Ensures that any jury member or government stakeholder can immediately grasp the architectural depth, societal urgency, and technical supremacy of SARJOM within seconds of opening the application.
+
+---
+
 ## 3. Summary of Verified Technical Benchmarks
 
 | Evaluation Dimension | Mandated SIH Target | Measured SARJOM Result | Compliance Status |

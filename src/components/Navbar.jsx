@@ -1,6 +1,6 @@
 import React from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers, Sparkles } from 'lucide-react';
+import { BookOpenCheck, Globe, WifiOff, HelpCircle, Layers, Sparkles, Award } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -9,6 +9,7 @@ export function Navbar({
   onToggleOffline,
   onOpenDrawer,
   onOpenWizard,
+  onOpenJuryTour,
   activeTab,
   onSelectTab,
 }) {
@@ -130,6 +131,17 @@ export function Navbar({
           >
             <HelpCircle size={16} />
             शिक्षक निर्देश
+          </button>
+
+          {/* 3-Minute SIH Jury Pitch Tour */}
+          <button
+            onClick={onOpenJuryTour}
+            className="btn-brutal btn-palash"
+            style={{ padding: '7px 14px', fontSize: '0.85rem' }}
+            title="3-मिनट स्मार्ट इंडिया हैकाथॉन ज्यूरी मूल्यांकन टूर"
+          >
+            <Award size={16} />
+            ज्यूरी टूर
           </button>
         </div>
       </div>
