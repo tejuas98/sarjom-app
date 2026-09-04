@@ -235,6 +235,7 @@ export function Navbar({
           return (
             <button
               key={tab.id}
+              id={`tab-btn-${tab.id}`}
               type="button"
               onClick={() => onSelectTab(tab.id)}
               style={{
