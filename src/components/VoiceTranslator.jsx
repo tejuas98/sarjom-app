@@ -16,12 +16,12 @@ import {
   Trash2,
   CheckCircle2,
   Zap,
+  Radio,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { STUDENT_HARD_BENCHMARK_CASES } from '../data/benchmarkCases';
 import { toast } from 'sonner';
 
 export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
@@ -310,162 +310,260 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         </div>
       </div>
 
-      {/* 2. Side-by-Side Responsive Layout: Left = Voice/Text Stage, Right = Classroom Interaction Log */}
+      {/* 2. Side-by-Side Responsive Layout: Left = Voice/Text Console, Right = Classroom Dialogue Log */}
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
           gap: '20px',
-          alignItems: 'start',
+          alignItems: 'stretch',
         }}
       >
-        {/* LEFT COLUMN: Microphone, Live Script Output, Text Input */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Central Live Acoustic Stage */}
+        {/* LEFT COLUMN: Unified Interactive Translation Console (No boxes-in-boxes, proportional height) */}
+        <div
+          className="card-brutal"
+          style={{
+            padding: '22px',
+            backgroundColor: 'var(--color-surface)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-xl)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            boxShadow: 'var(--shadow-card)',
+            minHeight: '520px',
+          }}
+        >
+          {/* Header with Title, Mode & SLA Badges */}
           <div
-            className="card-brutal"
             style={{
-              padding: '28px 24px',
-              backgroundColor: 'var(--color-surface)',
-              backdropFilter: 'var(--glass-blur)',
-              WebkitBackdropFilter: 'var(--glass-blur)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-xl)',
               display: 'flex',
-              flexDirection: 'column',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              textAlign: 'center',
-              gap: '20px',
-              boxShadow: 'var(--shadow-card)',
+              flexWrap: 'wrap',
+              gap: '8px',
+              borderBottom: '1px solid var(--color-border-subtle)',
+              paddingBottom: '12px',
             }}
           >
-            {/* Microphone Button */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-              <button
-                type="button"
-                onClick={isRecording ? handleStopMic : handleStartMic}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
                 style={{
-                  width: '76px',
-                  height: '76px',
-                  borderRadius: '50%',
-                  backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
-                  color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
-                  border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
-                  boxShadow: isRecording
-                    ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
-                    : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
-                  cursor: 'pointer',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  backgroundColor: 'var(--color-surface-tint)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  color: 'var(--color-palash)',
                 }}
-                title={
-                  isRecording
-                    ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
-                    : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent
-                }
               >
-                {isRecording ? <MicOff size={32} className="audio-pulse" /> : <Mic size={32} />}
-              </button>
-
+                <Radio size={17} />
+              </div>
               <div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-                  {isRecording
-                    ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
-                    : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent}
-                </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
-                  {isRecording
-                    ? isTeacherMode
-                      ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
-                      : t.tapToSpeakSubRecStudent
-                    : isTeacherMode
-                    ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
-                    : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name)}
-                </div>
+                <h3 style={{ fontSize: '1.05rem', margin: 0, fontWeight: 800, color: 'var(--color-slate)' }}>
+                  {isTeacherMode
+                    ? (isEn ? 'Teacher ➔ Tribal Speech' : 'शिक्षक ➔ जनजाति अनुवाद')
+                    : (isEn ? 'Tribal Student ➔ Hindi' : 'जनजाति छात्र ➔ शिक्षक अनुवाद')}
+                </h3>
+                <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
+                  {langMeta.name} ({langMeta.primaryScript || langMeta.script || 'Devanagari'}) • {isEn ? 'Pedagogic Bridge' : 'कक्षा शिक्षण सेतु'}
+                </span>
               </div>
             </div>
 
-            {/* Translation Output Card */}
-            {translationResult && (
-              <div
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <span
                 style={{
-                  width: '100%',
-                  backgroundColor: 'var(--color-surface-card)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-lg)',
-                  padding: '20px',
-                  textAlign: 'left',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
-                  boxShadow: 'var(--shadow-flat)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.70rem',
+                  padding: '3px 9px',
+                  borderRadius: '999px',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  color: 'var(--color-slate-muted)',
+                  border: '1px solid var(--color-border-subtle)',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
-                    {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
-                  </div>
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.70rem',
-                        padding: '2px 8px',
-                        borderRadius: '999px',
-                        backgroundColor: 'var(--color-surface-tint)',
-                        color: 'var(--color-slate-muted)',
-                        border: '1px solid var(--color-border-subtle)',
-                      }}
-                    >
-                      {measuredLatency} ms • {t.onDeviceTag}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.70rem',
-                        padding: '2px 8px',
-                        borderRadius: '999px',
-                        backgroundColor: 'rgba(34, 197, 94, 0.12)',
-                        color: '#16A34A',
-                        fontWeight: 700,
-                      }}
-                    >
-                      SLA &lt; 3.0s OK
-                    </span>
-                  </div>
+                {measuredLatency} ms • {t.onDeviceTag}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.70rem',
+                  padding: '3px 9px',
+                  borderRadius: '999px',
+                  backgroundColor: 'rgba(34, 197, 94, 0.12)',
+                  color: '#16A34A',
+                  fontWeight: 700,
+                }}
+              >
+                SLA &lt; 3.0s OK
+              </span>
+            </div>
+          </div>
+
+          {/* Unified Voice & Text Input Toolbar (Zero nested cards) */}
+          <form
+            onSubmit={handleSubmitText}
+            style={{
+              display: 'flex',
+              gap: '8px',
+              alignItems: 'center',
+            }}
+          >
+            {/* Mic Push-to-Talk Button */}
+            <button
+              type="button"
+              onClick={isRecording ? handleStopMic : handleStartMic}
+              style={{
+                width: '46px',
+                height: '46px',
+                flexShrink: 0,
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
+                color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
+                border: isRecording ? '2px solid rgba(220, 38, 38, 0.5)' : '1px solid var(--color-border)',
+                boxShadow: isRecording ? '0 0 12px rgba(220, 38, 38, 0.4)' : 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease',
+              }}
+              title={
+                isRecording
+                  ? (isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent)
+                  : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)
+              }
+            >
+              {isRecording ? <MicOff size={20} className="audio-pulse" /> : <Mic size={20} />}
+            </button>
+
+            {/* Text Input Field */}
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => {
+                setInputText(e.target.value);
+                executeTranslation(e.target.value);
+              }}
+              placeholder={
+                isRecording
+                  ? (isEn ? 'Listening in real-time...' : 'रीयल-टाइम में सुन रहा है...')
+                  : (isTeacherMode ? t.textInputPlaceholderTeacher : t.textInputPlaceholderStudent)
+              }
+              style={{
+                flex: 1,
+                padding: '11px 14px',
+                borderRadius: 'var(--radius-md)',
+                border: isRecording ? '1.5px solid #DC2626' : '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface-card)',
+                color: 'var(--color-slate)',
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.92rem',
+                outline: 'none',
+                transition: 'border-color 0.2s ease',
+              }}
+            />
+
+            {/* Translate / Send Button */}
+            <button
+              type="submit"
+              style={{
+                padding: '11px 18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'var(--color-slate)',
+                color: 'var(--color-bg)',
+                border: 'none',
+                borderRadius: 'var(--radius-md)',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: '0.88rem',
+                flexShrink: 0,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Send size={15} />
+              <span>{t.translateBtn}</span>
+            </button>
+          </form>
+
+          {/* Recording Banner when active */}
+          {isRecording && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '8px 14px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'rgba(220, 38, 38, 0.10)',
+                border: '1px solid rgba(220, 38, 38, 0.3)',
+                color: '#DC2626',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+              }}
+            >
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
+              <span>
+                {isTeacherMode
+                  ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
+                  : t.tapToSpeakSubRecStudent}
+              </span>
+            </div>
+          )}
+
+          {/* Live Translation Output Area (Rendered on card surface - No nested cards!) */}
+          {translationResult ? (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '14px',
+                flex: 1,
+                justifyContent: 'space-between',
+              }}
+            >
+              {/* Utterance & Script */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
+                  {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
                 </div>
 
-                {/* Main Script Output */}
+                {/* Main Script Display */}
                 <div
                   className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
                   style={{
-                    fontSize: isTeacherMode ? '2.1rem' : '1.75rem',
+                    fontSize: isTeacherMode ? '2rem' : '1.75rem',
                     fontWeight: 800,
                     color: 'var(--color-slate)',
-                    lineHeight: 1.3,
+                    lineHeight: 1.35,
                     letterSpacing: '-0.02em',
                   }}
                 >
                   {translationResult.nativeScript}
                 </div>
 
-                {/* Linguistic Details for Student Speech: Morphology Breakdown & Grammatical Challenge */}
+                {/* Linguistic Details: Morphology & Grammatical Breakdown */}
                 {!isTeacherMode && translationResult.morphologyBreakdown && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', marginTop: '4px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
                     <div
                       style={{
                         fontSize: '0.80rem',
                         backgroundColor: 'var(--color-surface-tint)',
                         padding: '6px 12px',
                         borderRadius: 'var(--radius-md)',
-                        border: '1px solid var(--color-border-subtle)',
                         color: 'var(--color-slate)',
                         lineHeight: 1.45,
                       }}
                     >
-                      <strong style={{ color: 'var(--color-forest-light)' }}>पद-विच्छेद (Morphology Breakdown): </strong>
+                      <strong style={{ color: 'var(--color-forest-light)' }}>पद-विच्छेद (Morphology): </strong>
                       {translationResult.morphologyBreakdown}
                     </div>
                     {translationResult.grammaticalChallenge && (
@@ -475,7 +573,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           backgroundColor: 'rgba(217, 90, 39, 0.08)',
                           padding: '5px 12px',
                           borderRadius: 'var(--radius-md)',
-                          border: '1px solid rgba(217, 90, 39, 0.2)',
                           color: 'var(--color-palash)',
                           lineHeight: 1.4,
                         }}
@@ -486,193 +583,106 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     )}
                   </div>
                 )}
-
-                {/* Phonetic Pronunciation & Audio Broadcast Action */}
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '10px',
-                    paddingTop: '10px',
-                    borderTop: '1px solid var(--color-border-subtle)',
-                  }}
-                >
-                  <div style={{ fontSize: '0.92rem', color: 'var(--color-slate)' }}>
-                    <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>
-                      {isTeacherMode ? t.pronounceAs : 'English Gloss:'}
-                    </span>
-                    <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
-                      {translationResult.phoneticDeva}
-                    </strong>
-                    {isTeacherMode && translationResult.phoneticLatin && (
-                      <span style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
-                        ({translationResult.phoneticLatin})
-                      </span>
-                    )}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const textToBroadcast = isTeacherMode
-                        ? (translationResult.audioText || translationResult.phoneticDeva)
-                        : (translationResult.hindiTranslation || translationResult.nativeScript);
-                      handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
-                    }}
-                    style={{
-                      padding: '7px 16px',
-                      fontSize: '0.84rem',
-                      fontWeight: 600,
-                      borderRadius: 'var(--radius-pill)',
-                      backgroundColor: 'var(--color-palash)',
-                      border: 'none',
-                      color: '#FFFFFF',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      boxShadow: 'var(--shadow-flat)',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    <Volume2 size={15} className={isPlayingAudio ? 'audio-pulse' : ''} />
-                    <span>{t.replaySpeaker}</span>
-                  </button>
-                </div>
               </div>
-            )}
-          </div>
 
-          {/* Text Typing Input Form */}
-          <div
-            className="card-brutal"
-            style={{
-              padding: '16px 20px',
-              backgroundColor: 'var(--color-surface)',
-              borderRadius: 'var(--radius-lg)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            }}
-          >
-            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-              {t.textInputTitle}
-            </div>
-
-            <form onSubmit={handleSubmitText} style={{ display: 'flex', gap: '8px' }}>
-              <input
-                type="text"
-                value={inputText}
-                onChange={(e) => {
-                  setInputText(e.target.value);
-                  executeTranslation(e.target.value);
-                }}
-                placeholder={
-                  isTeacherMode ? t.textInputPlaceholderTeacher : t.textInputPlaceholderStudent
-                }
+              {/* Bottom Action Row: Phonetic Gloss + Replay Speaker */}
+              <div
                 style={{
-                  flex: 1,
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--color-border)',
-                  backgroundColor: 'var(--color-surface-card)',
-                  color: 'var(--color-slate)',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.95rem',
-                  outline: 'none',
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  padding: '10px 18px',
                   display: 'flex',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
-                  gap: '6px',
-                  backgroundColor: 'var(--color-slate)',
-                  color: 'var(--color-bg)',
-                  border: 'none',
-                  borderRadius: 'var(--radius-md)',
-                  cursor: 'pointer',
-                  fontWeight: 700,
-                  fontSize: '0.88rem',
-                  transition: 'all 0.15s ease',
+                  flexWrap: 'wrap',
+                  gap: '10px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid var(--color-border-subtle)',
                 }}
               >
-                <Send size={15} />
-                <span>{t.translateBtn}</span>
-              </button>
-            </form>
+                <div style={{ fontSize: '0.90rem', color: 'var(--color-slate)' }}>
+                  <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>
+                    {isTeacherMode ? t.pronounceAs : 'English Gloss:'}
+                  </span>
+                  <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
+                    {translationResult.phoneticDeva}
+                  </strong>
+                  {isTeacherMode && translationResult.phoneticLatin && (
+                    <span style={{ fontSize: '0.80rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
+                      ({translationResult.phoneticLatin})
+                    </span>
+                  )}
+                </div>
 
-            {/* Quick Test Prompt Chips */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
-              <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                {!isTeacherMode ? 'हार्ड मोड छात्र भाषण परीक्षण (Hard Mode 6 Cases):' : 'कक्षा शिक्षक त्वरित वाक्य (Quick Teacher Prompts):'}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {!isTeacherMode
-                  ? STUDENT_HARD_BENCHMARK_CASES.map((sc, idx) => (
-                      <button
-                        key={sc.id}
-                        type="button"
-                        onClick={() => {
-                          const input = sc.tribalInputOlChiki || sc.tribalInputDeva || sc.tribalInputRoman;
-                          setInputText(input);
-                          executeTranslation(input);
-                        }}
-                        style={{
-                          fontSize: '0.72rem',
-                          padding: '4px 10px',
-                          borderRadius: 'var(--radius-pill)',
-                          border: '1px solid var(--color-border-subtle)',
-                          backgroundColor: 'var(--color-surface-tint)',
-                          color: 'var(--color-slate)',
-                          cursor: 'pointer',
-                          fontWeight: 600,
-                          transition: 'all 0.15s ease',
-                        }}
-                        title={sc.caseTitle}
-                      >
-                        Case {idx + 1}: {sc.langLabel.split(' ')[0]}
-                      </button>
-                    ))
-                  : [
-                      { label: 'तुम्हारा नाम?', text: 'तुम्हारा नाम क्या है?' },
-                      { label: 'किताब खोलो', text: 'किताब खोलो और सुनो।' },
-                      { label: 'पानी पियो', text: 'पानी पियो।' },
-                      { label: 'पेड़ के नीचे', text: 'पेड़ के नीचे बैठो।' },
-                      { label: 'शाबाश!', text: 'बहुत अच्छा! शाबाश!' },
-                    ].map((chip) => (
-                      <button
-                        key={chip.text}
-                        type="button"
-                        onClick={() => {
-                          setInputText(chip.text);
-                          executeTranslation(chip.text);
-                        }}
-                        style={{
-                          fontSize: '0.72rem',
-                          padding: '4px 10px',
-                          borderRadius: 'var(--radius-pill)',
-                          border: '1px solid var(--color-border-subtle)',
-                          backgroundColor: 'var(--color-surface-tint)',
-                          color: 'var(--color-slate)',
-                          cursor: 'pointer',
-                          fontWeight: 600,
-                          transition: 'all 0.15s ease',
-                        }}
-                      >
-                        {chip.label}
-                      </button>
-                    ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const textToBroadcast = isTeacherMode
+                      ? (translationResult.audioText || translationResult.phoneticDeva)
+                      : (translationResult.hindiTranslation || translationResult.nativeScript);
+                    handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
+                  }}
+                  style={{
+                    padding: '8px 18px',
+                    fontSize: '0.84rem',
+                    fontWeight: 600,
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: 'var(--color-palash)',
+                    border: 'none',
+                    color: '#FFFFFF',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: 'var(--shadow-flat)',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Volume2 size={15} className={isPlayingAudio ? 'audio-pulse' : ''} />
+                  <span>{t.replaySpeaker}</span>
+                </button>
               </div>
             </div>
-          </div>
+          ) : (
+            /* Empty State Guide (Direct surface, no nested boxes) */
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
+                padding: '40px 20px',
+                textAlign: 'center',
+                gap: '10px',
+                color: 'var(--color-slate-muted)',
+              }}
+            >
+              <div
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-palash)',
+                  opacity: 0.7,
+                }}
+              >
+                <Mic size={26} />
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-slate)' }}>
+                {isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent}
+              </div>
+              <div style={{ fontSize: '0.80rem', maxWidth: '360px', lineHeight: 1.45 }}>
+                {isTeacherMode
+                  ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
+                  : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name)}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Always Visible Above Fold) */}
+        {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Proportional & Matching Height) */}
         <div
           className="card-brutal"
           style={{
@@ -684,6 +694,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             flexDirection: 'column',
             gap: '14px',
             boxShadow: 'var(--shadow-card)',
+            minHeight: '520px',
           }}
         >
           {/* Header with Title, Entry Counter, and Actions */}
