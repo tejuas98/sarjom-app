@@ -26,7 +26,7 @@ export default function App() {
   const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
   const initialTour = urlParams ? urlParams.get('tour') === 'true' : false;
   const initialAudio = urlParams ? urlParams.get('audio') === 'true' : false;
-  const initialDevice = (urlParams && urlParams.get('device')) || 'ios';
+  const initialDevice = (urlParams && urlParams.get('device')) || 'full';
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
   const [isOffline, setIsOffline] = useState(initialOffline);
@@ -35,7 +35,8 @@ export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
   const [isJuryTourOpen, setIsJuryTourOpen] = useState(initialTour);
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
-  const [deviceMode, setDeviceMode] = useState(initialDevice); // 'ios' | 'android' | 'full'
+  const [deviceMode, setDeviceMode] = useState(initialDevice); // 'full' | 'ios' | 'android'
+  const [showDevBar, setShowDevBar] = useState(urlParams && urlParams.get('dev') === 'true');
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
@@ -200,16 +201,18 @@ export default function App() {
           </div>
         )}
 
-        {/* 1. Tablet Diagnostic & Jharkhand EVV Status Bar */}
-        <TabletSimulatorBar
-          isOffline={isOffline}
-          toggleOffline={handleToggleOffline}
-          selectedLang={selectedLang}
-          onSelectLang={handleSelectLang}
-          isTabletFrame={isFramed}
-          deviceMode={deviceMode}
-          onChangeDeviceMode={setDeviceMode}
-        />
+        {/* 1. Tablet Diagnostic & Jharkhand EVV Status Bar (Hidden by default for clean teacher view) */}
+        {showDevBar && (
+          <TabletSimulatorBar
+            isOffline={isOffline}
+            toggleOffline={handleToggleOffline}
+            selectedLang={selectedLang}
+            onSelectLang={handleSelectLang}
+            isTabletFrame={isFramed}
+            deviceMode={deviceMode}
+            onChangeDeviceMode={setDeviceMode}
+          />
+        )}
 
         {/* 2. Top Header & Navigation Bar */}
         <Navbar
@@ -243,6 +246,22 @@ export default function App() {
         isOpen={isDrawerOpen}
         onOpenChange={setIsDrawerOpen}
         selectedLang={selectedLang}
+        onOpenWizard={() => {
+          setIsDrawerOpen(false);
+          setIsWizardOpen(true);
+        }}
+        onOpenAudio={() => {
+          setIsDrawerOpen(false);
+          setIsAudioPlayerOpen(true);
+        }}
+        onOpenTour={() => {
+          setIsDrawerOpen(false);
+          setIsJuryTourOpen(true);
+        }}
+        onSelectTab={(tabId) => {
+          setIsDrawerOpen(false);
+          setActiveTab(tabId);
+        }}
       />
 
       {/* 5. 60-Second Teacher Rapid Onboarding Wizard Modal */}
@@ -309,7 +328,21 @@ export default function App() {
             <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
             <span className="badge-tag badge-ochre">संताली (Santhali)</span>
             <span className="badge-tag" style={{ backgroundColor: '#E0F2FE', color: '#0369A1', borderColor: '#BAE6FD' }}>सादरी (Sadri)</span>
-            <span style={{ fontSize: '0.78rem' }}>स्मृति पदचिह्न (RAM): ~34 MB (On-Device OK)</span>
+            <button
+              onClick={() => setShowDevBar((prev) => !prev)}
+              style={{
+                background: 'none',
+                border: '1px solid var(--color-border)',
+                borderRadius: '4px',
+                padding: '2px 8px',
+                fontSize: '0.74rem',
+                color: 'var(--color-slate-muted)',
+                cursor: 'pointer',
+              }}
+              title="परीक्षक व ज्यूरी हेतु हार्डवेयर और UDISE सिमुलेटर बार खोलें"
+            >
+              {showDevBar ? '▲ हार्डवेयर बार छुपाएं' : '⚙️ तकनीकी सिमुलेटर बार'}
+            </button>
           </div>
         </div>
       </footer>

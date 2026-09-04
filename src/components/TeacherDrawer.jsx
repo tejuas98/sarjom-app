@@ -3,7 +3,15 @@ import { Drawer } from 'vaul';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { BookOpen, X, Sparkles, AlertCircle, HeartPulse, CheckCircle } from 'lucide-react';
 
-export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
+export function TeacherDrawer({
+  isOpen,
+  onOpenChange,
+  selectedLang,
+  onOpenWizard,
+  onOpenAudio,
+  onOpenTour,
+  onSelectTab,
+}) {
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
 
   return (
@@ -21,7 +29,7 @@ export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
         />
         <Drawer.Content
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.96)',
+            backgroundColor: 'rgba(255, 255, 255, 0.98)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             display: 'flex',
@@ -71,11 +79,11 @@ export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
                 <BookOpen size={20} color="var(--color-palash)" />
               </div>
               <div>
-                <Drawer.Title style={{ fontSize: '1.35rem', margin: 0, fontFamily: 'var(--font-sketch)' }}>
-                  शिक्षक भाषा मार्गदर्शिका (Teacher MTB-MLE Handbook)
+                <Drawer.Title style={{ fontSize: '1.25rem', margin: 0, fontWeight: 800 }}>
+                  शिक्षक सहायता एवं MTB-MLE टूल्स
                 </Drawer.Title>
-                <Drawer.Description style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-                  झारखंड पलाश मातृभाषा शिक्षण कार्यक्रम के अनुसार पेडागॉगी व ध्वनिविज्ञान निर्देश
+                <Drawer.Description style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+                  झारखंड प्राथमिक विद्यालय शिक्षण मार्गदर्शन व अतिरिक्त साधन
                 </Drawer.Description>
               </div>
             </div>
@@ -87,6 +95,73 @@ export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
             >
               <X size={16} />
             </button>
+          </div>
+
+          {/* Quick Action Tiles */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px', marginBottom: '16px' }}>
+            {onOpenWizard && (
+              <button
+                type="button"
+                onClick={onOpenWizard}
+                className="btn-brutal"
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.84rem',
+                  fontWeight: 600,
+                  textAlign: 'left',
+                }}
+              >
+                <Sparkles size={16} color="var(--color-palash)" />
+                <span>60s शिक्षक ऑनबोर्डिंग</span>
+              </button>
+            )}
+
+            {onOpenAudio && (
+              <button
+                type="button"
+                onClick={onOpenAudio}
+                className="btn-brutal"
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.84rem',
+                  fontWeight: 600,
+                  textAlign: 'left',
+                }}
+              >
+                <span>🔊 कक्षा ऑडियो प्लेयर</span>
+              </button>
+            )}
+
+            {onOpenTour && (
+              <button
+                type="button"
+                onClick={onOpenTour}
+                className="btn-brutal"
+                style={{
+                  padding: '10px 12px',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.84rem',
+                  fontWeight: 600,
+                  textAlign: 'left',
+                }}
+              >
+                <span>🏆 SIH ज्यूरी टूर</span>
+              </button>
+            )}
           </div>
 
           {/* Scrollable Content */}

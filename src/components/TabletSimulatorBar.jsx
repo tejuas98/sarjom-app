@@ -79,6 +79,7 @@ export function TabletSimulatorBar({
     return found ? found.id : 'school_gumla';
   });
   const [isSyncingEVV, setIsSyncingEVV] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Automatically keep school profile aligned when language changes
   React.useEffect(() => {
@@ -124,217 +125,242 @@ export function TabletSimulatorBar({
       style={{
         backgroundColor: '#111815',
         color: '#A2B3AC',
-        borderBottom: '1.5px solid rgba(255,255,255,0.12)',
+        borderBottom: '1px solid rgba(255,255,255,0.10)',
         fontFamily: 'var(--font-body)',
+        fontSize: '0.76rem',
       }}
       className="tablet-status-bar"
     >
-      {/* 1. Hardware & Operating Metrics */}
+      {/* Sleek Primary Single-Line Bar (Teacher Friendly) */}
       <div
         style={{
-          padding: '4px 16px',
-          fontSize: '0.78rem',
+          padding: '6px 16px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
           flexWrap: 'wrap',
-          gap: '8px',
+          gap: '10px',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          <span
-            onClick={toggleOffline}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              color: isOffline ? '#FFA97A' : '#70C28A',
-              cursor: 'pointer',
-            }}
-            title="क्लिक करके ऑफलाइन/ऑनलाइन मोड बदलें"
-          >
-            {isOffline ? <WifiOff size={13} /> : <Wifi size={13} />}
-            <strong style={{ color: '#FFFFFF' }}>
-              {isOffline ? 'ऑफलाइन मोड (100% On-Device)' : 'ऑनलाइन (Connected)'}
-            </strong>
+          <span style={{ color: '#E2E8F0', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span>🏫</span>
+            <span>{currentSchool.schoolName} ({currentSchool.district.split(' ')[0]})</span>
           </span>
-
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Cpu size={13} color="#70C28A" />
-            <span>
-              {isIOS ? (
-                <>रैम उपयोग: <strong style={{ color: '#FFF' }}>34 MB</strong> / iPad Pro (Apple Neural Engine On-Device)</>
-              ) : (
-                <>रैम उपयोग: <strong style={{ color: '#FFF' }}>34 MB</strong> / 2048 MB (≤2GB Low-Cost Tablet)</>
-              )}
-            </span>
-          </span>
-
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <HardDrive size={13} color="#E5A93C" />
-            <span>स्थानीय कैश: <strong style={{ color: '#FFF' }}>100% सिंक</strong> (1,240+ FLN शब्द)</span>
+          <span style={{ color: '#94A3B8' }}>
+            शिक्षक: <strong style={{ color: '#FFFFFF' }}>{currentSchool.teacherName}</strong>
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* Offline Pill */}
+          <span
+            onClick={toggleOffline}
+            style={{
+              padding: '2px 8px',
+              borderRadius: '4px',
+              backgroundColor: isOffline ? 'rgba(217, 90, 39, 0.2)' : 'rgba(14, 91, 55, 0.25)',
+              color: isOffline ? '#FFA97A' : '#70C28A',
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+            title="क्लिक करके ऑफलाइन/ऑनलाइन स्थिति बदलें"
+          >
+            {isOffline ? <WifiOff size={11} /> : <Wifi size={11} />}
+            {isOffline ? '100% ऑफ़लाइन' : 'ऑनलाइन'}
+          </span>
+
           {/* Device Switcher Pills */}
           {onChangeDeviceMode && (
             <div
               style={{
                 display: 'inline-flex',
                 backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                padding: '2px',
-                borderRadius: '6px',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
+                padding: '1px',
+                borderRadius: '5px',
                 gap: '2px',
               }}
             >
               <button
                 onClick={() => onChangeDeviceMode('ios')}
                 style={{
-                  padding: '3px 8px',
-                  fontSize: '0.72rem',
-                  borderRadius: '4px',
+                  padding: '2px 7px',
+                  fontSize: '0.7rem',
+                  borderRadius: '3px',
                   border: 'none',
                   backgroundColor: deviceMode === 'ios' ? '#0E5B37' : 'transparent',
                   color: '#FFFFFF',
                   fontWeight: deviceMode === 'ios' ? 700 : 500,
                   cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
                 }}
-                title="Apple iPad iOS टैबलेट सिम्युलेटर"
               >
-                🍎 iPad (iOS)
+                🍎 iPad
               </button>
               <button
                 onClick={() => onChangeDeviceMode('android')}
                 style={{
-                  padding: '3px 8px',
-                  fontSize: '0.72rem',
-                  borderRadius: '4px',
+                  padding: '2px 7px',
+                  fontSize: '0.7rem',
+                  borderRadius: '3px',
                   border: 'none',
                   backgroundColor: deviceMode === 'android' ? '#0E5B37' : 'transparent',
                   color: '#FFFFFF',
                   fontWeight: deviceMode === 'android' ? 700 : 500,
                   cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
                 }}
-                title="Android 9.0+ टैबलेट सिम्युलेटर"
               >
                 🤖 Android
               </button>
               <button
                 onClick={() => onChangeDeviceMode('full')}
                 style={{
-                  padding: '3px 8px',
-                  fontSize: '0.72rem',
-                  borderRadius: '4px',
+                  padding: '2px 7px',
+                  fontSize: '0.7rem',
+                  borderRadius: '3px',
                   border: 'none',
                   backgroundColor: deviceMode === 'full' ? '#0E5B37' : 'transparent',
                   color: '#FFFFFF',
                   fontWeight: deviceMode === 'full' ? 700 : 500,
                   cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
                 }}
-                title="फुल स्क्रीन डेस्कटॉप दृश्य"
               >
                 💻 Full
               </button>
             </div>
           )}
 
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <ShieldCheck size={13} color="#70C28A" />
-            <span>{isIOS ? 'iPadOS 17.5+' : 'Android 9.0+'}</span>
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF' }}>
-            <BatteryCharging size={13} color="#70C28A" /> 100%
-          </span>
-        </div>
-      </div>
-
-      {/* 2. Jharkhand e-Vidyavahini (EVV) & UDISE+ School Identification Ribbon */}
-      <div
-        style={{
-          padding: '6px 16px',
-          backgroundColor: '#18221E',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.8rem',
-          flexWrap: 'wrap',
-          gap: '10px',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#E5A93C', fontWeight: 700 }}>
-            <Building size={14} />
-            e-Vidyavahini (EVV 2.0):
-          </span>
-
-          {/* School Selector */}
-          <select
-            value={selectedSchoolId}
-            onChange={handleSchoolChange}
+          {/* Toggle Technical Specs & EVV Sync */}
+          <button
+            onClick={() => setIsExpanded((prev) => !prev)}
             style={{
-              backgroundColor: '#23302A',
-              color: '#FFFFFF',
-              border: '1px solid #3E5248',
-              borderRadius: 'var(--radius-sm)',
-              padding: '3px 8px',
-              fontSize: '0.78rem',
+              padding: '2px 8px',
+              borderRadius: '4px',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              backgroundColor: isExpanded ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+              color: '#CBD5E1',
+              fontSize: '0.7rem',
               fontWeight: 600,
               cursor: 'pointer',
-              outline: 'none',
             }}
+            title="रैम, यूडाइस कोड, ई-विद्यावाहिनी और हार्डवेयर विवरण देखें"
           >
-            {JHARKHAND_SCHOOL_PROFILES.map((sch) => (
-              <option key={sch.id} value={sch.id}>
-                {sch.district} • {sch.schoolName} (UDISE: {sch.udiseCode})
-              </option>
-            ))}
-          </select>
-
-          <span style={{ color: '#A2B3AC', fontSize: '0.75rem' }}>
-            शिक्षक: <strong style={{ color: '#FFF' }}>{currentSchool.teacherName}</strong> ({currentSchool.evvTeacherId})
-          </span>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '0.75rem', color: '#70C28A', backgroundColor: '#132C1E', padding: '2px 8px', borderRadius: 'var(--radius-pill)', border: '1px solid #234E35' }}>
-            JEPC SARJOM 80:20 अनुपालन ✅
-          </span>
-
-          <button
-            onClick={handleSyncEVV}
-            style={{
-              backgroundColor: isSyncingEVV ? '#0E5B37' : '#D95A27',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: 'var(--radius-sm)',
-              padding: '3px 10px',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              transition: 'var(--transition-fast)',
-            }}
-            title="e-Vidyavahini 2.0 राज्य सर्वर से छात्र उपस्थिति व FLN प्रगति सिंक करें"
-          >
-            <RefreshCw size={12} className={isSyncingEVV ? 'audio-pulse' : ''} />
-            {isSyncingEVV ? 'सिंक हो रहा है...' : 'EVV सिंक (Sync)'}
+            {isExpanded ? '▲ विवरण छुपाएं' : '⚙️ तकनीकी विवरण'}
           </button>
         </div>
       </div>
+
+      {/* Collapsible Administrative & Technical Details Drawer */}
+      {isExpanded && (
+        <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+          {/* Hardware Strip */}
+          <div
+            style={{
+              padding: '4px 16px',
+              backgroundColor: 'rgba(0, 0, 0, 0.25)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '8px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <Cpu size={12} color="#70C28A" />
+                <span>रैम: <strong style={{ color: '#FFF' }}>34 MB</strong> / 2048 MB (≤2GB Tablet)</span>
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <HardDrive size={12} color="#E5A93C" />
+                <span>स्थानीय कैश: <strong style={{ color: '#FFF' }}>100% सिंक</strong> (1,240+ FLN शब्द)</span>
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <ShieldCheck size={12} color="#70C28A" />
+                <span>{isIOS ? 'iPadOS 17.5+ / Neural Engine' : 'Android 9.0+'}</span>
+              </span>
+            </div>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF' }}>
+              <BatteryCharging size={12} color="#70C28A" /> 100% चार्ज
+            </span>
+          </div>
+
+          {/* Jharkhand e-Vidyavahini Ribbon */}
+          <div
+            style={{
+              padding: '6px 16px',
+              backgroundColor: '#18221E',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#E5A93C', fontWeight: 700 }}>
+                <Building size={13} />
+                e-Vidyavahini 2.0:
+              </span>
+
+              <select
+                value={selectedSchoolId}
+                onChange={handleSchoolChange}
+                style={{
+                  backgroundColor: '#23302A',
+                  color: '#FFFFFF',
+                  border: '1px solid #3E5248',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '2px 8px',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
+              >
+                {JHARKHAND_SCHOOL_PROFILES.map((sch) => (
+                  <option key={sch.id} value={sch.id}>
+                    {sch.district} • {sch.schoolName} (UDISE: {sch.udiseCode})
+                  </option>
+                ))}
+              </select>
+
+              <span style={{ color: '#A2B3AC', fontSize: '0.72rem' }}>
+                शिक्षक ID: <strong style={{ color: '#FFF' }}>{currentSchool.evvTeacherId}</strong>
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '0.72rem', color: '#70C28A', backgroundColor: '#132C1E', padding: '1px 7px', borderRadius: 'var(--radius-pill)', border: '1px solid #234E35' }}>
+                JEPC SARJOM 80:20 अनुपालन ✅
+              </span>
+
+              <button
+                onClick={handleSyncEVV}
+                style={{
+                  backgroundColor: isSyncingEVV ? '#0E5B37' : '#D95A27',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '3px 10px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+                title="e-Vidyavahini 2.0 राज्य सर्वर से छात्र उपस्थिति व FLN प्रगति सिंक करें"
+              >
+                <RefreshCw size={11} className={isSyncingEVV ? 'audio-pulse' : ''} />
+                {isSyncingEVV ? 'सिंक...' : 'EVV सिंक'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
