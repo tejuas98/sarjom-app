@@ -25,6 +25,13 @@ const ORF_TARGET_WORDS = {
     { word: 'बुड़ू', roman: 'Buṛū', hindi: 'पहाड़', difficulty: 'मध्यम', phonemes: ['b', 'u', 'r', 'u'] },
     { word: 'सदोम', roman: 'Sadōm', hindi: 'घोड़ा', difficulty: 'मध्यम', phonemes: ['s', 'a', 'd', 'o', 'm'] },
   ],
+  sadri: [
+    { word: 'पानी', roman: 'Pānī', hindi: 'पानी / जल', difficulty: 'सरल', phonemes: ['p', 'aa', 'n', 'ii'] },
+    { word: 'सुरुज', roman: 'Suruj', hindi: 'सूर्य / घाम', difficulty: 'सरल', phonemes: ['s', 'u', 'r', 'u', 'j'] },
+    { word: 'गाछ', roman: 'Gāchh', hindi: 'पेड़ / रुख', difficulty: 'सरल', phonemes: ['g', 'aa', 'chh'] },
+    { word: 'टोंगरी', roman: 'Ṭōṅgrī', hindi: 'पहाड़ / टेकरी', difficulty: 'मध्यम', phonemes: ['t', 'o', 'ng', 'r', 'i'] },
+    { word: 'बाघ', roman: 'Bāgh', hindi: 'बाघ (टाइगर)', difficulty: 'मध्यम', phonemes: ['b', 'aa', 'gh'] },
+  ],
 };
 
 export function AcousticPronunciationCoach({ selectedLang }) {
@@ -89,7 +96,7 @@ export function AcousticPronunciationCoach({ selectedLang }) {
         formantDistance: (0.12 + Math.random() * 0.08).toFixed(3),
         wpm: Math.floor(35 + Math.random() * 15),
         status: score >= 90 ? 'उत्कृष्ट (Native Proficiency)' : 'प्रशंसनीय (Good Attempt)',
-        praiseNative: selectedLang === 'santhali' ? 'ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ!' : 'बुगी काजी!',
+        praiseNative: selectedLang === 'santhali' ? 'ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ!' : selectedLang === 'sadri' ? 'बहुत बेस!' : 'बुगी काजी!',
         feedback:
           score >= 90
             ? 'स्वर और व्यंजन का उच्चारण शत-प्रतिशत प्रामाणिक मातृभाषा ध्वनि से मेल खाता है।'

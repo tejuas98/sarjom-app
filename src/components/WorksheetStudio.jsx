@@ -231,8 +231,8 @@ export function WorksheetStudio({ selectedLang }) {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
               {numberItems.map((item, idx) => {
-                const tribalObj = item[selectedLang];
-                const tribalName = tribalObj.nativeOlChiki || tribalObj.native;
+                const tribalObj = (item && (item[selectedLang] || item.sadri || item.santhali || item.mundari || item.ho)) || {};
+                const tribalName = tribalObj.nativeOlChiki || tribalObj.native || item.hindi;
                 const objectsArray = Array.from({ length: item.numeral }, (_, i) => i + 1);
 
                 return (
@@ -342,8 +342,8 @@ export function WorksheetStudio({ selectedLang }) {
                   कॉलम B ({langMeta.name} मातृभाषा)
                 </div>
                 {wordItems.slice().reverse().map((item, idx) => {
-                  const tribalData = item[selectedLang];
-                  const name = tribalData.nativeOlChiki || tribalData.native;
+                  const tribalData = (item && (item[selectedLang] || item.sadri || item.santhali || item.mundari || item.ho)) || {};
+                  const name = tribalData.nativeOlChiki || tribalData.native || item.hindi;
                   return (
                     <div
                       key={item.id}

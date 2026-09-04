@@ -25,15 +25,20 @@ function assert(condition, message) {
 // -----------------------------------------------------------------------------
 // TEST SUITE 1: TRIBAL LEXICON & SCRIPT INTEGRITY
 // -----------------------------------------------------------------------------
-console.log('▶ [SUITE 1/6] Tribal Lexicon & Authentic Script Integrity (Ho, Mundari, Santhali)');
+console.log('▶ [SUITE 1/6] Tribal Lexicon & Authentic Script Integrity (Ho, Mundari, Santhali, Sadri)');
 assert(TRIBAL_LEXICON && TRIBAL_LEXICON.length >= 25, `Lexicon contains ${TRIBAL_LEXICON.length} comprehensive foundational FLN clusters`);
+assert(TRIBAL_LANGUAGES.sadri !== undefined, 'Sadri (सादरी / नागपुरी) registered as 4th official Jharkhand MTB-MLE language');
 
 let scriptIntegrityOk = true;
 let phoneticIntegrityOk = true;
+let sadriIntegrityOk = true;
 
 TRIBAL_LEXICON.forEach((item) => {
   if (!item.hindi || !item.santhali?.nativeOlChiki || !item.ho?.native || !item.mundari?.native) {
     scriptIntegrityOk = false;
+  }
+  if (!item.sadri?.native || !item.sadri?.phoneticDeva) {
+    sadriIntegrityOk = false;
   }
   if (!item.santhali?.phoneticDeva || !item.ho?.phoneticDeva || !item.mundari?.phoneticDeva) {
     phoneticIntegrityOk = false;
@@ -41,6 +46,7 @@ TRIBAL_LEXICON.forEach((item) => {
 });
 
 assert(scriptIntegrityOk, 'All lexicon items have complete translations across Ho, Mundari, and Santhali');
+assert(sadriIntegrityOk, 'All 27 lexicon items have complete verified Sadri (Nagpuri) native words and phonetics');
 assert(phoneticIntegrityOk, 'All items have native Ol Chiki glyphs and Devanagari phonetic pronunciation guides');
 
 // -----------------------------------------------------------------------------
@@ -56,7 +62,9 @@ const testQueries = [
   { text: 'बैठ जाओ।', expectedLang: 'santhali' },
   { text: 'किताब खोलो।', expectedLang: 'ho' },
   { text: 'स्लेट पर लिखो।', expectedLang: 'mundari' },
-  { text: 'शाबाश / बहुत अच्छा!', expectedLang: 'santhali' },
+  { text: 'शाबाश / बहुत अच्छा!', expectedLang: 'sadri' },
+  { text: 'नमस्ते / जोहार', expectedLang: 'sadri' },
+  { text: 'तुम्हारा नाम क्या है?', expectedLang: 'sadri' },
 ];
 
 let nlpAccuracyCount = 0;
@@ -99,6 +107,7 @@ const studentPhrases = [
   { tribalInput: 'जोहार', lang: 'santhali' },
   { tribalInput: 'दूब मे', lang: 'ho' },
   { tribalInput: 'दुबमे', lang: 'mundari' },
+  { tribalInput: 'जोहार', lang: 'sadri' },
 ];
 
 let reverseMatchCount = 0;
@@ -108,7 +117,8 @@ studentPhrases.forEach((p) => {
       item.santhali?.nativeOlChiki?.includes(p.tribalInput) ||
       item.santhali?.nativeDeva?.includes(p.tribalInput) ||
       item.ho?.native?.includes(p.tribalInput) ||
-      item.mundari?.native?.includes(p.tribalInput)
+      item.mundari?.native?.includes(p.tribalInput) ||
+      item.sadri?.native?.includes(p.tribalInput)
     );
   });
   if (matched) reverseMatchCount++;
@@ -124,13 +134,18 @@ console.log('\n▶ [SUITE 4/6] NIPUN Bharat FLN Curriculum & 80:20 Transitional 
 assert(NIPUN_LESSONS && NIPUN_LESSONS.length >= 3, `FLN curriculum suite contains ${NIPUN_LESSONS.length} multi-step structured lessons`);
 
 let allLessonsHaveBilingualSteps = true;
+let allLessonsHaveSadri = true;
 NIPUN_LESSONS.forEach((lesson) => {
   if (!lesson.titleHindi || !lesson.learningOutcome || !lesson.translations) {
     allLessonsHaveBilingualSteps = false;
   }
+  if (!lesson.translations?.sadri) {
+    allLessonsHaveSadri = false;
+  }
 });
 
 assert(allLessonsHaveBilingualSteps, 'All lessons implement structured bilingual timelines with teacher guidance and student outcomes');
+assert(allLessonsHaveSadri, 'All lessons contain official Sadri (नागपुरी) prompts and contextual vernacular outcomes');
 
 // -----------------------------------------------------------------------------
 // TEST SUITE 5: OFFLINE STORAGE & STATE PERSISTENCE TEST

@@ -87,11 +87,11 @@ export class CustomNeuralMundaEngine {
     let audioText = '';
 
     if (matchedPhrase) {
-      const langData = matchedPhrase[targetLang];
-      generatedScript = langData.nativeOlChiki || langData.native;
-      phoneticDeva = langData.phoneticDeva;
-      phoneticLatin = langData.phoneticLatin;
-      audioText = langData.audio;
+      const langData = matchedPhrase[targetLang] || matchedPhrase.sadri || matchedPhrase.santhali || matchedPhrase.ho || matchedPhrase.mundari || {};
+      generatedScript = langData.nativeOlChiki || langData.native || cleanHindi;
+      phoneticDeva = langData.phoneticDeva || cleanHindi;
+      phoneticLatin = langData.phoneticLatin || '';
+      audioText = langData.audio || langData.phoneticDeva || cleanHindi;
     } else {
       // Token-level neural subword composition
       const outWords = [];
@@ -102,10 +102,10 @@ export class CustomNeuralMundaEngine {
         let found = false;
         for (const item of TRIBAL_LEXICON) {
           if (item.hindi.includes(t.token) || t.token.includes(item.hindi)) {
-            const data = item[targetLang];
-            outWords.push(data.nativeOlChiki || data.native);
-            outDeva.push(data.phoneticDeva);
-            outLatin.push(data.phoneticLatin);
+            const data = item[targetLang] || item.sadri || item.santhali || item.ho || item.mundari || {};
+            outWords.push(data.nativeOlChiki || data.native || t.token);
+            outDeva.push(data.phoneticDeva || t.token);
+            outLatin.push(data.phoneticLatin || '');
             found = true;
             break;
           }

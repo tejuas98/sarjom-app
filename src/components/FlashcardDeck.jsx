@@ -47,17 +47,17 @@ export function FlashcardDeck({ selectedLang }) {
   const currentQuizCard = filteredCards[currentQuizIndex] || filteredCards[0];
   const generateQuizOptions = () => {
     if (!currentQuizCard) return [];
-    const correctTribal = currentQuizCard[selectedLang];
-    const correctVal = correctTribal.nativeOlChiki || correctTribal.native;
+    const correctTribal = (currentQuizCard && (currentQuizCard[selectedLang] || currentQuizCard.sadri || currentQuizCard.santhali || currentQuizCard.mundari || currentQuizCard.ho)) || {};
+    const correctVal = correctTribal.nativeOlChiki || correctTribal.native || currentQuizCard.hindi;
 
     const otherCards = TRIBAL_LEXICON.filter((c) => c.id !== currentQuizCard.id);
     const shuffledOthers = [...otherCards].sort(() => 0.5 - Math.random()).slice(0, 3);
 
     const options = [
-      { text: correctVal, isCorrect: true, phonetic: correctTribal.phoneticDeva },
+      { text: correctVal, isCorrect: true, phonetic: correctTribal.phoneticDeva || currentQuizCard.hindi },
       ...shuffledOthers.map((c) => {
-        const t = c[selectedLang];
-        return { text: t.nativeOlChiki || t.native, isCorrect: false, phonetic: t.phoneticDeva };
+        const t = c[selectedLang] || c.sadri || c.santhali || c.mundari || c.ho || {};
+        return { text: t.nativeOlChiki || t.native || c.hindi, isCorrect: false, phonetic: t.phoneticDeva || c.hindi };
       }),
     ];
 

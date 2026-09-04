@@ -33,6 +33,11 @@ export const FOLK_STORIES = [
           phoneticDeva: 'अडि दिन माड़ांग रेयाग काथा काना, आबोवाग आतु रे सारजोम दारे ताहे काना।',
           audio: 'Adi din marang reyag katha kana, abowag atu re sarjom dare tahe kana',
         },
+        sadri: {
+          native: 'बहुत दिन पहिलेक बात हेके, हमार गाँव में सारजोम (साल) कर बड़-बड़ रुख रहे।',
+          phoneticDeva: 'बहुत दिन पहिलेक बात हेके, हमार गाँव में सारजोम कर बड़-बड़ रुख रहे।',
+          audio: 'Bahut din pahilek baat heke, hamar gaon me sarjom kar bad bad rukh rahe',
+        },
       },
       {
         id: 2,
@@ -53,6 +58,11 @@ export const FOLK_STORIES = [
           phoneticDeva: 'बाहा परोब रे सारजोम दारे रे पूंड बाहा फुटावग-आ।',
           audio: 'Baha porob re sarjom dare re pund baha futawg-aa',
         },
+        sadri: {
+          native: 'सरहुल परब में साल कर रुख में सुंदर-सुंदर चरका फूल फूलेला।',
+          phoneticDeva: 'सरहुल परब में साल कर रुख में सुंदर-सुंदर चरका फूल फूलेला।',
+          audio: 'Sarhul parab me saal kar rukh me sundar sundar charka phool phoolela',
+        },
       },
       {
         id: 3,
@@ -72,6 +82,11 @@ export const FOLK_STORIES = [
           nativeDeva: 'आतु रिन सानाम गिद्रा टामाक-तुमदाग ते एनेज आर सेरेञ को।',
           phoneticDeva: 'आतु रिन सानाम गिद्रा टामाक-तुमदाग ते एनेज आर सेरेञ को।',
           audio: 'Atu rin sanam gidra tamak tumdak te enej aar serenj ko',
+        },
+        sadri: {
+          native: 'गाँव कर सब छौवा मन मिलके माँदर कर ताल पर नाचेला आउर गावेला।',
+          phoneticDeva: 'गाँव कर सब छौवा मन मिलके माँदर कर ताल पर नाचेला आउर गावेला।',
+          audio: 'Gaon kar sab chhowa man milke mandar kar taal par nachela aur gawela',
         },
       },
     ],
@@ -104,6 +119,11 @@ export const FOLK_STORIES = [
           phoneticDeva: 'बिर रे मिद मारांग हाति दाग ञु लागिद पुखरि ते हिजुग ताहेद।',
           audio: 'Bir re mid marang hati dak nyu lagid pukhori te hijug tahend',
         },
+        sadri: {
+          native: 'बहुत दिन पहिलेक बात हेके, हमार गाँव में सारजोम (साल) कर बड़-बड़ रुख रहे।',
+          phoneticDeva: 'बहुत दिन पहिलेक बात हेके, हमार गाँव में सारजोम कर बड़-बड़ रुख रहे।',
+          audio: 'Bahut din pahilek baat heke, hamar gaon me sarjom kar bad bad rukh rahe',
+        },
       },
       {
         id: 2,
@@ -123,6 +143,11 @@ export const FOLK_STORIES = [
           nativeDeva: 'काटिज कुलइ आजाग बुधि ते हाति साव गातेयेनाय।',
           phoneticDeva: 'काटिज कुलइ आजाग बुधि ते हाति साव गातेयेनाय।',
           audio: 'Katij kulai ajag budhi te hati saw gateyenay',
+        },
+        sadri: {
+          native: 'सरहुल परब में साल कर रुख में सुंदर-सुंदर चरका फूल फूलेला।',
+          phoneticDeva: 'सरहुल परब में साल कर रुख में सुंदर-सुंदर चरका फूल फूलेला।',
+          audio: 'Sarhul parab me saal kar rukh me sundar sundar charka phool phoolela',
         },
       },
     ],

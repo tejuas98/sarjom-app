@@ -38,6 +38,12 @@ export const NIPUN_LESSONS = [
         phoneticLatin: 'Dular gidra ko! Tehenj aabo Johar la-ee aar nyutum la-ee bo ched-aa.',
         audioPrompt: 'Dular gidra ko! Tehenj aabo Johar laee bo ched-aa',
       },
+      sadri: {
+        script: 'दुलार छौवा मन! क्लास में रउरे सबके स्वागत हेके। आज हमरे जोहार करेक सीखब।',
+        phoneticDeva: 'दुलार छौवा मन! क्लास में रउरे सबके स्वागत हेके। आज हमरे जोहार करेक सीखब।',
+        phoneticLatin: 'Dular chhowa man! Class me raure sabke swagat heke. Aaj hamre johar karek seekhab.',
+        audioPrompt: 'Dular chhowa man! Aaj hamre johar karek seekhab',
+      },
     },
 
     // Step 2: Classroom Dialogue Activity
@@ -108,6 +114,12 @@ export const NIPUN_LESSONS = [
         phoneticLatin: 'Gidra ko, tebul re menag sakam ko inj saw lekhay pe.',
         audioPrompt: 'Gidra ko, sakam ko inj saw lekhay pe',
       },
+      sadri: {
+      script: 'आज हमरे गिनती सीखब। देखा: १ (एक), २ (दुई), ३ (तीन), ४ (चार), ५ (पाँच)।',
+      phoneticDeva: 'आज हमरे गिनती सीखब। देखा: १ (एक), २ (दुई), ३ (तीन), ४ (चार), ५ (पाँच)।',
+      phoneticLatin: 'Aaj hamre ginti seekhab. Dekha: 1 (ek), 2 (dui), 3 (tin), 4 (char), 5 (panch).',
+      audioPrompt: 'Aaj hamre ginti seekhab ek dui tin char panch',
+    },
     },
 
     activity: {
@@ -176,6 +188,12 @@ export const NIPUN_LESSONS = [
         phoneticLatin: 'Gidra ko, khirki bahre nyel pe. Dare aar chene ko nyelog kana?',
         audioPrompt: 'Gidra ko, khirki bahre nyel pe. Dare aar chene nyelog kana',
       },
+      sadri: {
+      script: 'हमार गाँव, हमार जंगल आउर सुरुज-चाँद। प्रकृति हमार माई हेके।',
+      phoneticDeva: 'हमार गाँव, हमार जंगल आउर सुरुज-चाँद। प्रकृति हमार माई हेके।',
+      phoneticLatin: 'Hamar gaon, hamar jangal aur suruj-chand. Prakriti hamar maay heke.',
+      audioPrompt: 'Hamar gaon hamar jangal prakriti hamar maay heke',
+    },
     },
 
     activity: {

@@ -19,14 +19,14 @@ import { toast } from 'sonner';
 
 export default function App() {
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-  const initialLang = (urlParams && urlParams.get('lang')) || offlineStorage.getSelectedLanguage() || 'santhali';
+  const initialLang = (urlParams && urlParams.get('lang')) || offlineStorage.getSelectedLanguage() || 'sadri';
   const initialOffline = urlParams && urlParams.has('offline') ? urlParams.get('offline') === 'true' : true;
   const initialTab = (urlParams && urlParams.get('tab')) || 'voice';
   const initialDrawer = urlParams ? urlParams.get('drawer') === 'true' : false;
   const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
   const initialTour = urlParams ? urlParams.get('tour') === 'true' : false;
   const initialAudio = urlParams ? urlParams.get('audio') === 'true' : false;
-  const initialFrame = urlParams && urlParams.has('frame') ? urlParams.get('frame') === 'true' : true;
+  const initialDevice = (urlParams && urlParams.get('device')) || 'ios';
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
   const [isOffline, setIsOffline] = useState(initialOffline);
@@ -35,7 +35,7 @@ export default function App() {
   const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
   const [isJuryTourOpen, setIsJuryTourOpen] = useState(initialTour);
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
-  const [isTabletFrame, setIsTabletFrame] = useState(initialFrame);
+  const [deviceMode, setDeviceMode] = useState(initialDevice); // 'ios' | 'android' | 'full'
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
@@ -54,14 +54,20 @@ export default function App() {
     }
   };
 
+  const isIOS = deviceMode === 'ios';
+  const isAndroid = deviceMode === 'android';
+  const isFramed = isIOS || isAndroid;
+
   return (
     <div
       style={{
-        minHeight: '100vh',
-        background: isTabletFrame
-          ? 'radial-gradient(ellipse at 50% 15%, #1A2230 0%, #0F141C 60%, #080B10 100%)'
+        minHeight: '100dvh',
+        background: isFramed
+          ? isIOS
+            ? 'radial-gradient(ellipse at 50% 12%, #1F2430 0%, #11141C 55%, #080A0E 100%)'
+            : 'radial-gradient(ellipse at 50% 15%, #1A2230 0%, #0F141C 60%, #080B10 100%)'
           : 'var(--color-bg)',
-        padding: isTabletFrame ? '24px 12px 48px 12px' : '0',
+        padding: isFramed ? '20px 12px 40px 12px' : '0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -69,51 +75,140 @@ export default function App() {
         position: 'relative',
       }}
     >
-      {/* Gyanodaya 10.1" Tablet Device Bezel Container */}
+      {/* Tablet Device Bezel Container (Apple iPad Pro 11" vs Android Go 10.1") */}
       <div
         style={{
           width: '100%',
-          maxWidth: isTabletFrame ? '1220px' : '100%',
+          maxWidth: isFramed ? (isIOS ? '1180px' : '1220px') : '100%',
           backgroundColor: 'var(--color-bg)',
-          borderRadius: isTabletFrame ? '28px' : '0',
-          border: isTabletFrame ? '10px solid #1E293B' : 'none',
-          boxShadow: isTabletFrame
-            ? '0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 60px rgba(14, 91, 55, 0.12), 0 0 90px rgba(217, 90, 39, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.08)'
+          borderRadius: isFramed ? (isIOS ? '38px' : '26px') : '0',
+          border: isFramed
+            ? isIOS
+              ? '13px solid #1C1E23'
+              : '10px solid #1E293B'
+            : 'none',
+          boxShadow: isFramed
+            ? isIOS
+              ? '0 32px 90px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.12)'
+              : '0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 60px rgba(14, 91, 55, 0.12), 0 0 90px rgba(217, 90, 39, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.08)'
             : 'none',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
-          minHeight: isTabletFrame ? '860px' : '100vh',
+          minHeight: isFramed ? '880px' : '100dvh',
           backdropFilter: 'blur(20px)',
         }}
       >
-        {/* Tablet Top Bezel Camera Dot */}
-        {isTabletFrame && (
+        {/* Apple iPad Top Bezel FaceTime Camera Dot & Sensor */}
+        {isFramed && (
           <div
             style={{
               position: 'absolute',
-              top: '4px',
+              top: isIOS ? '4px' : '4px',
               left: '50%',
               transform: 'translateX(-50%)',
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#0F172A',
-              border: '1px solid #334155',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
               zIndex: 100,
             }}
-          />
+          >
+            <div
+              style={{
+                width: isIOS ? '8px' : '8px',
+                height: isIOS ? '8px' : '8px',
+                borderRadius: '50%',
+                backgroundColor: '#090B0F',
+                border: '1px solid #333D4F',
+                boxShadow: 'inset 0 0 2px rgba(0,255,200,0.2)',
+              }}
+            />
+            {isIOS && (
+              <div
+                style={{
+                  width: '3.5px',
+                  height: '3.5px',
+                  borderRadius: '50%',
+                  backgroundColor: '#161F2E',
+                }}
+              />
+            )}
+          </div>
         )}
 
-        {/* 1. Android Tablet Diagnostic & Jharkhand EVV Status Bar */}
+        {/* Apple iOS Status Bar (Visible in iOS mode) */}
+        {isIOS && (
+          <div
+            style={{
+              height: '24px',
+              backgroundColor: '#111815',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '0 20px',
+              fontSize: '0.72rem',
+              color: '#F1F5F9',
+              fontWeight: 600,
+              letterSpacing: '0.01em',
+              borderBottom: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>9:41 AM</span>
+              <span style={{ color: '#94A3B8', fontSize: '0.68rem' }}>iPad • Gumla DIET</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '0.68rem', color: '#70C28A' }}>5G Govt Edu</span>
+              {/* iOS Battery Capsule */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '2px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '22px',
+                    height: '11px',
+                    borderRadius: '3px',
+                    border: '1px solid #F1F5F9',
+                    padding: '1px',
+                    display: 'flex',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: '#22C55E',
+                      borderRadius: '1.5px',
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    width: '1.5px',
+                    height: '4px',
+                    backgroundColor: '#F1F5F9',
+                    borderRadius: '0 1px 1px 0',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 1. Tablet Diagnostic & Jharkhand EVV Status Bar */}
         <TabletSimulatorBar
           isOffline={isOffline}
           toggleOffline={handleToggleOffline}
           selectedLang={selectedLang}
           onSelectLang={handleSelectLang}
-          isTabletFrame={isTabletFrame}
-          onToggleTabletFrame={() => setIsTabletFrame((prev) => !prev)}
+          isTabletFrame={isFramed}
+          deviceMode={deviceMode}
+          onChangeDeviceMode={setDeviceMode}
         />
 
         {/* 2. Top Header & Navigation Bar */}
@@ -209,14 +304,38 @@ export default function App() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
             <span className="badge-tag badge-forest">हो (Ho)</span>
             <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
             <span className="badge-tag badge-ochre">संताली (Santhali)</span>
-            <span style={{ fontSize: '0.78rem' }}>स्मृति पदचिह्न (RAM): ~38 MB (≤2GB Tablet OK)</span>
+            <span className="badge-tag" style={{ backgroundColor: '#E0F2FE', color: '#0369A1', borderColor: '#BAE6FD' }}>सादरी (Sadri)</span>
+            <span style={{ fontSize: '0.78rem' }}>स्मृति पदचिह्न (RAM): ~34 MB (On-Device OK)</span>
           </div>
         </div>
       </footer>
+
+      {/* Apple iPad Home Indicator Bar */}
+      {isIOS && (
+        <div
+          style={{
+            padding: '8px 0 10px 0',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: '#FFFFFF',
+            borderTop: '1px solid rgba(0,0,0,0.04)',
+          }}
+        >
+          <div
+            style={{
+              width: '136px',
+              height: '5px',
+              borderRadius: '100px',
+              backgroundColor: '#94A3B8',
+              opacity: 0.75,
+            }}
+          />
+        </div>
+      )}
       </div>
     </div>
   );

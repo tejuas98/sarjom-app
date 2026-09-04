@@ -28,6 +28,12 @@ export const CLASSROOM_PHRASES = [
       phoneticLatin: 'Thir tahen pe aar anjom pe.',
       audio: 'Thir tahen pe aar anjom pe',
     },
+    sadri: {
+      native: 'शान्त रहा आउर सुना।',
+      phoneticDeva: 'शान्त रहा आउर सुना।',
+      phoneticLatin: 'Shant raha aur suna.',
+      audio: 'Shant raha aur suna',
+    },
   },
   {
     id: 'ph_2',
@@ -52,6 +58,12 @@ export const CLASSROOM_PHRASES = [
       phoneticDeva: 'आपणार जायगा रे दुड़ुब पे।',
       phoneticLatin: 'Apnar jayga re durup pe.',
       audio: 'Aapnar jaayga re durup pe',
+    },
+    sadri: {
+      native: 'अपन जगहा में बैठ जा।',
+      phoneticDeva: 'अपन जगहा में बैठ जा।',
+      phoneticLatin: 'Apan jagha me baith ja.',
+      audio: 'Apan jagha me baith ja',
     },
   },
   {
@@ -78,6 +90,12 @@ export const CLASSROOM_PHRASES = [
       phoneticLatin: 'Sanam ko thay-yo me!',
       audio: 'Sanam ko thayyo me',
     },
+    sadri: {
+      native: 'शाबाश! तोहरे बहुत बेस करला।',
+      phoneticDeva: 'शाबाश! तोहरे बहुत बेस करला।',
+      phoneticLatin: 'Shabash! Tohre bahut bes karla.',
+      audio: 'Shabash tohre bahut bes karla',
+    },
   },
   {
     id: 'ph_4',
@@ -102,6 +120,12 @@ export const CLASSROOM_PHRASES = [
       phoneticDeva: 'सारहाव! आम अडि नापायेम ओल केद-आ।',
       phoneticLatin: 'Sarhaw! Am adi napayem ol ked-a.',
       audio: 'Sarhaw! Aam aadi naapaayem ol keda',
+    },
+    sadri: {
+      native: 'हँ, जा पानी पीके तुरते आवा।',
+      phoneticDeva: 'हँ, जा पानी पीके तुरते आवा।',
+      phoneticLatin: 'Haan, jaa pani peeke turte aawa.',
+      audio: 'Haan ja pani peeke turte aawa',
     },
   },
   {
@@ -128,6 +152,12 @@ export const CLASSROOM_PHRASES = [
       phoneticLatin: 'Ti arub kate daka jom hijug pe.',
       audio: 'Ti arub kate daka jom hijug pe',
     },
+    sadri: {
+      native: 'किताब खोला आउर पाठ एक पढ़ा।',
+      phoneticDeva: 'किताब खोला आउर पाठ एक पढ़ा।',
+      phoneticLatin: 'Kitab khola aur path ek padha.',
+      audio: 'Kitab khola aur path ek padha',
+    },
   },
   {
     id: 'ph_6',
@@ -152,6 +182,12 @@ export const CLASSROOM_PHRASES = [
       phoneticDeva: 'ओकोय लइ दाड़ेयाग-आ? ती तुल पे।',
       phoneticLatin: 'Okoy la-ee dareyag-a? Ti tul pe.',
       audio: 'Okoy laee daareyaaga? Ti tul pe',
+    },
+    sadri: {
+      native: 'अपन स्लेट निकाला आउर लिखा।',
+      phoneticDeva: 'अपन स्लेट निकाला आउर लिखा।',
+      phoneticLatin: 'Apan slet nikala aur likha.',
+      audio: 'Apan slet nikala aur likha',
     },
   },
 ];
@@ -179,6 +215,12 @@ export const STUDENT_TO_TEACHER_PHRASES = [
       phoneticLatin: 'Dak nyunj chalag-a.',
       audio: 'Dak nyunj chalag-a',
     },
+    sadri: {
+      native: 'सर/दीदी, हमके पानी पिएक हे।',
+      phoneticDeva: 'सर/दीदी, हमके पानी पिएक हे।',
+      phoneticLatin: 'Sir/Didi, hamke pani piyek he.',
+      audio: 'Sir didi hamke pani piyek he',
+    },
   },
   {
     id: 'stu_2',
@@ -201,6 +243,12 @@ export const STUDENT_TO_TEACHER_PHRASES = [
       phoneticDeva: 'इञ बञ बुझौ लेद-आ।',
       phoneticLatin: 'Inj banj bujhow led-a.',
       audio: 'Inj banj bujhow led-a',
+    },
+    sadri: {
+      native: 'हमके नइ समझ में आलक, फेर से बतावा।',
+      phoneticDeva: 'हमके नइ समझ में आलक, फेर से बतावा।',
+      phoneticLatin: 'Hamke nai samajh me aalak, pher se batawa.',
+      audio: 'Hamke nai samajh me aalak pher se batawa',
     },
   },
   {
@@ -225,6 +273,12 @@ export const STUDENT_TO_TEACHER_PHRASES = [
       phoneticLatin: 'Inyaq khata nyel me.',
       audio: 'Inyaq khata nyel me',
     },
+    sadri: {
+      native: 'हमार काम पूरा होय गेलक।',
+      phoneticDeva: 'हमार काम पूरा होय गेलक।',
+      phoneticLatin: 'Hamar kaam poora hoy gelak.',
+      audio: 'Hamar kaam poora hoy gelak',
+    },
   },
   {
     id: 'stu_4',
@@ -247,6 +301,12 @@ export const STUDENT_TO_TEACHER_PHRASES = [
       phoneticDeva: 'इञ लाज हासुइञ काना。',
       phoneticLatin: 'Inj laj hasuyinj kana.',
       audio: 'Inj laj hasuyinj kana',
+    },
+    sadri: {
+      native: 'हमके पेंसिल/स्लेट चाही।',
+      phoneticDeva: 'हमके पेंसिल/स्लेट चाही।',
+      phoneticLatin: 'Hamke pencil/slate chahi.',
+      audio: 'Hamke pencil slate chahi',
     },
   },
 ];

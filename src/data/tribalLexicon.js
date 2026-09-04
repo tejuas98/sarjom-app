@@ -24,7 +24,7 @@ export const TRIBAL_LANGUAGES = {
     accentColor: '#0E5B37',
     badgeText: 'मुण्डारी बानी / देवनागरी',
   },
-  santhali: {
+    santhali: {
     id: 'santhali',
     name: 'Santhali',
     nativeName: 'ᱥᱟᱱᱛᱟᱲᱤ / संताली',
@@ -32,6 +32,15 @@ export const TRIBAL_LANGUAGES = {
     region: 'Santhal Pargana (Dumka, Deoghar, Godda, Jamtara, Pakur, Sahibganj)',
     accentColor: '#E5A93C',
     badgeText: 'ᱚᱞ ᱪᱤᱠᱤ (Ol Chiki)',
+  },
+  sadri: {
+    id: 'sadri',
+    name: 'Sadri',
+    nativeName: 'सादरी / नागपुरी',
+    primaryScript: 'Devanagari (देवनागरी)',
+    region: 'Gumla, Simdega, Latehar, Lohardaga, Ranchi',
+    accentColor: '#0284C7',
+    badgeText: 'सादरी (नागपुरी) / देवनागरी',
   },
 };
 
@@ -63,6 +72,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Johār',
       audioText: 'Johar',
     },
+    sadri: {
+      native: 'जोहार / परनाम',
+      phoneticDeva: 'जोहार / परनाम',
+      phoneticLatin: 'Johar / Parnam',
+      audioText: 'Johar Parnam',
+    },
   },
   {
     id: 'greet_2',
@@ -89,6 +104,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'चेद लेका मेनामा?',
       phoneticLatin: 'Ched leka menama?',
       audioText: 'Ched leka menama',
+    },
+    sadri: {
+      native: 'रउरे कैसन अही? / तोहे कैसन अह?',
+      phoneticDeva: 'रउरे कैसन अही?',
+      phoneticLatin: 'Raure kaisan ahi?',
+      audioText: 'Raure kaisan ahi',
     },
   },
   {
@@ -117,6 +138,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Besh ge menanya.',
       audioText: 'Besh ge menanya',
     },
+    sadri: {
+      native: 'हम बेस अही।',
+      phoneticDeva: 'हम बेस अही।',
+      phoneticLatin: 'Ham bes ahi.',
+      audioText: 'Ham bes ahi',
+    },
   },
   {
     id: 'greet_4',
@@ -143,6 +170,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'आमाग ञुतुम दो चेद?',
       phoneticLatin: 'Amag nyutum do ched?',
       audioText: 'Aamag nyutum do ched',
+    },
+    sadri: {
+      native: 'तोहार नांव का हेके?',
+      phoneticDeva: 'तोहार नांव का हेके?',
+      phoneticLatin: 'Tohar naawn ka heke?',
+      audioText: 'Tohar naawn ka heke',
     },
   },
 
@@ -173,6 +206,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Node hijug me.',
       audioText: 'Node hijug me',
     },
+    sadri: {
+      native: 'हियाँ आवा।',
+      phoneticDeva: 'हियाँ आवा।',
+      phoneticLatin: 'Hiyaan aawa.',
+      audioText: 'Hiyaan aawa',
+    },
   },
   {
     id: 'cmd_2',
@@ -199,6 +238,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'दुड़ुब मे।',
       phoneticLatin: 'Durub me.',
       audioText: 'Durub me',
+    },
+    sadri: {
+      native: 'बैठ जा।',
+      phoneticDeva: 'बैठ जा।',
+      phoneticLatin: 'Baith ja.',
+      audioText: 'Baith ja',
     },
   },
   {
@@ -227,6 +272,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Puthi jhij me.',
       audioText: 'Puthi jhij me',
     },
+    sadri: {
+      native: 'किताब खोला।',
+      phoneticDeva: 'किताब खोला।',
+      phoneticLatin: 'Kitab khola.',
+      audioText: 'Kitab khola',
+    },
   },
   {
     id: 'cmd_4',
@@ -253,6 +304,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'स्लेट रे ओल मे।',
       phoneticLatin: 'Slate re ol me.',
       audioText: 'Slate re ol me',
+    },
+    sadri: {
+      native: 'स्लेट में लिखा।',
+      phoneticDeva: 'स्लेट में लिखा।',
+      phoneticLatin: 'Slet me likha.',
+      audioText: 'Slet me likha',
     },
   },
   {
@@ -281,6 +338,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Besh te anjom me.',
       audioText: 'Besh te anjom me',
     },
+    sadri: {
+      native: 'पानी पी लेवा।',
+      phoneticDeva: 'पानी पी लेवा।',
+      phoneticLatin: 'Pani pi lewa.',
+      audioText: 'Pani pi lewa',
+    },
   },
   {
     id: 'cmd_6',
@@ -307,6 +370,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'अडि बेश!',
       phoneticLatin: 'Adi besh!',
       audioText: 'Adi besh',
+    },
+    sadri: {
+      native: 'शान्त रहा आउर सुना।',
+      phoneticDeva: 'शान्त रहा आउर सुना।',
+      phoneticLatin: 'Shant raha aur suna.',
+      audioText: 'Shant raha aur suna',
     },
   },
 
@@ -338,6 +407,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Mit / Mid',
       audioText: 'Mid',
     },
+    sadri: {
+      native: 'एक (१)',
+      phoneticDeva: 'एक',
+      phoneticLatin: 'Ek',
+      audioText: 'Ek',
+    },
   },
   {
     id: 'num_2',
@@ -365,6 +440,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'बार',
       phoneticLatin: 'Bar',
       audioText: 'Bar',
+    },
+    sadri: {
+      native: 'दुई (२)',
+      phoneticDeva: 'दुई',
+      phoneticLatin: 'Dui',
+      audioText: 'Dui',
     },
   },
   {
@@ -394,6 +475,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Pe',
       audioText: 'Pe',
     },
+    sadri: {
+      native: 'तीन (३)',
+      phoneticDeva: 'तीन',
+      phoneticLatin: 'Tin',
+      audioText: 'Tin',
+    },
   },
   {
     id: 'num_4',
@@ -421,6 +508,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'पुन',
       phoneticLatin: 'Pone / Pun',
       audioText: 'Pone',
+    },
+    sadri: {
+      native: 'चार (४)',
+      phoneticDeva: 'चार',
+      phoneticLatin: 'Char',
+      audioText: 'Char',
     },
   },
   {
@@ -450,6 +543,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'More / Mone',
       audioText: 'Mone',
     },
+    sadri: {
+      native: 'पाँच (५)',
+      phoneticDeva: 'पाँच',
+      phoneticLatin: 'Panch',
+      audioText: 'Panch',
+    },
   },
   {
     id: 'num_10',
@@ -477,6 +576,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'गेल',
       phoneticLatin: 'Gel',
       audioText: 'Gel',
+    },
+    sadri: {
+      native: 'दस (१०)',
+      phoneticDeva: 'दस',
+      phoneticLatin: 'Das',
+      audioText: 'Das',
     },
   },
 
@@ -507,6 +612,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Dak / Dag',
       audioText: 'Daak',
     },
+    sadri: {
+      native: 'पानी / पायनी',
+      phoneticDeva: 'पानी',
+      phoneticLatin: 'Pani',
+      audioText: 'Pani',
+    },
   },
   {
     id: 'nat_2',
@@ -533,6 +644,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'दारे',
       phoneticLatin: 'Dare',
       audioText: 'Dare',
+    },
+    sadri: {
+      native: 'सुरुज / घाम',
+      phoneticDeva: 'सुरुज',
+      phoneticLatin: 'Suruj',
+      audioText: 'Suruj',
     },
   },
   {
@@ -561,6 +678,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Baha',
       audioText: 'Baha',
     },
+    sadri: {
+      native: 'गाछ / रुख',
+      phoneticDeva: 'गाछ',
+      phoneticLatin: 'Gaachh',
+      audioText: 'Gaachh',
+    },
   },
   {
     id: 'nat_4',
@@ -587,6 +710,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'बेड़ा / सिञ',
       phoneticLatin: 'Bera / Sinj',
       audioText: 'Bera',
+    },
+    sadri: {
+      native: 'टोंगरी / पहाड़',
+      phoneticDeva: 'टोंगरी',
+      phoneticLatin: 'Tongri',
+      audioText: 'Tongri',
     },
   },
 
@@ -617,6 +746,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Hati',
       audioText: 'Hati',
     },
+    sadri: {
+      native: 'हाथी',
+      phoneticDeva: 'हाथी',
+      phoneticLatin: 'Hathi',
+      audioText: 'Hathi',
+    },
   },
   {
     id: 'anim_2',
@@ -643,6 +778,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'चेणे',
       phoneticLatin: 'Chene',
       audioText: 'Chene',
+    },
+    sadri: {
+      native: 'बाघ',
+      phoneticDeva: 'बाघ',
+      phoneticLatin: 'Bagh',
+      audioText: 'Bagh',
     },
   },
   {
@@ -671,6 +812,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Setā',
       audioText: 'Seta',
     },
+    sadri: {
+      native: 'चिरई',
+      phoneticDeva: 'चिरई',
+      phoneticLatin: 'Chirai',
+      audioText: 'Chirai',
+    },
   },
   {
     id: 'anim_4',
@@ -697,6 +844,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'हाकु',
       phoneticLatin: 'Haku',
       audioText: 'Haku',
+    },
+    sadri: {
+      native: 'माछ / मछली',
+      phoneticDeva: 'माछ',
+      phoneticLatin: 'Maachh',
+      audioText: 'Maachh',
     },
   },
 
@@ -727,6 +880,12 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Aayo / Enga',
       audioText: 'Aayo',
     },
+    sadri: {
+      native: 'माय / माई',
+      phoneticDeva: 'माय',
+      phoneticLatin: 'Maay',
+      audioText: 'Maay',
+    },
   },
   {
     id: 'fam_2',
@@ -753,6 +912,12 @@ export const TRIBAL_LEXICON = [
       phoneticDeva: 'बाबा',
       phoneticLatin: 'Baba / Apat',
       audioText: 'Baba',
+    },
+    sadri: {
+      native: 'बाप / बाबा',
+      phoneticDeva: 'बाप',
+      phoneticLatin: 'Baap',
+      audioText: 'Baap',
     },
   },
   {
@@ -781,5 +946,29 @@ export const TRIBAL_LEXICON = [
       phoneticLatin: 'Gāte',
       audioText: 'Gate',
     },
+    sadri: {
+      native: 'संगी / सगा',
+      phoneticDeva: 'संगी',
+      phoneticLatin: 'Sangi',
+      audioText: 'Sangi',
+    },
   },
 ];
+
+
+/**
+ * Safe accessor for tribal language metadata with complete fallbacks
+ * Prevents any runtime TypeError when switching between dialects
+ */
+export function getTribalLangData(item, langId = 'santhali') {
+  if (!item) return { native: '', phoneticDeva: '', phoneticLatin: '', audioText: '' };
+  const target = item[langId] || item.sadri || item.santhali || item.mundari || item.ho;
+  if (!target) return { native: '', phoneticDeva: '', phoneticLatin: '', audioText: '' };
+  return {
+    ...target,
+    nativeScript: target.nativeOlChiki || target.native || target.phoneticDeva || '',
+    phoneticDeva: target.phoneticDeva || target.native || '',
+    phoneticLatin: target.phoneticLatin || '',
+    audioText: target.audioText || target.audio || target.phoneticDeva || '',
+  };
+}

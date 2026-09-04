@@ -15,11 +15,12 @@ export function DictionarySearch() {
 
     const q = searchQuery.toLowerCase().trim();
     return (
-      item.hindi.toLowerCase().includes(q) ||
-      item.english.toLowerCase().includes(q) ||
-      item.ho.phoneticDeva.toLowerCase().includes(q) ||
-      item.mundari.phoneticDeva.toLowerCase().includes(q) ||
-      item.santhali.phoneticDeva.toLowerCase().includes(q)
+      (item.hindi && item.hindi.toLowerCase().includes(q)) ||
+      (item.english && item.english.toLowerCase().includes(q)) ||
+      (item.ho && item.ho.phoneticDeva && item.ho.phoneticDeva.toLowerCase().includes(q)) ||
+      (item.mundari && item.mundari.phoneticDeva && item.mundari.phoneticDeva.toLowerCase().includes(q)) ||
+      (item.santhali && item.santhali.phoneticDeva && item.santhali.phoneticDeva.toLowerCase().includes(q)) ||
+      (item.sadri && item.sadri.phoneticDeva && item.sadri.phoneticDeva.toLowerCase().includes(q))
     );
   });
 
@@ -48,7 +49,7 @@ export function DictionarySearch() {
               त्रैभाषिक FLN शब्दकोश (Tri-Lingual Lexicon Search)
             </h2>
           </div>
-          <span className="badge-tag badge-forest">हो • मुण्डारी • संताली शब्दकोश</span>
+          <span className="badge-tag badge-forest">हो • मुण्डारी • संताली • सादरी शब्दकोश</span>
         </div>
 
         {/* Search Bar & Category Filter */}
@@ -229,6 +230,43 @@ export function DictionarySearch() {
                   संताली ध्वनि सुनें
                 </button>
               </div>
+
+              {/* 4. Sadri (Nagpuri) */}
+              {item.sadri && (
+                <div
+                  style={{
+                    backgroundColor: '#F0F9FF',
+                    padding: '12px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid #BAE6FD',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284C7' }}>
+                      सादरी (Sadri / Nagpuri):
+                    </div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0' }}>
+                      {item.sadri.native}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#0369A1' }}>
+                      उच्चारण: {item.sadri.phoneticDeva}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handlePlay(item.sadri.audioText || item.sadri.phoneticDeva, 'Sadri')}
+                    className="btn-brutal"
+                    style={{ padding: '4px 8px', fontSize: '0.75rem', backgroundColor: '#0284C7', color: '#FFF' }}
+                  >
+                    <Volume2 size={12} />
+                    सादरी ध्वनि सुनें
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}

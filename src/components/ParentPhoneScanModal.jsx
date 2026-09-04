@@ -34,6 +34,15 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
       meaning: '1: एक, 2: दो, 3: तीन, 4: चार, 5: पांच',
       spokenText: 'मियद, बारिया, आपिया, उपुनया, मोड़ेया। बेस गे!',
       audioFile: '/audio/classroom_command.mp3'
+    },
+    sadri: {
+      langName: 'सादरी (Sadri / नागपुरी)',
+      title: 'संख्या ज्ञान (1-5) अभ्यास उच्चारण',
+      script: 'एक, दुई, तीन, चार, पांच',
+      phonetic: 'एक, दुई, तीन, चार, पांच',
+      meaning: '1: एक, 2: दो, 3: तीन, 4: चार, 5: पांच',
+      spokenText: 'एक, दुई, तीन, चार, पांच। बहुत बेस!',
+      audioFile: '/audio/classroom_command.mp3'
     }
   };
 

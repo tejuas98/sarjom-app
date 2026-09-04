@@ -108,7 +108,7 @@ export function Navbar({
                   }}
                   title={lang.region}
                 >
-                  {lang.name} <span style={{ fontSize: '0.74rem', opacity: 0.88 }}>({lang.id === 'ho' ? '𑢹𑣉𑣉' : lang.id === 'santhali' ? 'ᱥᱟᱱᱛᱟᱲᱤ' : 'मुण्डारी'})</span>
+                  {lang.name} <span style={{ fontSize: '0.74rem', opacity: 0.88 }}>({lang.id === 'ho' ? '𑢹𑣉𑣉' : lang.id === 'santhali' ? 'ᱥᱟᱱᱛᱟᱲᱤ' : lang.id === 'sadri' ? 'सादरी' : 'मुण्डारी'})</span>
                 </button>
               );
             })}

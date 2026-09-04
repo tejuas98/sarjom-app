@@ -92,32 +92,33 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
   }
 
   if (highestSimilarity >= 0.62 && bestSemanticMatch) {
-    const langData = bestSemanticMatch[targetLang];
-    result = {
-      sourceHindi: hindiText,
-      targetLang,
-      nativeScript: langData.nativeOlChiki || langData.native,
-      phoneticDeva: langData.phoneticDeva,
-      phoneticLatin: langData.phoneticLatin,
-      audioText: langData.audio,
-      confidence: Math.min(0.99, Number((highestSimilarity * 0.98).toFixed(2))),
-      matchType: `Semantic Vector Cosine Match (${Math.round(highestSimilarity * 100)}%)`,
-    };
+    const langData = bestSemanticMatch[targetLang] || bestSemanticMatch.sadri || bestSemanticMatch.santhali || bestSemanticMatch.mundari || bestSemanticMatch.ho;
+    if (langData) {
+      result = {
+        sourceHindi: hindiText,
+        targetLang,
+        nativeScript: langData.nativeOlChiki || langData.native || hindiText,
+        phoneticDeva: langData.phoneticDeva || hindiText,
+        phoneticLatin: langData.phoneticLatin || '',
+        audioText: langData.audio || langData.audioText || langData.phoneticDeva || hindiText,
+        confidence: Math.min(0.99, Number((highestSimilarity * 0.98).toFixed(2))),
+        matchType: `Semantic Vector Cosine Match (${Math.round(highestSimilarity * 100)}%)`,
+      };
+    }
   }
-
 
   // 2. Direct match in NIPUN lesson instructions
   if (!result) {
     for (const lesson of NIPUN_LESSONS) {
       if (normalizeHindi(lesson.teacherOpeningHindi) === normalized) {
-        const trans = lesson.translations[targetLang];
+        const trans = (lesson.translations && (lesson.translations[targetLang] || lesson.translations.sadri || lesson.translations.santhali || lesson.translations.mundari)) || {};
         result = {
           sourceHindi: hindiText,
           targetLang,
-          nativeScript: trans.scriptOlChiki || trans.script,
-          phoneticDeva: trans.phoneticDeva,
-          phoneticLatin: trans.phoneticLatin,
-          audioText: trans.audioPrompt,
+          nativeScript: trans.scriptOlChiki || trans.script || trans.scriptDeva || hindiText,
+          phoneticDeva: trans.phoneticDeva || hindiText,
+          phoneticLatin: trans.phoneticLatin || '',
+          audioText: trans.audioPrompt || trans.phoneticDeva || hindiText,
           confidence: 0.96,
           matchType: 'NIPUN Curriculum Plan Match',
         };
@@ -131,18 +132,20 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
     for (const item of TRIBAL_LEXICON) {
       const hNormalized = normalizeHindi(item.hindi);
       if (hNormalized === normalized || normalized.includes(hNormalized)) {
-        const data = item[targetLang];
-        result = {
-          sourceHindi: hindiText,
-          targetLang,
-          nativeScript: data.nativeOlChiki || data.native,
-          phoneticDeva: data.phoneticDeva,
-          phoneticLatin: data.phoneticLatin,
-          audioText: data.audioText,
-          confidence: 0.94,
-          matchType: 'FLN Lexicon Direct Match',
-        };
-        break;
+        const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
+        if (data) {
+          result = {
+            sourceHindi: hindiText,
+            targetLang,
+            nativeScript: data.nativeOlChiki || data.native || hindiText,
+            phoneticDeva: data.phoneticDeva || hindiText,
+            phoneticLatin: data.phoneticLatin || '',
+            audioText: data.audioText || data.phoneticDeva || hindiText,
+            confidence: 0.94,
+            matchType: 'FLN Lexicon Direct Match',
+          };
+          break;
+        }
       }
     }
   }
@@ -160,13 +163,15 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
       for (const item of TRIBAL_LEXICON) {
         const hNorm = normalizeHindi(item.hindi);
         if (hNorm === token || hNorm.split(/\s+/).includes(token)) {
-          const data = item[targetLang];
-          translatedTokens.push(data.nativeOlChiki || data.native);
-          phoneticDevaTokens.push(data.phoneticDeva);
-          phoneticLatinTokens.push(data.phoneticLatin);
-          audioTokens.push(data.audioText);
-          matched = true;
-          break;
+          const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
+          if (data) {
+            translatedTokens.push(data.nativeOlChiki || data.native || token);
+            phoneticDevaTokens.push(data.phoneticDeva || token);
+            phoneticLatinTokens.push(data.phoneticLatin || '');
+            audioTokens.push(data.audioText || token);
+            matched = true;
+            break;
+          }
         }
       }
 

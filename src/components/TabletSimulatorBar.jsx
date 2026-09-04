@@ -50,17 +50,43 @@ export const JHARKHAND_SCHOOL_PROFILES = [
     teacherName: 'अमित कुमार वर्मा (Hindi Medium)',
     evvTeacherId: 'EVV-T92401',
   },
+  {
+    id: 'school_gumla',
+    district: 'गुमला (Gumla)',
+    block: 'बिशुनपुर (Bishunpur)',
+    cluster: 'बिशुनपुर (Bishunpur Central)',
+    schoolName: 'राजकीय प्राथमिक विद्यालय, बिशुनपुर',
+    udiseCode: '20220100803',
+    defaultLang: 'sadri',
+    langName: 'सादरी / नागपुरी (Sadri - नागपुरी)',
+    teacherName: 'रोहित केरकेट्टा (Hindi Medium)',
+    evvTeacherId: 'EVV-T73119',
+  },
 ];
 
-export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onSelectLang, isTabletFrame, onToggleTabletFrame }) {
-  const [selectedSchoolId, setSelectedSchoolId] = useState(
-    selectedLang === 'ho'
-      ? 'school_west_singhbhum'
-      : selectedLang === 'mundari'
-      ? 'school_khunti'
-      : 'school_dumka'
-  );
+export function TabletSimulatorBar({
+  isOffline,
+  toggleOffline,
+  selectedLang,
+  onSelectLang,
+  isTabletFrame,
+  onToggleTabletFrame,
+  deviceMode = 'ios',
+  onChangeDeviceMode,
+}) {
+  const [selectedSchoolId, setSelectedSchoolId] = useState(() => {
+    const found = JHARKHAND_SCHOOL_PROFILES.find((s) => s.defaultLang === selectedLang);
+    return found ? found.id : 'school_gumla';
+  });
   const [isSyncingEVV, setIsSyncingEVV] = useState(false);
+
+  // Automatically keep school profile aligned when language changes
+  React.useEffect(() => {
+    const school = JHARKHAND_SCHOOL_PROFILES.find((s) => s.defaultLang === selectedLang);
+    if (school && school.id !== selectedSchoolId) {
+      setSelectedSchoolId(school.id);
+    }
+  }, [selectedLang]);
 
   const currentSchool =
     JHARKHAND_SCHOOL_PROFILES.find((s) => s.id === selectedSchoolId) || JHARKHAND_SCHOOL_PROFILES[0];
@@ -90,6 +116,8 @@ export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onS
       });
     }, 700);
   };
+
+  const isIOS = deviceMode === 'ios';
 
   return (
     <div
@@ -134,7 +162,13 @@ export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onS
 
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <Cpu size={13} color="#70C28A" />
-            <span>रैम उपयोग: <strong style={{ color: '#FFF' }}>34 MB</strong> / 2048 MB (≤2GB Low-Cost Tablet)</span>
+            <span>
+              {isIOS ? (
+                <>रैम उपयोग: <strong style={{ color: '#FFF' }}>34 MB</strong> / iPad Pro (Apple Neural Engine On-Device)</>
+              ) : (
+                <>रैम उपयोग: <strong style={{ color: '#FFF' }}>34 MB</strong> / 2048 MB (≤2GB Low-Cost Tablet)</>
+              )}
+            </span>
           </span>
 
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -143,34 +177,85 @@ export function TabletSimulatorBar({ isOffline, toggleOffline, selectedLang, onS
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {onToggleTabletFrame && (
-            <button
-              onClick={onToggleTabletFrame}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {/* Device Switcher Pills */}
+          {onChangeDeviceMode && (
+            <div
               style={{
-                padding: '2px 8px',
-                fontSize: '0.72rem',
-                borderRadius: '4px',
-                border: '1px solid #70C28A',
-                backgroundColor: isTabletFrame ? '#70C28A' : 'transparent',
-                color: isTabletFrame ? '#0F172A' : '#70C28A',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
+                display: 'inline-flex',
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                padding: '2px',
+                borderRadius: '6px',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                gap: '2px',
               }}
-              title="टैबलेट बेज़ेल और फुल-स्क्रीन डेस्कटॉप दृश्य के बीच स्विच करें"
             >
-              📱 {isTabletFrame ? 'टैबलेट व्यू' : 'फुल-स्क्रीन'}
-            </button>
+              <button
+                onClick={() => onChangeDeviceMode('ios')}
+                style={{
+                  padding: '3px 8px',
+                  fontSize: '0.72rem',
+                  borderRadius: '4px',
+                  border: 'none',
+                  backgroundColor: deviceMode === 'ios' ? '#0E5B37' : 'transparent',
+                  color: '#FFFFFF',
+                  fontWeight: deviceMode === 'ios' ? 700 : 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+                title="Apple iPad iOS टैबलेट सिम्युलेटर"
+              >
+                🍎 iPad (iOS)
+              </button>
+              <button
+                onClick={() => onChangeDeviceMode('android')}
+                style={{
+                  padding: '3px 8px',
+                  fontSize: '0.72rem',
+                  borderRadius: '4px',
+                  border: 'none',
+                  backgroundColor: deviceMode === 'android' ? '#0E5B37' : 'transparent',
+                  color: '#FFFFFF',
+                  fontWeight: deviceMode === 'android' ? 700 : 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+                title="Android 9.0+ टैबलेट सिम्युलेटर"
+              >
+                🤖 Android
+              </button>
+              <button
+                onClick={() => onChangeDeviceMode('full')}
+                style={{
+                  padding: '3px 8px',
+                  fontSize: '0.72rem',
+                  borderRadius: '4px',
+                  border: 'none',
+                  backgroundColor: deviceMode === 'full' ? '#0E5B37' : 'transparent',
+                  color: '#FFFFFF',
+                  fontWeight: deviceMode === 'full' ? 700 : 500,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+                title="फुल स्क्रीन डेस्कटॉप दृश्य"
+              >
+                💻 Full
+              </button>
+            </div>
           )}
+
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <ShieldCheck size={13} color="#70C28A" />
-            <span>Android 9.0+</span>
+            <span>{isIOS ? 'iPadOS 17.5+' : 'Android 9.0+'}</span>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF' }}>
-            <BatteryCharging size={13} color="#70C28A" /> 88%
+            <BatteryCharging size={13} color="#70C28A" /> 100%
           </span>
         </div>
       </div>
