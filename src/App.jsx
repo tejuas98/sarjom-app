@@ -50,11 +50,9 @@ export default function App() {
       if (p) return p === 'dark' ? 'dark' : 'light';
       const saved = localStorage.getItem('sarjom_theme');
       if (saved) return saved;
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
+      return 'dark'; // Clean, authentic dark mode default
     }
-    return 'light';
+    return 'dark';
   });
 
   React.useEffect(() => {
@@ -336,7 +334,7 @@ export default function App() {
         className="no-print"
         style={{
           borderTop: 'var(--border-thick)',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           padding: '24px 20px',
           marginTop: 'auto',
           fontSize: '0.85rem',
@@ -367,7 +365,7 @@ export default function App() {
             <span className="badge-tag badge-forest">हो (Ho)</span>
             <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
             <span className="badge-tag badge-ochre">संताली (Santhali)</span>
-            <span className="badge-tag" style={{ backgroundColor: '#E0F2FE', color: '#0369A1', borderColor: '#BAE6FD' }}>सादरी (Sadri)</span>
+            <span className="badge-tag" style={{ backgroundColor: 'rgba(2, 132, 199, 0.15)', color: '#38BDF8', borderColor: 'rgba(2, 132, 199, 0.3)' }}>सादरी (Sadri)</span>
             <button
               onClick={() => setShowDevBar((prev) => !prev)}
               style={{
@@ -394,8 +392,8 @@ export default function App() {
             padding: '8px 0 10px 0',
             display: 'flex',
             justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-            borderTop: '1px solid rgba(0,0,0,0.04)',
+            backgroundColor: 'var(--color-bg)',
+            borderTop: '1px solid var(--color-border)',
           }}
         >
           <div

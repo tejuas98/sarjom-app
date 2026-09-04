@@ -24,6 +24,7 @@ import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { STUDENT_TO_TEACHER_PHRASES } from '../data/classroomPhrases';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
+import { BENCHMARK_CASES } from '../data/benchmarkCases';
 import { toast } from 'sonner';
 
 export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
@@ -41,6 +42,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     { id: 'otp_8', num: '08', label: t.otp_8_label, phrase: t.otp_8_phrase },
   ];
 
+  const [promptCategory, setPromptCategory] = useState('classroom'); // 'classroom' | 'benchmark'
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student'); // 'teacher_to_student' | 'student_to_teacher'
   const [inputText, setInputText] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -455,7 +457,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
-          {/* 8 Instant Classroom Commands — Clean Editorial Chips */}
+          {/* Quick Prompts & SIH Benchmark Runner */}
           <div
             style={{
               display: 'flex',
@@ -463,61 +465,178 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               gap: '12px',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', fontWeight: 600, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>
-              <Zap size={14} color="var(--color-palash)" />
-              <span>{t.quickCommandsTitle}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', fontWeight: 600, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>
+                <Zap size={14} color="var(--color-palash)" />
+                <span>{promptCategory === 'classroom' ? t.quickCommandsTitle : 'SIH 3-स्तरीय मूल्यांकन परीक्षण सूट (Benchmark Suite)'}</span>
+              </div>
+
+              {/* Toggle Category */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  border: 'var(--border-thin)',
+                  borderRadius: 'var(--radius-pill)',
+                  padding: '2px',
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setPromptCategory('classroom')}
+                  style={{
+                    padding: '4px 12px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    border: 'none',
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: promptCategory === 'classroom' ? 'var(--color-slate)' : 'transparent',
+                    color: promptCategory === 'classroom' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-smooth)',
+                  }}
+                >
+                  कक्षा निर्देश (8)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPromptCategory('benchmark')}
+                  style={{
+                    padding: '4px 12px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    border: 'none',
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: promptCategory === 'benchmark' ? 'var(--color-palash)' : 'transparent',
+                    color: promptCategory === 'benchmark' ? '#FFFFFF' : 'var(--color-slate-muted)',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-smooth)',
+                  }}
+                >
+                  SIH मूल्यांकन (11)
+                </button>
+              </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
-              {ONE_TAP_CLASSROOM_PROMPTS.map((prompt) => {
-                const isSelected = inputText === prompt.phrase;
-                return (
-                  <button
-                    key={prompt.id}
-                    type="button"
-                    onClick={() => handleInstantPromptClick(prompt)}
-                    style={{
-                      padding: '12px 14px',
-                      backgroundColor: isSelected ? 'var(--color-palash-subtle)' : 'var(--color-surface)',
-                      borderColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderRadius: 'var(--radius-md)',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      transition: 'all 0.15s ease',
-                      boxShadow: isSelected ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
-                    }}
-                  >
-                    <span
+            {promptCategory === 'classroom' ? (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+                {ONE_TAP_CLASSROOM_PROMPTS.map((prompt) => {
+                  const isSelected = inputText === prompt.phrase;
+                  return (
+                    <button
+                      key={prompt.id}
+                      type="button"
+                      onClick={() => handleInstantPromptClick(prompt)}
                       style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)',
-                        backgroundColor: isSelected ? 'rgba(249, 115, 22, 0.15)' : 'var(--color-border-subtle)',
-                        padding: '3px 6px',
-                        borderRadius: '4px',
+                        padding: '12px 14px',
+                        backgroundColor: isSelected ? 'var(--color-palash-subtle)' : 'var(--color-surface)',
+                        borderColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        transition: 'all 0.15s ease',
+                        boxShadow: isSelected ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
                       }}
                     >
-                      {prompt.num}
-                    </span>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--color-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {prompt.label}
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)',
+                          backgroundColor: isSelected ? 'rgba(249, 115, 22, 0.15)' : 'var(--color-border-subtle)',
+                          padding: '3px 6px',
+                          borderRadius: '4px',
+                        }}
+                      >
+                        {prompt.num}
+                      </span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--color-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {prompt.label}
+                        </div>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          "{prompt.phrase}"
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        "{prompt.phrase}"
+                      <Volume2 size={13} style={{ color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)', opacity: 0.7, flexShrink: 0 }} />
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '10px' }}>
+                {BENCHMARK_CASES.map((bCase, idx) => {
+                  const isSelected = inputText === bCase.hindi;
+                  const langData = bCase[selectedLang] || bCase.santhali;
+                  const levelTag = bCase.level === 'easy' ? 'L1: Core' : bCase.level === 'medium' ? 'L2: Medium' : 'L3: Hard';
+                  const tagBg = bCase.level === 'easy' ? 'rgba(16,185,129,0.15)' : bCase.level === 'medium' ? 'rgba(249,115,22,0.15)' : 'rgba(239,68,68,0.15)';
+                  const tagColor = bCase.level === 'easy' ? 'var(--color-forest-light)' : bCase.level === 'medium' ? 'var(--color-palash)' : '#EF4444';
+
+                  return (
+                    <button
+                      key={bCase.id}
+                      type="button"
+                      onClick={() => {
+                        handleInstantPromptClick({
+                          id: bCase.id,
+                          label: bCase.english,
+                          phrase: bCase.hindi,
+                        });
+                      }}
+                      style={{
+                        padding: '12px 14px',
+                        backgroundColor: isSelected ? 'var(--color-palash-subtle)' : 'var(--color-surface)',
+                        borderColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '6px',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span
+                          style={{
+                            fontSize: '0.68rem',
+                            fontWeight: 700,
+                            color: tagColor,
+                            backgroundColor: tagBg,
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            fontFamily: 'var(--font-mono)',
+                          }}
+                        >
+                          {levelTag}
+                        </span>
+                        <Volume2 size={13} style={{ color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)', opacity: 0.7 }} />
                       </div>
-                    </div>
-                    <Volume2 size={13} style={{ color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)', opacity: 0.7, flexShrink: 0 }} />
-                  </button>
-                );
-              })}
-            </div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                        {bCase.hindi}
+                      </div>
+                      <div style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
+                        {bCase.english}
+                      </div>
+                      <div
+                        className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
+                        style={{ fontSize: '0.92rem', fontWeight: 800, color: 'var(--color-palash)', marginTop: '2px' }}
+                      >
+                        {langData.nativeOlChiki || langData.native}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* 4. COLLAPSIBLE ADVANCED / CUSTOM INPUT (PRESERVES ALL CUSTOM TEXT OPTIONS WITHOUT CLUTTER) */}

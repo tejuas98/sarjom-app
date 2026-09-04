@@ -54,10 +54,10 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
         style={{
           width: '100%',
           maxWidth: '580px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           borderRadius: '24px',
           padding: '28px',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.4)',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
@@ -274,7 +274,7 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
             <button
               onClick={() => setStep(step - 1)}
               className="btn-brutal"
-              style={{ padding: '8px 14px', fontSize: '0.85rem', backgroundColor: '#FFFFFF' }}
+              style={{ padding: '8px 14px', fontSize: '0.85rem', backgroundColor: 'var(--color-surface-card)' }}
             >
               <ArrowLeft size={16} /> पीछे
             </button>

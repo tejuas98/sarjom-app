@@ -104,7 +104,7 @@ export function SlateAndFolklore({ selectedLang }) {
         className="card-brutal"
         style={{
           padding: '16px 20px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -311,7 +311,7 @@ export function SlateAndFolklore({ selectedLang }) {
           </div>
 
           {/* Right Column: Tracing Glyph Picker */}
-          <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <Palette size={18} color="var(--color-forest)" />
@@ -395,7 +395,7 @@ export function SlateAndFolklore({ selectedLang }) {
       {activeSubTab === 'stories' && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
           {/* Left Column: Story Picker & Summary */}
-          <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <BookOpen size={20} color="var(--color-palash)" />
               <h3 style={{ margin: 0, fontSize: '1.25rem' }}>झारखंड जनजातीय लोककथाएँ (Tribal Folklore)</h3>
@@ -415,7 +415,7 @@ export function SlateAndFolklore({ selectedLang }) {
                     style={{
                       padding: '14px 16px',
                       textAlign: 'left',
-                      backgroundColor: isSelected ? 'var(--color-forest-subtle)' : '#FFFFFF',
+                      backgroundColor: isSelected ? 'var(--color-forest-subtle)' : 'var(--color-surface-card)',
                       borderColor: isSelected ? 'var(--color-forest)' : 'var(--color-border)',
                       display: 'flex',
                       flexDirection: 'column',

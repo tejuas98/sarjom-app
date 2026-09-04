@@ -100,7 +100,7 @@ export function FlashcardDeck({ selectedLang }) {
         className="card-brutal"
         style={{
           padding: '16px 20px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -148,7 +148,7 @@ export function FlashcardDeck({ selectedLang }) {
               style={{
                 padding: '6px 14px',
                 fontSize: '0.82rem',
-                backgroundColor: selectedCategory === cat.id ? 'var(--color-forest)' : '#FFFFFF',
+                backgroundColor: selectedCategory === cat.id ? 'var(--color-forest)' : 'var(--color-surface-card)',
                 color: selectedCategory === cat.id ? '#FFFFFF' : 'var(--color-slate)',
                 border: '1.5px solid var(--color-border)',
                 whiteSpace: 'nowrap',
@@ -186,7 +186,7 @@ export function FlashcardDeck({ selectedLang }) {
                   <div
                     className="flip-card-front"
                     style={{
-                      backgroundColor: '#FFFFFF',
+                      backgroundColor: 'var(--color-surface-card)',
                       border: 'var(--border-thick)',
                     }}
                   >
@@ -246,7 +246,7 @@ export function FlashcardDeck({ selectedLang }) {
                           marginTop: '8px',
                           fontSize: '1rem',
                           fontWeight: 700,
-                          color: '#0E5B37',
+                          color: 'var(--color-forest-light)',
                         }}
                       >
                         {tribalObj.phoneticDeva}
@@ -283,7 +283,7 @@ export function FlashcardDeck({ selectedLang }) {
             margin: '0 auto',
             width: '100%',
             padding: '32px',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'var(--color-surface-card)',
             display: 'flex',
             flexDirection: 'column',
             gap: '24px',

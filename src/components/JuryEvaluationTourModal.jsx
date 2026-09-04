@@ -141,10 +141,10 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
         style={{
           width: '640px',
           maxWidth: '95vw',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface-card)',
           borderRadius: '24px',
-          border: '1px solid rgba(14, 91, 55, 0.3)',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 50px rgba(14, 91, 55, 0.15)',
+          border: 'var(--border-thick)',
+          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.45)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -153,7 +153,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
         {/* Header */}
         <div
           style={{
-            backgroundColor: '#0E5B37',
+            backgroundColor: 'var(--color-forest)',
             color: '#FFFFFF',
             padding: '16px 24px',
             display: 'flex',
@@ -195,8 +195,8 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
               fontWeight: 700,
               padding: '4px 10px',
               borderRadius: '20px',
-              backgroundColor: '#F1F5F9',
-              color: '#0E5B37',
+              backgroundColor: 'var(--color-surface-tint)',
+              color: 'var(--color-forest-light)',
               marginBottom: '10px',
             }}
           >
@@ -205,7 +205,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
             {current.icon}
-            <h3 style={{ margin: 0, fontSize: '1.25rem', color: '#0F172A', fontWeight: 800 }}>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--color-slate)', fontWeight: 800 }}>
               {current.title}
             </h3>
           </div>
@@ -216,9 +216,9 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
         {/* Footer Navigation */}
         <div
           style={{
-            backgroundColor: '#F8FAFC',
+            backgroundColor: 'var(--color-surface-tint)',
             padding: '16px 24px',
-            borderTop: '2px solid #E2E8F0',
+            borderTop: 'var(--border-thick)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -243,9 +243,9 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
               style={{
                 padding: '8px 12px',
                 borderRadius: '8px',
-                border: '1px solid #CBD5E1',
-                backgroundColor: currentSlide === 0 ? '#F1F5F9' : '#FFFFFF',
-                color: currentSlide === 0 ? '#94A3B8' : '#334155',
+                border: 'var(--border-thin)',
+                backgroundColor: currentSlide === 0 ? 'var(--color-surface-tint)' : 'var(--color-surface-card)',
+                color: currentSlide === 0 ? 'var(--color-slate-muted)' : 'var(--color-slate)',
                 cursor: currentSlide === 0 ? 'not-allowed' : 'pointer',
                 fontWeight: 600,
                 fontSize: '0.85rem',

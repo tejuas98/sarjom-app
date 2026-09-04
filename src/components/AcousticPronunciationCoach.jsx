@@ -114,7 +114,7 @@ export function AcousticPronunciationCoach({ selectedLang }) {
         className="card-brutal"
         style={{
           padding: '20px 24px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -143,7 +143,7 @@ export function AcousticPronunciationCoach({ selectedLang }) {
       {/* Main Practice Workspace */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
         {/* Left: Word Selection & Pronunciation Card */}
-        <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface)', display: 'flex', flexDirection: 'column', gap: '18px' }}>
           <div>
             <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-slate-muted)', marginBottom: '8px' }}>
               अभ्यास हेतु शब्द चुनें (Select Target Word):
@@ -160,7 +160,7 @@ export function AcousticPronunciationCoach({ selectedLang }) {
                   style={{
                     padding: '8px 12px',
                     fontSize: '0.9rem',
-                    backgroundColor: selectedWordIdx === idx ? undefined : '#FFFFFF',
+                    backgroundColor: selectedWordIdx === idx ? undefined : 'var(--color-surface-card)',
                   }}
                 >
                   <span className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}>
@@ -219,7 +219,7 @@ export function AcousticPronunciationCoach({ selectedLang }) {
         </div>
 
         {/* Right: Real-time Audio Spectrum & Formant Scoring */}
-        <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3 style={{ margin: 0, fontSize: '1.15rem' }}>लाइव स्पेक्ट्रल फॉर्मैंट विश्लेषण</h3>
             {isListening && (

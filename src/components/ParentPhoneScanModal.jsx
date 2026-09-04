@@ -131,23 +131,23 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
         </div>
 
         {/* Simulated Phone Screen */}
-        <div style={{ padding: '16px', flex: 1, overflowY: 'auto', backgroundColor: '#FFFFFF', color: '#1E293B' }}>
+        <div style={{ padding: '16px', flex: 1, overflowY: 'auto', backgroundColor: 'var(--color-bg)', color: 'var(--color-slate)' }}>
           {/* Browser Bar */}
           <div
             style={{
-              backgroundColor: '#F1F5F9',
+              backgroundColor: 'var(--color-surface-tint)',
               padding: '6px 12px',
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               fontSize: '0.72rem',
-              color: '#64748B',
+              color: 'var(--color-slate-muted)',
               marginBottom: '14px',
-              border: '1px solid #E2E8F0',
+              border: 'var(--border-thin)',
             }}
           >
-            <QrCode size={14} color="#0E5B37" />
+            <QrCode size={14} color="var(--color-forest)" />
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               https://sarjom.jharkhand.gov.in/qr/fln-numeracy
             </span>
@@ -158,19 +158,19 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
             style={{
               textAlign: 'center',
               padding: '12px 10px',
-              backgroundColor: '#F8FAF8',
+              backgroundColor: 'var(--color-surface-card)',
               borderRadius: '16px',
-              border: '2px solid #0E5B37',
+              border: '2px solid var(--color-forest)',
               marginBottom: '16px',
             }}
           >
-            <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: '#0E5B37', color: '#FFFFFF', margin: '0 auto 6px auto' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'var(--color-forest)', color: '#FFFFFF', margin: '0 auto 6px auto' }}>
               <BookOpen size={20} />
             </div>
-            <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#0E5B37', fontWeight: 800 }}>
+            <h3 style={{ margin: 0, fontSize: '1.1rem', color: 'var(--color-forest-light)', fontWeight: 800 }}>
               सरजोम ध्वनि साथी (Audio Companion)
             </h3>
-            <p style={{ margin: '2px 0 0 0', fontSize: '0.75rem', color: '#64748B' }}>
+            <p style={{ margin: '2px 0 0 0', fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>
               झारखंड शिक्षा परियोजना परिषद • गृह-अध्ययन सेतु
             </p>
           </div>
@@ -178,21 +178,21 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
           {/* Simulated Scanned Exercise */}
           <div
             style={{
-              backgroundColor: '#FFFBEB',
-              border: '2px solid #F59E0B',
+              backgroundColor: 'var(--color-surface-tint)',
+              border: '2px solid var(--color-ochre)',
               borderRadius: '14px',
               padding: '12px',
               marginBottom: '16px',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#B45309', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-ochre)', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px' }}>
               <Sparkles size={14} />
               स्कैन किया गया अभ्यास पत्र (Scanned Sheet)
             </div>
-            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1E293B' }}>
+            <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-slate)' }}>
               {current.title}
             </div>
-            <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '2px' }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', marginTop: '2px' }}>
               माध्यम: <strong>{current.langName}</strong>
             </div>
 
@@ -200,19 +200,19 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
               style={{
                 marginTop: '10px',
                 padding: '10px',
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'var(--color-surface-card)',
                 borderRadius: '10px',
-                border: '1px dashed #D97706',
+                border: '1px dashed var(--color-ochre)',
                 textAlign: 'center',
               }}
             >
-              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0E5B37' }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-forest-light)' }}>
                 {current.script}
               </div>
-              <div style={{ fontSize: '0.85rem', color: '#64748B', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
                 उच्चारण: <strong>{current.phonetic}</strong>
               </div>
-              <div style={{ fontSize: '0.72rem', color: '#059669', marginTop: '2px' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--color-forest-light)', marginTop: '2px' }}>
                 {current.meaning}
               </div>
             </div>

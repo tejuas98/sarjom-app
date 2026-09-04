@@ -29,7 +29,8 @@ export function TeacherDrawer({
         />
         <Drawer.Content
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.98)',
+            backgroundColor: 'var(--color-surface-card)',
+            color: 'var(--color-slate)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             display: 'flex',
@@ -45,7 +46,7 @@ export function TeacherDrawer({
             right: 0,
             zIndex: 1000,
             padding: '20px 24px 36px 24px',
-            boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.12)',
+            boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.35)',
             maxWidth: '920px',
             margin: '0 auto',
             outline: 'none',
@@ -56,7 +57,7 @@ export function TeacherDrawer({
             style={{
               width: '48px',
               height: '5px',
-              backgroundColor: '#D1D5DB',
+              backgroundColor: 'var(--color-border)',
               borderRadius: '9999px',
               margin: '0 auto 16px auto',
             }}
@@ -106,7 +107,7 @@ export function TeacherDrawer({
                 className="btn-brutal"
                 style={{
                   padding: '10px 12px',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--color-surface-tint)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -128,7 +129,7 @@ export function TeacherDrawer({
                 className="btn-brutal"
                 style={{
                   padding: '10px 12px',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--color-surface-tint)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -150,7 +151,7 @@ export function TeacherDrawer({
                 className="btn-brutal"
                 style={{
                   padding: '10px 12px',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--color-surface-tint)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
@@ -217,7 +218,7 @@ export function TeacherDrawer({
               >
                 <div
                   style={{
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: 'var(--color-surface-tint)',
                     border: '1px solid var(--color-border)',
                     borderRadius: 'var(--radius-sm)',
                     padding: '12px',
@@ -233,7 +234,7 @@ export function TeacherDrawer({
 
                 <div
                   style={{
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: 'var(--color-surface-tint)',
                     border: '1px solid var(--color-border)',
                     borderRadius: 'var(--radius-sm)',
                     padding: '12px',
@@ -255,24 +256,24 @@ export function TeacherDrawer({
                 backgroundColor: 'var(--color-ochre-subtle)',
                 padding: '16px',
                 borderRadius: 'var(--radius-md)',
-                border: '1.5px solid var(--color-ochre)',
+                border: '1px solid var(--color-ochre-border)',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: '#8C5F08', fontWeight: 700 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: 'var(--color-ochre)', fontWeight: 700 }}>
                 <HeartPulse size={18} />
                 <span>प्राथमिक स्वास्थ्य व आपातकालीन संवाद (Health Emergency Phrases):</span>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', backgroundColor: '#FFF', borderRadius: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--color-surface-card)', borderRadius: '6px', border: '1px solid var(--color-border)' }}>
                   <span>"क्या पेट में दर्द है?"</span>
                   <strong style={{ color: 'var(--color-palash)' }}>लाज हासूताना? (Laj hasutana?)</strong>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', backgroundColor: '#FFF', borderRadius: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--color-surface-card)', borderRadius: '6px', border: '1px solid var(--color-border)' }}>
                   <span>"बुखार लग रहा है क्या?"</span>
                   <strong style={{ color: 'var(--color-palash)' }}>रुअ मेनामा? (Rua menama?)</strong>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 10px', backgroundColor: '#FFF', borderRadius: '4px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--color-surface-card)', borderRadius: '6px', border: '1px solid var(--color-border)' }}>
                   <span>"पानी पीना चाहते हो?"</span>
                   <strong style={{ color: 'var(--color-palash)' }}>दाः ञु सानाम काना? (Daah nyu sanam kana?)</strong>
                 </div>

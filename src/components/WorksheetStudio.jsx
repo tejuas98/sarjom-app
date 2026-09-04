@@ -38,7 +38,7 @@ export function WorksheetStudio({ selectedLang }) {
         className="card-brutal no-print"
         style={{
           padding: '18px 24px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -142,7 +142,7 @@ export function WorksheetStudio({ selectedLang }) {
         className="card-brutal worksheet-printable"
         style={{
           padding: '36px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface-card)',
           borderRadius: 'var(--radius-lg)',
           display: 'flex',
           flexDirection: 'column',
@@ -245,7 +245,7 @@ export function WorksheetStudio({ selectedLang }) {
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      backgroundColor: '#FFFFFF',
+                      backgroundColor: 'var(--color-surface-tint)',
                     }}
                   >
                     <div>
@@ -324,7 +324,7 @@ export function WorksheetStudio({ selectedLang }) {
                       padding: '12px 16px',
                       border: '2px solid var(--color-border)',
                       borderRadius: 'var(--radius-sm)',
-                      backgroundColor: '#FFFFFF',
+                      backgroundColor: 'var(--color-surface-tint)',
                       fontWeight: 600,
                       display: 'flex',
                       justifyContent: 'space-between',
@@ -399,7 +399,7 @@ export function WorksheetStudio({ selectedLang }) {
                     borderRadius: 'var(--radius-md)',
                     padding: '20px',
                     textAlign: 'center',
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: 'var(--color-surface-tint)',
                   }}
                 >
                   <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)' }}>{char.desc} ({char.sound})</div>

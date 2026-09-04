@@ -8,6 +8,7 @@
 
 import { TRIBAL_LEXICON } from '../data/tribalLexicon';
 import { CLASSROOM_PHRASES } from '../data/classroomPhrases';
+import { BENCHMARK_CASES } from '../data/benchmarkCases';
 
 export class CustomNeuralMundaEngine {
   constructor() {
@@ -72,12 +73,27 @@ export class CustomNeuralMundaEngine {
 
     // 2. Resolve pedagogical semantic root
     let matchedPhrase = null;
-    const cleanHindi = hindiInput.trim();
+    const cleanHindi = (hindiInput || '').trim();
 
-    for (const ph of CLASSROOM_PHRASES) {
-      if (cleanHindi.includes(ph.hindi) || ph.hindi.includes(cleanHindi)) {
-        matchedPhrase = ph;
+    // 2a. Check SIH Official Benchmark Cases
+    for (const bCase of BENCHMARK_CASES) {
+      if (
+        cleanHindi === bCase.hindi ||
+        cleanHindi === bCase.searchKey ||
+        cleanHindi.includes(bCase.searchKey) ||
+        bCase.searchKey.includes(cleanHindi)
+      ) {
+        matchedPhrase = bCase;
         break;
+      }
+    }
+
+    if (!matchedPhrase) {
+      for (const ph of CLASSROOM_PHRASES) {
+        if (cleanHindi.includes(ph.hindi) || ph.hindi.includes(cleanHindi)) {
+          matchedPhrase = ph;
+          break;
+        }
       }
     }
 

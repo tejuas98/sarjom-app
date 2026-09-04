@@ -81,7 +81,7 @@ export function LessonCurriculum({ selectedLang }) {
         className="card-brutal"
         style={{
           padding: '16px 20px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -108,7 +108,7 @@ export function LessonCurriculum({ selectedLang }) {
                 style={{
                   padding: '8px 14px',
                   fontSize: '0.85rem',
-                  backgroundColor: isSelected ? 'var(--color-forest)' : '#FFFFFF',
+                  backgroundColor: isSelected ? 'var(--color-forest)' : 'var(--color-surface-card)',
                   color: isSelected ? '#FFFFFF' : 'var(--color-slate)',
                 }}
               >
@@ -122,7 +122,7 @@ export function LessonCurriculum({ selectedLang }) {
       {/* Main Lesson View & Rubric */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px' }}>
         {/* Left: Interactive Lesson Plan */}
-        <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface-card)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
               <div>
@@ -227,7 +227,7 @@ export function LessonCurriculum({ selectedLang }) {
 
               <div
                 style={{
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--color-surface-card)',
                   padding: '10px 14px',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px dashed var(--color-ochre)',
@@ -248,7 +248,7 @@ export function LessonCurriculum({ selectedLang }) {
         {/* Right Column: Formative Assessment & Student Tracker */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Assessment Evaluation Card */}
-          <div className="card-brutal" style={{ padding: '24px', backgroundColor: '#FFFFFF' }}>
+          <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface-card)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <Award size={20} color="var(--color-palash)" />
               <h3 style={{ margin: 0, fontSize: '1.2rem' }}>निपुण सतत मूल्यांकन (Formative Assessment)</h3>
@@ -312,7 +312,7 @@ export function LessonCurriculum({ selectedLang }) {
                         padding: '8px 12px',
                         borderRadius: 'var(--radius-sm)',
                         border: '1px solid var(--color-border)',
-                        backgroundColor: selectedScore === lvl.score ? 'var(--color-forest-subtle)' : '#FFFFFF',
+                        backgroundColor: selectedScore === lvl.score ? 'var(--color-forest-subtle)' : 'var(--color-surface-card)',
                         cursor: 'pointer',
                         fontSize: '0.85rem',
                       }}
@@ -362,6 +362,8 @@ export function LessonCurriculum({ selectedLang }) {
                   padding: '8px 12px',
                   borderRadius: 'var(--radius-sm)',
                   border: 'var(--border-thick)',
+                  backgroundColor: 'var(--color-surface-card)',
+                  color: 'var(--color-slate)',
                   fontSize: '0.9rem',
                 }}
               />
@@ -381,7 +383,7 @@ export function LessonCurriculum({ selectedLang }) {
                 style={{
                   marginTop: '12px',
                   padding: '12px',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--color-surface-card)',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-border)',
                   fontSize: '0.85rem',
@@ -402,7 +404,7 @@ export function LessonCurriculum({ selectedLang }) {
 
           {/* Recent Student Records */}
           {assessmentRecords.length > 0 && (
-            <div className="card-brutal" style={{ padding: '16px 20px', backgroundColor: '#FFFFFF' }}>
+            <div className="card-brutal" style={{ padding: '16px 20px', backgroundColor: 'var(--color-surface-card)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                 <ListChecks size={16} color="var(--color-forest)" />
                 <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>हाल के छात्र रिकॉर्ड ({assessmentRecords.length})</span>

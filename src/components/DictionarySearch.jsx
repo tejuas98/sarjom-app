@@ -36,7 +36,7 @@ export function DictionarySearch() {
         className="card-brutal"
         style={{
           padding: '20px 24px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
@@ -55,7 +55,7 @@ export function DictionarySearch() {
         {/* Search Bar & Category Filter */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', flex: 1, minWidth: '260px' }}>
-            <Search size={18} color="#777" style={{ position: 'absolute', left: '14px', top: '13px' }} />
+            <Search size={18} color="var(--color-slate-muted)" style={{ position: 'absolute', left: '14px', top: '13px' }} />
             <input
               type="text"
               value={searchQuery}
@@ -66,6 +66,8 @@ export function DictionarySearch() {
                 padding: '10px 14px 10px 42px',
                 borderRadius: 'var(--radius-md)',
                 border: 'var(--border-thick)',
+                backgroundColor: 'var(--color-surface-card)',
+                color: 'var(--color-slate)',
                 fontSize: '1rem',
                 fontFamily: 'var(--font-body)',
                 outline: 'none',
@@ -80,7 +82,8 @@ export function DictionarySearch() {
               padding: '10px 14px',
               borderRadius: 'var(--radius-md)',
               border: 'var(--border-thick)',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-slate)',
               fontWeight: 600,
               fontSize: '0.9rem',
               cursor: 'pointer',
@@ -105,14 +108,14 @@ export function DictionarySearch() {
             className="card-brutal"
             style={{
               padding: '18px 20px',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--color-surface-card)',
               display: 'flex',
               flexDirection: 'column',
               gap: '12px',
             }}
           >
             {/* Header: Hindi & English */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #EBEBEB', paddingBottom: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
               <div>
                 <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-slate)' }}>
                   {item.hindi}
