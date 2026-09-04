@@ -44,6 +44,29 @@ export default function App() {
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
   const [deviceMode, setDeviceMode] = useState(initialDevice); // 'full' | 'ios' | 'android'
   const [showDevBar, setShowDevBar] = useState(urlParams && urlParams.get('dev') === 'true');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = urlParams && urlParams.get('theme');
+      if (p) return p === 'dark' ? 'dark' : 'light';
+      const saved = localStorage.getItem('sarjom_theme');
+      if (saved) return saved;
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    }
+    return 'light';
+  });
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sarjom_theme', theme);
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    toast.info(nextTheme === 'dark' ? 'डार्क मोड सक्रिय (Dark Mode)' : 'लाइट मोड सक्रिय (Light Mode)');
+  };
 
   const handleToggleUILang = (newLang) => {
     const lang = newLang || (uiLang === 'hi' ? 'en' : 'hi');
@@ -235,6 +258,8 @@ export default function App() {
           isOffline={isOffline}
           uiLang={uiLang}
           onToggleUILang={handleToggleUILang}
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onOpenWizard={() => setIsWizardOpen(true)}
           onOpenJuryTour={() => setIsJuryTourOpen(true)}

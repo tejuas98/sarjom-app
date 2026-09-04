@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe, BookOpen } from 'lucide-react';
+import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe, BookOpen, Sun, Moon } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -9,6 +9,8 @@ export function Navbar({
   isOffline,
   uiLang = 'hi',
   onToggleUILang,
+  theme = 'light',
+  onToggleTheme,
   onOpenDrawer,
   onOpenWizard,
   onOpenJuryTour,
@@ -46,9 +48,9 @@ export function Navbar({
     <header
       style={{
         borderBottom: '1px solid var(--color-border)',
-        backgroundColor: 'rgba(255, 255, 255, 0.92)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        backgroundColor: 'var(--color-surface)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         position: 'sticky',
         top: 0,
         zIndex: 40,
@@ -73,20 +75,20 @@ export function Navbar({
             style={{
               width: '38px',
               height: '38px',
-              background: 'linear-gradient(135deg, #0E5B37 0%, #157347 100%)',
+              background: 'linear-gradient(135deg, var(--color-slate) 0%, var(--color-palash) 100%)',
               borderRadius: '10px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#FFFFFF',
-              boxShadow: '0 2px 8px rgba(14, 91, 55, 0.2)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
             }}
           >
             <BookOpen size={20} strokeWidth={2.2} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-forest)', letterSpacing: '-0.01em' }}>
+              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
                 {t.brandTitle} <span style={{ fontSize: '0.95rem', color: 'var(--color-palash)', fontWeight: 700 }}>{t.brandSub}</span>
               </span>
               <span
@@ -210,6 +212,30 @@ export function Navbar({
             </button>
           </div>
 
+          {/* Dark / Light Theme Mode Toggle */}
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-pill)',
+              border: '1px solid var(--color-border)',
+              backgroundColor: 'var(--color-surface-card)',
+              color: 'var(--color-slate)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+              transition: 'all 0.15s ease',
+            }}
+            title={theme === 'dark' ? 'लाइट मोड (Switch to Light Mode)' : 'डार्क मोड (Switch to Dark Mode)'}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <Sun size={16} color="var(--color-palash)" /> : <Moon size={16} />}
+          </button>
+
           {/* Unified Teacher Help Button */}
           <button
             type="button"
@@ -218,7 +244,7 @@ export function Navbar({
               padding: '7px 14px',
               borderRadius: 'var(--radius-pill)',
               border: '1px solid var(--color-border)',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--color-surface-card)',
               color: 'var(--color-slate)',
               fontSize: '0.84rem',
               fontWeight: 600,
@@ -230,7 +256,7 @@ export function Navbar({
             }}
             title={t.teacherHelpBtn}
           >
-            <Menu size={16} color="var(--color-forest)" />
+            <Menu size={16} color="var(--color-slate)" />
             <span>{t.teacherHelpBtn}</span>
           </button>
         </div>
@@ -257,10 +283,10 @@ export function Navbar({
               onClick={() => onSelectTab(tab.id)}
               style={{
                 padding: '7px 16px',
-                border: isActive ? '1px solid rgba(14, 91, 55, 0.3)' : '1px solid transparent',
+                border: isActive ? '1px solid var(--color-border)' : '1px solid transparent',
                 borderRadius: 'var(--radius-pill)',
-                backgroundColor: isActive ? '#FFFFFF' : 'transparent',
-                color: isActive ? 'var(--color-forest)' : 'var(--color-slate-muted)',
+                backgroundColor: isActive ? 'var(--color-surface-card)' : 'transparent',
+                color: isActive ? 'var(--color-slate)' : 'var(--color-slate-muted)',
                 fontWeight: isActive ? 700 : 500,
                 fontSize: '0.88rem',
                 cursor: 'pointer',
@@ -303,10 +329,10 @@ export function Navbar({
                 position: 'absolute',
                 top: '110%',
                 left: 0,
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'var(--color-surface-card)',
                 borderRadius: '12px',
                 border: '1px solid var(--color-border)',
-                boxShadow: '0 10px 28px rgba(0, 0, 0, 0.12)',
+                boxShadow: 'var(--shadow-hover)',
                 padding: '6px',
                 minWidth: '220px',
                 zIndex: 50,
@@ -326,8 +352,8 @@ export function Navbar({
                       padding: '8px 12px',
                       borderRadius: '8px',
                       border: 'none',
-                      backgroundColor: isActive ? 'var(--color-forest-subtle)' : 'transparent',
-                      color: isActive ? 'var(--color-forest)' : 'var(--color-slate)',
+                      backgroundColor: isActive ? 'var(--color-surface-tint)' : 'transparent',
+                      color: isActive ? 'var(--color-palash)' : 'var(--color-slate)',
                       fontWeight: isActive ? 700 : 500,
                       fontSize: '0.84rem',
                       cursor: 'pointer',

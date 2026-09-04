@@ -238,7 +238,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         <div
           style={{
             display: 'inline-flex',
-            backgroundColor: 'rgba(0, 0, 0, 0.05)',
+            backgroundColor: 'var(--color-surface-tint)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-pill)',
             padding: '3px',
@@ -251,19 +251,19 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               padding: '8px 20px',
               border: 'none',
               borderRadius: 'var(--radius-pill)',
-              backgroundColor: dialogModeIsTeacher ? 'var(--color-forest)' : 'transparent',
-              color: dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
+              backgroundColor: dialogModeIsTeacher ? 'var(--color-slate)' : 'transparent',
+              color: dialogModeIsTeacher ? 'var(--color-bg)' : 'var(--color-slate)',
               fontWeight: dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.92rem',
+              fontSize: '0.88rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: dialogModeIsTeacher ? '0 2px 8px rgba(14, 91, 55, 0.22)' : 'none',
+              boxShadow: dialogModeIsTeacher ? 'var(--shadow-flat)' : 'none',
               transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
-            <School size={16} />
+            <School size={15} />
             <span>{t.modeTeacherToStudent}</span>
           </button>
           <button
@@ -272,19 +272,19 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               padding: '8px 20px',
               border: 'none',
               borderRadius: 'var(--radius-pill)',
-              backgroundColor: !dialogModeIsTeacher ? 'var(--color-palash)' : 'transparent',
-              color: !dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
+              backgroundColor: !dialogModeIsTeacher ? 'var(--color-slate)' : 'transparent',
+              color: !dialogModeIsTeacher ? 'var(--color-bg)' : 'var(--color-slate)',
               fontWeight: !dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.92rem',
+              fontSize: '0.88rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: !dialogModeIsTeacher ? '0 2px 8px rgba(217, 90, 39, 0.22)' : 'none',
+              boxShadow: !dialogModeIsTeacher ? 'var(--shadow-flat)' : 'none',
               transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
-            <User size={16} />
+            <User size={15} />
             <span>{t.modeStudentToTeacher}</span>
           </button>
         </div>
@@ -294,101 +294,113 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       {/* MODE 1: TEACHER SPEAKS -> TRIBAL CLASSROOM BROADCAST (PURE & SIMPLE)      */}
       {/* ========================================================================= */}
       {dialogModeIsTeacher && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* 1. HERO CARD: THE PRIMARY CLASSROOM VOICE BUTTON */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Unified Voice & Translation Canvas */}
           <div
             className="card-brutal"
             style={{
-              padding: '24px',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid rgba(14, 91, 55, 0.18)',
-              borderRadius: 'var(--radius-lg)',
+              padding: '36px 32px',
+              backgroundColor: 'var(--color-surface)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-blur)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-xl)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '16px',
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03), 0 12px 30px -6px rgba(14, 91, 55, 0.06)',
+              alignItems: 'center',
+              textAlign: 'center',
+              gap: '26px',
+              boxShadow: 'var(--shadow-card)',
             }}
           >
-            {/* Big Tactile Microphone Broadcast Button */}
-            <button
-              type="button"
-              onClick={isRecording ? handleStopMic : handleStartMic}
-              className={`btn-brutal ${isRecording ? 'btn-palash' : 'btn-primary'}`}
-              style={{
-                width: '100%',
-                padding: '22px 26px',
-                fontSize: '1.25rem',
-                fontWeight: 800,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '16px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: isRecording ? '#DC2626' : 'var(--color-forest)',
-                color: '#FFFFFF',
-                border: 'none',
-                boxShadow: isRecording
-                  ? '0 8px 28px rgba(220, 38, 38, 0.4)'
-                  : '0 8px 26px rgba(14, 91, 55, 0.28)',
-                cursor: 'pointer',
-                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-            >
-              {isRecording ? (
-                <>
-                  <MicOff size={32} className="audio-pulse" />
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '1.35rem' }}>{t.tapToSpeakRec}</div>
-                    <div style={{ fontSize: '0.86rem', fontWeight: 400, opacity: 0.95 }}>
-                      {t.tapToSpeakSubRec.replace('{lang}', langMeta.name)}
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <Mic size={32} />
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '1.35rem' }}>{t.tapToSpeakIdle}</div>
-                    <div style={{ fontSize: '0.86rem', fontWeight: 400, opacity: 0.95 }}>
-                      {t.tapToSpeakSubIdle.replace('{lang}', langMeta.name)}
-                    </div>
-                  </div>
-                </>
-              )}
-            </button>
+            {/* Central Tactile Floating Microphone Trigger */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+              <button
+                type="button"
+                onClick={isRecording ? handleStopMic : handleStartMic}
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
+                  color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
+                  border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
+                  boxShadow: isRecording
+                    ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
+                    : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                title={isRecording ? t.tapToSpeakRec : t.tapToSpeakIdle}
+              >
+                {isRecording ? <MicOff size={32} className="audio-pulse" /> : <Mic size={32} />}
+              </button>
 
-            {/* Current Spoken / Translated Sentence Display (Clean & Bold) */}
+              <div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
+                  {isRecording ? t.tapToSpeakRec : t.tapToSpeakIdle}
+                </div>
+                <div style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+                  {isRecording
+                    ? t.tapToSpeakSubRec.replace('{lang}', langMeta.name)
+                    : t.tapToSpeakSubIdle.replace('{lang}', langMeta.name)}
+                </div>
+              </div>
+            </div>
+
+            {/* Seamless Editorial Translation Result */}
             {translationResult && (
               <div
                 style={{
-                  backgroundColor: 'var(--color-forest-subtle)',
-                  border: '1px solid rgba(14, 91, 55, 0.20)',
-                  borderRadius: 'var(--radius-md)',
-                  padding: '20px 24px',
+                  width: '100%',
+                  backgroundColor: 'var(--color-surface-card)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '24px 28px',
+                  textAlign: 'left',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px',
+                  gap: '14px',
+                  boxShadow: 'var(--shadow-flat)',
                 }}
               >
-                {/* Source utterance */}
-                <div style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)' }}>
-                  {t.youSpoke} <strong style={{ color: 'var(--color-slate)' }}>"{inputText}"</strong>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
+                    {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.72rem',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      backgroundColor: 'var(--color-surface-tint)',
+                      color: 'var(--color-slate-muted)',
+                      border: '1px solid var(--color-border-subtle)',
+                    }}
+                  >
+                    {measuredLatency} ms • On-Device
+                  </span>
                 </div>
 
-                {/* Big Tribal Translation */}
+                {/* Big Native Script Output */}
                 <div
                   className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
                   style={{
-                    fontSize: '2.3rem',
+                    fontSize: '2.4rem',
                     fontWeight: 800,
-                    color: 'var(--color-forest)',
+                    color: 'var(--color-slate)',
                     lineHeight: 1.25,
+                    letterSpacing: '-0.02em',
                   }}
                 >
                   {translationResult.nativeScript}
                 </div>
 
-                {/* Teacher Speech Guide */}
+                {/* Phonetic Pronunciation & Replay Speaker Action */}
                 <div
                   style={{
                     display: 'flex',
@@ -396,18 +408,22 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     alignItems: 'center',
                     flexWrap: 'wrap',
                     gap: '12px',
-                    paddingTop: '8px',
-                    borderTop: '1px dashed rgba(14, 91, 55, 0.2)',
+                    paddingTop: '12px',
+                    borderTop: '1px solid var(--color-border-subtle)',
                   }}
                 >
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#523702' }}>
-                    {t.pronounceAs} <span style={{ color: 'var(--color-palash)' }}>{translationResult.phoneticDeva}</span>
-                    <span style={{ fontSize: '0.85rem', color: '#71717A', fontWeight: 500, marginLeft: '8px' }}>
-                      ({translationResult.phoneticLatin})
-                    </span>
+                  <div style={{ fontSize: '0.98rem', color: 'var(--color-slate)' }}>
+                    <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>{t.pronounceAs}</span>
+                    <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
+                      {translationResult.phoneticDeva}
+                    </strong>
+                    {translationResult.phoneticLatin && (
+                      <span style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
+                        ({translationResult.phoneticLatin})
+                      </span>
+                    )}
                   </div>
 
-                  {/* Replay Audio Button */}
                   <button
                     type="button"
                     onClick={() => {
@@ -416,18 +432,22 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         translationResult.nativeScript
                       );
                     }}
-                    className="btn-brutal btn-palash"
                     style={{
-                      padding: '8px 18px',
-                      fontSize: '0.92rem',
-                      fontWeight: 700,
+                      padding: '7px 18px',
+                      fontSize: '0.86rem',
+                      fontWeight: 600,
                       borderRadius: 'var(--radius-pill)',
-                      display: 'flex',
+                      backgroundColor: 'var(--color-surface-tint)',
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-slate)',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
+                      transition: 'all 0.15s ease',
                     }}
                   >
-                    <Volume2 size={18} className={isPlayingAudio ? 'audio-pulse' : ''} />
+                    <Volume2 size={16} color="var(--color-palash)" className={isPlayingAudio ? 'audio-pulse' : ''} />
                     <span>{t.replaySpeaker}</span>
                   </button>
                 </div>
@@ -435,72 +455,68 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
-          {/* 2. INSTANT CLASSROOM COMMANDS (8 Tactile Tiles for Rural Teachers) */}
+          {/* 8 Instant Classroom Commands — Clean Editorial Chips */}
           <div
-            className="card-brutal"
             style={{
-              padding: '20px 24px',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-lg)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '14px',
+              gap: '12px',
             }}
           >
-            <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Zap size={16} color="var(--color-palash)" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', fontWeight: 600, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>
+              <Zap size={14} color="var(--color-palash)" />
               <span>{t.quickCommandsTitle}</span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
-              {ONE_TAP_CLASSROOM_PROMPTS.map((prompt) => (
-                <button
-                  key={prompt.id}
-                  type="button"
-                  onClick={() => handleInstantPromptClick(prompt)}
-                  className="btn-brutal"
-                  style={{
-                    padding: '12px 14px',
-                    backgroundColor: inputText === prompt.phrase ? 'var(--color-forest-subtle)' : '#FFFFFF',
-                    borderColor: inputText === prompt.phrase ? 'var(--color-forest)' : 'var(--color-border)',
-                    textAlign: 'left',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    borderRadius: 'var(--radius-sm)',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
-                  <span
+              {ONE_TAP_CLASSROOM_PROMPTS.map((prompt) => {
+                const isSelected = inputText === prompt.phrase;
+                return (
+                  <button
+                    key={prompt.id}
+                    type="button"
+                    onClick={() => handleInstantPromptClick(prompt)}
                     style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '6px',
-                      backgroundColor: 'rgba(14, 91, 55, 0.08)',
-                      color: 'var(--color-forest)',
+                      padding: '12px 14px',
+                      backgroundColor: isSelected ? 'var(--color-palash-subtle)' : 'var(--color-surface)',
+                      borderColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      borderRadius: 'var(--radius-md)',
+                      cursor: 'pointer',
+                      textAlign: 'left',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      fontFamily: 'monospace',
-                      flexShrink: 0,
+                      gap: '12px',
+                      transition: 'all 0.15s ease',
+                      boxShadow: isSelected ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
                     }}
                   >
-                    {prompt.num}
-                  </span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                      {prompt.label}
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)',
+                        backgroundColor: isSelected ? 'rgba(249, 115, 22, 0.15)' : 'var(--color-border-subtle)',
+                        padding: '3px 6px',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      {prompt.num}
+                    </span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--color-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {prompt.label}
+                      </div>
+                      <div style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        "{prompt.phrase}"
+                      </div>
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      "{prompt.phrase}"
-                    </div>
-                  </div>
-                  <Volume2 size={16} color="var(--color-forest)" />
-                </button>
-              ))}
+                    <Volume2 size={13} style={{ color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)', opacity: 0.7, flexShrink: 0 }} />
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -509,7 +525,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             className="card-brutal"
             style={{
               padding: '16px 20px',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--color-surface)',
               borderRadius: 'var(--radius-md)',
             }}
           >
@@ -524,7 +540,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <PenTool size={16} color="var(--color-forest)" />
+                <PenTool size={16} color="var(--color-palash)" />
                 <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-slate)' }}>
                   {t.manualInputTitle}
                 </span>
@@ -557,7 +573,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       flex: 1,
                       padding: '10px 14px',
                       borderRadius: 'var(--radius-sm)',
-                      border: 'var(--border-thick)',
+                      border: '1px solid var(--color-border)',
+                      backgroundColor: 'var(--color-surface-card)',
+                      color: 'var(--color-slate)',
                       fontFamily: 'var(--font-body)',
                       fontSize: '1rem',
                       outline: 'none',
@@ -565,8 +583,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   />
                   <button
                     type="submit"
-                    className="btn-brutal btn-forest"
-                    style={{ padding: '10px 18px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    style={{
+                      padding: '10px 18px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: 'var(--color-palash)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: 'var(--radius-sm)',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                    }}
                   >
                     <Send size={16} />
                     <span>{t.translateBtn}</span>
@@ -589,12 +617,14 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           addToHistory(item.hindi, res, 'teacher');
                           handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
                         }}
-                        className="btn-brutal"
                         style={{
-                          padding: '5px 8px',
+                          padding: '5px 10px',
                           fontSize: '0.78rem',
-                          backgroundColor: '#FFFFFF',
-                          border: '1.5px solid var(--color-border)',
+                          backgroundColor: 'var(--color-surface-card)',
+                          color: 'var(--color-slate)',
+                          border: '1px solid var(--color-border)',
+                          borderRadius: 'var(--radius-sm)',
+                          cursor: 'pointer',
                         }}
                       >
                         {item.label}
@@ -614,18 +644,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       {!dialogModeIsTeacher && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
           {/* Left Column: Student Tribal Utterances */}
-          <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-ochre-subtle)' }}>
+          <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-surface)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <User size={20} color="#8C5F08" />
-                <h2 style={{ fontSize: '1.35rem', margin: 0, color: '#8C5F08' }}>
+                <User size={20} color="var(--color-palash)" />
+                <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-slate)' }}>
                   {t.studentDialogueTitle} ({langMeta.name})
                 </h2>
               </div>
               <span className="badge-tag badge-palash">{t.studentDialogueBadge}</span>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: '#523702', margin: '0 0 16px 0' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', margin: '0 0 16px 0' }}>
               {t.studentDialoguePrompt}
             </p>
 
@@ -638,14 +668,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   <button
                     key={item.id}
                     onClick={() => handleStudentQuerySelect(item)}
-                    className="btn-brutal"
                     style={{
                       padding: '14px 16px',
-                      backgroundColor: '#FFFFFF',
+                      backgroundColor: 'var(--color-surface-card)',
+                      border: '1px solid var(--color-border)',
+                      borderRadius: 'var(--radius-md)',
                       textAlign: 'left',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
                     }}
                   >
                     <div>
@@ -659,7 +692,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         उच्चारण: {tribalInfo.phoneticDeva}
                       </div>
                     </div>
-                    <span className="badge-tag badge-forest">{t.translateStudentBtn}</span>
+                    <span className="badge-tag badge-palash">{t.translateStudentBtn}</span>
                   </button>
                 );
               })}
@@ -671,7 +704,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             className="card-brutal"
             style={{
               padding: '24px',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--color-surface)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -679,8 +712,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           >
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <School size={20} color="var(--color-forest)" />
-                <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-forest)' }}>
+                <School size={20} color="var(--color-palash)" />
+                <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-slate)' }}>
                   {t.teacherInterpretationTitle}
                 </h2>
               </div>
@@ -692,13 +725,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   marginTop: '16px',
                   padding: '20px',
-                  backgroundColor: 'var(--color-forest-subtle)',
+                  backgroundColor: 'var(--color-surface-tint)',
                   borderRadius: 'var(--radius-lg)',
-                  border: '1px solid rgba(14, 91, 55, 0.22)',
+                  border: '1px solid var(--color-border)',
                   textAlign: 'center',
                 }}
               >
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-palash)', textTransform: 'uppercase' }}>
                   {t.studentIntentLabel}
                 </div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-slate)', margin: '10px 0' }}>
@@ -710,17 +743,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <MessageSquare size={16} color="var(--color-forest)" />
+                    <MessageSquare size={16} color="var(--color-palash)" />
                     <span>{t.autonomousReplyTitle}</span>
                   </div>
-                  <span className="badge-tag badge-forest">{t.autonomousBadge}</span>
+                  <span className="badge-tag badge-palash">{t.autonomousBadge}</span>
                 </div>
 
                 <div
                   style={{
                     padding: '10px 14px',
                     borderRadius: 'var(--radius-sm)',
-                    backgroundColor: 'var(--color-bg)',
+                    backgroundColor: 'var(--color-surface-tint)',
                     border: '1px solid var(--color-border)',
                     fontSize: '0.82rem',
                     color: 'var(--color-slate-muted)',
@@ -733,7 +766,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <button
                   type="button"
                   onClick={isReplyingMic ? handleStopMic : handleTeacherReplyMic}
-                  className={`btn-brutal ${isReplyingMic ? 'btn-palash' : 'btn-forest'}`}
                   style={{
                     width: '100%',
                     padding: '14px 20px',
@@ -744,6 +776,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     justifyContent: 'center',
                     gap: '10px',
                     cursor: 'pointer',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: isReplyingMic ? '#DC2626' : 'var(--color-palash)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    boxShadow: 'var(--shadow-flat)',
                   }}
                 >
                   {isReplyingMic ? (
@@ -770,7 +807,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       flex: 1,
                       padding: '10px 14px',
                       borderRadius: 'var(--radius-sm)',
-                      border: 'var(--border-thick)',
+                      border: '1px solid var(--color-border)',
+                      backgroundColor: 'var(--color-surface-card)',
+                      color: 'var(--color-slate)',
                       fontFamily: 'var(--font-body)',
                       fontSize: '0.95rem',
                       outline: 'none',
@@ -778,8 +817,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   />
                   <button
                     type="submit"
-                    className="btn-brutal btn-palash"
-                    style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                    style={{
+                      padding: '10px 16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: 'var(--color-palash)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: 'var(--radius-sm)',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                    }}
                   >
                     <Send size={16} />
                     <span>{t.replySpeakSubmit}</span>
@@ -798,7 +847,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         className="card-brutal"
         style={{
           padding: '20px',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--color-surface)',
           borderRadius: 'var(--radius-md)',
           display: 'flex',
           flexDirection: 'column',
@@ -807,15 +856,26 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <MessageSquare size={18} color="var(--color-forest)" />
-            <h3 style={{ fontSize: '1.15rem', margin: 0 }}>{t.dialogueLogTitle}</h3>
-            <span className="badge-tag badge-ochre">{history.length} {t.entriesCount}</span>
+            <MessageSquare size={18} color="var(--color-palash)" />
+            <h3 style={{ fontSize: '1.15rem', margin: 0, color: 'var(--color-slate)' }}>{t.dialogueLogTitle}</h3>
+            <span className="badge-tag badge-palash">{history.length} {t.entriesCount}</span>
           </div>
 
           <button
             onClick={exportClassroomDialogueCSV}
-            className="btn-brutal btn-forest"
-            style={{ padding: '8px 14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+            style={{
+              padding: '8px 14px',
+              fontSize: '0.82rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              backgroundColor: 'var(--color-slate)',
+              color: 'var(--color-bg)',
+              border: 'none',
+              borderRadius: 'var(--radius-sm)',
+              cursor: 'pointer',
+              fontWeight: 600,
+            }}
           >
             <FileDown size={15} />
             <span>{t.exportCsvBtn}</span>
@@ -834,7 +894,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   padding: '10px 14px',
                   borderRadius: 'var(--radius-sm)',
-                  backgroundColor: item.direction === 'teacher' ? 'var(--color-forest-subtle)' : 'var(--color-ochre-subtle)',
+                  backgroundColor: 'var(--color-surface-tint)',
                   border: '1px solid var(--color-border)',
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -843,12 +903,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 }}
               >
                 <div>
-                  <span style={{ fontWeight: 700, marginRight: '8px' }}>
+                  <span style={{ fontWeight: 700, marginRight: '8px', color: 'var(--color-slate)' }}>
                     {item.direction === 'teacher' ? t.roleTeacher : t.roleStudent}
                   </span>
-                  <span>"{item.sourceText}"</span>
+                  <span style={{ color: 'var(--color-slate)' }}>"{item.sourceText}"</span>
                   <span style={{ margin: '0 8px', color: 'var(--color-slate-muted)' }}>➔</span>
-                  <span style={{ fontWeight: 700, color: 'var(--color-forest)' }}>"{item.targetText}"</span>
+                  <span style={{ fontWeight: 700, color: 'var(--color-palash)' }}>"{item.targetText}"</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>{item.time}</span>
