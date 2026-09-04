@@ -23,7 +23,7 @@ const languages = ['ho', 'mundari', 'santhali', 'sadri'];
 let totalTests = 0;
 let passedTests = 0;
 let failedTests = 0;
-const resultsByLevel = { easy: { total: 0, passed: 0 }, medium: { total: 0, passed: 0 }, hard: { total: 0, passed: 0 } };
+const resultsByLevel = { easy: { total: 0, passed: 0 }, medium: { total: 0, passed: 0 }, hard: { total: 0, passed: 0 }, showcase: { total: 0, passed: 0 } };
 
 const latencyRecords = [];
 
@@ -36,6 +36,7 @@ for (const testCase of BENCHMARK_CASES) {
 
   for (const lang of languages) {
     totalTests++;
+    if (!resultsByLevel[testCase.level]) resultsByLevel[testCase.level] = { total: 0, passed: 0 };
     resultsByLevel[testCase.level].total++;
 
     const expected = testCase[lang];
@@ -87,6 +88,7 @@ console.log('\nBreakdown by Difficulty Level:');
 console.log(`  Level 1 (Easy Core Vocabulary):       ${resultsByLevel.easy.passed} / ${resultsByLevel.easy.total} (${((resultsByLevel.easy.passed / resultsByLevel.easy.total) * 100).toFixed(0)}%)`);
 console.log(`  Level 2 (Medium Conversational):      ${resultsByLevel.medium.passed} / ${resultsByLevel.medium.total} (${((resultsByLevel.medium.passed / resultsByLevel.medium.total) * 100).toFixed(0)}%)`);
 console.log(`  Level 3 (Hard/Extreme Complex):       ${resultsByLevel.hard.passed} / ${resultsByLevel.hard.total} (${((resultsByLevel.hard.passed / resultsByLevel.hard.total) * 100).toFixed(0)}%)`);
+console.log(`  Level 4 (SIH Showcase Pitch/Impact):  ${resultsByLevel.showcase.passed} / ${resultsByLevel.showcase.total} (${((resultsByLevel.showcase.passed / resultsByLevel.showcase.total) * 100).toFixed(0)}%)`);
 console.log('\nModality Coverage:');
 console.log(`  [x] Text-to-Text:       100% Verified (Native Scripts, Devanagari & Latin)`);
 console.log(`  [x] Speech-to-Speech:   100% Verified (Acoustic Phonetics & Speech Synthesis)`);
