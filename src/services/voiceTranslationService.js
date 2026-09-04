@@ -203,9 +203,13 @@ class VoiceTranslationService {
     } catch (e) {}
 
     this.isListening = true;
+    this.isTemporarilyPaused = false;
     this.playChime('listen');
 
     this.recognition.onresult = (event) => {
+      // Acoustic Echo Cancellation (AEC) Guard: Ignore speaker audio while classroom speaker broadcasts
+      if (this.isTemporarilyPaused) return;
+
       // Process all final recognized sentences continuously without stopping
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
@@ -266,8 +270,17 @@ class VoiceTranslationService {
     }
   }
 
+  pauseListeningForPlayback() {
+    this.isTemporarilyPaused = true;
+  }
+
+  resumeListeningAfterPlayback() {
+    this.isTemporarilyPaused = false;
+  }
+
   stopListening() {
     this.isListening = false;
+    this.isTemporarilyPaused = false;
     if (this.recognition) {
       try {
         this.recognition.stop();

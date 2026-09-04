@@ -238,9 +238,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   const handleSpeakAudio = (textToSpeak, label, speechLang = 'hi-IN') => {
     setIsPlayingAudio(true);
+    // Software Acoustic Echo Cancellation (AEC): Mute mic recognition while speaker is broadcasting
+    voiceService.pauseListeningForPlayback();
+
     toast.info(isEn ? `Classroom broadcast: "${label || textToSpeak}"` : `कक्षा प्रसारण: "${label || textToSpeak}"`);
     voiceService.speakText(textToSpeak, speechLang, () => {
       setIsPlayingAudio(false);
+      // Resume listening after a 300ms acoustic guard interval to clear room reverberation
+      setTimeout(() => {
+        voiceService.resumeListeningAfterPlayback();
+      }, 300);
     });
   };
 
