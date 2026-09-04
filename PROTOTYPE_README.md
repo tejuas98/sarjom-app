@@ -375,53 +375,80 @@ Eliminates system unpredictability in remote rural schools. Every real-world fai
 
 ### 📊 4. Native GitHub Mermaid Flowchart:
 
+#### 4.1 The 5-Step Classroom Experience (Simple & Intuitive)
+
+```mermaid
+flowchart LR
+    Step1["👨‍🏫 1. Teacher Speaks Hindi\n'किताब खोलो और पाठ एक पढ़ो'"] --> Step2["⚡ 2. SARJOM 34MB Engine\nTranslates 100% Offline (<50ms)"]
+    Step2 --> Step3["🔊 3. Classroom Speaker\nPlays Native Audio (Santhali/Ho)"]
+    Step3 --> Step4["🧒 4. Tribal Children Listen\nSee Big Ol Chiki/Warang Chiti Script"]
+    Step4 --> Step5["🔄 5. Child Asks in Mother Tongue\nTablet decodes to Hindi for Teacher!"]
+    
+    style Step1 fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
+    style Step2 fill:#064E3B,stroke:#10B981,stroke-width:2px,color:#FFFFFF
+    style Step3 fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FFFFFF
+    style Step4 fill:#14532D,stroke:#4ADE80,stroke-width:2px,color:#FFFFFF
+    style Step5 fill:#701A75,stroke:#E879F9,stroke-width:2px,color:#FFFFFF
+```
+
+#### 4.2 Complete Operational Decision Flowchart (Human-Readable & Technical)
+
 ```mermaid
 flowchart TD
-    Start(["🚀 User Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available?"}
-    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync & Handshake\ne-Vidyavahini 2.0 REST connected"]
-    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Edge Mode\nService Worker & IndexedDB active"]
-    CloudSync --> LoadProfile["🏫 Load District & UDISE Profile\n(Dumka, West Singhbhum, Khunti)"]
+    Start(["🚀 Teacher Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available in School?"}
+    
+    %% Level 1: Connectivity
+    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync (e-Vidyavahini 2.0)\nSyncs state curriculum updates"]
+    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Mode\nOperates in 34MB RAM via Service Worker"]
+    
+    CloudSync --> LoadProfile["🏫 Load District & School Profile\n(Dumka, West Singhbhum, Khunti)"]
     OfflineEdge --> LoadProfile
-    LoadProfile --> ModeSelect{"📚 Select Classroom Mode?"}
     
-    ModeSelect -->|1. Real-Time Dialogue| MicCap["🎙️ Teacher Voice Audio Capture\n(75-82 dB ambient noise)"]
-    MicCap --> DSPGate["⚙️ Web Audio DSP Noise Gate\n(Bandpass 300Hz-3.4kHz filter)"]
-    DSPGate --> CheckSNR{"Acoustic SNR > 12 dB?"}
-    CheckSNR -->|NO / Heavy Rain| NoiseFallback["⚠️ Noise Fallback\nUse 1-Tap Prompt Chips"]
-    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.022 ms measured latency)"]
-    NoiseFallback --> VectorMatch
-    VectorMatch --> MundaTrans["🔤 Munda Morphology & Script\n(Ol Chiki / Warang Chiti / Deva)"]
+    %% Level 2: Mode Selection
+    LoadProfile --> ModeSelect{"📚 What does the teacher want to do?"}
     
-    ModeSelect -->|2. NIPUN FLN| FLNPlan["📖 Day-by-Day NIPUN FLN Plan\n(8-Week Balvatika to Class 3)"]
-    FLNPlan --> Scaffold["📊 80:20 Transition Scaffolding\n80% Tribal (Balvatika) ➔ 80% Hindi (Class 3)"]
-    Scaffold --> CheckFLN{"FLN Target Achieved?"}
-    CheckFLN -->|YES| Praise["🎉 Positive Reinforcement\nNative praise: 'Besh ge! शाबाश!'"]
-    CheckFLN -->|NO| Remedial["🛠️ Remedial Flashcard Deck\nVisual 3D Flip cards reinforcement"]
+    %% Branch 1: Real-Time Dialogue
+    ModeSelect -->|Track 1: Teach & Speak| CheckNoise{"🌧️ Is Classroom Noisy?\n(Rain on Tin Roof / Chatter)"}
+    CheckNoise -->|YES / Very Noisy| TapChips["⚡ Tap 1-Click Common Action Tiles\n('किताब खोलो', 'बैठ जाओ', 'शाबाश')"]
+    CheckNoise -->|NO / Clear Voice| MicSpeak["🎙️ Tap Mic & Speak in Hindi\nTeacher speaks natural instruction"]
+    TapChips --> OfflineNLP["⚡ 34MB Offline Translation Engine\n(Sub-50ms Neural & Morphological FST)"]
+    MicSpeak --> OfflineNLP
+    OfflineNLP --> BroadcastAudio["🔊 Broadcast Audio on Classroom Speaker\n+ Displays Big Ol Chiki / Warang Chiti Script"]
     
-    ModeSelect -->|3. Worksheets & QR| GenSheet["📄 Generate NIPUN Worksheet\n(Numeracy, Words, Tracing)"]
-    GenSheet --> QRGen["📱 Dynamic Audio QR Generator\nReed-Solomon Level M client encoding"]
-    QRGen --> PrintDoc["🖨️ 300 DPI Print / Save PDF\nTake-home sheet given to child"]
-    PrintDoc --> CheckScan{"Parent Phone Scanned?"}
-    CheckScan -->|YES| AudioComp["🌳 सरजोम ध्वनि साथी Web Player\nZero install: Illiterate parents hear tribal audio"]
+    %% Branch 2: NIPUN FLN
+    ModeSelect -->|Track 2: Daily FLN Lesson| FLNPlan["📖 Load Day-by-Day FLN Lesson\n(Grade 1-3 Bilingual Curriculum)"]
+    FLNPlan --> CheckFLN{"Did the child understand the concept?"}
+    CheckFLN -->|YES| Praise["🎉 Native Voice Praise\nPlays encouraging audio: 'Besh ge! शाबाश!'"]
+    CheckFLN -->|NO| Remedial["🛠️ 3D Visual Remedial Flashcards\nReinforces concept with pictures & sound"]
     
-    ModeSelect -->|4. Reading Fluency| StudentRead["🗣️ Student Oral Reading\nReads native script prompt aloud"]
-    StudentRead --> Formant["🔬 Formant Extractor (F1, F2)\nDSP Euclidean distance to native phonemes"]
-    Formant --> CheckORF{"Accuracy >= 70% & WPM OK?"}
-    CheckORF -->|YES| FluencyPass["🌟 Fluency Mastered Badge\nLogged to Student Portfolio"]
-    CheckORF -->|NO| PhoneGuide["👂 Phonetic Audio Modeling\nSlows playback & shows Devanagari cue"]
+    %% Branch 3: Worksheets & QR
+    ModeSelect -->|Track 3: Print Worksheets| GenSheet["📄 Auto-Generate Bilingual Worksheet\n(Math, Words & Tracing with Native Script)"]
+    GenSheet --> QRGen["📱 Embed Smart Audio QR Code\n(For basic parent smartphones at home)"]
+    QRGen --> PrintDoc["🖨️ Print A4 Sheet or Save PDF\nChild takes sheet home for practice"]
+    PrintDoc --> CheckScan{"Parent scans QR code at home?"}
+    CheckScan -->|YES| AudioComp["🌳 Plays Native Audio Lesson\nIlliterate parents tap to hear teacher audio"]
     
-    MundaTrans --> DBCommit["💾 Encrypted Offline IndexedDB Commit\n(Local persistence & EVV queue)"]
+    %% Branch 4: ORF Reading Fluency
+    ModeSelect -->|Track 4: Student Reading Practice| StudentRead["🗣️ Child Reads Native Script Aloud\n(Speaks into tablet microphone)"]
+    StudentRead --> Formant["🔬 AI Pronunciation Check\n(Compares speech against native acoustics)"]
+    Formant --> CheckORF{"Pronunciation Accuracy >= 70%?"}
+    CheckORF -->|YES| FluencyPass["🌟 Fluency Mastery Badge\nChild earns gold star in digital portfolio"]
+    CheckORF -->|NO| PhoneGuide["👂 Slow Native Audio Modeling\nPlays slowed authentic speech to guide child"]
+    
+    %% Convergence to Persistence
+    BroadcastAudio --> DBCommit["💾 Save Encrypted Record to Tablet Storage\n(Zero data loss; ready for MicroSD sync)"]
     Praise --> DBCommit
     Remedial --> DBCommit
     AudioComp --> DBCommit
     FluencyPass --> DBCommit
     PhoneGuide --> DBCommit
-    DBCommit --> Done(["✅ PROCESS COMPLETE"])
+    
+    DBCommit --> Done(["✅ READY FOR NEXT LESSON"])
 
     style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
     style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
     style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
-    style CheckSNR fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style CheckNoise fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
     style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
     style CheckScan fill:#451A03,stroke:#F59E0B,stroke-width:2px,color:#FDE68A
     style CheckORF fill:#3B0764,stroke:#A855F7,stroke-width:2px,color:#E9D5FF
