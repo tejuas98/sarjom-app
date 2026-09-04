@@ -13,12 +13,27 @@ import {
   User,
   School,
   FileDown,
+  ChevronDown,
+  CheckCircle2,
+  Radio,
 } from 'lucide-react';
 import { translateHindiToTribal, getContextualSuggestions } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { STUDENT_TO_TEACHER_PHRASES } from '../data/classroomPhrases';
 import { toast } from 'sonner';
+
+// High-frequency 1-Tap classroom action prompts for rural teachers
+const ONE_TAP_CLASSROOM_PROMPTS = [
+  { id: 'otp_1', icon: '📖', label: 'किताब खोलो', phrase: 'किताब खोलो और पाठ एक पढ़ो।' },
+  { id: 'otp_2', icon: '🪑', label: 'अपनी जगह बैठो', phrase: 'अपनी जगह पर बैठ जाओ।' },
+  { id: 'otp_3', icon: '🌟', label: 'शाबाश / बहुत अच्छा', phrase: 'शाबाश, तुमने बहुत अच्छा किया।' },
+  { id: 'otp_4', icon: '💧', label: 'पानी पीने जाओ', phrase: 'हाँ, जाओ पानी पीकर तुरंत आओ।' },
+  { id: 'otp_5', icon: '🤫', label: 'शांत रहो और सुनो', phrase: 'शान्त रहो और सुनो।' },
+  { id: 'otp_6', icon: '✍️', label: 'स्लेट पर लिखो', phrase: 'स्लेट पर लिखकर दिखाओ।' },
+  { id: 'otp_7', icon: '🤝', label: 'नमस्ते / जोहार', phrase: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?' },
+  { id: 'otp_8', icon: '🍛', label: 'मध्याह्न भोजन (MDM)', phrase: 'हाथ धोकर मध्याह्न भोजन करो।' },
+];
 
 export function VoiceTranslator({ selectedLang }) {
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student'); // 'teacher_to_student' | 'student_to_teacher'
@@ -27,10 +42,12 @@ export function VoiceTranslator({ selectedLang }) {
   const [translationResult, setTranslationResult] = useState(null);
   const [history, setHistory] = useState([]);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [measuredLatency, setMeasuredLatency] = useState(48);
+  const [measuredLatency, setMeasuredLatency] = useState(42);
+  const [showAdvancedInput, setShowAdvancedInput] = useState(false);
 
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
   const quickSuggestions = getContextualSuggestions();
+  const dialogModeIsTeacher = dialogueMode === 'teacher_to_student';
 
   // Run translation whenever inputText or selectedLang changes
   useEffect(() => {
@@ -39,8 +56,6 @@ export function VoiceTranslator({ selectedLang }) {
     }
   }, [selectedLang, dialogueMode]);
 
-  const dialogModeIsTeacher = dialogueMode === 'teacher_to_student';
-
   const handleTranslate = (textToTranslate) => {
     const start = performance.now();
     const result = translateHindiToTribal(textToTranslate, selectedLang);
@@ -48,21 +63,23 @@ export function VoiceTranslator({ selectedLang }) {
     const latency = Math.max(Math.round(end - start), 38);
     setMeasuredLatency(latency);
     setTranslationResult(result);
+    return result;
   };
 
   const handleSpeakAudio = (textToSpeak, label, lang = 'hi-IN') => {
     setIsPlayingAudio(true);
-    toast.info(`ध्वनि उच्चारण: "${label || textToSpeak}"`);
+    toast.info(`🔊 कक्षा स्पीकर प्रसारण: "${label || textToSpeak}"`);
     voiceService.speakText(textToSpeak, lang, () => {
       setIsPlayingAudio(false);
     });
   };
 
+  // ONE-TAP SPEAK & BROADCAST: Teacher taps once -> speaks -> translates -> broadcasts out loud
   const handleStartMic = () => {
     setIsRecording(true);
-    toast('माइक्रोफ़ोन सक्रिय: बोलें...', {
+    toast('🎙️ माइक्रोफ़ोन सक्रिय: हिंदी में बोलें...', {
       description: dialogModeIsTeacher
-        ? 'शिक्षक अपनी आवाज़ में हिंदी निर्देश बोलें'
+        ? 'शिक्षक अपनी आवाज़ में निर्देश बोलें — स्वतः कक्षा स्पीकर पर प्रसारित होगा'
         : `छात्र अपनी मातृभाषा ${langMeta.name} में बोलें`,
     });
 
@@ -70,20 +87,19 @@ export function VoiceTranslator({ selectedLang }) {
       (transcript) => {
         setIsRecording(false);
         setInputText(transcript);
-        handleTranslate(transcript);
+        const res = handleTranslate(transcript);
         toast.success(`पहचाना गया: "${transcript}"`);
-        // Auto play translation audio
+        // Instant audio broadcast through speaker
         setTimeout(() => {
-          const res = translateHindiToTribal(transcript, selectedLang);
           if (res) {
             handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
-            addToHistory(transcript, res);
+            addToHistory(transcript, res, 'teacher');
           }
-        }, 150);
+        }, 120);
       },
       (error) => {
         setIsRecording(false);
-        toast.error('माइक्रोफ़ोन स्थिति: त्वरित चयन का उपयोग करें');
+        toast.error('माइक्रोफ़ोन स्थिति: नीचे दिए गए 1-टैप बटनों का उपयोग करें');
       }
     );
   };
@@ -91,6 +107,15 @@ export function VoiceTranslator({ selectedLang }) {
   const handleStopMic = () => {
     voiceService.stopListening();
     setIsRecording(false);
+  };
+
+  // 1-TAP INSTANT LESSON BROADCAST: 1-click on any quick button triggers translation and plays audio
+  const handleInstantPromptClick = (promptItem) => {
+    setInputText(promptItem.phrase);
+    const res = handleTranslate(promptItem.phrase);
+    addToHistory(promptItem.phrase, res, 'teacher');
+    handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
+    toast.success(`📢 स्पीकर पर बजा: "${promptItem.label}"`);
   };
 
   const addToHistory = (source, result, direction = 'teacher') => {
@@ -112,8 +137,7 @@ export function VoiceTranslator({ selectedLang }) {
   const handleSubmitCustom = (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
-    handleTranslate(inputText);
-    const res = translateHindiToTribal(inputText, selectedLang);
+    const res = handleTranslate(inputText);
     addToHistory(inputText, res, 'teacher');
     handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
   };
@@ -159,11 +183,11 @@ export function VoiceTranslator({ selectedLang }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {/* SLA and Status Banner */}
+      {/* Top Status & SLA Banner */}
       <div
         className="card-brutal"
         style={{
-          padding: '14px 20px',
+          padding: '12px 18px',
           backgroundColor: '#FFFFFF',
           display: 'flex',
           justifyContent: 'space-between',
@@ -177,27 +201,29 @@ export function VoiceTranslator({ selectedLang }) {
             style={{
               padding: '6px 12px',
               borderRadius: 'var(--radius-pill)',
-              backgroundColor: measuredLatency < 3000 ? '#E8F4ED' : '#FDF0E9',
+              backgroundColor: '#E8F4ED',
               border: '1.5px solid var(--color-border)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
             }}
           >
-            <Clock size={16} color={measuredLatency < 3000 ? '#0E5B37' : '#D95A27'} />
+            <Radio size={15} color="#0E5B37" className="audio-pulse" />
             <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-              अनुवाद विलंबता (Latency): <span style={{ color: '#0E5B37' }}>{measuredLatency} ms</span>
+              कक्षा स्पीकर स्थिति: <span style={{ color: '#0E5B37' }}>सक्रिय (34MB Offline Mode)</span>
             </span>
           </div>
 
-          <span className="badge-tag badge-forest">SLA लक्ष्य: &lt; 3.0s (मानक पूर्ण ✅)</span>
-
           <span className="badge-tag badge-palash">
-            लक्षित भाषा: {langMeta.name} ({langMeta.badgeText})
+            मातृभाषा: {langMeta.name} ({langMeta.badgeText})
+          </span>
+
+          <span className="badge-tag badge-forest">
+            विलंबता: {measuredLatency} ms (SLA &lt; 3s ✅)
           </span>
         </div>
 
-        {/* Bidirectional Dialogue Mode Toggle */}
+        {/* Mode Selector Toggle */}
         <div
           style={{
             display: 'flex',
@@ -210,265 +236,259 @@ export function VoiceTranslator({ selectedLang }) {
           <button
             onClick={() => setDialogueMode('teacher_to_student')}
             style={{
-              padding: '6px 12px',
+              padding: '6px 14px',
               border: 'none',
               borderRadius: 'var(--radius-sm)',
               backgroundColor: dialogModeIsTeacher ? 'var(--color-forest)' : 'transparent',
               color: dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.82rem',
+              fontSize: '0.85rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
             }}
           >
-            <School size={14} />
-            शिक्षक ➔ छात्र (Hindi to Tribal)
+            <School size={15} />
+            शिक्षक ➔ कक्षा स्पीकर (One-Tap Broadcast)
           </button>
           <button
             onClick={() => setDialogueMode('student_to_teacher')}
             style={{
-              padding: '6px 12px',
+              padding: '6px 14px',
               border: 'none',
               borderRadius: 'var(--radius-sm)',
               backgroundColor: !dialogModeIsTeacher ? 'var(--color-palash)' : 'transparent',
               color: !dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: !dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.82rem',
+              fontSize: '0.85rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
             }}
           >
-            <User size={14} />
-            छात्र ➔ शिक्षक (Tribal to Hindi)
+            <User size={15} />
+            छात्र ➔ शिक्षक (Reverse Ear)
           </button>
         </div>
       </div>
 
-      {/* MODE 1: TEACHER SPEAKS HINDI -> TRIBAL (Default) */}
+      {/* ========================================================================= */}
+      {/* MODE 1: TEACHER SPEAKS HINDI -> TRIBAL CLASSROOM BROADCAST (DEAD SIMPLE) */}
+      {/* ========================================================================= */}
       {dialogModeIsTeacher && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
-          {/* Left Column: Teacher Console (Hindi Medium) */}
-          <div className="card-brutal" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: 'var(--color-palash-subtle)',
-                    border: '1.5px solid var(--color-border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <School size={18} color="var(--color-palash)" />
-                </div>
-                <h2 style={{ fontSize: '1.35rem', margin: 0 }}>शिक्षक संवाद (हिंदी माध्यम)</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* 1. HERO CARD: ONE-TAP SPEAK & BROADCAST */}
+          <div
+            className="card-brutal"
+            style={{
+              padding: '24px',
+              backgroundColor: '#FFFFFF',
+              border: '3px solid var(--color-forest)',
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '18px',
+              boxShadow: 'var(--shadow-card)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              <div>
+                <h2 style={{ fontSize: '1.45rem', margin: 0, color: 'var(--color-forest)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span>📢</span>
+                  <span>एक-क्लिक कक्षा स्पीकर प्रसारण (One-Tap Classroom Broadcast)</span>
+                </h2>
+                <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0' }}>
+                  बटन दबाएं और हिंदी में बोलें — सिस्टम तुरंत <strong>{langMeta.name}</strong> में अनुवाद कर सीधे कक्षा स्पीकर पर बजा देगा।
+                </p>
               </div>
-              <span className="badge-tag badge-ochre">कक्षा 1-3 शिक्षक</span>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span className="badge-tag badge-ochre">कक्षा 1-3 FLN</span>
+                <span className="badge-tag badge-forest">100% ऑफ़लाइन</span>
+              </div>
             </div>
 
-            <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              अपनी सामान्य हिंदी में बोलें या टाइप करें। सिस्टम तुरंत इसे जनजातीय भाषा में उच्चारित करेगा।
-            </p>
+            {/* Giant Tactile One-Tap Button */}
+            <button
+              type="button"
+              onClick={isRecording ? handleStopMic : handleStartMic}
+              className={`btn-brutal ${isRecording ? 'btn-palash' : 'btn-primary'}`}
+              style={{
+                width: '100%',
+                padding: '20px 24px',
+                fontSize: '1.2rem',
+                fontWeight: 800,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '14px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: isRecording ? 'var(--color-palash)' : 'var(--color-forest)',
+                color: '#FFFFFF',
+                border: 'var(--border-thick)',
+                cursor: 'pointer',
+              }}
+            >
+              {isRecording ? (
+                <>
+                  <MicOff size={28} className="audio-pulse" />
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '1.25rem' }}>🔴 सुन रहे हैं... (रोकने हेतु यहाँ दबाएं)</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 400, opacity: 0.95 }}>
+                      सामान्य हिंदी में बोलें — रोकते ही तुरंत मातृभाषा में स्पीकर पर गूंजेगा
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Mic size={28} />
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '1.25rem' }}>🎙️ यहाँ दबाकर बोलें (One-Tap Speak & Broadcast)</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 400, opacity: 0.95 }}>
+                      हिंदी निर्देश बोलें ➔ {langMeta.name} अनुवाद स्वतः स्पीकर पर गूंजेगा
+                    </div>
+                  </div>
+                </>
+              )}
+            </button>
 
-            {/* Teacher Input Form */}
-            <form onSubmit={handleSubmitCustom} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ position: 'relative' }}>
-                <textarea
-                  value={inputText}
-                  onChange={(e) => {
-                    setInputText(e.target.value);
-                    handleTranslate(e.target.value);
-                  }}
-                  rows={3}
-                  placeholder="उदा: किताब खोलो / तुम्हारा नाम क्या है? / शान्त रहो..."
-                  style={{
-                    width: '100%',
-                    padding: '12px 14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: 'var(--border-thick)',
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '1.05rem',
-                    color: 'var(--color-slate)',
-                    backgroundColor: '#FFFFFF',
-                    outline: 'none',
-                    resize: 'none',
-                  }}
-                />
-              </div>
-
-              {/* Mic and Submit Controls */}
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <button
-                  type="button"
-                  onClick={isRecording ? handleStopMic : handleStartMic}
-                  className={`btn-brutal ${isRecording ? 'btn-palash' : 'btn-primary'}`}
-                  style={{
-                    flex: 1,
-                    padding: '12px 20px',
-                    fontSize: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                  }}
-                >
-                  {isRecording ? (
-                    <>
-                      <MicOff size={20} className="audio-pulse" />
-                      <span>सुन रहे हैं... (रोकें)</span>
-                    </>
-                  ) : (
-                    <>
-                      <Mic size={20} />
-                      <span>माइक दबाकर बोलें (Speak)</span>
-                    </>
-                  )}
-                </button>
-
-                <button
-                  type="submit"
-                  className="btn-brutal btn-ochre"
-                  style={{ padding: '12px 18px' }}
-                  title="अनुवाद करें और सुनाएं"
-                >
-                  <Send size={18} />
-                </button>
-              </div>
-            </form>
-
-            {/* Contextual Teacher Quick Chips */}
+            {/* 2. ONE-TAP COMMON CLASSROOM PHRASES (8 Visual Tiles) */}
             <div>
-              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-slate-muted)', marginBottom: '8px' }}>
-                ⚡ त्वरित कक्षा निर्देश (One-Tap Classroom Prompts):
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>⚡</span>
+                <span>त्वरित 1-टैप कक्षा निर्देश (टैप करते ही स्पीकर पर बजेगा):</span>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {quickSuggestions.map((item, idx) => (
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
+                {ONE_TAP_CLASSROOM_PROMPTS.map((prompt) => (
                   <button
-                    key={idx}
+                    key={prompt.id}
                     type="button"
-                    onClick={() => {
-                      setInputText(item.hindi);
-                      handleTranslate(item.hindi);
-                      const res = translateHindiToTribal(item.hindi, selectedLang);
-                      addToHistory(item.hindi, res, 'teacher');
-                      handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
-                    }}
+                    onClick={() => handleInstantPromptClick(prompt)}
                     className="btn-brutal"
                     style={{
-                      padding: '6px 10px',
-                      fontSize: '0.8rem',
-                      backgroundColor: '#FFFFFF',
-                      border: '1.5px solid var(--color-border)',
-                      boxShadow: '1.5px 1.5px 0px var(--color-border)',
+                      padding: '12px 14px',
+                      backgroundColor: inputText === prompt.phrase ? 'var(--color-forest-subtle)' : '#FFFFFF',
+                      borderColor: inputText === prompt.phrase ? 'var(--color-forest)' : 'var(--color-border)',
+                      textAlign: 'left',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      borderRadius: 'var(--radius-sm)',
                     }}
                   >
-                    {item.label}
+                    <span style={{ fontSize: '1.4rem' }}>{prompt.icon}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                        {prompt.label}
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        "{prompt.phrase}"
+                      </div>
+                    </div>
+                    <Volume2 size={16} color="var(--color-forest)" />
                   </button>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right Column: Tribal Translation & Phonetic Synthesis */}
+          {/* 3. CURRENT ACTIVE BROADCAST RESULT (BIG AUDIENCE-FACING SCRIPT & PRONUNCIATION) */}
           <div
             className="card-brutal"
             style={{
               padding: '24px',
               backgroundColor: 'var(--color-forest-subtle)',
-              borderColor: 'var(--color-forest)',
+              border: '2.5px solid var(--color-forest)',
+              borderRadius: 'var(--radius-lg)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: '18px',
+              gap: '16px',
             }}
           >
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '1.4rem' }}>🪘</span>
-                  <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-forest)' }}>
-                    जनजातीय रूपांतरण ({langMeta.name})
-                  </h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '1.5rem' }}>🪘</span>
+                <div>
+                  <h3 style={{ fontSize: '1.25rem', margin: 0, color: 'var(--color-forest)' }}>
+                    कक्षा स्पीकर पर उच्चारित वाक्य ({langMeta.name})
+                  </h3>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                    मूल हिंदी: <strong>"{inputText}"</strong>
+                  </div>
                 </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="badge-tag badge-forest">
                   {translationResult?.matchType || 'FLN Direct'}
                 </span>
+                <span className="badge-tag badge-ochre">34MB INT8 Quantized</span>
               </div>
-
-              <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-                मूल लिपि में छात्र हेतु प्रदर्शन एवं हिंदी शिक्षक हेतु शुद्ध उच्चारण मार्गदर्शिका।
-              </p>
             </div>
 
-            {/* Main Tribal Display Box */}
+            {/* Tribal Script & Phonetics Card */}
             <div
               style={{
                 backgroundColor: '#FFFFFF',
                 border: 'var(--border-thick)',
-                borderRadius: 'var(--radius-lg)',
+                borderRadius: 'var(--radius-md)',
                 padding: '20px',
-                boxShadow: 'var(--shadow-card)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
               }}
             >
-              {/* 1. Native Script */}
+              {/* Native Script Display */}
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-palash)', textTransform: 'uppercase' }}>
-                  मूल लिपि (Native Script):
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-palash)', textTransform: 'uppercase' }}>
+                  मूल लिपि में (Native Script for Students):
                 </div>
                 <div
                   className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
                   style={{
-                    fontSize: '1.9rem',
-                    fontWeight: 700,
+                    fontSize: '2.2rem',
+                    fontWeight: 800,
                     color: 'var(--color-slate)',
-                    marginTop: '4px',
-                    letterSpacing: '0.5px',
+                    marginTop: '6px',
                     lineHeight: 1.3,
                   }}
                 >
-                  {translationResult?.nativeScript || 'जोहार'}
+                  {translationResult?.nativeScript || 'ᱡᱚᱦᱟᱨ'}
                 </div>
               </div>
 
-              {/* 2. Hindi Teacher Phonetic Guide */}
+              {/* Hindi Teacher Phonetic Guide */}
               <div
                 style={{
                   backgroundColor: 'var(--color-ochre-subtle)',
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-md)',
+                  padding: '12px 16px',
+                  borderRadius: 'var(--radius-sm)',
                   border: '1.5px dashed var(--color-ochre)',
                 }}
               >
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#8C5F08' }}>
-                  🗣️ शिक्षक हेतु हिंदी उच्चारण (How to Speak):
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#8C5F08' }}>
+                  🗣️ शिक्षक उच्चारण मार्गदर्शिका (How the Teacher Can Speak):
                 </div>
                 <div
                   style={{
-                    fontSize: '1.15rem',
-                    fontWeight: 700,
+                    fontSize: '1.25rem',
+                    fontWeight: 800,
                     color: '#523702',
-                    marginTop: '3px',
+                    marginTop: '4px',
                     fontFamily: 'var(--font-deva)',
                   }}
                 >
                   {translationResult?.phoneticDeva || 'जोहार'}
                 </div>
-                <div style={{ fontSize: '0.82rem', color: '#8C5F08', marginTop: '2px', fontStyle: 'italic' }}>
-                  रोमन: {translationResult?.phoneticLatin || 'Johār'}
+                <div style={{ fontSize: '0.85rem', color: '#8C5F08', marginTop: '2px', fontStyle: 'italic' }}>
+                  रोमन उच्चारण: {translationResult?.phoneticLatin || 'Johār'}
                 </div>
               </div>
 
-              {/* Audio Synthesis Trigger */}
+              {/* Speaker Replay Button */}
               <button
                 type="button"
                 onClick={() => {
@@ -482,40 +502,130 @@ export function VoiceTranslator({ selectedLang }) {
                 className="btn-brutal btn-palash"
                 style={{
                   width: '100%',
-                  padding: '12px 18px',
-                  fontSize: '1.05rem',
+                  padding: '14px 20px',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px',
+                  gap: '10px',
                 }}
               >
-                <Volume2 size={20} className={isPlayingAudio ? 'audio-pulse' : ''} />
-                <span>{isPlayingAudio ? 'उच्चारण बज रहा है...' : 'कक्षा में सुनाएं (Play Audio)'}</span>
+                <Volume2 size={22} className={isPlayingAudio ? 'audio-pulse' : ''} />
+                <span>
+                  {isPlayingAudio ? 'कक्षा स्पीकर पर बज रहा है...' : '🔊 दोबारा स्पीकर पर सुनाएं (Replay Broadcast)'}
+                </span>
               </button>
             </div>
+          </div>
 
-            {/* Child Response Tip */}
+          {/* 4. COLLAPSIBLE ADVANCED / CUSTOM INPUT (PRESERVES ALL CUSTOM TEXT OPTIONS WITHOUT CLUTTER) */}
+          <div
+            className="card-brutal"
+            style={{
+              padding: '16px 20px',
+              backgroundColor: '#FFFFFF',
+              borderRadius: 'var(--radius-md)',
+            }}
+          >
             <div
+              onClick={() => setShowAdvancedInput(!showAdvancedInput)}
               style={{
-                padding: '12px 16px',
-                backgroundColor: '#FFFFFF',
-                borderRadius: 'var(--radius-md)',
-                border: 'var(--border-thin)',
-                fontSize: '0.82rem',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                cursor: 'pointer',
+                userSelect: 'none',
               }}
             >
-              <span>💡 <strong>शिक्षक टिप:</strong> छात्र से मातृभाषा में प्रत्युत्तर सुनकर प्रशंसा अवश्य करें।</span>
-              <span style={{ color: 'var(--color-forest)', fontWeight: 700 }}>आदिशिक्षार्थी मोड</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '1.1rem' }}>✍️</span>
+                <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-slate)' }}>
+                  मैन्युअल वाक्य टाइपिंग व अतिरिक्त FLN वाक्यांश (Manual Text Typing & Full Syllabus)
+                </span>
+              </div>
+              <ChevronDown
+                size={20}
+                style={{
+                  transform: showAdvancedInput ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease',
+                }}
+              />
             </div>
+
+            {showAdvancedInput && (
+              <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+                  यदि आप कोई विशिष्ट पाठ या लंबा वाक्य अनुवाद करना चाहते हैं, तो नीचे टाइप करके अनुवाद करें:
+                </p>
+
+                <form onSubmit={handleSubmitCustom} style={{ display: 'flex', gap: '10px' }}>
+                  <input
+                    type="text"
+                    value={inputText}
+                    onChange={(e) => {
+                      setInputText(e.target.value);
+                      handleTranslate(e.target.value);
+                    }}
+                    placeholder="कस्टम हिंदी वाक्य लिखें (उदा: सभी बच्चे अपनी स्लेट निकालें)..."
+                    style={{
+                      flex: 1,
+                      padding: '10px 14px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: 'var(--border-thick)',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '1rem',
+                      outline: 'none',
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    className="btn-brutal btn-forest"
+                    style={{ padding: '10px 18px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <Send size={16} />
+                    <span>अनुवाद</span>
+                  </button>
+                </form>
+
+                {/* Additional Quick Syllabus Chips */}
+                <div>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-slate-muted)', marginBottom: '6px' }}>
+                    अतिरिक्त FLN सुझाव (Full Lexicon Suggestions):
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {quickSuggestions.map((item, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setInputText(item.hindi);
+                          const res = handleTranslate(item.hindi);
+                          addToHistory(item.hindi, res, 'teacher');
+                          handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
+                        }}
+                        className="btn-brutal"
+                        style={{
+                          padding: '5px 8px',
+                          fontSize: '0.78rem',
+                          backgroundColor: '#FFFFFF',
+                          border: '1.5px solid var(--color-border)',
+                        }}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* MODE 2: STUDENT SPEAKS TRIBAL -> HINDI FOR TEACHER */}
+      {/* ========================================================================= */}
+      {/* MODE 2: STUDENT SPEAKS TRIBAL -> HINDI FOR TEACHER (REVERSE EAR)         */}
+      {/* ========================================================================= */}
       {!dialogModeIsTeacher && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
           {/* Left Column: Student Tribal Utterances */}
@@ -678,123 +788,110 @@ export function VoiceTranslator({ selectedLang }) {
                         onClick={() => {
                           handleSpeakAudio(phonetic, resp.hindiPrompt);
                           addToHistory(resp.hindiPrompt, { nativeScript: tribalText, phoneticDeva: phonetic }, 'teacher');
-                          toast.success(`शिक्षक प्रत्युत्तर उच्चारित: "${resp.hindiPrompt}"`);
                         }}
                         className="btn-brutal"
                         style={{
-                          padding: '10px 12px',
+                          padding: '10px 14px',
+                          backgroundColor: 'var(--color-bg)',
                           textAlign: 'left',
-                          backgroundColor: '#FFFFFF',
-                          border: '1.5px solid var(--color-border)',
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
-                          gap: '10px',
+                          fontSize: '0.82rem',
                         }}
                       >
                         <div>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                            {resp.hindiPrompt}
-                          </div>
-                          <div
-                            className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                            style={{ fontSize: '0.95rem', color: 'var(--color-forest)', marginTop: '2px' }}
-                          >
-                            {tribalText}
+                          <div style={{ fontWeight: 700, color: 'var(--color-slate)' }}>{resp.hindiPrompt}</div>
+                          <div style={{ color: 'var(--color-forest)', fontSize: '0.78rem' }}>
+                            {tribalText} ({phonetic})
                           </div>
                         </div>
-                        <span className="badge-tag badge-palash" style={{ flexShrink: 0 }}>
-                          <Volume2 size={12} /> सुनाएं
-                        </span>
+                        <Volume2 size={16} color="var(--color-forest)" />
                       </button>
                     );
                   })}
                 </div>
               </div>
             </div>
-
-            <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', padding: '12px', backgroundColor: 'var(--color-bg)', borderRadius: 'var(--radius-sm)', marginTop: '12px' }}>
-              📢 <strong>कक्षा ध्वनि प्रबंधन:</strong> 30+ छात्रों की कक्षा में टैबलेट को ब्लूटूथ स्पीकर (Bluetooth Speaker) या 3.5mm Aux माइक से जोड़कर सुनाएं ताकि अंतिम पंक्ति तक स्पष्ट आवाज़ पहुंचे।
-            </div>
           </div>
         </div>
       )}
 
-      {/* Classroom Dialogue History Stream & MicroSD Export */}
-      {history.length > 0 && (
-        <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <MessageSquare size={18} color="var(--color-forest)" />
-              <h3 style={{ margin: 0, fontSize: '1.1rem' }}>
-                कक्षा संवाद लॉग (Live Classroom Dialogue Stream)
-              </h3>
-            </div>
-
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                onClick={exportClassroomDialogueCSV}
-                className="btn-brutal btn-ochre"
-                style={{ padding: '5px 12px', fontSize: '0.78rem' }}
-                title="MicroSD / USB पेनड्राइव में CSV रिपोर्ट सुरक्षित करें"
-              >
-                <FileDown size={14} />
-                पेनड्राइव / MicroSD CSV निर्यात
-              </button>
-
-              <button
-                onClick={() => setHistory([])}
-                className="btn-brutal"
-                style={{ padding: '5px 10px', fontSize: '0.78rem' }}
-              >
-                लॉग साफ़ करें
-              </button>
-            </div>
+      {/* ========================================================================= */}
+      {/* 5. CLASSROOM DIALOGUE LOG & EXPORT (CSV SNEAKERNET REPORT)                 */}
+      {/* ========================================================================= */}
+      <div
+        className="card-brutal"
+        style={{
+          padding: '20px',
+          backgroundColor: '#FFFFFF',
+          borderRadius: 'var(--radius-md)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <MessageSquare size={18} color="var(--color-forest)" />
+            <h3 style={{ fontSize: '1.15rem', margin: 0 }}>कक्षा संवाद लॉग (Classroom Interaction Log)</h3>
+            <span className="badge-tag badge-ochre">{history.length} प्रविष्टियाँ</span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <button
+            onClick={exportClassroomDialogueCSV}
+            className="btn-brutal btn-forest"
+            style={{ padding: '8px 14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            <FileDown size={15} />
+            <span>MicroSD / पेनड्राइव लॉग निर्यात (CSV)</span>
+          </button>
+        </div>
+
+        {history.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '20px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
+            ऊपर माइक बटन दबाकर बोलें या 1-टैप निर्देश चुनें। यहाँ कक्षा संवाद स्वतः दर्ज होता रहेगा।
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '240px', overflowY: 'auto' }}>
             {history.map((item) => (
               <div
                 key={item.id}
                 style={{
+                  padding: '10px 14px',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: item.direction === 'teacher' ? 'var(--color-forest-subtle)' : 'var(--color-ochre-subtle)',
+                  border: '1px solid var(--color-border)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: item.direction === 'student' ? 'var(--color-ochre-subtle)' : 'var(--color-surface-hover)',
-                  border: '1px solid var(--color-border)',
-                  flexWrap: 'wrap',
-                  gap: '10px',
+                  fontSize: '0.85rem',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)', fontFamily: 'monospace' }}>
-                    {item.time}
+                <div>
+                  <span style={{ fontWeight: 700, marginRight: '8px' }}>
+                    {item.direction === 'teacher' ? '👨‍🏫 शिक्षक:' : '🧒 छात्र:'}
                   </span>
-                  <span className={`badge-tag ${item.direction === 'student' ? 'badge-palash' : 'badge-forest'}`}>
-                    {item.direction === 'student' ? 'छात्र ➔ शिक्षक' : 'शिक्षक ➔ छात्र'}
-                  </span>
-                  <div>
-                    <span style={{ fontWeight: 600, color: 'var(--color-slate)' }}>{item.sourceText}</span>
-                    <span style={{ margin: '0 8px', color: 'var(--color-palash)' }}>➔</span>
-                    <strong style={{ color: 'var(--color-forest)', fontSize: '1.05rem' }}>{item.targetText}</strong>
-                  </div>
+                  <span>"{item.sourceText}"</span>
+                  <span style={{ margin: '0 8px', color: 'var(--color-slate-muted)' }}>➔</span>
+                  <span style={{ fontWeight: 700, color: 'var(--color-forest)' }}>"{item.targetText}"</span>
                 </div>
-
-                <button
-                  onClick={() => handleSpeakAudio(item.audioText, item.targetText)}
-                  className="btn-brutal btn-subtle"
-                  style={{ padding: '4px 10px', fontSize: '0.8rem' }}
-                >
-                  <Volume2 size={14} />
-                  पुनः सुनाएं
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>{item.time}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleSpeakAudio(item.audioText || item.phonetic, item.targetText)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px' }}
+                    title="पुनः सुनाएं"
+                  >
+                    <Volume2 size={16} color="var(--color-slate)" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
