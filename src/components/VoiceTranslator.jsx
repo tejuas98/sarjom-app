@@ -13,6 +13,7 @@ import {
   User,
   School,
   FileDown,
+  Trash2,
   CheckCircle2,
   Zap,
 } from 'lucide-react';
@@ -26,6 +27,51 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
+  // Seeded classroom interactions so the log is immediately visible and populated
+  const getInitialHistory = () => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('sarjom_dialogue_log');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {}
+      }
+    }
+    return [
+      {
+        id: 1,
+        direction: 'teacher',
+        sourceText: isEn ? 'Hello / Johar, children!' : 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?',
+        targetText: selectedLang === 'santhali' ? 'ᱡᱚᱦᱟᱨ, ᱥᱟᱱᱟᱢ ᱜᱤᱫᱽᱨᱟᱹ ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱯᱮᱭᱟ?' : 'जोहार, सब छौवा मन कइसन अहा?',
+        phonetic: selectedLang === 'santhali' ? 'जोहार, सानाम गिद्रा चेद लेका मेनाग पेया?' : 'जोहार, सब छौवा मन कइसन अहा?',
+        audioText: 'Johar',
+        lang: selectedLang,
+        time: '09:30 AM',
+      },
+      {
+        id: 2,
+        direction: 'student',
+        sourceText: selectedLang === 'santhali' ? 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ, ᱜᱩᱨᱩᱡᱤ!' : 'हमे मन बेस अही, गुरुजी!',
+        targetText: isEn ? 'We are all fine, Teacher!' : 'हम सब ठीक हैं, गुरुजी!',
+        phonetic: 'हम सब ठीक हैं, गुरुजी!',
+        audioText: 'हम सब ठीक हैं',
+        lang: selectedLang,
+        time: '09:31 AM',
+      },
+      {
+        id: 3,
+        direction: 'teacher',
+        sourceText: isEn ? 'Open your book and read lesson one.' : 'किताब खोलो और पाठ एक पढ़ो।',
+        targetText: selectedLang === 'santhali' ? 'ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱢᱮ ᱟᱨ ᱯᱟᱲᱦᱟᱣ ᱢᱮ᱾' : 'किताब खोलो और पाठ एक पढ़ा।',
+        phonetic: selectedLang === 'santhali' ? 'पुथि झिज मे आर पाड़हाव मे।' : 'किताब खोलो और पाठ एक पढ़ा।',
+        audioText: 'किताब खोलो',
+        lang: selectedLang,
+        time: '09:32 AM',
+      },
+    ];
+  };
+
   // Mode: 'teacher_to_student' (Hindi -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student');
   const [inputText, setInputText] = useState(() => {
@@ -37,12 +83,19 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   });
   const [isRecording, setIsRecording] = useState(false);
   const [translationResult, setTranslationResult] = useState(null);
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(getInitialHistory);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [measuredLatency, setMeasuredLatency] = useState(42);
 
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
   const isTeacherMode = dialogueMode === 'teacher_to_student';
+
+  // Persist history to localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sarjom_dialogue_log', JSON.stringify(history));
+    }
+  }, [history]);
 
   // Perform translation when inputText, selectedLang, or dialogueMode changes
   useEffect(() => {
@@ -109,8 +162,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             const textToBroadcast = isTeacherMode
               ? (res.audioText || res.phoneticDeva)
               : (res.hindiTranslation || res.nativeScript);
-            const scriptLang = isTeacherMode ? 'hi-IN' : 'hi-IN';
-            handleSpeakAudio(textToBroadcast, res.nativeScript, scriptLang);
+            handleSpeakAudio(textToBroadcast, res.nativeScript);
             addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
           }
         }, 120);
@@ -137,9 +189,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         phonetic: res.phoneticDeva || '',
         audioText: res.audioText || res.hindiTranslation || res.nativeScript || '',
         lang: selectedLang,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
-      ...prev.slice(0, 15),
+      ...prev.slice(0, 25),
     ]);
   };
 
@@ -154,6 +206,14 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       addToHistory(inputText, res, isTeacherMode ? 'teacher' : 'student');
       handleSpeakAudio(textToBroadcast, res.nativeScript);
     }
+  };
+
+  const handleClearHistory = () => {
+    setHistory([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('sarjom_dialogue_log');
+    }
+    toast.info(isEn ? 'Classroom log cleared' : 'संवाद लॉग साफ़ किया गया');
   };
 
   const exportClassroomDialogueCSV = () => {
@@ -180,14 +240,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '22px', maxWidth: '1080px', margin: '0 auto', width: '100%' }}>
-      {/* 1. Bidirectional Dialogue Direction Switcher */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+      {/* 1. Mode Switcher (Centered at Top) */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: '2px',
         }}
       >
         <div
@@ -248,339 +307,436 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         </div>
       </div>
 
-      {/* 2. Main Live Acoustic Microphone & Translation Stage */}
+      {/* 2. Side-by-Side Responsive Layout: Left = Voice/Text Stage, Right = Classroom Interaction Log */}
       <div
-        className="card-brutal"
         style={{
-          padding: '36px 32px',
-          backgroundColor: 'var(--color-surface)',
-          backdropFilter: 'var(--glass-blur)',
-          WebkitBackdropFilter: 'var(--glass-blur)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-xl)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          gap: '24px',
-          boxShadow: 'var(--shadow-card)',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+          gap: '20px',
+          alignItems: 'start',
         }}
       >
-        {/* Microphone Button */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
-          <button
-            type="button"
-            onClick={isRecording ? handleStopMic : handleStartMic}
-            style={{
-              width: '84px',
-              height: '84px',
-              borderRadius: '50%',
-              backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
-              color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
-              border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
-              boxShadow: isRecording
-                ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
-                : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-            title={
-              isRecording
-                ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
-                : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent
-            }
-          >
-            {isRecording ? <MicOff size={34} className="audio-pulse" /> : <Mic size={34} />}
-          </button>
-
-          <div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-              {isRecording
-                ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
-                : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent}
-            </div>
-            <div style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
-              {isRecording
-                ? isTeacherMode
-                  ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
-                  : t.tapToSpeakSubRecStudent
-                : isTeacherMode
-                ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
-                : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name)}
-            </div>
-          </div>
-        </div>
-
-        {/* Translation Output Card */}
-        {translationResult && (
+        {/* LEFT COLUMN: Microphone, Live Script Output, Text Input */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Central Live Acoustic Stage */}
           <div
+            className="card-brutal"
             style={{
-              width: '100%',
-              backgroundColor: 'var(--color-surface-card)',
+              padding: '28px 24px',
+              backgroundColor: 'var(--color-surface)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-blur)',
               border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-lg)',
-              padding: '24px 28px',
-              textAlign: 'left',
+              borderRadius: 'var(--radius-xl)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '14px',
-              boxShadow: 'var(--shadow-flat)',
+              alignItems: 'center',
+              textAlign: 'center',
+              gap: '20px',
+              boxShadow: 'var(--shadow-card)',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-              <div style={{ fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
-                {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
-              </div>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    padding: '2px 8px',
-                    borderRadius: '999px',
-                    backgroundColor: 'var(--color-surface-tint)',
-                    color: 'var(--color-slate-muted)',
-                    border: '1px solid var(--color-border-subtle)',
-                  }}
-                >
-                  {measuredLatency} ms • {t.onDeviceTag}
-                </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    padding: '2px 8px',
-                    borderRadius: '999px',
-                    backgroundColor: 'rgba(34, 197, 94, 0.12)',
-                    color: '#16A34A',
-                    fontWeight: 700,
-                  }}
-                >
-                  SLA &lt; 3.0s OK
-                </span>
-              </div>
-            </div>
-
-            {/* Main Script Output */}
-            <div
-              className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-              style={{
-                fontSize: '2.4rem',
-                fontWeight: 800,
-                color: 'var(--color-slate)',
-                lineHeight: 1.25,
-                letterSpacing: '-0.02em',
-              }}
-            >
-              {translationResult.nativeScript}
-            </div>
-
-            {/* Phonetic Pronunciation & Audio Broadcast Action */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '12px',
-                paddingTop: '12px',
-                borderTop: '1px solid var(--color-border-subtle)',
-              }}
-            >
-              <div style={{ fontSize: '0.96rem', color: 'var(--color-slate)' }}>
-                <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>{t.pronounceAs}</span>
-                <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
-                  {translationResult.phoneticDeva}
-                </strong>
-                {translationResult.phoneticLatin && (
-                  <span style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
-                    ({translationResult.phoneticLatin})
-                  </span>
-                )}
-              </div>
-
+            {/* Microphone Button */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
               <button
                 type="button"
-                onClick={() => {
-                  const textToBroadcast = isTeacherMode
-                    ? (translationResult.audioText || translationResult.phoneticDeva)
-                    : (translationResult.hindiTranslation || translationResult.nativeScript);
-                  handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
-                }}
+                onClick={isRecording ? handleStopMic : handleStartMic}
                 style={{
-                  padding: '8px 20px',
-                  fontSize: '0.88rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-pill)',
-                  backgroundColor: 'var(--color-palash)',
-                  border: 'none',
-                  color: '#FFFFFF',
+                  width: '76px',
+                  height: '76px',
+                  borderRadius: '50%',
+                  backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
+                  color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
+                  border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
+                  boxShadow: isRecording
+                    ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
+                    : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
                   cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: 'var(--shadow-flat)',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                <Volume2 size={16} className={isPlayingAudio ? 'audio-pulse' : ''} />
-                <span>{t.replaySpeaker}</span>
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 3. Text Typing & Sentence Translation Form */}
-      <div
-        className="card-brutal"
-        style={{
-          padding: '20px 24px',
-          backgroundColor: 'var(--color-surface)',
-          borderRadius: 'var(--radius-lg)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '14px',
-        }}
-      >
-        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-          {t.textInputTitle}
-        </div>
-
-        <form onSubmit={handleSubmitText} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => {
-              setInputText(e.target.value);
-              executeTranslation(e.target.value);
-            }}
-            placeholder={
-              isTeacherMode ? t.textInputPlaceholderTeacher : t.textInputPlaceholderStudent
-            }
-            style={{
-              flex: 1,
-              minWidth: '240px',
-              padding: '12px 16px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border)',
-              backgroundColor: 'var(--color-surface-card)',
-              color: 'var(--color-slate)',
-              fontFamily: 'var(--font-body)',
-              fontSize: '1rem',
-              outline: 'none',
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              padding: '12px 24px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: 'var(--color-slate)',
-              color: 'var(--color-bg)',
-              border: 'none',
-              borderRadius: 'var(--radius-md)',
-              cursor: 'pointer',
-              fontWeight: 700,
-              fontSize: '0.92rem',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Send size={16} />
-            <span>{t.translateBtn}</span>
-          </button>
-        </form>
-      </div>
-
-      {/* 4. Classroom Dialogue Log & CSV Export */}
-      <div
-        className="card-brutal"
-        style={{
-          padding: '20px 24px',
-          backgroundColor: 'var(--color-surface)',
-          borderRadius: 'var(--radius-lg)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '14px',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <MessageSquare size={18} color="var(--color-palash)" />
-            <h3 style={{ fontSize: '1.15rem', margin: 0, color: 'var(--color-slate)' }}>{t.dialogueLogTitle}</h3>
-            <span className="badge-tag badge-palash">{history.length} {t.entriesCount}</span>
-          </div>
-
-          <button
-            type="button"
-            onClick={exportClassroomDialogueCSV}
-            style={{
-              padding: '8px 14px',
-              fontSize: '0.82rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: 'var(--color-surface-tint)',
-              color: 'var(--color-slate)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-pill)',
-              cursor: 'pointer',
-              fontWeight: 600,
-            }}
-          >
-            <FileDown size={15} />
-            <span>{t.exportCsvBtn}</span>
-          </button>
-        </div>
-
-        {history.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '24px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
-            {t.emptyLogText}
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '240px', overflowY: 'auto' }}>
-            {history.map((item) => (
-              <div
-                key={item.id}
-                style={{
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--color-surface-tint)',
-                  border: '1px solid var(--color-border)',
                   display: 'flex',
-                  justifyContent: 'space-between',
                   alignItems: 'center',
-                  fontSize: '0.85rem',
+                  justifyContent: 'center',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+                title={
+                  isRecording
+                    ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
+                    : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent
+                }
+              >
+                {isRecording ? <MicOff size={32} className="audio-pulse" /> : <Mic size={32} />}
+              </button>
+
+              <div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
+                  {isRecording
+                    ? isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent
+                    : isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent}
+                </div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+                  {isRecording
+                    ? isTeacherMode
+                      ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
+                      : t.tapToSpeakSubRecStudent
+                    : isTeacherMode
+                    ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
+                    : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name)}
+                </div>
+              </div>
+            </div>
+
+            {/* Translation Output Card */}
+            {translationResult && (
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: 'var(--color-surface-card)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '20px',
+                  textAlign: 'left',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  boxShadow: 'var(--shadow-flat)',
                 }}
               >
-                <div>
-                  <span style={{ fontWeight: 700, marginRight: '8px', color: 'var(--color-slate)' }}>
-                    {item.direction === 'teacher' ? t.roleTeacher : t.roleStudent}
-                  </span>
-                  <span style={{ color: 'var(--color-slate)' }}>"{item.sourceText}"</span>
-                  <span style={{ margin: '0 8px', color: 'var(--color-slate-muted)' }}>➔</span>
-                  <span style={{ fontWeight: 700, color: 'var(--color-palash)' }}>"{item.targetText}"</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
+                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
+                    {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.70rem',
+                        padding: '2px 8px',
+                        borderRadius: '999px',
+                        backgroundColor: 'var(--color-surface-tint)',
+                        color: 'var(--color-slate-muted)',
+                        border: '1px solid var(--color-border-subtle)',
+                      }}
+                    >
+                      {measuredLatency} ms • {t.onDeviceTag}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.70rem',
+                        padding: '2px 8px',
+                        borderRadius: '999px',
+                        backgroundColor: 'rgba(34, 197, 94, 0.12)',
+                        color: '#16A34A',
+                        fontWeight: 700,
+                      }}
+                    >
+                      SLA &lt; 3.0s OK
+                    </span>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>{item.time}</span>
+
+                {/* Main Script Output */}
+                <div
+                  className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
+                  style={{
+                    fontSize: '2.1rem',
+                    fontWeight: 800,
+                    color: 'var(--color-slate)',
+                    lineHeight: 1.25,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {translationResult.nativeScript}
+                </div>
+
+                {/* Phonetic Pronunciation & Audio Broadcast Action */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '10px',
+                    paddingTop: '10px',
+                    borderTop: '1px solid var(--color-border-subtle)',
+                  }}
+                >
+                  <div style={{ fontSize: '0.92rem', color: 'var(--color-slate)' }}>
+                    <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>{t.pronounceAs}</span>
+                    <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
+                      {translationResult.phoneticDeva}
+                    </strong>
+                    {translationResult.phoneticLatin && (
+                      <span style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
+                        ({translationResult.phoneticLatin})
+                      </span>
+                    )}
+                  </div>
+
                   <button
                     type="button"
-                    onClick={() => handleSpeakAudio(item.audioText || item.phonetic, item.targetText)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px' }}
-                    title={t.replaySpeaker}
+                    onClick={() => {
+                      const textToBroadcast = isTeacherMode
+                        ? (translationResult.audioText || translationResult.phoneticDeva)
+                        : (translationResult.hindiTranslation || translationResult.nativeScript);
+                      handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
+                    }}
+                    style={{
+                      padding: '7px 16px',
+                      fontSize: '0.84rem',
+                      fontWeight: 600,
+                      borderRadius: 'var(--radius-pill)',
+                      backgroundColor: 'var(--color-palash)',
+                      border: 'none',
+                      color: '#FFFFFF',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: 'var(--shadow-flat)',
+                      transition: 'all 0.15s ease',
+                    }}
                   >
-                    <Volume2 size={16} color="var(--color-slate)" />
+                    <Volume2 size={15} className={isPlayingAudio ? 'audio-pulse' : ''} />
+                    <span>{t.replaySpeaker}</span>
                   </button>
                 </div>
               </div>
-            ))}
+            )}
           </div>
-        )}
+
+          {/* Text Typing Input Form */}
+          <div
+            className="card-brutal"
+            style={{
+              padding: '16px 20px',
+              backgroundColor: 'var(--color-surface)',
+              borderRadius: 'var(--radius-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}
+          >
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+              {t.textInputTitle}
+            </div>
+
+            <form onSubmit={handleSubmitText} style={{ display: 'flex', gap: '8px' }}>
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => {
+                  setInputText(e.target.value);
+                  executeTranslation(e.target.value);
+                }}
+                placeholder={
+                  isTeacherMode ? t.textInputPlaceholderTeacher : t.textInputPlaceholderStudent
+                }
+                style={{
+                  flex: 1,
+                  padding: '10px 14px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--color-border)',
+                  backgroundColor: 'var(--color-surface-card)',
+                  color: 'var(--color-slate)',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  padding: '10px 18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: 'var(--color-slate)',
+                  color: 'var(--color-bg)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-md)',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                <Send size={15} />
+                <span>{t.translateBtn}</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Always Visible Above Fold) */}
+        <div
+          className="card-brutal"
+          style={{
+            padding: '22px',
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1px solid var(--color-border)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+            boxShadow: 'var(--shadow-card)',
+          }}
+        >
+          {/* Header with Title, Entry Counter, and Actions */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--color-palash)',
+                }}
+              >
+                <MessageSquare size={17} />
+              </div>
+              <div>
+                <h3 style={{ fontSize: '1.05rem', margin: 0, fontWeight: 800, color: 'var(--color-slate)' }}>
+                  {t.dialogueLogTitle}
+                </h3>
+                <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
+                  {history.length} {t.entriesCount} • Real-time
+                </span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              {history.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleClearHistory}
+                  style={{
+                    padding: '6px 10px',
+                    fontSize: '0.74rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    backgroundColor: 'transparent',
+                    color: 'var(--color-slate-muted)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: 'var(--radius-pill)',
+                    cursor: 'pointer',
+                  }}
+                  title={isEn ? 'Clear History' : 'लॉग साफ़ करें'}
+                >
+                  <Trash2 size={12} />
+                  <span>{isEn ? 'Clear' : 'साफ़ करें'}</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={exportClassroomDialogueCSV}
+                style={{
+                  padding: '6px 12px',
+                  fontSize: '0.76rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: 'var(--color-slate)',
+                  color: 'var(--color-bg)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-pill)',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                }}
+              >
+                <FileDown size={13} />
+                <span>{t.exportCsvBtn}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Interaction Log List */}
+          {history.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '36px 16px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
+              {t.emptyLogText}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '450px', overflowY: 'auto', paddingRight: '4px' }}>
+              {history.map((item) => (
+                <div
+                  key={item.id}
+                  style={{
+                    padding: '12px 14px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--color-surface-card)',
+                    border: '1px solid var(--color-border)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {/* Top Bar: Direction Pill + Timestamp + Play button */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span
+                      style={{
+                        fontSize: '0.70rem',
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: '999px',
+                        fontFamily: 'var(--font-mono)',
+                        backgroundColor: item.direction === 'teacher' ? 'rgba(14, 91, 55, 0.12)' : 'rgba(217, 90, 39, 0.12)',
+                        color: item.direction === 'teacher' ? 'var(--color-forest)' : 'var(--color-palash)',
+                      }}
+                    >
+                      {item.direction === 'teacher' ? (isEn ? 'TEACHER ➔ CLASS' : 'शिक्षक ➔ कक्षा') : (isEn ? 'STUDENT ➔ TEACHER' : 'छात्र ➔ शिक्षक')}
+                    </span>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
+                        {item.time}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleSpeakAudio(item.audioText || item.phonetic, item.targetText)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '3px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          borderRadius: '4px',
+                          color: 'var(--color-slate)',
+                        }}
+                        title={t.replaySpeaker}
+                      >
+                        <Volume2 size={15} color="var(--color-palash)" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Utterance Content */}
+                  <div style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)' }}>
+                    "{item.sourceText}"
+                  </div>
+                  <div
+                    className={item.lang === 'santhali' && item.direction === 'teacher' ? 'font-olchiki' : 'font-deva'}
+                    style={{
+                      fontSize: '1.05rem',
+                      fontWeight: 700,
+                      color: 'var(--color-slate)',
+                      borderTop: '1px dashed var(--color-border-subtle)',
+                      paddingTop: '6px',
+                    }}
+                  >
+                    "{item.targetText}"
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
