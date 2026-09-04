@@ -234,7 +234,7 @@ export function VoiceTranslator({ selectedLang }) {
               padding: '6px 12px',
               borderRadius: 'var(--radius-pill)',
               backgroundColor: '#E8F4ED',
-              border: '1.5px solid var(--color-border)',
+              border: '1px solid var(--color-forest-border)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
@@ -259,9 +259,9 @@ export function VoiceTranslator({ selectedLang }) {
         <div
           style={{
             display: 'flex',
-            backgroundColor: 'var(--color-bg)',
-            border: 'var(--border-thick)',
-            borderRadius: 'var(--radius-md)',
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius-pill)',
             padding: '3px',
           }}
         >
@@ -270,15 +270,17 @@ export function VoiceTranslator({ selectedLang }) {
             style={{
               padding: '6px 14px',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-pill)',
               backgroundColor: dialogModeIsTeacher ? 'var(--color-forest)' : 'transparent',
               color: dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.85rem',
+              fontSize: '0.84rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
+              boxShadow: dialogModeIsTeacher ? '0 2px 8px rgba(14, 91, 55, 0.22)' : 'none',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             <School size={15} />
@@ -289,15 +291,17 @@ export function VoiceTranslator({ selectedLang }) {
             style={{
               padding: '6px 14px',
               border: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-pill)',
               backgroundColor: !dialogModeIsTeacher ? 'var(--color-palash)' : 'transparent',
               color: !dialogModeIsTeacher ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: !dialogModeIsTeacher ? 700 : 500,
-              fontSize: '0.85rem',
+              fontSize: '0.84rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
+              boxShadow: !dialogModeIsTeacher ? '0 2px 8px rgba(217, 90, 39, 0.22)' : 'none',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             <User size={15} />
@@ -317,12 +321,12 @@ export function VoiceTranslator({ selectedLang }) {
             style={{
               padding: '24px',
               backgroundColor: '#FFFFFF',
-              border: '3px solid var(--color-forest)',
+              border: '1.5px solid rgba(14, 91, 55, 0.22)',
               borderRadius: 'var(--radius-lg)',
               display: 'flex',
               flexDirection: 'column',
               gap: '18px',
-              boxShadow: 'var(--shadow-card)',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03), 0 12px 30px -6px rgba(14, 91, 55, 0.06)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
@@ -359,7 +363,10 @@ export function VoiceTranslator({ selectedLang }) {
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: isRecording ? 'var(--color-palash)' : 'var(--color-forest)',
                 color: '#FFFFFF',
-                border: 'var(--border-thick)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                boxShadow: isRecording
+                  ? '0 8px 24px rgba(217, 90, 39, 0.32)'
+                  : '0 8px 24px rgba(14, 91, 55, 0.25)',
                 cursor: 'pointer',
               }}
             >
@@ -433,11 +440,12 @@ export function VoiceTranslator({ selectedLang }) {
             style={{
               padding: '24px',
               backgroundColor: 'var(--color-forest-subtle)',
-              border: '2.5px solid var(--color-forest)',
+              border: '1px solid rgba(14, 91, 55, 0.22)',
               borderRadius: 'var(--radius-lg)',
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
+              boxShadow: '0 2px 8px rgba(14, 91, 55, 0.05)',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
@@ -741,7 +749,7 @@ export function VoiceTranslator({ selectedLang }) {
                   padding: '20px',
                   backgroundColor: 'var(--color-forest-subtle)',
                   borderRadius: 'var(--radius-lg)',
-                  border: '2px solid var(--color-forest)',
+                  border: '1px solid rgba(14, 91, 55, 0.22)',
                   textAlign: 'center',
                 }}
               >

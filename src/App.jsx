@@ -58,30 +58,34 @@ export default function App() {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: isTabletFrame ? '#0F172A' : 'var(--color-bg)',
-        padding: isTabletFrame ? '24px 12px' : '0',
+        background: isTabletFrame
+          ? 'radial-gradient(ellipse at 50% 15%, #1A2230 0%, #0F141C 60%, #080B10 100%)'
+          : 'var(--color-bg)',
+        padding: isTabletFrame ? '24px 12px 48px 12px' : '0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         transition: 'all 0.3s ease',
+        position: 'relative',
       }}
     >
       {/* Gyanodaya 10.1" Tablet Device Bezel Container */}
       <div
         style={{
           width: '100%',
-          maxWidth: isTabletFrame ? '1200px' : '100%',
+          maxWidth: isTabletFrame ? '1220px' : '100%',
           backgroundColor: 'var(--color-bg)',
-          borderRadius: isTabletFrame ? '24px' : '0',
-          border: isTabletFrame ? '12px solid #1E293B' : 'none',
+          borderRadius: isTabletFrame ? '28px' : '0',
+          border: isTabletFrame ? '10px solid #1E293B' : 'none',
           boxShadow: isTabletFrame
-            ? '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 2px #334155'
+            ? '0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 60px rgba(14, 91, 55, 0.12), 0 0 90px rgba(217, 90, 39, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.08)'
             : 'none',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
-          minHeight: isTabletFrame ? '850px' : '100vh',
+          minHeight: isTabletFrame ? '860px' : '100vh',
+          backdropFilter: 'blur(20px)',
         }}
       >
         {/* Tablet Top Bezel Camera Dot */}

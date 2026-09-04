@@ -17,7 +17,18 @@ export function Navbar({
   const currentLangMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
 
   return (
-    <header style={{ borderBottom: 'var(--border-thick)', backgroundColor: '#FFFFFF', position: 'sticky', top: 0, zIndex: 40 }}>
+    <header
+      style={{
+        borderBottom: '1px solid var(--color-border)',
+        backgroundColor: 'rgba(255, 255, 255, 0.82)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
+        transition: 'all 0.2s ease',
+      }}
+    >
       {/* Top Banner */}
       <div
         style={{
@@ -35,46 +46,46 @@ export function Navbar({
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div
             style={{
-              width: '44px',
-              height: '44px',
-              backgroundColor: 'var(--color-palash)',
-              borderRadius: 'var(--radius-md)',
-              border: 'var(--border-thick)',
-              boxShadow: '2px 2px 0px var(--color-border)',
+              width: '42px',
+              height: '42px',
+              background: 'linear-gradient(135deg, #E26E3F 0%, #D95A27 100%)',
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 4px 14px rgba(217, 90, 39, 0.22)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#FFFFFF',
               fontWeight: 800,
-              fontSize: '1.4rem',
+              fontSize: '1.35rem',
             }}
           >
             🌳
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <h1 style={{ fontSize: '1.75rem', margin: 0, color: 'var(--color-forest)' }}>
-                सरजोम <span style={{ fontSize: '1.1rem', color: 'var(--color-palash)' }}>(SARJOM)</span>
+              <h1 style={{ fontSize: '1.65rem', margin: 0, color: 'var(--color-forest)', fontWeight: 800 }}>
+                सरजोम <span style={{ fontSize: '1.05rem', color: 'var(--color-palash)', fontWeight: 700 }}>(SARJOM)</span>
               </h1>
               <span className="badge-tag badge-forest">झारखंड MTB-MLE</span>
             </div>
-            <p style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', margin: 0, fontWeight: 500 }}>
               मातृभाषा आधारित प्राथमिक शिक्षण एवं वास्तविक समय अनुवाद सेतु
             </p>
           </div>
         </div>
 
         {/* Right Controls: Language Picker & Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           {/* Language Selector */}
           <div
             style={{
               display: 'flex',
-              backgroundColor: 'var(--color-bg)',
-              border: 'var(--border-thick)',
-              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-pill)',
               padding: '3px',
-              boxShadow: 'var(--shadow-flat)',
+              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.03)',
             }}
           >
             {Object.values(TRIBAL_LANGUAGES).map((lang) => {
@@ -84,19 +95,20 @@ export function Navbar({
                   key={lang.id}
                   onClick={() => onSelectLang(lang.id)}
                   style={{
-                    padding: '6px 12px',
+                    padding: '6px 13px',
                     border: 'none',
-                    borderRadius: 'var(--radius-sm)',
+                    borderRadius: 'var(--radius-pill)',
                     backgroundColor: isActive ? 'var(--color-forest)' : 'transparent',
                     color: isActive ? '#FFFFFF' : 'var(--color-slate)',
                     fontWeight: isActive ? 700 : 500,
-                    fontSize: '0.85rem',
+                    fontSize: '0.84rem',
                     cursor: 'pointer',
-                    transition: 'var(--transition-bounce)',
+                    boxShadow: isActive ? '0 2px 8px rgba(14, 91, 55, 0.22)' : 'none',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
                   title={lang.region}
                 >
-                  {lang.name} <span style={{ fontSize: '0.75rem', opacity: 0.9 }}>({lang.id === 'ho' ? '𑢹𑣉𑣉' : lang.id === 'santhali' ? 'ᱥᱟᱱᱛᱟᱲᱤ' : 'मुण्डारी'})</span>
+                  {lang.name} <span style={{ fontSize: '0.74rem', opacity: 0.88 }}>({lang.id === 'ho' ? '𑢹𑣉𑣉' : lang.id === 'santhali' ? 'ᱥᱟᱱᱛᱟᱲᱤ' : 'मुण्डारी'})</span>
                 </button>
               );
             })}
@@ -164,9 +176,10 @@ export function Navbar({
           display: 'flex',
           maxWidth: '1280px',
           margin: '0 auto',
-          padding: '0 24px',
-          gap: '8px',
+          padding: '0 24px 8px 24px',
+          gap: '6px',
           overflowX: 'auto',
+          scrollbarWidth: 'none',
         }}
         className="tab-navigation"
       >
@@ -187,31 +200,31 @@ export function Navbar({
               key={tab.id}
               onClick={() => onSelectTab(tab.id)}
               style={{
-                padding: '10px 18px',
-                border: 'var(--border-thick)',
-                borderBottom: isActive ? 'none' : 'var(--border-thick)',
-                borderRadius: 'var(--radius-md) var(--radius-md) 0 0',
-                backgroundColor: isActive ? 'var(--color-bg)' : '#FFFFFF',
+                padding: '7px 15px',
+                border: isActive ? '1px solid rgba(14, 91, 55, 0.20)' : '1px solid transparent',
+                borderRadius: 'var(--radius-pill)',
+                backgroundColor: isActive ? '#FFFFFF' : 'transparent',
                 color: isActive ? 'var(--color-forest)' : 'var(--color-slate-muted)',
                 fontWeight: isActive ? 700 : 500,
-                fontSize: '0.92rem',
+                fontSize: '0.88rem',
                 cursor: 'pointer',
-                marginBottom: '-2px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                boxShadow: isActive ? 'none' : '2px -2px 0px rgba(0,0,0,0.04)',
+                boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)' : 'none',
                 whiteSpace: 'nowrap',
+                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <span>{tab.label}</span>
               <span
                 style={{
-                  fontSize: '0.72rem',
-                  padding: '2px 6px',
+                  fontSize: '0.7rem',
+                  padding: '2px 7px',
                   borderRadius: 'var(--radius-pill)',
-                  backgroundColor: isActive ? 'var(--color-forest-subtle)' : '#EBEBEB',
-                  color: isActive ? 'var(--color-forest)' : '#555',
+                  backgroundColor: isActive ? 'var(--color-forest-subtle)' : 'rgba(0, 0, 0, 0.04)',
+                  color: isActive ? 'var(--color-forest)' : 'var(--color-slate-muted)',
+                  fontWeight: 600,
                 }}
               >
                 {tab.sub}

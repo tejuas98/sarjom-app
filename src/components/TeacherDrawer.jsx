@@ -13,19 +13,22 @@ export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(26, 36, 33, 0.65)',
-            backdropFilter: 'blur(3px)',
+            backgroundColor: 'rgba(15, 23, 42, 0.45)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             zIndex: 999,
           }}
         />
         <Drawer.Content
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'rgba(255, 255, 255, 0.96)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             display: 'flex',
             flexDirection: 'column',
-            borderTopLeftRadius: '24px',
-            borderTopRightRadius: '24px',
-            border: '2px solid var(--color-border)',
+            borderTopLeftRadius: '28px',
+            borderTopRightRadius: '28px',
+            border: '1px solid var(--color-border)',
             borderBottom: 'none',
             maxHeight: '88vh',
             position: 'fixed',
@@ -34,7 +37,7 @@ export function TeacherDrawer({ isOpen, onOpenChange, selectedLang }) {
             right: 0,
             zIndex: 1000,
             padding: '20px 24px 36px 24px',
-            boxShadow: '0 -10px 40px rgba(0,0,0,0.18)',
+            boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.12)',
             maxWidth: '920px',
             margin: '0 auto',
             outline: 'none',
