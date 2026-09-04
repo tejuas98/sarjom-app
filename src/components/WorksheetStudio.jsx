@@ -13,7 +13,6 @@ import {
   RotateCcw,
   BookOpen,
   Hash,
-  PenTool,
   Layers,
   X,
   HelpCircle,
@@ -25,7 +24,7 @@ import confetti from 'canvas-confetti';
 const COUNT_ITEMS_ICONS = ['🍎', '🍃', '🌸', '🥭', '🐟', '🌳', '🐦', '⭐', '🥥', '🌻'];
 
 export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
-  // Exercise type: 'matching' | 'numeracy' | 'fillblanks' | 'tracing'
+  // Exercise type: 'matching' | 'numeracy' | 'fillblanks'
   const [worksheetType, setWorksheetType] = useState('matching');
   const [gradeLevel, setGradeLevel] = useState('grade1');
   const [seed, setSeed] = useState(1);
@@ -44,9 +43,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // 3. Sentence practice state
   const [interactiveAnswers, setInteractiveAnswers] = useState({}); // { [qId]: selectedWord }
   const [isScoreEvaluated, setIsScoreEvaluated] = useState(false);
-
-  // 4. Script tracing state
-  const [practicedGlyphs, setPracticedGlyphs] = useState({});
 
   const isEn = uiLang === 'en';
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
@@ -228,32 +224,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         phonetic: 'Gaachh',
         options: ['गाछ', 'घर', 'नदी'],
       },
-    ];
-  }, [selectedLang]);
-
-  // 4. Script Tracing Glyphs
-  const tracingGlyphs = useMemo(() => {
-    if (selectedLang === 'santhali') {
-      return [
-        { char: 'ᱚ', name: 'La (Vowel 1)', sound: 'A / La', guide: 'Stroke 1: Top loop ➔ Stroke 2: Down curve' },
-        { char: 'ᱛ', name: 'At (Consonant)', sound: 'Ta / At', guide: 'Stroke 1: Vertical line ➔ Stroke 2: Hook' },
-        { char: 'ᱜ', name: 'Ag (Guttural)', sound: 'Ga / Ag', guide: 'Stroke 1: Rounded cap ➔ Stroke 2: Stem' },
-        { char: 'ᱝ', name: 'Ang (Nasal)', sound: 'Nga / Ang', guide: 'Stroke 1: Loop ➔ Stroke 2: Right arc' },
-      ];
-    }
-    if (selectedLang === 'ho') {
-      return [
-        { char: '𑢹', name: 'Ho Ha', sound: 'Ha', guide: 'Warang Chiti: Horizontal bar ➔ Left drop' },
-        { char: '𑣉', name: 'Ho O', sound: 'O', guide: 'Warang Chiti: Circular eye ➔ Tail' },
-        { char: '𑢵', name: 'Ho Da', sound: 'Da', guide: 'Warang Chiti: Arch ➔ Bottom horizontal' },
-        { char: '𑢤', name: 'Ho Ba', sound: 'Ba', guide: 'Warang Chiti: Vertical stem ➔ Double curve' },
-      ];
-    }
-    return [
-      { char: 'अ', name: 'स्वर (A)', sound: 'A', guide: 'रेखा 1: अर्धगोलाकार ➔ रेखा 2: मध्य रेखा ➔ रेखा 3: खड़ी रेखा' },
-      { char: 'क', name: 'व्यंजन (Ka)', sound: 'Ka', guide: 'रेखा 1: खड़ी रेखा ➔ रेखा 2: गोला ➔ रेखा 3: वक्र' },
-      { char: 'म', name: 'व्यंजन (Ma)', sound: 'Ma', guide: 'रेखा 1: खड़ी रेखा ➔ रेखा 2: गांठ ➔ रेखा 3: आड़ी रेखा' },
-      { char: 'द', name: 'व्यंजन (Da)', sound: 'Da', guide: 'रेखा 1: छोटी रेखा ➔ रेखा 2: अर्धवृत्त ➔ रेखा 3: पूँछ' },
     ];
   }, [selectedLang]);
 
@@ -503,24 +473,16 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
       }
       return;
     }
-
-    // === EXERCISE 4: SCRIPT TRACING ===
-    if (worksheetType === 'tracing') {
-      const total = tracingGlyphs.length;
-      const count = Object.keys(practicedGlyphs).length;
-      toast.info(isEn ? `Practiced ${count} of ${total} glyphs.` : `आपने ${count} में से ${total} अक्षरों का अभ्यास किया।`);
-    }
   };
 
   const handleReset = () => {
     setActiveSelection(null);
     setMatchedPairs({});
-    setPairColorMap({});
+    setPairNumberMap({});
     setNumeracyAnswers({});
     setTappedCounts({});
     setInteractiveAnswers({});
     setIsScoreEvaluated(false);
-    setPracticedGlyphs({});
     toast.info(isEn ? 'Exercise reset' : 'अभ्यास रीसेट हुआ');
   };
 
@@ -644,7 +606,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
           { id: 'matching', label: t.wsTypeMatching, icon: Layers },
           { id: 'numeracy', label: t.wsTypeNumeracy, icon: Hash },
           { id: 'fillblanks', label: t.wsTypeFillBlanks, icon: BookOpen },
-          { id: 'tracing', label: t.wsTypeTracing, icon: PenTool },
         ].map((tab) => {
           const isActive = worksheetType === tab.id;
           const TabIcon = tab.icon;
@@ -705,7 +666,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 {worksheetType === 'matching' && (isEn ? 'Exercise 1: Word & Picture Association' : 'अभ्यास 1: शब्द एवं चित्र मिलान')}
                 {worksheetType === 'numeracy' && (isEn ? 'Exercise 2: Foundational Numeracy & Counting' : 'अभ्यास 2: बुनियादी संख्या ज्ञान एवं गिनती')}
                 {worksheetType === 'fillblanks' && (isEn ? 'Exercise 3: Bilingual Sentence Practice' : 'अभ्यास 3: द्विभाषी वाक्य रचना अभ्यास')}
-                {worksheetType === 'tracing' && (isEn ? 'Exercise 4: Orthographic Handwriting Tracing' : 'अभ्यास 4: लिपि बनावट एवं हस्तलेखन')}
               </div>
               <div style={{ fontSize: '0.82rem', color: 'var(--color-palash)', fontWeight: 600 }}>
                 {isEn ? `Medium: Hindi + ${langMeta.name}` : `माध्यम: हिंदी + ${langMeta.name}`}
@@ -719,7 +679,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 {worksheetType === 'matching' && `${Object.keys(matchedPairs).length} / ${matchingItems.length} matched`}
                 {worksheetType === 'numeracy' && `${Object.keys(numeracyAnswers).length} / ${numberItems.length} solved`}
                 {worksheetType === 'fillblanks' && `${Object.keys(interactiveAnswers).length} / ${sentenceQuestions.length} completed`}
-                {worksheetType === 'tracing' && `${Object.keys(practicedGlyphs).length} / ${tracingGlyphs.length} practiced`}
               </span>
               <button
                 type="button"
@@ -1241,90 +1200,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         );
                       })}
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* ================================================================== */}
-        {/* EXERCISE 4: SCRIPT TRACING (AIRY GLYPHS)                          */}
-        {/* ================================================================== */}
-        {worksheetType === 'tracing' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              {isEn
-                ? 'Practice letter handwriting along the dotted stroke guidelines.'
-                : 'सुंदर हस्तलेखन हेतु अक्षरों की बनावट का अभ्यास करें।'}
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-              {tracingGlyphs.map((g, i) => {
-                const isPracticed = !!practicedGlyphs[g.char];
-                return (
-                  <div
-                    key={i}
-                    style={{
-                      padding: '24px 18px',
-                      borderRadius: 'var(--radius-lg)',
-                      backgroundColor: isPracticed ? 'rgba(16, 185, 129, 0.08)' : 'var(--color-surface-tint)',
-                      border: isPracticed ? '1.5px solid rgba(16, 185, 129, 0.35)' : '1px solid transparent',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      gap: '12px',
-                    }}
-                  >
-                    <div style={{ fontSize: '0.80rem', fontWeight: 700, color: 'var(--color-forest)' }}>
-                      {g.name} ({g.sound})
-                    </div>
-
-                    <div style={{ fontSize: '3.6rem', fontWeight: 900, color: 'var(--color-palash)', margin: '4px 0' }}>
-                      {g.char}
-                    </div>
-
-                    <div style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
-                      {g.guide}
-                    </div>
-
-                    {/* Dotted stroke practice line */}
-                    <div
-                      style={{
-                        borderTop: '1px dashed var(--color-border)',
-                        borderBottom: '1px dashed var(--color-border)',
-                        padding: '8px 0',
-                        width: '100%',
-                        fontSize: '1.6rem',
-                        letterSpacing: '8px',
-                        color: 'var(--color-slate-muted)',
-                        opacity: 0.7,
-                      }}
-                    >
-                      {g.char} • {g.char} • {g.char}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPracticedGlyphs((prev) => ({ ...prev, [g.char]: !prev[g.char] }));
-                        voiceService.playChime('success');
-                        toast.success(isEn ? `Practiced ${g.char}` : `${g.char} का अभ्यास पूरा हुआ!`);
-                      }}
-                      style={{
-                        padding: '5px 12px',
-                        borderRadius: 'var(--radius-pill)',
-                        border: 'none',
-                        backgroundColor: isPracticed ? '#10B981' : 'var(--color-surface)',
-                        color: isPracticed ? '#FFFFFF' : 'var(--color-slate)',
-                        fontSize: '0.76rem',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {isPracticed ? '✓ अभ्यास पूर्ण' : 'अभ्यास मार्क करें'}
-                    </button>
                   </div>
                 );
               })}
