@@ -16,12 +16,450 @@ import {
   Layers,
   X,
   HelpCircle,
+  Target,
+  GraduationCap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
 
 // Counting illustrations (authentic rural/tribal items)
 const COUNT_ITEMS_ICONS = ['🍎', '🍃', '🌸', '🥭', '🐟', '🌳', '🐦', '⭐', '🥥', '🌻'];
+
+// Grade-specific NIPUN Bharat Syllabus & Competency Definitions
+export const GRADE_CURRICULUM = {
+  grade1: {
+    id: 'grade1',
+    label: 'Class 1',
+    labelHindi: 'कक्षा 1 (बालवाटिका व कक्षा 1)',
+    labelEnglish: 'Class 1 (Foundational FLN)',
+    nipunCode: 'FLN-L1.2',
+    themeHindi: 'मौखिक भाषा, प्राथमिक शब्द व 1-5 संख्या बोध',
+    themeEnglish: 'Oral Vocabulary, Concrete Nouns & Numbers 1–5',
+    competencyHindi: 'बुनियादी ध्वनि-संकेत पहचान, घरेलू वस्तुएं एवं 1 से 5 तक प्रत्यक्ष गिनती',
+    competencyEnglish: 'Basic phoneme recognition, household concrete words & numbers 1 to 5',
+    matchingCategories: ['family', 'nature'],
+    numberRange: [1, 5],
+  },
+  grade2: {
+    id: 'grade2',
+    label: 'Class 2',
+    labelHindi: 'कक्षा 2 (मध्यवर्ती FLN)',
+    labelEnglish: 'Class 2 (Intermediate FLN)',
+    nipunCode: 'FLN-L2.4',
+    themeHindi: 'दैनिक क्रियाएं, पशु-पक्षी व 6-10 संख्या गणना',
+    themeEnglish: 'Action Verbs, Animals & Numbers 6–10',
+    competencyHindi: 'दैनिक कक्षा निर्देश, पशु-पक्षी पहचान एवं 6 से 10 तक समूह गणना',
+    competencyEnglish: 'Classroom instructions, animals, and group counting from 6 to 10',
+    matchingCategories: ['animals', 'classroom'],
+    numberRange: [6, 10],
+  },
+  grade3: {
+    id: 'grade3',
+    label: 'Class 3',
+    labelHindi: 'कक्षा 3 (उन्नत FLN)',
+    labelEnglish: 'Class 3 (Advanced FLN)',
+    nipunCode: 'FLN-L3.1',
+    themeHindi: 'सामाजिक संवाद, व्याकरण व 1-10 मिश्रित अनुप्रयोग',
+    themeEnglish: 'Social Dialogue, Sentence Flow & Applied Numeracy',
+    competencyHindi: 'संदर्भगत वाक्य रचना, सामाजिक शिष्टाचार (जोहार) एवं मिश्रित गणना',
+    competencyEnglish: 'Contextual sentence construction, social greetings, and mixed numeracy',
+    matchingCategories: ['greetings', 'nature', 'family'],
+    numberRange: [1, 10],
+  },
+};
+
+const GRADE_SENTENCE_QUESTIONS = {
+  grade1: {
+    santhali: [
+      {
+        id: 'sq_g1_1',
+        hindiPrompt: 'यह मेरा घर है।',
+        englishPrompt: 'This is my house.',
+        sentencePre: 'ᱱᱚᱣᱟ ᱫᱚ ᱤᱧᱟᱜ ',
+        sentencePost: ' ᱠᱟᱱᱟ᱾',
+        correct: 'ᱚᱲᱟᱜ',
+        phonetic: 'Oṛak’',
+        options: ['ᱚᱲᱟᱜ', 'ᱫᱟᱜ', 'ᱫᱟᱨᱮ'],
+      },
+      {
+        id: 'sq_g1_2',
+        hindiPrompt: 'मुझे पानी पीना है।',
+        englishPrompt: 'I want to drink water.',
+        sentencePre: 'ᱤᱧ ᱫᱚ ',
+        sentencePost: ' ᱧᱩ ᱥᱟᱱᱟᱹᱧᱟ᱾',
+        correct: 'ᱫᱟᱜ',
+        phonetic: 'Dāk',
+        options: ['ᱫᱟᱜ', 'ᱫᱟᱠᱟ', 'ᱫᱟᱨᱮ'],
+      },
+      {
+        id: 'sq_g1_3',
+        hindiPrompt: 'माँ मुझे प्यार करती है।',
+        englishPrompt: 'Mother loves me.',
+        sentencePre: '',
+        sentencePost: ' ᱤᱧ ᱫᱩᱞᱟᱹᱲᱟᱹᱧ ᱠᱟᱱᱟᱭ᱾',
+        correct: 'ᱟᱭᱳ',
+        phonetic: 'Ayo',
+        options: ['ᱟᱭᱳ', 'ᱵᱟᱵᱟ', 'ᱜᱟᱛᱮ'],
+      },
+    ],
+    ho: [
+      {
+        id: 'sq_g1_1',
+        hindiPrompt: 'यह मेरा घर है।',
+        englishPrompt: 'This is my house.',
+        sentencePre: 'नेया अयिङ-आ ',
+        sentencePost: ' तना।',
+        correct: 'ओड़ाः',
+        phonetic: 'Ora-ah',
+        options: ['ओड़ाः', 'दाः', 'दारु'],
+      },
+      {
+        id: 'sq_g1_2',
+        hindiPrompt: 'मुझे पानी पीना है।',
+        englishPrompt: 'I want to drink water.',
+        sentencePre: 'इंग ',
+        sentencePost: ' नू सनांग-तन्या।',
+        correct: 'दाः',
+        phonetic: 'Da-ah',
+        options: ['दाः', 'मंडी', 'दारु'],
+      },
+      {
+        id: 'sq_g1_3',
+        hindiPrompt: 'माँ मुझे प्यार करती है।',
+        englishPrompt: 'Mother loves me.',
+        sentencePre: '',
+        sentencePost: ' इंग-के दुलार-ए तन्या।',
+        correct: 'एंगा',
+        phonetic: 'Enga',
+        options: ['एंगा', 'अप्पा', 'जोता'],
+      },
+    ],
+    mundari: [
+      {
+        id: 'sq_g1_1',
+        hindiPrompt: 'यह मेरा घर है।',
+        englishPrompt: 'This is my house.',
+        sentencePre: 'नेया आइङ-आह ',
+        sentencePost: ' तना।',
+        correct: 'ओड़ाः',
+        phonetic: 'Ora-ah',
+        options: ['ओड़ाः', 'दाः', 'दारु'],
+      },
+      {
+        id: 'sq_g1_2',
+        hindiPrompt: 'मुझे पानी पीना है।',
+        englishPrompt: 'I want to drink water.',
+        sentencePre: 'आईंग ',
+        sentencePost: ' नू सनांग-तन्या।',
+        correct: 'दाः',
+        phonetic: 'Da-ah',
+        options: ['दाः', 'मंडी', 'दारु'],
+      },
+      {
+        id: 'sq_g1_3',
+        hindiPrompt: 'माँ मुझे प्यार करती है।',
+        englishPrompt: 'Mother loves me.',
+        sentencePre: '',
+        sentencePost: ' आइङ-के दुलार-ए तना।',
+        correct: 'एंगा',
+        phonetic: 'Enga',
+        options: ['एंगा', 'अप्पा', 'गाते'],
+      },
+    ],
+    sadri: [
+      {
+        id: 'sq_g1_1',
+        hindiPrompt: 'यह मेरा घर है।',
+        englishPrompt: 'This is my house.',
+        sentencePre: 'ई मोर ',
+        sentencePost: ' हेके।',
+        correct: 'घर',
+        phonetic: 'Ghor',
+        options: ['घर', 'पानी', 'गाछ'],
+      },
+      {
+        id: 'sq_g1_2',
+        hindiPrompt: 'मुझे पानी पीना है।',
+        englishPrompt: 'I want to drink water.',
+        sentencePre: 'मोके ',
+        sentencePost: ' पिएक मन करत हे।',
+        correct: 'पानी',
+        phonetic: 'Pani',
+        options: ['पानी', 'भात', 'गाछ'],
+      },
+      {
+        id: 'sq_g1_3',
+        hindiPrompt: 'माँ मुझे प्यार करती है।',
+        englishPrompt: 'Mother loves me.',
+        sentencePre: '',
+        sentencePost: ' मोके प्यार करेला।',
+        correct: 'माई',
+        phonetic: 'Mai',
+        options: ['माई', 'बाप', 'संगी'],
+      },
+    ],
+  },
+  grade2: {
+    santhali: [
+      {
+        id: 'sq_g2_1',
+        hindiPrompt: 'हाथी जंगल में रहता है।',
+        englishPrompt: 'The elephant lives in the forest.',
+        sentencePre: '',
+        sentencePost: ' ᱵᱤᱨ ᱨᱮ ᱛᱟᱦᱮᱸᱱᱟ᱾',
+        correct: 'ᱦᱟᱹᱛᱤ',
+        phonetic: 'Hāti',
+        options: ['ᱦᱟᱹᱛᱤ', 'ᱥᱮᱛᱟ', 'ᱦᱟᱹᱠᱩ'],
+      },
+      {
+        id: 'sq_g2_2',
+        hindiPrompt: 'पक्षी पेड़ की डाली पर बैठता है।',
+        englishPrompt: 'The bird sits on the tree.',
+        sentencePre: 'ᱪᱮᱬᱮ ',
+        sentencePost: ' ᱨᱮ ᱫᱩᱲᱩᱵᱼᱟ᱾',
+        correct: 'ᱫᱟᱨᱮ',
+        phonetic: 'Dāre',
+        options: ['ᱫᱟᱨᱮ', 'ᱚᱲᱟᱜ', 'ᱜᱟᱰᱟ'],
+      },
+      {
+        id: 'sq_g2_3',
+        hindiPrompt: 'कक्षा में अपनी किताब खोलो।',
+        englishPrompt: 'Open your book in class.',
+        sentencePre: 'ᱪᱟᱱᱟᱪ ᱨᱮ ',
+        sentencePost: ' ᱡᱷᱤᱡᱽ ᱢᱮ᱾',
+        correct: 'ᱯᱩᱛᱷᱤ',
+        phonetic: 'Puthi',
+        options: ['ᱯᱩᱛᱷᱤ', 'ᱚᱲᱟᱜ', 'ᱥᱮᱛᱟ'],
+      },
+    ],
+    ho: [
+      {
+        id: 'sq_g2_1',
+        hindiPrompt: 'हाथी जंगल में रहता है।',
+        englishPrompt: 'The elephant lives in the forest.',
+        sentencePre: '',
+        sentencePost: ' बिर रे ताइना।',
+        correct: 'हाती',
+        phonetic: 'Hāti',
+        options: ['हाती', 'सेता', 'हाकु'],
+      },
+      {
+        id: 'sq_g2_2',
+        hindiPrompt: 'पक्षी पेड़ पर बैठता है।',
+        englishPrompt: 'The bird sits on the tree.',
+        sentencePre: 'चेणे ',
+        sentencePost: ' रे दुब तन्या।',
+        correct: 'दारु',
+        phonetic: 'Daru',
+        options: ['दारु', 'ओड़ाः', 'गड़ा'],
+      },
+      {
+        id: 'sq_g2_3',
+        hindiPrompt: 'कक्षा में अपनी किताब खोलो।',
+        englishPrompt: 'Open your book in class.',
+        sentencePre: 'क्लास रे ',
+        sentencePost: ' उताये मे।',
+        correct: 'पोथी',
+        phonetic: 'Pothi',
+        options: ['पोथी', 'ओड़ाः', 'सेता'],
+      },
+    ],
+    mundari: [
+      {
+        id: 'sq_g2_1',
+        hindiPrompt: 'हाथी जंगल में रहता है।',
+        englishPrompt: 'The elephant lives in the forest.',
+        sentencePre: '',
+        sentencePost: ' बीर रे तइना।',
+        correct: 'हाती',
+        phonetic: 'Hāti',
+        options: ['हाती', 'सेता', 'हाकु'],
+      },
+      {
+        id: 'sq_g2_2',
+        hindiPrompt: 'पक्षी पेड़ पर बैठता है।',
+        englishPrompt: 'The bird sits on the tree.',
+        sentencePre: 'चेणें ',
+        sentencePost: ' रे दुब तना।',
+        correct: 'दारु',
+        phonetic: 'Daru',
+        options: ['दारु', 'ओड़ाः', 'गड़ा'],
+      },
+      {
+        id: 'sq_g2_3',
+        hindiPrompt: 'कक्षा में अपनी किताब खोलो।',
+        englishPrompt: 'Open your book in class.',
+        sentencePre: 'क्लास रे ',
+        sentencePost: ' ओताइमे।',
+        correct: 'पुथी',
+        phonetic: 'Puthi',
+        options: ['पुथी', 'ओड़ाः', 'सेता'],
+      },
+    ],
+    sadri: [
+      {
+        id: 'sq_g2_1',
+        hindiPrompt: 'हाथी जंगल में रहता है।',
+        englishPrompt: 'The elephant lives in the forest.',
+        sentencePre: '',
+        sentencePost: ' जंगल मे रहेला।',
+        correct: 'हाथी',
+        phonetic: 'Hathi',
+        options: ['हाथी', 'कुकुर', 'माछ'],
+      },
+      {
+        id: 'sq_g2_2',
+        hindiPrompt: 'चिड़िया पेड़ पर बैठती है।',
+        englishPrompt: 'The bird sits on the tree.',
+        sentencePre: 'चिरई ',
+        sentencePost: ' ऊपर बैसेला।',
+        correct: 'गाछ',
+        phonetic: 'Gaachh',
+        options: ['गाछ', 'घर', 'नदी'],
+      },
+      {
+        id: 'sq_g2_3',
+        hindiPrompt: 'कक्षा में अपनी किताब खोलो।',
+        englishPrompt: 'Open your book in class.',
+        sentencePre: 'क्लास मे अपन ',
+        sentencePost: ' खोला।',
+        correct: 'किताब',
+        phonetic: 'Kitab',
+        options: ['किताब', 'घर', 'कुकुर'],
+      },
+    ],
+  },
+  grade3: {
+    santhali: [
+      {
+        id: 'sq_g3_1',
+        hindiPrompt: 'सवेरे पूरब से सूरज निकलता है।',
+        englishPrompt: 'In the morning the sun rises in the east.',
+        sentencePre: 'ᱥᱮᱛᱟᱜ ᱨᱮ ',
+        sentencePost: ' ᱨᱟᱠᱟᱵᱼᱟ᱾',
+        correct: 'ᱥᱤᱧᱡᱚ',
+        phonetic: 'Sinjo',
+        options: ['ᱥᱤᱧᱡᱚ', 'ᱫᱟᱨᱮ', 'ᱜᱟᱰᱟ'],
+      },
+      {
+        id: 'sq_g3_2',
+        hindiPrompt: 'सभी को आदर से जोहार कहो।',
+        englishPrompt: 'Say Johar respectfully to all.',
+        sentencePre: 'ᱡᱚᱛᱚ ᱦᱚᱲ ',
+        sentencePost: ' ᱢᱮᱛᱟᱠᱚ ᱢᱮ᱾',
+        correct: 'ᱡᱚᱦᱟᱨ',
+        phonetic: 'Johār',
+        options: ['ᱡᱚᱦᱟᱨ', 'ᱫᱩᱲᱩᱵ', 'ᱦᱤᱡᱩᱜ'],
+      },
+      {
+        id: 'sq_g3_3',
+        hindiPrompt: 'स्कूल में मेरा संगी (दोस्त) आया है।',
+        englishPrompt: 'My friend has come to school.',
+        sentencePre: 'ᱤᱥᱠᱩᱞ ᱨᱮ ᱤᱧ ᱨᱮᱱ ',
+        sentencePost: ' ᱦᱮᱡ ᱟᱠᱟᱱᱟ᱾',
+        correct: 'ᱜᱟᱛᱮ',
+        phonetic: 'Gāte',
+        options: ['ᱜᱟᱛᱮ', 'ᱦᱟᱹᱛᱤ', 'ᱚᱲᱟᱜ'],
+      },
+    ],
+    ho: [
+      {
+        id: 'sq_g3_1',
+        hindiPrompt: 'सवेरे पूरब से सूरज निकलता है।',
+        englishPrompt: 'In the morning the sun rises in the east.',
+        sentencePre: 'सेताः रे ',
+        sentencePost: ' ओड़ोः तना।',
+        correct: 'सिंगी',
+        phonetic: 'Singi',
+        options: ['सिंगी', 'दारु', 'गड़ा'],
+      },
+      {
+        id: 'sq_g3_2',
+        hindiPrompt: 'सभी को आदर से जोहार कहो।',
+        englishPrompt: 'Say Johar respectfully to all.',
+        sentencePre: 'सबेन को ',
+        sentencePost: ' मेनेपे।',
+        correct: 'जोहार',
+        phonetic: 'Johār',
+        options: ['जोहार', 'दूब', 'हिजु'],
+      },
+      {
+        id: 'sq_g3_3',
+        hindiPrompt: 'स्कूल में मेरा दोस्त आया है।',
+        englishPrompt: 'My friend has come to school.',
+        sentencePre: 'स्कूल रे अयिङ-आ ',
+        sentencePost: ' हिजुअकना।',
+        correct: 'संगी',
+        phonetic: 'Sangi',
+        options: ['संगी', 'हाती', 'ओड़ाः'],
+      },
+    ],
+    mundari: [
+      {
+        id: 'sq_g3_1',
+        hindiPrompt: 'सवेरे पूरब से सूरज निकलता है।',
+        englishPrompt: 'In the morning the sun rises in the east.',
+        sentencePre: 'सेताः रे ',
+        sentencePost: ' ओड़ोः तना।',
+        correct: 'सिंगी',
+        phonetic: 'Singi',
+        options: ['सिंगी', 'दारु', 'गड़ा'],
+      },
+      {
+        id: 'sq_g3_2',
+        hindiPrompt: 'सभी को आदर से जोहार कहो।',
+        englishPrompt: 'Say Johar respectfully to all.',
+        sentencePre: 'सोबेन को ',
+        sentencePost: ' मेताकोपे।',
+        correct: 'जोहार',
+        phonetic: 'Johār',
+        options: ['जोहार', 'दुब', 'हिजु'],
+      },
+      {
+        id: 'sq_g3_3',
+        hindiPrompt: 'स्कूल में मेरा दोस्त आया है।',
+        englishPrompt: 'My friend has come to school.',
+        sentencePre: 'स्कूल रे आइङ-आह ',
+        sentencePost: ' हिजुअकना।',
+        correct: 'गाते',
+        phonetic: 'Gāte',
+        options: ['गाते', 'हाती', 'ओड़ाः'],
+      },
+    ],
+    sadri: [
+      {
+        id: 'sq_g3_1',
+        hindiPrompt: 'सवेरे पूरब से सूरज निकलता है।',
+        englishPrompt: 'In the morning the sun rises in the east.',
+        sentencePre: 'बिहाने पूरब से ',
+        sentencePost: ' निकलेल।',
+        correct: 'सुरुज',
+        phonetic: 'Suruj',
+        options: ['सुरुज', 'गाछ', 'नदी'],
+      },
+      {
+        id: 'sq_g3_2',
+        hindiPrompt: 'सभी को आदर से जोहार कहो।',
+        englishPrompt: 'Say Johar respectfully to all.',
+        sentencePre: 'सबे के आदर से ',
+        sentencePost: ' कहा।',
+        correct: 'जोहार',
+        phonetic: 'Johar',
+        options: ['जोहार', 'बैठा', 'आवा'],
+      },
+      {
+        id: 'sq_g3_3',
+        hindiPrompt: 'स्कूल में मेरा संगी (दोस्त) आया है।',
+        englishPrompt: 'My friend has come to school.',
+        sentencePre: 'स्कूल मे मोर ',
+        sentencePost: ' आवेला।',
+        correct: 'संगी',
+        phonetic: 'Sangi',
+        options: ['संगी', 'हाथी', 'घर'],
+      },
+    ],
+  },
+};
 
 export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // Exercise type: 'matching' | 'numeracy' | 'fillblanks'
@@ -47,6 +485,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   const isEn = uiLang === 'en';
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
+  const activeCurriculum = GRADE_CURRICULUM[gradeLevel] || GRADE_CURRICULUM.grade1;
 
   // Extract tribal word data cleanly
   const getTribalData = (item) => {
@@ -60,14 +499,15 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
     return { native, phonetic, audio };
   };
 
-  // 1. Matching Items (5 concrete nouns)
+  // 1. Matching Items (5 concrete nouns filtered dynamically by active Grade Curriculum)
   const matchingItems = useMemo(() => {
-    const concrete = TRIBAL_LEXICON.filter((i) =>
-      ['animals', 'nature', 'family', 'classroom'].includes(i.category)
-    );
-    const offset = (seed * 3) % Math.max(1, concrete.length - 4);
-    return concrete.slice(offset, offset + 5);
-  }, [seed]);
+    let pool = TRIBAL_LEXICON.filter((i) => activeCurriculum.matchingCategories.includes(i.category));
+    if (pool.length < 5) {
+      pool = TRIBAL_LEXICON.filter((i) => ['animals', 'nature', 'family', 'classroom', 'greetings'].includes(i.category));
+    }
+    const offset = (seed * 3) % Math.max(1, pool.length - 4);
+    return pool.slice(offset, offset + 5);
+  }, [gradeLevel, seed, activeCurriculum]);
 
   // Shuffled right column for matching
   const matchingRightColumn = useMemo(() => {
@@ -80,152 +520,19 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
     });
   }, [matchingItems, seed]);
 
-  // 2. Numeracy Items (Numbers 1-5 for Grade 1, 1-10 for Grade 2/3)
+  // 2. Numeracy Items (Numbers 1-5 for Class 1, 6-10 for Class 2, 1-10 mixed for Class 3)
   const numberItems = useMemo(() => {
-    const maxNum = gradeLevel === 'grade1' ? 5 : 10;
-    const nums = TRIBAL_LEXICON.filter((i) => i.category === 'numbers' && i.numeral <= maxNum);
+    const [minN, maxN] = activeCurriculum.numberRange;
+    const nums = TRIBAL_LEXICON.filter((i) => i.category === 'numbers' && i.numeral >= minN && i.numeral <= maxN);
     const offset = (seed * 2) % Math.max(1, nums.length - 4);
     return nums.slice(offset, offset + Math.min(5, nums.length));
-  }, [seed, gradeLevel]);
+  }, [gradeLevel, seed, activeCurriculum]);
 
-  // 3. Sentence Practice contextual questions
+  // 3. Sentence Practice contextual questions (Dynamically targeted by Class & Tribal Language)
   const sentenceQuestions = useMemo(() => {
-    if (selectedLang === 'santhali') {
-      return [
-        {
-          id: 'sq_1',
-          hindiPrompt: 'हाथी जंगल में रहता है।',
-          englishPrompt: 'The elephant lives in the forest.',
-          sentencePre: '',
-          sentencePost: ' ᱵᱤᱨ ᱨᱮ ᱛᱟᱦᱮᱸᱱᱟ᱾',
-          correct: 'ᱦᱟᱹᱛᱤ',
-          phonetic: 'Hāti',
-          options: ['ᱦᱟᱹᱛᱤ', 'ᱥᱮᱛᱟ', 'ᱦᱟᱹᱠᱩ'],
-        },
-        {
-          id: 'sq_2',
-          hindiPrompt: 'मुझे पानी पीना है।',
-          englishPrompt: 'I want to drink water.',
-          sentencePre: 'ᱤᱧ ᱫᱚ ',
-          sentencePost: ' ᱧᱩ ᱥᱟᱱᱟᱹᱧᱟ᱾',
-          correct: 'ᱫᱟᱜ',
-          phonetic: 'Dāk',
-          options: ['ᱫᱟᱜ', 'ᱫᱟᱠᱟ', 'ᱫᱟᱨᱮ'],
-        },
-        {
-          id: 'sq_3',
-          hindiPrompt: 'पक्षी पेड़ की डाली पर बैठता है।',
-          englishPrompt: 'The bird sits on the tree.',
-          sentencePre: 'ᱪᱮᱬᱮ ',
-          sentencePost: ' ᱨᱮ ᱫᱩᱲᱩᱵᱼᱟ᱾',
-          correct: 'ᱫᱟᱨᱮ',
-          phonetic: 'Dāre',
-          options: ['ᱫᱟᱨᱮ', 'ᱚᱲᱟᱜ', 'ᱜᱟᱰᱟ'],
-        },
-      ];
-    }
-    if (selectedLang === 'ho') {
-      return [
-        {
-          id: 'sq_1',
-          hindiPrompt: 'हाथी जंगल में रहता है।',
-          englishPrompt: 'The elephant lives in the forest.',
-          sentencePre: '',
-          sentencePost: ' बिर रे ताइना।',
-          correct: 'हाती',
-          phonetic: 'Hāti',
-          options: ['हाती', 'सेता', 'हाकु'],
-        },
-        {
-          id: 'sq_2',
-          hindiPrompt: 'मुझे पानी पीना है।',
-          englishPrompt: 'I want to drink water.',
-          sentencePre: 'इंग ',
-          sentencePost: ' नू सनांग-तन्या।',
-          correct: 'दाः',
-          phonetic: 'Da-ah',
-          options: ['दाः', 'मंडी', 'दारु'],
-        },
-        {
-          id: 'sq_3',
-          hindiPrompt: 'पक्षी पेड़ पर बैठता है।',
-          englishPrompt: 'The bird sits on the tree.',
-          sentencePre: 'चेणे ',
-          sentencePost: ' रे दुब तन्या।',
-          correct: 'दारु',
-          phonetic: 'Daru',
-          options: ['दारु', 'ओड़ाः', 'गड़ा'],
-        },
-      ];
-    }
-    if (selectedLang === 'mundari') {
-      return [
-        {
-          id: 'sq_1',
-          hindiPrompt: 'हाथी जंगल में रहता है।',
-          englishPrompt: 'The elephant lives in the forest.',
-          sentencePre: '',
-          sentencePost: ' बीर रे तइना।',
-          correct: 'हाती',
-          phonetic: 'Hāti',
-          options: ['हाती', 'सेता', 'हाकु'],
-        },
-        {
-          id: 'sq_2',
-          hindiPrompt: 'मुझे पानी पीना है।',
-          englishPrompt: 'I want to drink water.',
-          sentencePre: 'आईंग ',
-          sentencePost: ' नू सनांग-तन्या।',
-          correct: 'दाः',
-          phonetic: 'Da-ah',
-          options: ['दाः', 'मंडी', 'दारु'],
-        },
-        {
-          id: 'sq_3',
-          hindiPrompt: 'पक्षी पेड़ पर बैठता है।',
-          englishPrompt: 'The bird sits on the tree.',
-          sentencePre: 'चेणें ',
-          sentencePost: ' रे दुब तना।',
-          correct: 'दारु',
-          phonetic: 'Daru',
-          options: ['दारु', 'ओड़ाः', 'गड़ा'],
-        },
-      ];
-    }
-    // Sadri
-    return [
-      {
-        id: 'sq_1',
-        hindiPrompt: 'हाथी जंगल में रहता है।',
-        englishPrompt: 'The elephant lives in the forest.',
-        sentencePre: '',
-        sentencePost: ' जंगल मे रहेला।',
-        correct: 'हाथी',
-        phonetic: 'Hathi',
-        options: ['हाथी', 'कुकुर', 'माछ'],
-      },
-      {
-        id: 'sq_2',
-        hindiPrompt: 'मुझे पानी पीना है।',
-        englishPrompt: 'I want to drink water.',
-        sentencePre: 'मोके ',
-        sentencePost: ' पिएक मन करत हे।',
-        correct: 'पानी',
-        phonetic: 'Pani',
-        options: ['पानी', 'भात', 'गाछ'],
-      },
-      {
-        id: 'sq_3',
-        hindiPrompt: 'चिड़िया पेड़ पर बैठती है।',
-        englishPrompt: 'The bird sits on the tree.',
-        sentencePre: 'चिरई ',
-        sentencePost: ' ऊपर बैसेला।',
-        correct: 'गाछ',
-        phonetic: 'Gaachh',
-        options: ['गाछ', 'घर', 'नदी'],
-      },
-    ];
-  }, [selectedLang]);
+    const gradeSet = GRADE_SENTENCE_QUESTIONS[gradeLevel] || GRADE_SENTENCE_QUESTIONS.grade1;
+    return gradeSet[selectedLang] || gradeSet.santhali;
+  }, [gradeLevel, selectedLang]);
 
   // ==========================================================================
   // ACTIONS & HANDLERS
@@ -519,10 +826,18 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         {/* Action Controls: Grade + Shuffle + Print */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <select
+            id="select-grade-level"
             value={gradeLevel}
             onChange={(e) => {
-              setGradeLevel(e.target.value);
+              const newGrade = e.target.value;
+              setGradeLevel(newGrade);
               handleReset();
+              const c = GRADE_CURRICULUM[newGrade];
+              toast.success(
+                isEn
+                  ? `Loaded ${c.labelEnglish}: ${c.themeEnglish}!`
+                  : `${c.labelHindi} का पाठ्यक्रम एवं नए अभ्यास लोड किए गए!`
+              );
             }}
             style={{
               padding: '6px 14px',
@@ -531,14 +846,14 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               backgroundColor: 'var(--color-surface)',
               color: 'var(--color-slate)',
               fontSize: '0.84rem',
-              fontWeight: 600,
+              fontWeight: 700,
               outline: 'none',
               cursor: 'pointer',
             }}
           >
-            <option value="grade1">{isEn ? 'Class 1' : 'कक्षा 1'}</option>
-            <option value="grade2">{isEn ? 'Class 2' : 'कक्षा 2'}</option>
-            <option value="grade3">{isEn ? 'Class 3' : 'कक्षा 3'}</option>
+            <option value="grade1">{isEn ? 'Class 1 (Foundational FLN)' : 'कक्षा 1 (बालवाटिका व कक्षा 1)'}</option>
+            <option value="grade2">{isEn ? 'Class 2 (Intermediate FLN)' : 'कक्षा 2 (मध्यवर्ती FLN)'}</option>
+            <option value="grade3">{isEn ? 'Class 3 (Advanced FLN)' : 'कक्षा 3 (उन्नत FLN)'}</option>
           </select>
 
           <button
@@ -689,6 +1004,78 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 <RotateCcw size={13} />
               </button>
             </div>
+          </div>
+        </div>
+
+        {/* Dynamic NIPUN Bharat Syllabus & Competency Banner (Updates on Class change) */}
+        <div
+          id="ws-curriculum-banner"
+          style={{
+            padding: '12px 16px',
+            borderRadius: 'var(--radius-lg)',
+            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+            border: '1px solid rgba(16, 185, 129, 0.22)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.04em',
+                  padding: '3px 10px',
+                  borderRadius: '999px',
+                  backgroundColor: 'var(--color-forest)',
+                  color: '#FFFFFF',
+                  textTransform: 'uppercase',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <GraduationCap size={13} />
+                {isEn ? activeCurriculum.labelEnglish : activeCurriculum.labelHindi}
+              </span>
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  padding: '3px 9px',
+                  borderRadius: '999px',
+                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                  color: 'var(--color-forest)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  fontFamily: 'monospace',
+                }}
+              >
+                {activeCurriculum.nipunCode}
+              </span>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                {isEn ? activeCurriculum.themeEnglish : activeCurriculum.themeHindi}
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>
+              <Target size={14} color="var(--color-palash)" />
+              <span style={{ fontWeight: 600 }}>
+                {worksheetType === 'matching' && (isEn ? 'Categories: ' + activeCurriculum.matchingCategories.join(', ') : 'शब्दावली: ' + activeCurriculum.matchingCategories.join(', '))}
+                {worksheetType === 'numeracy' && (isEn ? `Range: ${activeCurriculum.numberRange[0]} to ${activeCurriculum.numberRange[1]}` : `परास: ${activeCurriculum.numberRange[0]} से ${activeCurriculum.numberRange[1]}`)}
+                {worksheetType === 'fillblanks' && (isEn ? 'FLN Sentence Structure' : 'FLN वाक्य संरचना')}
+              </span>
+            </div>
+          </div>
+
+          <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+            <span style={{ fontWeight: 700, color: 'var(--color-forest)' }}>
+              {isEn ? 'Learning Outcome (LO):' : 'दक्षता लक्ष्य:'}
+            </span>
+            <span>
+              {isEn ? activeCurriculum.competencyEnglish : activeCurriculum.competencyHindi}
+            </span>
           </div>
         </div>
 
