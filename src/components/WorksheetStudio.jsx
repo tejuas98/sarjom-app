@@ -21,15 +21,6 @@ import {
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
 
-// Color palettes for distinct matched pairs so students and teachers instantly see which matches which
-const PAIR_BADGES = [
-  { label: '①', bg: 'rgba(16, 185, 129, 0.15)', text: '#059669', border: 'rgba(16, 185, 129, 0.4)' },
-  { label: '②', bg: 'rgba(245, 158, 11, 0.15)', text: '#D97706', border: 'rgba(245, 158, 11, 0.4)' },
-  { label: '③', bg: 'rgba(59, 130, 246, 0.15)', text: '#2563EB', border: 'rgba(59, 130, 246, 0.4)' },
-  { label: '④', bg: 'rgba(139, 92, 246, 0.15)', text: '#7C3AED', border: 'rgba(139, 92, 246, 0.4)' },
-  { label: '⑤', bg: 'rgba(236, 72, 153, 0.15)', text: '#DB2777', border: 'rgba(236, 72, 153, 0.4)' },
-];
-
 // Counting illustrations (authentic rural/tribal items)
 const COUNT_ITEMS_ICONS = ['🍎', '🍃', '🌸', '🥭', '🐟', '🌳', '🐦', '⭐', '🥥', '🌻'];
 
@@ -43,7 +34,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // activeSelection: { side: 'left' | 'right', item }
   const [activeSelection, setActiveSelection] = useState(null);
   const [matchedPairs, setMatchedPairs] = useState({}); // { [leftId]: rightId }
-  const [pairColorMap, setPairColorMap] = useState({}); // { [leftId]: PAIR_BADGES[index] }
+  const [pairNumberMap, setPairNumberMap] = useState({}); // { [leftId]: number 1..5 }
   const [shakeCardId, setShakeCardId] = useState(null);
 
   // 2. Numeracy / Counting state
@@ -273,7 +264,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
     setSeed((prev) => prev + 1);
     setActiveSelection(null);
     setMatchedPairs({});
-    setPairColorMap({});
+    setPairNumberMap({});
     setNumeracyAnswers({});
     setTappedCounts({});
     setInteractiveAnswers({});
@@ -332,14 +323,12 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
 
     if (leftItem.id === rightItem.id) {
       // CORRECT MATCH!
-      const currentCount = Object.keys(matchedPairs).length;
-      const assignedBadge = PAIR_BADGES[currentCount % PAIR_BADGES.length];
-
+      const currentCount = Object.keys(matchedPairs).length + 1;
       const nextMatched = { ...matchedPairs, [leftItem.id]: rightItem.id };
-      const nextColors = { ...pairColorMap, [leftItem.id]: assignedBadge };
+      const nextNumbers = { ...pairNumberMap, [leftItem.id]: currentCount };
 
       setMatchedPairs(nextMatched);
-      setPairColorMap(nextColors);
+      setPairNumberMap(nextNumbers);
       setActiveSelection(null);
 
       voiceService.playChime('success');
@@ -347,11 +336,6 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
       voiceService.speakText(tribal.audio, 'hi-IN');
 
       toast.success(`${t.wsMatchPairSuccess}: ${leftItem.hindi} ↔ ${tribal.native}`);
-
-      if (Object.keys(nextMatched).length === matchingItems.length) {
-        confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
-        toast.success(t.wsCheckToastAllCorrect);
-      }
     } else {
       // MISMATCH!
       voiceService.playChime('error');
@@ -368,10 +352,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
     e.stopPropagation();
     const nextPairs = { ...matchedPairs };
     delete nextPairs[leftId];
-    const nextColors = { ...pairColorMap };
-    delete nextColors[leftId];
+    const nextNumbers = { ...pairNumberMap };
+    delete nextNumbers[leftId];
     setMatchedPairs(nextPairs);
-    setPairColorMap(nextColors);
+    setPairNumberMap(nextNumbers);
     toast.info(t.wsMatchUnpair);
   };
 
@@ -444,7 +428,15 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         return;
       }
 
-      // All 5 matched
+      // Strict verification: Ensure every pair is 100% matched to the correct item
+      const isAllValid = matchingItems.every((item) => matchedPairs[item.id] === item.id);
+      if (!isAllValid) {
+        toast.error(isEn ? 'Some pairs are incorrect! Please review and fix.' : 'कुछ जोड़ियाँ गलत हैं! कृपया सुधारें।');
+        voiceService.playChime('error');
+        return;
+      }
+
+      // All 5 correctly matched!
       confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
       voiceService.playChime('success');
       toast.success(t.wsCheckToastAllCorrect);
@@ -769,7 +761,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 {matchingItems.map((item, idx) => {
                   const isSelected = activeSelection?.side === 'left' && activeSelection?.item.id === item.id;
                   const isMatched = !!matchedPairs[item.id];
-                  const pairBadge = pairColorMap[item.id];
+                  const pairNum = pairNumberMap[item.id];
 
                   return (
                     <div
@@ -779,12 +771,12 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         padding: '12px 18px',
                         borderRadius: 'var(--radius-lg)',
                         backgroundColor: isMatched
-                          ? pairBadge?.bg || 'rgba(16, 185, 129, 0.12)'
+                          ? 'rgba(16, 185, 129, 0.08)'
                           : isSelected
-                          ? 'rgba(194, 65, 12, 0.14)'
+                          ? 'rgba(194, 65, 12, 0.12)'
                           : 'var(--color-surface-tint)',
                         border: isMatched
-                          ? `1.5px solid ${pairBadge?.border || '#10B981'}`
+                          ? '1.5px solid rgba(16, 185, 129, 0.4)'
                           : isSelected
                           ? '2px solid var(--color-palash)'
                           : shakeCardId === item.id
@@ -813,21 +805,21 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         </div>
                       </div>
 
-                      {/* Right indicator: Pair Badge or Selection Ring */}
+                      {/* Right indicator: Clean Pair Badge or Selection Ring */}
                       {isMatched ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span
                             style={{
-                              fontSize: '0.78rem',
-                              fontWeight: 800,
+                              fontSize: '0.74rem',
+                              fontWeight: 700,
                               padding: '2px 8px',
                               borderRadius: '999px',
-                              backgroundColor: pairBadge?.bg,
-                              color: pairBadge?.text,
-                              border: `1px solid ${pairBadge?.border}`,
+                              backgroundColor: 'rgba(16, 185, 129, 0.14)',
+                              color: '#10B981',
+                              border: '1px solid rgba(16, 185, 129, 0.3)',
                             }}
                           >
-                            {pairBadge?.label}
+                            ✓ {isEn ? `Pair ${pairNum}` : `जोड़ी ${pairNum}`}
                           </span>
                           <button
                             type="button"
@@ -865,7 +857,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                   const isSelected = activeSelection?.side === 'right' && activeSelection?.item.id === item.id;
                   const isMatched = Object.values(matchedPairs).includes(item.id);
                   const matchedLeftKey = Object.keys(matchedPairs).find((k) => matchedPairs[k] === item.id);
-                  const pairBadge = matchedLeftKey ? pairColorMap[matchedLeftKey] : null;
+                  const pairNum = matchedLeftKey ? pairNumberMap[matchedLeftKey] : null;
 
                   return (
                     <div
@@ -875,12 +867,12 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         padding: '12px 18px',
                         borderRadius: 'var(--radius-lg)',
                         backgroundColor: isMatched
-                          ? pairBadge?.bg || 'rgba(16, 185, 129, 0.12)'
+                          ? 'rgba(16, 185, 129, 0.08)'
                           : isSelected
-                          ? 'rgba(194, 65, 12, 0.14)'
+                          ? 'rgba(194, 65, 12, 0.12)'
                           : 'var(--color-surface-tint)',
                         border: isMatched
-                          ? `1.5px solid ${pairBadge?.border || '#10B981'}`
+                          ? '1.5px solid rgba(16, 185, 129, 0.4)'
                           : isSelected
                           ? '2px solid var(--color-palash)'
                           : shakeCardId === item.id
@@ -902,7 +894,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         <div>
                           <div
                             className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                            style={{ fontWeight: 800, fontSize: '1.25rem', color: isMatched ? pairBadge?.text : 'var(--color-forest)' }}
+                            style={{ fontWeight: 800, fontSize: '1.25rem', color: isMatched ? '#10B981' : 'var(--color-forest)' }}
                           >
                             {tribal.native}
                           </div>
@@ -935,16 +927,16 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         {isMatched ? (
                           <span
                             style={{
-                              fontSize: '0.78rem',
-                              fontWeight: 800,
+                              fontSize: '0.74rem',
+                              fontWeight: 700,
                               padding: '2px 8px',
                               borderRadius: '999px',
-                              backgroundColor: pairBadge?.bg,
-                              color: pairBadge?.text,
-                              border: `1px solid ${pairBadge?.border}`,
+                              backgroundColor: 'rgba(16, 185, 129, 0.14)',
+                              color: '#10B981',
+                              border: '1px solid rgba(16, 185, 129, 0.3)',
                             }}
                           >
-                            {pairBadge?.label}
+                            ✓ {isEn ? `Pair ${pairNum}` : `जोड़ी ${pairNum}`}
                           </span>
                         ) : (
                           <span

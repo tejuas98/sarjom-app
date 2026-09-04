@@ -405,10 +405,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Adi besh',
     },
     sadri: {
-      native: 'शान्त रहा आउर सुना।',
-      phoneticDeva: 'शान्त रहा आउर सुना।',
-      phoneticLatin: 'Shant raha aur suna.',
-      audioText: 'Shant raha aur suna',
+      native: 'बहुत बेस! शाबाश!',
+      phoneticDeva: 'बहुत बेस! शाबाश!',
+      phoneticLatin: 'Bohut bes! Shabash!',
+      audioText: 'Bohut bes Shabash',
     },
   },
 
@@ -679,10 +679,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Dare',
     },
     sadri: {
-      native: 'सुरुज / घाम',
-      phoneticDeva: 'सुरुज',
-      phoneticLatin: 'Suruj',
-      audioText: 'Suruj',
+      native: 'गाछ / रुख',
+      phoneticDeva: 'गाछ',
+      phoneticLatin: 'Gaachh',
+      audioText: 'Gaachh',
     },
   },
   {
@@ -712,10 +712,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Baha',
     },
     sadri: {
-      native: 'गाछ / रुख',
-      phoneticDeva: 'गाछ',
-      phoneticLatin: 'Gaachh',
-      audioText: 'Gaachh',
+      native: 'फूल',
+      phoneticDeva: 'फूल',
+      phoneticLatin: 'Phool',
+      audioText: 'Phool',
     },
   },
   {
@@ -745,10 +745,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Bera',
     },
     sadri: {
-      native: 'टोंगरी / पहाड़',
-      phoneticDeva: 'टोंगरी',
-      phoneticLatin: 'Tongri',
-      audioText: 'Tongri',
+      native: 'सुरुज / घाम',
+      phoneticDeva: 'सुरुज',
+      phoneticLatin: 'Suruj',
+      audioText: 'Suruj',
     },
   },
 
@@ -813,10 +813,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Chene',
     },
     sadri: {
-      native: 'बाघ',
-      phoneticDeva: 'बाघ',
-      phoneticLatin: 'Bagh',
-      audioText: 'Bagh',
+      native: 'चिरई / पंछी',
+      phoneticDeva: 'चिरई',
+      phoneticLatin: 'Chirai',
+      audioText: 'Chirai',
     },
   },
   {
@@ -846,10 +846,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Seta',
     },
     sadri: {
-      native: 'चिरई',
-      phoneticDeva: 'चिरई',
-      phoneticLatin: 'Chirai',
-      audioText: 'Chirai',
+      native: 'कुकुर',
+      phoneticDeva: 'कुकुर',
+      phoneticLatin: 'Kukur',
+      audioText: 'Kukur',
     },
   },
   {
