@@ -15,6 +15,7 @@ import { TeacherDrawer } from './components/TeacherDrawer';
 import { JuryEvaluationTourModal } from './components/JuryEvaluationTourModal';
 import { AudioPlayerModal } from './components/AudioPlayerModal';
 import { offlineStorage } from './services/offlineStorage';
+import { UI_TRANSLATIONS } from './data/uiTranslations';
 import { toast } from 'sonner';
 
 export default function App() {
@@ -30,6 +31,12 @@ export default function App() {
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
   const [isOffline, setIsOffline] = useState(initialOffline);
+  const [uiLang, setUiLang] = useState(() => {
+    if (urlParams && urlParams.get('ui')) {
+      return urlParams.get('ui') === 'en' ? 'en' : 'hi';
+    }
+    return offlineStorage.getUILanguage() || 'hi';
+  });
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawer);
   const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
@@ -37,6 +44,13 @@ export default function App() {
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
   const [deviceMode, setDeviceMode] = useState(initialDevice); // 'full' | 'ios' | 'android'
   const [showDevBar, setShowDevBar] = useState(urlParams && urlParams.get('dev') === 'true');
+
+  const handleToggleUILang = (newLang) => {
+    const lang = newLang || (uiLang === 'hi' ? 'en' : 'hi');
+    setUiLang(lang);
+    offlineStorage.setUILanguage(lang);
+    toast.success(lang === 'en' ? '🌐 Language switched to English' : '🌐 भाषा बदलकर हिन्दी की गई');
+  };
 
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
@@ -219,7 +233,8 @@ export default function App() {
           selectedLang={selectedLang}
           onSelectLang={handleSelectLang}
           isOffline={isOffline}
-          onToggleOffline={handleToggleOffline}
+          uiLang={uiLang}
+          onToggleUILang={handleToggleUILang}
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onOpenWizard={() => setIsWizardOpen(true)}
           onOpenJuryTour={() => setIsJuryTourOpen(true)}
@@ -230,7 +245,7 @@ export default function App() {
 
       {/* 3. Main Tablet Canvas */}
       <main className="tablet-canvas" style={{ flex: 1, width: '100%' }}>
-        {activeTab === 'voice' && <VoiceTranslator selectedLang={selectedLang} />}
+        {activeTab === 'voice' && <VoiceTranslator selectedLang={selectedLang} uiLang={uiLang} />}
         {activeTab === 'curriculum' && <LessonCurriculum selectedLang={selectedLang} />}
         {activeTab === 'worksheets' && <WorksheetStudio selectedLang={selectedLang} />}
         {activeTab === 'flashcards' && <FlashcardDeck selectedLang={selectedLang} />}
@@ -316,10 +331,10 @@ export default function App() {
         >
           <div>
             <div style={{ fontWeight: 700, color: 'var(--color-slate)', fontSize: '0.95rem' }}>
-              झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग (Govt of Jharkhand)
+              {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerGovt}
             </div>
             <div>
-              सरजोम मातृभाषा बहुभाषी शिक्षण कार्यक्रम (SARJOM MTB-MLE) • टीम कारासुनों (Team Karasuno)
+              {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerProject}
             </div>
           </div>
 
@@ -341,7 +356,7 @@ export default function App() {
               }}
               title="परीक्षक व ज्यूरी हेतु हार्डवेयर और UDISE सिमुलेटर बार खोलें"
             >
-              {showDevBar ? '▲ हार्डवेयर बार छुपाएं' : '⚙️ तकनीकी सिमुलेटर बार'}
+              {showDevBar ? (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarHide : (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarToggle}
             </button>
           </div>
         </div>

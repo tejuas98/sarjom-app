@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { Menu, ChevronDown, Sparkles, Volume2, Award, Cpu, BookOpen, Layers } from 'lucide-react';
+import { UI_TRANSLATIONS } from '../data/uiTranslations';
+import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
   onSelectLang,
   isOffline,
+  uiLang = 'hi',
+  onToggleUILang,
   onOpenDrawer,
   onOpenWizard,
   onOpenJuryTour,
@@ -14,23 +17,24 @@ export function Navbar({
   onSelectTab,
 }) {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const currentLangMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
 
   // Primary 4 tabs that teachers use in everyday teaching
   const PRIMARY_TABS = [
-    { id: 'voice', label: '🎙️ कक्षा बोलें', title: 'शिक्षक आवाज़ अनुवाद व कक्षा स्पीकर' },
-    { id: 'worksheets', label: '📝 कार्यपत्रक', title: 'प्रिंट व अभ्यास पत्र' },
-    { id: 'flashcards', label: '🎴 फ़्लैशकार्ड', title: 'सचित्र कार्ड व शब्द' },
-    { id: 'dictionary', label: '📖 शब्दकोश', title: '1,240+ त्रिभाषी शब्द' },
+    { id: 'voice', label: t.tabVoice, title: t.tabVoice },
+    { id: 'worksheets', label: t.tabWorksheets, title: t.tabWorksheets },
+    { id: 'flashcards', label: t.tabFlashcards, title: t.tabFlashcards },
+    { id: 'dictionary', label: t.tabDictionary, title: t.tabDictionary },
   ];
 
-  // Secondary tools (accessible via 'अधिक' dropdown without cluttering the screen)
+  // Secondary tools (accessible via dropdown without cluttering the screen)
   const MORE_TABS = [
-    { id: 'curriculum', label: '📚 पाठ योजना (Lessons)' },
-    { id: 'slate', label: '🎨 स्लेट व लोककथा (Slate & Stories)' },
-    { id: 'orf', label: '🎯 वाचन कोच (Pronunciation Coach)' },
-    { id: 'neural', label: '⚡ न्यूरल विवरण (Neural Inspector)' },
-    { id: 'benchmark', label: '🏆 ज्यूरी मूल्यांकन (SIH Matrix)' },
+    { id: 'curriculum', label: t.tabCurriculum },
+    { id: 'slate', label: t.tabSlate },
+    { id: 'orf', label: t.tabOrf },
+    { id: 'neural', label: t.tabNeural },
+    { id: 'benchmark', label: t.tabBenchmark },
   ];
 
   const handleSelectMoreTab = (tabId) => {
@@ -42,7 +46,7 @@ export function Navbar({
     <header
       style={{
         borderBottom: '1px solid var(--color-border)',
-        backgroundColor: 'rgba(255, 255, 255, 0.90)',
+        backgroundColor: 'rgba(255, 255, 255, 0.92)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         position: 'sticky',
@@ -50,7 +54,7 @@ export function Navbar({
         zIndex: 40,
       }}
     >
-      {/* 1. Main Header: Brand + 4 Languages + Unified Menu */}
+      {/* 1. Main Header: Brand + 4 Tribal Languages + UI Language Toggle (English & Hindi) + Unified Menu */}
       <div
         style={{
           display: 'flex',
@@ -84,7 +88,7 @@ export function Navbar({
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-forest)', letterSpacing: '-0.01em' }}>
-                सरजोम <span style={{ fontSize: '0.95rem', color: 'var(--color-palash)', fontWeight: 700 }}>(SARJOM)</span>
+                {t.brandTitle} <span style={{ fontSize: '0.95rem', color: 'var(--color-palash)', fontWeight: 700 }}>{t.brandSub}</span>
               </span>
               <span
                 style={{
@@ -96,11 +100,11 @@ export function Navbar({
                   fontWeight: 600,
                 }}
               >
-                {isOffline ? '🟢 ऑफ़लाइन' : '🌐 ऑनलाइन'}
+                {isOffline ? t.offlineStatus : t.onlineStatus}
               </span>
             </div>
             <p style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE
+              {t.brandTagline}
             </p>
           </div>
         </div>
@@ -142,8 +146,60 @@ export function Navbar({
           })}
         </div>
 
-        {/* Right: Unified Teacher Menu Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* Right: Interface Language Switcher (English & Hindi) + Teacher Menu Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Language Change Option (English and Hindi) */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              borderRadius: 'var(--radius-pill)',
+              padding: '2px',
+              border: '1px solid var(--color-border)',
+            }}
+            title="भाषा बदलें / Change Language (English & Hindi)"
+          >
+            <div style={{ padding: '0 6px 0 8px', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center' }}>
+              <Globe size={13} />
+            </div>
+            <button
+              type="button"
+              onClick={() => onToggleUILang('hi')}
+              style={{
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-pill)',
+                border: 'none',
+                backgroundColor: uiLang === 'hi' ? 'var(--color-palash)' : 'transparent',
+                color: uiLang === 'hi' ? '#FFFFFF' : 'var(--color-slate)',
+                fontWeight: uiLang === 'hi' ? 700 : 500,
+                fontSize: '0.80rem',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              हिन्दी
+            </button>
+            <button
+              type="button"
+              onClick={() => onToggleUILang('en')}
+              style={{
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-pill)',
+                border: 'none',
+                backgroundColor: uiLang === 'en' ? 'var(--color-palash)' : 'transparent',
+                color: uiLang === 'en' ? '#FFFFFF' : 'var(--color-slate)',
+                fontWeight: uiLang === 'en' ? 700 : 500,
+                fontSize: '0.80rem',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              English
+            </button>
+          </div>
+
+          {/* Unified Teacher Help Button */}
           <button
             type="button"
             onClick={onOpenDrawer}
@@ -161,10 +217,10 @@ export function Navbar({
               cursor: 'pointer',
               boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
             }}
-            title="शिक्षक निर्देश, ऑनबोर्डिंग, व अतिरिक्त साधन"
+            title={t.teacherHelpBtn}
           >
             <Menu size={16} color="var(--color-forest)" />
-            <span>शिक्षक सहायता</span>
+            <span>{t.teacherHelpBtn}</span>
           </button>
         </div>
       </div>
@@ -226,7 +282,7 @@ export function Navbar({
               gap: '4px',
             }}
           >
-            <span>⋯ और साधन</span>
+            <span>{t.tabMoreTools}</span>
             <ChevronDown size={14} />
           </button>
 
@@ -298,7 +354,7 @@ export function Navbar({
                 }}
               >
                 <Sparkles size={14} color="var(--color-palash)" />
-                <span>💡 60s शिक्षक ऑनबोर्डिंग</span>
+                <span>{t.btnOnboarding}</span>
               </button>
 
               <button
@@ -322,7 +378,7 @@ export function Navbar({
                 }}
               >
                 <Volume2 size={14} color="var(--color-forest)" />
-                <span>🔊 कक्षा ऑडियो डेक</span>
+                <span>{t.btnAudioDeck}</span>
               </button>
 
               <button
@@ -346,7 +402,7 @@ export function Navbar({
                 }}
               >
                 <Award size={14} color="#D97706" />
-                <span>🏆 SIH ज्यूरी टूर</span>
+                <span>{t.btnJuryTour}</span>
               </button>
             </div>
           )}

@@ -6,6 +6,7 @@
 const STORAGE_KEYS = {
   OFFLINE_MODE: 'palash_offline_mode',
   SELECTED_LANG: 'palash_selected_lang',
+  UI_LANG: 'palash_ui_lang',
   STUDENT_ASSESSMENTS: 'palash_student_assessments',
   CUSTOM_LESSONS: 'palash_custom_lessons',
 };
@@ -25,6 +26,14 @@ export const offlineStorage = {
 
   setSelectedLanguage(langId) {
     localStorage.setItem(STORAGE_KEYS.SELECTED_LANG, langId);
+  },
+
+  getUILanguage() {
+    return localStorage.getItem(STORAGE_KEYS.UI_LANG) || 'hi';
+  },
+
+  setUILanguage(lang) {
+    localStorage.setItem(STORAGE_KEYS.UI_LANG, lang);
   },
 
   getStudentAssessments() {

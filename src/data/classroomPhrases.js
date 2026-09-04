@@ -1,6 +1,7 @@
 /**
  * Quick Classroom Dialogue and Management Phrases
  * For real-time teacher-student interactions in tribal primary schools
+ * Bilingual (Hindi & English) for diverse teacher backgrounds
  */
 
 export const CLASSROOM_PHRASES = [
@@ -9,6 +10,7 @@ export const CLASSROOM_PHRASES = [
     category: 'management',
     categoryNameHindi: 'कक्षा अनुशासन (Classroom Management)',
     hindi: 'शान्त रहो और सुनो।',
+    english: 'Be quiet and listen carefully.',
     ho: {
       native: 'थिर तायेन पे आर आजोम पे।',
       phoneticDeva: 'थिर तायेन पे आर आजोम पे।',
@@ -40,6 +42,7 @@ export const CLASSROOM_PHRASES = [
     category: 'management',
     categoryNameHindi: 'कक्षा अनुशासन (Classroom Management)',
     hindi: 'अपनी जगह पर बैठ जाओ।',
+    english: 'Please sit down in your place.',
     ho: {
       native: 'अको-अको जाइगा रे दूब पे।',
       phoneticDeva: 'अको-अको जाइगा रे दूब पे।',
@@ -71,6 +74,7 @@ export const CLASSROOM_PHRASES = [
     category: 'praise',
     categoryNameHindi: 'प्रशंसा एवं प्रोत्साहन (Praise & Encouragement)',
     hindi: 'सब मिलकर ताली बजाओ!',
+    english: 'Everyone clap your hands together!',
     ho: {
       native: 'सोबेन ते थपड़ी मारौ पे!',
       phoneticDeva: 'सोबेन ते थपड़ी मारौ पे!',
@@ -102,6 +106,7 @@ export const CLASSROOM_PHRASES = [
     category: 'praise',
     categoryNameHindi: 'प्रशंसा एवं प्रोत्साहन (Praise & Encouragement)',
     hindi: 'शाबाश! तुमने बहुत सुंदर लिखा।',
+    english: 'Well done! You wrote very beautifully.',
     ho: {
       native: 'बुगी भागी! आम पुरः बेस ओलकेदाम।',
       phoneticDeva: 'बुगी भागी! आम पुरह बेस ओलकेदाम।',
@@ -133,6 +138,7 @@ export const CLASSROOM_PHRASES = [
     category: 'routine',
     categoryNameHindi: 'दैनिक दिनचर्या (Daily Routine)',
     hindi: 'हाथ धोकर भोजन करने आओ।',
+    english: 'Wash your hands and come for food.',
     ho: {
       native: 'ती अभुङ केते मांडी जोम हिजु पे।',
       phoneticDeva: 'ती अभुङ केते मांडी जोम हिजु पे।',
@@ -164,6 +170,7 @@ export const CLASSROOM_PHRASES = [
     category: 'questions',
     categoryNameHindi: 'प्रश्नोत्तरी (Inquiry & Questions)',
     hindi: 'किसको इसका उत्तर पता है? हाथ उठाओ।',
+    english: 'Who knows the answer? Raise your hand.',
     ho: {
       native: 'ओकोए जगारे दाड़ियय? ती तुल पे।',
       phoneticDeva: 'ओकोए जगारे दाड़ियय? ती तुल पे।',
@@ -196,6 +203,7 @@ export const STUDENT_TO_TEACHER_PHRASES = [
   {
     id: 'stu_1',
     hindiMeaning: 'सर/दीदी, मुझे पानी पीना है।',
+    englishMeaning: 'Sir/Madam, I need to drink water.',
     ho: {
       native: 'दाः ञु सानाम ताना।',
       phoneticDeva: 'दाह ञु सानाम ताना।',
@@ -204,14 +212,14 @@ export const STUDENT_TO_TEACHER_PHRASES = [
     },
     mundari: {
       native: 'दाः ञू सानाम ताना।',
-      phoneticDeva: 'दाह ञू सानाम ताना。',
+      phoneticDeva: 'दाह ञू सानाम ताना।',
       phoneticLatin: 'Daah nyu sanam tana.',
       audio: 'Daah nyu sanam tana',
     },
     santhali: {
       nativeOlChiki: 'ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ᱾',
       nativeDeva: 'दाग ञुञ चालाग-आ।',
-      phoneticDeva: 'दाग ञुञ चालाग-आ。',
+      phoneticDeva: 'दाग ञुञ चालाग-आ।',
       phoneticLatin: 'Dak nyunj chalag-a.',
       audio: 'Dak nyunj chalag-a',
     },
@@ -225,6 +233,7 @@ export const STUDENT_TO_TEACHER_PHRASES = [
   {
     id: 'stu_2',
     hindiMeaning: 'मुझे समझ नहीं आया, दोबारा बताइए।',
+    englishMeaning: 'I did not understand, please explain again.',
     ho: {
       native: 'अयिङ काईङ बुझाउकेदा।',
       phoneticDeva: 'अयिङ काईङ बुझाउकेदा।',
@@ -254,22 +263,23 @@ export const STUDENT_TO_TEACHER_PHRASES = [
   {
     id: 'stu_3',
     hindiMeaning: 'मेरी स्लेट / कॉपी देख लीजिए।',
+    englishMeaning: 'Please check my slate / notebook.',
     ho: {
       native: 'अयिङ-आ स्लेट नेल तायेम।',
-      phoneticDeva: 'अयिङ-आ स्लेट नेल तायेम。',
+      phoneticDeva: 'अयिङ-आ स्लेट नेल तायेम।',
       phoneticLatin: 'Aying-a slate nel tayem.',
       audio: 'Aying-a slate nel tayem',
     },
     mundari: {
-      native: 'आइङ-आह पुथी नेलेमे。',
-      phoneticDeva: 'आइङ-आह पुथी नेलेमे。',
+      native: 'आइङ-आह पुथी नेलेमे।',
+      phoneticDeva: 'आइङ-आह पुथी नेलेमे।',
       phoneticLatin: 'Aing-aah puthi nele-eme.',
       audio: 'Aing aah puthi nele eme',
     },
     santhali: {
       nativeOlChiki: 'ᱤᱧᱟᱜ ᱠᱷᱟᱛᱟ ᱧᱮᱞ ᱢᱮ᱾',
-      nativeDeva: 'इञाग खाता ञेल मे。',
-      phoneticDeva: 'इञाग खाता ञेल मे。',
+      nativeDeva: 'इञाग खाता ञेल मे।',
+      phoneticDeva: 'इञाग खाता ञेल मे।',
       phoneticLatin: 'Inyaq khata nyel me.',
       audio: 'Inyaq khata nyel me',
     },
@@ -283,22 +293,23 @@ export const STUDENT_TO_TEACHER_PHRASES = [
   {
     id: 'stu_4',
     hindiMeaning: 'मुझे पेट दर्द / बुखार हो रहा है।',
+    englishMeaning: 'I have stomach ache / fever.',
     ho: {
       native: 'अयिङ लाज हासूतानय।',
-      phoneticDeva: 'अयिङ लाज हासूतानय。',
+      phoneticDeva: 'अयिङ लाज हासूतानय।',
       phoneticLatin: 'Aying laj hasutanay.',
       audio: 'Aying laj hasutanay',
     },
     mundari: {
-      native: 'आइङ लाज हासूताङा。',
-      phoneticDeva: 'आइङ लाज हासूताङा。',
+      native: 'आइङ लाज हासूताङा।',
+      phoneticDeva: 'आइङ लाज हासूताङा।',
       phoneticLatin: 'Aing laj hasutanga.',
       audio: 'Aing laj hasutanga',
     },
     santhali: {
       nativeOlChiki: 'ᱤᱧ ᱞᱟᱡ ᱦᱟᱹᱥᱩᱭᱤᱧ ᱠᱟᱱᱟ᱾',
-      nativeDeva: 'इञ लाज हासुइञ काना。',
-      phoneticDeva: 'इञ लाज हासुइञ काना。',
+      nativeDeva: 'इञ लाज हासुइञ काना।',
+      phoneticDeva: 'इञ लाज हासुइञ काना।',
       phoneticLatin: 'Inj laj hasuyinj kana.',
       audio: 'Inj laj hasuyinj kana',
     },

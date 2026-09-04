@@ -21,23 +21,26 @@ import { translateHindiToTribal, getContextualSuggestions } from '../services/nl
 import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { STUDENT_TO_TEACHER_PHRASES } from '../data/classroomPhrases';
+import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { toast } from 'sonner';
 
-// High-frequency 1-Tap classroom action prompts for rural teachers
-const ONE_TAP_CLASSROOM_PROMPTS = [
-  { id: 'otp_1', icon: '📖', label: 'किताब खोलो', phrase: 'किताब खोलो और पाठ एक पढ़ो।' },
-  { id: 'otp_2', icon: '🪑', label: 'अपनी जगह बैठो', phrase: 'अपनी जगह पर बैठ जाओ।' },
-  { id: 'otp_3', icon: '🌟', label: 'शाबाश / बहुत अच्छा', phrase: 'शाबाश, तुमने बहुत अच्छा किया।' },
-  { id: 'otp_4', icon: '💧', label: 'पानी पीने जाओ', phrase: 'हाँ, जाओ पानी पीकर तुरंत आओ।' },
-  { id: 'otp_5', icon: '🤫', label: 'शांत रहो और सुनो', phrase: 'शान्त रहो और सुनो।' },
-  { id: 'otp_6', icon: '✍️', label: 'स्लेट पर लिखो', phrase: 'स्लेट पर लिखकर दिखाओ।' },
-  { id: 'otp_7', icon: '🤝', label: 'नमस्ते / जोहार', phrase: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?' },
-  { id: 'otp_8', icon: '🍛', label: 'मध्याह्न भोजन (MDM)', phrase: 'हाथ धोकर मध्याह्न भोजन करो।' },
-];
+export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
+  const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
+  const isEn = uiLang === 'en';
 
-export function VoiceTranslator({ selectedLang }) {
+  const ONE_TAP_CLASSROOM_PROMPTS = [
+    { id: 'otp_1', icon: '📖', label: t.otp_1_label, phrase: t.otp_1_phrase },
+    { id: 'otp_2', icon: '🪑', label: t.otp_2_label, phrase: t.otp_2_phrase },
+    { id: 'otp_3', icon: '🌟', label: t.otp_3_label, phrase: t.otp_3_phrase },
+    { id: 'otp_4', icon: '💧', label: t.otp_4_label, phrase: t.otp_4_phrase },
+    { id: 'otp_5', icon: '🤫', label: t.otp_5_label, phrase: t.otp_5_phrase },
+    { id: 'otp_6', icon: '✍️', label: t.otp_6_label, phrase: t.otp_6_phrase },
+    { id: 'otp_7', icon: '🤝', label: t.otp_7_label, phrase: t.otp_7_phrase },
+    { id: 'otp_8', icon: '🍛', label: t.otp_8_label, phrase: t.otp_8_phrase },
+  ];
+
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student'); // 'teacher_to_student' | 'student_to_teacher'
-  const [inputText, setInputText] = useState('नमस्ते / जोहार');
+  const [inputText, setInputText] = useState(isEn ? 'Hello / Johar' : 'नमस्ते / जोहार');
   const [isRecording, setIsRecording] = useState(false);
   const [translationResult, setTranslationResult] = useState(null);
   const [history, setHistory] = useState([]);
@@ -253,7 +256,7 @@ export function VoiceTranslator({ selectedLang }) {
             }}
           >
             <School size={16} />
-            <span>🗣️ शिक्षक ➔ कक्षा स्पीकर (One-Tap Speak)</span>
+            <span>{t.modeTeacherToStudent}</span>
           </button>
           <button
             onClick={() => setDialogueMode('student_to_teacher')}
@@ -274,13 +277,13 @@ export function VoiceTranslator({ selectedLang }) {
             }}
           >
             <User size={16} />
-            <span>👂 छात्र ➔ शिक्षक (Reverse Ear)</span>
+            <span>{t.modeStudentToTeacher}</span>
           </button>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* MODE 1: TEACHER SPEAKS HINDI -> TRIBAL CLASSROOM BROADCAST (PURE & SIMPLE) */}
+      {/* MODE 1: TEACHER SPEAKS -> TRIBAL CLASSROOM BROADCAST (PURE & SIMPLE)      */}
       {/* ========================================================================= */}
       {dialogModeIsTeacher && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -327,9 +330,9 @@ export function VoiceTranslator({ selectedLang }) {
                 <>
                   <MicOff size={32} className="audio-pulse" />
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '1.35rem' }}>🔴 सुन रहे हैं... (रोकने हेतु यहाँ दबाएं)</div>
+                    <div style={{ fontSize: '1.35rem' }}>{t.tapToSpeakRec}</div>
                     <div style={{ fontSize: '0.86rem', fontWeight: 400, opacity: 0.95 }}>
-                      सामान्य हिंदी में बोलें — रोकते ही तुरंत {langMeta.name} में स्पीकर पर गूंजेगा
+                      {t.tapToSpeakSubRec.replace('{lang}', langMeta.name)}
                     </div>
                   </div>
                 </>
@@ -337,9 +340,9 @@ export function VoiceTranslator({ selectedLang }) {
                 <>
                   <Mic size={32} />
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '1.35rem' }}>🎙️ यहाँ दबाकर बोलें (Tap to Speak)</div>
+                    <div style={{ fontSize: '1.35rem' }}>{t.tapToSpeakIdle}</div>
                     <div style={{ fontSize: '0.86rem', fontWeight: 400, opacity: 0.95 }}>
-                      हिंदी में बोलें — सीधे कक्षा स्पीकर पर {langMeta.name} में गूंजेगा
+                      {t.tapToSpeakSubIdle.replace('{lang}', langMeta.name)}
                     </div>
                   </div>
                 </>
@@ -359,9 +362,9 @@ export function VoiceTranslator({ selectedLang }) {
                   gap: '12px',
                 }}
               >
-                {/* Hindi Source */}
+                {/* Source utterance */}
                 <div style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)' }}>
-                  आपने बोला: <strong style={{ color: 'var(--color-slate)' }}>"{inputText}"</strong>
+                  {t.youSpoke} <strong style={{ color: 'var(--color-slate)' }}>"{inputText}"</strong>
                 </div>
 
                 {/* Big Tribal Translation */}
@@ -390,7 +393,7 @@ export function VoiceTranslator({ selectedLang }) {
                   }}
                 >
                   <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#523702' }}>
-                    🗣️ ऐसे बोलें: <span style={{ color: 'var(--color-palash)' }}>{translationResult.phoneticDeva}</span>
+                    {t.pronounceAs} <span style={{ color: 'var(--color-palash)' }}>{translationResult.phoneticDeva}</span>
                     <span style={{ fontSize: '0.85rem', color: '#71717A', fontWeight: 500, marginLeft: '8px' }}>
                       ({translationResult.phoneticLatin})
                     </span>
@@ -417,7 +420,7 @@ export function VoiceTranslator({ selectedLang }) {
                     }}
                   >
                     <Volume2 size={18} className={isPlayingAudio ? 'audio-pulse' : ''} />
-                    <span>🔊 दोबारा स्पीकर पर सुनाएं</span>
+                    <span>{t.replaySpeaker}</span>
                   </button>
                 </div>
               </div>
@@ -439,7 +442,7 @@ export function VoiceTranslator({ selectedLang }) {
           >
             <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>⚡</span>
-              <span>कक्षा में तुरंत बोलने वाले 8 आम निर्देश (टैप करते ही स्पीकर पर बोलेगा):</span>
+              <span>{t.quickCommandsTitle}</span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px' }}>
@@ -498,7 +501,7 @@ export function VoiceTranslator({ selectedLang }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '1.1rem' }}>✍️</span>
                 <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-slate)' }}>
-                  मैन्युअल वाक्य टाइपिंग व अतिरिक्त FLN वाक्यांश (Manual Text Typing & Full Syllabus)
+                  {t.manualInputTitle}
                 </span>
               </div>
               <ChevronDown
@@ -513,7 +516,7 @@ export function VoiceTranslator({ selectedLang }) {
             {showAdvancedInput && (
               <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <p style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-                  यदि आप कोई विशिष्ट पाठ या लंबा वाक्य अनुवाद करना चाहते हैं, तो नीचे टाइप करके अनुवाद करें:
+                  {t.manualInputSubtext}
                 </p>
 
                 <form onSubmit={handleSubmitCustom} style={{ display: 'flex', gap: '10px' }}>
@@ -524,7 +527,7 @@ export function VoiceTranslator({ selectedLang }) {
                       setInputText(e.target.value);
                       handleTranslate(e.target.value);
                     }}
-                    placeholder="कस्टम हिंदी वाक्य लिखें (उदा: सभी बच्चे अपनी स्लेट निकालें)..."
+                    placeholder={t.manualInputPlaceholder}
                     style={{
                       flex: 1,
                       padding: '10px 14px',
@@ -541,14 +544,14 @@ export function VoiceTranslator({ selectedLang }) {
                     style={{ padding: '10px 18px', display: 'flex', alignItems: 'center', gap: '6px' }}
                   >
                     <Send size={16} />
-                    <span>अनुवाद</span>
+                    <span>{t.translateBtn}</span>
                   </button>
                 </form>
 
                 {/* Additional Quick Syllabus Chips */}
                 <div>
                   <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-slate-muted)', marginBottom: '6px' }}>
-                    अतिरिक्त FLN सुझाव (Full Lexicon Suggestions):
+                    {t.extraFLNSuggestions}
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {quickSuggestions.map((item, idx) => (
@@ -581,7 +584,7 @@ export function VoiceTranslator({ selectedLang }) {
       )}
 
       {/* ========================================================================= */}
-      {/* MODE 2: STUDENT SPEAKS TRIBAL -> HINDI FOR TEACHER (REVERSE EAR)         */}
+      {/* MODE 2: STUDENT SPEAKS TRIBAL -> HINDI/ENGLISH FOR TEACHER (REVERSE EAR) */}
       {/* ========================================================================= */}
       {!dialogModeIsTeacher && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
@@ -591,14 +594,14 @@ export function VoiceTranslator({ selectedLang }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '1.4rem' }}>🧒</span>
                 <h2 style={{ fontSize: '1.35rem', margin: 0, color: '#8C5F08' }}>
-                  छात्र मातृभाषा संवाद ({langMeta.name})
+                  {t.studentDialogueTitle} ({langMeta.name})
                 </h2>
               </div>
-              <span className="badge-tag badge-palash">छात्र प्रत्युत्तर</span>
+              <span className="badge-tag badge-palash">{t.studentDialogueBadge}</span>
             </div>
 
             <p style={{ fontSize: '0.85rem', color: '#523702', margin: '0 0 16px 0' }}>
-              कक्षा में जब आदिवासी छात्र अपनी मातृभाषा में बात करें, तो उस वाक्य पर टैप करें या छात्र से माइक में बोलने को कहें:
+              {t.studentDialoguePrompt}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -631,14 +634,14 @@ export function VoiceTranslator({ selectedLang }) {
                         उच्चारण: {tribalInfo.phoneticDeva}
                       </div>
                     </div>
-                    <span className="badge-tag badge-forest">अनुवाद करें ➔</span>
+                    <span className="badge-tag badge-forest">{t.translateStudentBtn}</span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Right Column: Hindi Interpretation for Teacher */}
+          {/* Right Column: Interpretation for Teacher */}
           <div
             className="card-brutal"
             style={{
@@ -653,11 +656,11 @@ export function VoiceTranslator({ selectedLang }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                 <School size={20} color="var(--color-forest)" />
                 <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-forest)' }}>
-                  शिक्षक व्याख्या (Hindi Interpretation)
+                  {t.teacherInterpretationTitle}
                 </h2>
               </div>
               <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)' }}>
-                छात्र द्वारा मातृभाषा में कही गई बात का तुरंत हिंदी अर्थ और ध्वनि:
+                {t.teacherInterpretationPrompt}
               </p>
 
               <div
@@ -671,11 +674,10 @@ export function VoiceTranslator({ selectedLang }) {
                 }}
               >
                 <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase' }}>
-                  छात्र का आशय (Meaning for Teacher):
+                  {t.studentIntentLabel}
                 </div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-slate)', margin: '10px 0' }}>
-                  {history.find((h) => h.direction === 'student')?.targetText ||
-                    'बाएं से छात्र का वाक्य चुनें या माइक में बोलने दें...'}
+                  {history.find((h) => h.direction === 'student')?.targetText || t.studentIntentEmpty}
                 </div>
               </div>
 
@@ -684,9 +686,9 @@ export function VoiceTranslator({ selectedLang }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span>🗣️</span>
-                    <span>शिक्षक का स्वतंत्र उत्तर (Teacher's Autonomous Response):</span>
+                    <span>{t.autonomousReplyTitle}</span>
                   </div>
-                  <span className="badge-tag badge-forest">शिक्षक की स्वायत्तता</span>
+                  <span className="badge-tag badge-forest">{t.autonomousBadge}</span>
                 </div>
 
                 <div
@@ -699,7 +701,7 @@ export function VoiceTranslator({ selectedLang }) {
                     color: 'var(--color-slate-muted)',
                   }}
                 >
-                  💡 <strong>शिक्षक को पूर्ण स्वतंत्रता:</strong> AI शिक्षक का उत्तर तय नहीं करेगा। छात्र की बात सुनकर शिक्षक जो भी बोलना या निर्देश देना चाहें, अपनी हिंदी में बोलें या टाइप करें — सिस्टम तुरंत उसे छात्र की मातृभाषा <strong>({langMeta.name})</strong> में अनुवाद कर कक्षा स्पीकर पर सुनाएगा।
+                  {t.autonomousHint}
                 </div>
 
                 {/* Speak Response Button */}
@@ -722,12 +724,12 @@ export function VoiceTranslator({ selectedLang }) {
                   {isReplyingMic ? (
                     <>
                       <MicOff size={20} className="audio-pulse" />
-                      <span>सुन रहे हैं... (रोकने हेतु पुनः दबाएं)</span>
+                      <span>{t.speakReplyListening}</span>
                     </>
                   ) : (
                     <>
                       <Mic size={20} />
-                      <span>🎙️ अपना उत्तर बोलें (Speak Your Response in Hindi)</span>
+                      <span>{t.speakReplyBtn}</span>
                     </>
                   )}
                 </button>
@@ -738,7 +740,7 @@ export function VoiceTranslator({ selectedLang }) {
                     type="text"
                     value={teacherReplyText}
                     onChange={(e) => setTeacherReplyText(e.target.value)}
-                    placeholder="या अपना स्वतंत्र उत्तर यहाँ लिखें (उदा: ठीक है, 2 मिनट बाद जाना / अभी कॉपी दिखाओ)..."
+                    placeholder={t.replyPlaceholder}
                     style={{
                       flex: 1,
                       padding: '10px 14px',
@@ -755,7 +757,7 @@ export function VoiceTranslator({ selectedLang }) {
                     style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '6px' }}
                   >
                     <Send size={16} />
-                    <span>सुनाएं</span>
+                    <span>{t.replySpeakSubmit}</span>
                   </button>
                 </form>
               </div>
@@ -781,8 +783,8 @@ export function VoiceTranslator({ selectedLang }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MessageSquare size={18} color="var(--color-forest)" />
-            <h3 style={{ fontSize: '1.15rem', margin: 0 }}>कक्षा संवाद लॉग (Classroom Interaction Log)</h3>
-            <span className="badge-tag badge-ochre">{history.length} प्रविष्टियाँ</span>
+            <h3 style={{ fontSize: '1.15rem', margin: 0 }}>{t.dialogueLogTitle}</h3>
+            <span className="badge-tag badge-ochre">{history.length} {t.entriesCount}</span>
           </div>
 
           <button
@@ -791,13 +793,13 @@ export function VoiceTranslator({ selectedLang }) {
             style={{ padding: '8px 14px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
             <FileDown size={15} />
-            <span>MicroSD / पेनड्राइव लॉग निर्यात (CSV)</span>
+            <span>{t.exportCsvBtn}</span>
           </button>
         </div>
 
         {history.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '20px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
-            ऊपर माइक बटन दबाकर बोलें या 1-टैप निर्देश चुनें। यहाँ कक्षा संवाद स्वतः दर्ज होता रहेगा।
+            {t.emptyLogText}
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '240px', overflowY: 'auto' }}>
@@ -817,7 +819,7 @@ export function VoiceTranslator({ selectedLang }) {
               >
                 <div>
                   <span style={{ fontWeight: 700, marginRight: '8px' }}>
-                    {item.direction === 'teacher' ? '👨‍🏫 शिक्षक:' : '🧒 छात्र:'}
+                    {item.direction === 'teacher' ? t.roleTeacher : t.roleStudent}
                   </span>
                   <span>"{item.sourceText}"</span>
                   <span style={{ margin: '0 8px', color: 'var(--color-slate-muted)' }}>➔</span>
@@ -842,3 +844,4 @@ export function VoiceTranslator({ selectedLang }) {
     </div>
   );
 }
+

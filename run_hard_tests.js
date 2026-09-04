@@ -2,6 +2,7 @@ import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from './src/data/tribalLexicon.js';
 import { translateHindiToTribal } from './src/services/nlpTranslationEngine.js';
 import { offlineStorage } from './src/services/offlineStorage.js';
 import { NIPUN_LESSONS } from './src/data/nipunCurriculum.js';
+import { UI_TRANSLATIONS } from './src/data/uiTranslations.js';
 
 console.log('================================================================================');
 console.log('SARJOM (सरजोम) — HARD AUTOMATED TEST SUITE & HARDWARE BENCHMARKS');
@@ -65,6 +66,11 @@ const testQueries = [
   { text: 'शाबाश / बहुत अच्छा!', expectedLang: 'sadri' },
   { text: 'नमस्ते / जोहार', expectedLang: 'sadri' },
   { text: 'तुम्हारा नाम क्या है?', expectedLang: 'sadri' },
+  // Bilingual English queries
+  { text: 'Open book', expectedLang: 'ho' },
+  { text: 'Sit down', expectedLang: 'santhali' },
+  { text: 'Come here', expectedLang: 'mundari' },
+  { text: 'Well done', expectedLang: 'sadri' },
 ];
 
 let nlpAccuracyCount = 0;
@@ -166,6 +172,18 @@ assert(offlineStorage.getSelectedLanguage() === 'ho', 'Language preference succe
 
 offlineStorage.setOfflineMode(true);
 assert(offlineStorage.getOfflineMode() === true, 'Offline mode toggle state correctly persisted');
+
+offlineStorage.setUILanguage('en');
+assert(offlineStorage.getUILanguage() === 'en', 'English UI language preference successfully persisted in offline storage');
+
+offlineStorage.setUILanguage('hi');
+assert(offlineStorage.getUILanguage() === 'hi', 'Hindi UI language preference successfully persisted in offline storage');
+
+assert(
+  UI_TRANSLATIONS.hi && UI_TRANSLATIONS.en &&
+  Object.keys(UI_TRANSLATIONS.hi).length === Object.keys(UI_TRANSLATIONS.en).length,
+  `Bilingual UI Dictionary is symmetric across Hindi & English (${Object.keys(UI_TRANSLATIONS.en).length} UI keys mapped)`
+);
 
 // -----------------------------------------------------------------------------
 // TEST SUITE 6: HARDWARE FOOTPRINT & RAM BUDGET AUDIT

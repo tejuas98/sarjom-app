@@ -78,20 +78,23 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
 
   let result = null;
 
-  // 1. Semantic Vector Cosine Similarity Match (Threshold >= 0.62)
+  // 1. Semantic Vector Cosine Similarity Match (Threshold >= 0.58)
   let bestSemanticMatch = null;
   let highestSimilarity = 0;
 
   for (const phrase of CLASSROOM_PHRASES) {
-    const targetVec = vectorizeText(phrase.hindi);
-    const sim = computeCosineSimilarity(inputVec, targetVec);
+    const targetVecHindi = vectorizeText(phrase.hindi);
+    const simHindi = computeCosineSimilarity(inputVec, targetVecHindi);
+    const targetVecEng = phrase.english ? vectorizeText(phrase.english) : null;
+    const simEng = targetVecEng ? computeCosineSimilarity(inputVec, targetVecEng) : 0;
+    const sim = Math.max(simHindi, simEng);
     if (sim > highestSimilarity) {
       highestSimilarity = sim;
       bestSemanticMatch = phrase;
     }
   }
 
-  if (highestSimilarity >= 0.62 && bestSemanticMatch) {
+  if (highestSimilarity >= 0.58 && bestSemanticMatch) {
     const langData = bestSemanticMatch[targetLang] || bestSemanticMatch.sadri || bestSemanticMatch.santhali || bestSemanticMatch.mundari || bestSemanticMatch.ho;
     if (langData) {
       result = {
@@ -127,11 +130,16 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
     }
   }
 
-  // 3. Match in lexical dictionary entries
+  // 3. Match in lexical dictionary entries (Bilingual Hindi & English)
   if (!result) {
     for (const item of TRIBAL_LEXICON) {
       const hNormalized = normalizeHindi(item.hindi);
-      if (hNormalized === normalized || normalized.includes(hNormalized)) {
+      const eNormalized = item.english ? normalizeHindi(item.english) : '';
+      if (
+        hNormalized === normalized ||
+        normalized.includes(hNormalized) ||
+        (eNormalized && (eNormalized === normalized || normalized.includes(eNormalized) || eNormalized.includes(normalized)))
+      ) {
         const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
         if (data) {
           result = {
