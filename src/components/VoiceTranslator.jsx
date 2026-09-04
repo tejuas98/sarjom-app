@@ -17,6 +17,9 @@ import {
   CheckCircle2,
   Zap,
   Radio,
+  Wrench,
+  AlertCircle,
+  Check,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -87,9 +90,86 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [history, setHistory] = useState(getInitialHistory);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [measuredLatency, setMeasuredLatency] = useState(42);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
+  const [diagData, setDiagData] = useState(null);
+  const [isCheckingPerm, setIsCheckingPerm] = useState(false);
 
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
   const isTeacherMode = dialogueMode === 'teacher_to_student';
+
+  const TEACHER_QUICK_PROMPTS = [
+    { text: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?', label: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?' },
+    { text: 'अपनी किताब खोलो और पाठ एक पढ़ो', label: 'अपनी किताब खोलो और पाठ एक पढ़ो' },
+    { text: 'सब बच्चे ध्यान से सुनो', label: 'सब बच्चे ध्यान से सुनो' },
+    { text: 'आज हम जंगल और नदी के बारे में पढ़ेंगे', label: 'आज हम जंगल और नदी के बारे में पढ़ेंगे' },
+  ];
+
+  const STUDENT_QUICK_PROMPTS = {
+    santhali: [
+      { text: 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ, ᱜᱩᱨᱩᱡᱤ!', label: 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ (We are fine)' },
+      { text: 'ᱡᱚᱦᱟᱨ ᱢᱟᱪᱮᱛ!', label: 'ᱡᱚᱦᱟᱨ ᱢᱟᱪᱮᱛ (Johar Teacher)' },
+      { text: 'ᱤᱧ ᱫᱟᱜ ᱧᱩ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ', label: 'ᱤᱧ ᱫᱟᱜ ᱧᱩ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ (Need water)' },
+      { text: 'ᱟᱞᱮ ᱯᱟᱲᱦᱟᱣ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ', label: 'ᱟᱞᱮ ᱯᱟᱲᱦᱟᱣ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ (Want to study)' },
+    ],
+    ho: [
+      { text: 'हमे मन बेस अही, गुरुजी!', label: 'हमे मन बेस अही, गुरुजी! (We are fine)' },
+      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
+      { text: 'अले हातु-ते सेनोगाः', label: 'अले हातु-ते सेनोगाः (Going to village)' },
+      { text: 'दाः गामा-ए', label: 'दाः गामा-ए (It is raining)' },
+    ],
+    mundari: [
+      { text: 'आले बेस गे मेनागा, गुरुजी!', label: 'आले बेस गे मेनागा, गुरुजी! (We are fine)' },
+      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
+      { text: 'इन्गाः अजि गापा हिजुगाः', label: 'इन्गाः अजि गापा हिजुगाः (Sister coming)' },
+      { text: 'लोएयोंग अते बुबा जोम', label: 'लोएयोंग अते बुबा जोम (Field rice)' },
+    ],
+    sadri: [
+      { text: 'हमरे मन बेस आही, गुरुजी!', label: 'हमरे मन बेस आही, गुरुजी! (We are fine)' },
+      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
+      { text: 'किताब खोलत ही', label: 'किताब खोलत ही (Opening book)' },
+      { text: 'पानी बरसत हे', label: 'पानी बरसत हे (It is raining)' },
+    ],
+  };
+
+  const activePrompts = isTeacherMode
+    ? TEACHER_QUICK_PROMPTS
+    : (STUDENT_QUICK_PROMPTS[selectedLang] || STUDENT_QUICK_PROMPTS.santhali);
+
+  const runDiagnostics = async () => {
+    const data = await voiceService.getDiagnostics();
+    setDiagData(data);
+  };
+
+  const handleRequestPermission = async () => {
+    setIsCheckingPerm(true);
+    const res = await voiceService.requestMicPermission();
+    setIsCheckingPerm(false);
+    if (res.status === 'granted') {
+      toast.success(isEn ? 'Hardware microphone permission granted!' : 'माइक्रोफ़ोन हार्डवेयर अनुमति स्वीकृत!');
+    } else {
+      toast.error(res.message);
+    }
+    await runDiagnostics();
+  };
+
+  const handleSimulateSpeech = (utteranceText) => {
+    setIsRecording(true);
+    setInputText(utteranceText);
+    toast.info(isEn ? `Classroom Speech: "${utteranceText}"` : `कक्षा भाषण: "${utteranceText}"`);
+    voiceService.playChime('listen');
+
+    setTimeout(() => {
+      setIsRecording(false);
+      const res = executeTranslation(utteranceText);
+      if (res) {
+        const textToBroadcast = isTeacherMode
+          ? (res.audioText || res.phoneticDeva)
+          : (res.hindiTranslation || res.nativeScript);
+        handleSpeakAudio(textToBroadcast, res.nativeScript);
+        addToHistory(utteranceText, res, isTeacherMode ? 'teacher' : 'student');
+      }
+    }, 250);
+  };
 
   // Persist history to localStorage
   useEffect(() => {
@@ -141,12 +221,14 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
-  const handleStartMic = () => {
+  const handleStartMic = async () => {
     setIsRecording(true);
-    toast(
+    const recognitionLang = isTeacherMode ? 'hi-IN' : 'hi-IN';
+
+    toast.info(
       isEn
         ? isTeacherMode
-          ? 'Microphone active: Speak in Hindi or English...'
+          ? 'Microphone active: Speak in Hindi...'
           : `Student microphone active: Speak in ${langMeta.name}...`
         : isTeacherMode
         ? 'माइक्रोफ़ोन सक्रिय: हिंदी में बोलें...'
@@ -172,8 +254,33 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       },
       (error) => {
         setIsRecording(false);
-        toast.error(isEn ? 'Microphone error: Type text below instead' : 'माइक्रोफ़ोन स्थिति: कृपया नीचे टेक्स्ट टाइप करें');
-      }
+        if (error.code === 'not-allowed') {
+          toast.error(
+            isEn
+              ? 'Microphone permission blocked. Click "Mic Diagnostics" to grant permission.'
+              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। अनुमति देने के लिए "माइक जाँच" पर क्लिक करें।'
+          );
+          setShowDiagnostics(true);
+          runDiagnostics();
+        } else if (error.code === 'network') {
+          toast.warning(
+            isEn
+              ? 'Speech service offline/in simulator. Click any speech prompt below to test speech!'
+              : 'सिम्युलेटर में क्लाउड स्पीच ऑफ़लाइन है। त्वरित परीक्षण हेतु नीचे दिए गए किसी भी वाक्य पर क्लिक करें!'
+          );
+        } else if (error.code === 'not-supported') {
+          toast.warning(
+            isEn
+              ? 'Web Speech API is not supported in this browser. Quick speech prompts active.'
+              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। त्वरित भाषण वाक्य सक्रिय हैं।'
+          );
+        } else if (error.code === 'no-speech') {
+          toast.info(isEn ? 'No voice detected. Please speak closer to the mic.' : 'कोई आवाज़ नहीं सुनाई दी। कृपया माइक के पास बोलें।');
+        } else {
+          toast.error(error.message || 'Microphone error');
+        }
+      },
+      recognitionLang
     );
   };
 
@@ -376,6 +483,33 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             </div>
 
             <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const next = !showDiagnostics;
+                  setShowDiagnostics(next);
+                  if (next) runDiagnostics();
+                }}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.70rem',
+                  padding: '3px 10px',
+                  borderRadius: '999px',
+                  backgroundColor: showDiagnostics ? 'var(--color-palash)' : 'var(--color-surface-tint)',
+                  color: showDiagnostics ? '#FFFFFF' : 'var(--color-slate)',
+                  border: '1px solid var(--color-border)',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  transition: 'all 0.15s ease',
+                }}
+                title={isEn ? 'Microphone & Audio Hardware Diagnostics' : 'माइक्रोफ़ोन एवं ऑडियो हार्डवेयर जाँच'}
+              >
+                <Wrench size={11} />
+                <span>{isEn ? 'Mic Diagnostics' : 'माइक जाँच'}</span>
+              </button>
+
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
@@ -404,6 +538,96 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </span>
             </div>
           </div>
+
+          {/* Interactive Microphone Diagnostics Drawer */}
+          {showDiagnostics && (
+            <div
+              style={{
+                backgroundColor: 'var(--color-surface-card)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '14px 16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                fontSize: '0.80rem',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <strong style={{ color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Wrench size={14} color="var(--color-palash)" />
+                  {isEn ? 'Microphone & Speech Diagnostics' : 'माइक्रोफ़ोन एवं वाक पहचान जाँच'}
+                </strong>
+                <span style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
+                  Channel: {isTeacherMode ? 'Teacher (Hindi hi-IN)' : `Student (${langMeta.name})`}
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
+                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)' }}>
+                  <div style={{ color: 'var(--color-slate-muted)', fontSize: '0.72rem' }}>Hardware Mic Permission:</div>
+                  <div style={{ fontWeight: 700, marginTop: '2px', color: diagData?.micPermission === 'granted' ? '#16A34A' : diagData?.micPermission === 'denied' ? '#DC2626' : 'var(--color-palash)' }}>
+                    {diagData?.micPermission === 'granted' ? '✓ Granted (सक्रिय)' : diagData?.micPermission === 'denied' ? '✗ Denied (अवरुद्ध)' : 'Ready / Prompt (तैयार)'}
+                  </div>
+                </div>
+
+                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)' }}>
+                  <div style={{ color: 'var(--color-slate-muted)', fontSize: '0.72rem' }}>Speech Recognition Engine:</div>
+                  <div style={{ fontWeight: 700, marginTop: '2px', color: diagData?.hasSpeechRecognition ? '#16A34A' : 'var(--color-palash)' }}>
+                    {diagData?.hasSpeechRecognition ? '✓ Web Speech API Supported' : '⚠ Simulator / Offline Mode (Speech Prompts Ready)'}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', paddingTop: '4px' }}>
+                <button
+                  type="button"
+                  onClick={handleRequestPermission}
+                  disabled={isCheckingPerm}
+                  style={{
+                    padding: '6px 12px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: 'var(--color-slate)',
+                    color: 'var(--color-bg)',
+                    border: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {isCheckingPerm ? (isEn ? 'Checking...' : 'जाँच जारी...') : (isEn ? 'Grant / Verify Mic Access' : 'माइक्रोफ़ोन अनुमति सत्यापित करें')}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    voiceService.playChime('success');
+                    voiceService.speakText(
+                      isTeacherMode ? 'नमस्ते, सरजोम ऑडियो कार्यरत है।' : 'जोहार, सरजोम ऑडियो कार्यरत है।',
+                      'hi-IN'
+                    );
+                    toast.success(isEn ? 'Audio Chime & Speaker Verified!' : 'ऑडियो चाइम एवं स्पीकर सत्यापित!');
+                  }}
+                  style={{
+                    padding: '6px 12px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: 'var(--color-surface-tint)',
+                    color: 'var(--color-slate)',
+                    border: '1px solid var(--color-border)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <Volume2 size={12} />
+                  <span>{isEn ? 'Test Speaker Output' : 'स्पीकर आउटपुट परीक्षण'}</span>
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Dedicated Hero Acoustic Microphone Stage (Pure Voice-First for Teachers & Students) */}
           <div
@@ -486,6 +710,68 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
             )}
+
+            {/* Quick Classroom Speech Prompts for Instant Debugging & Testing */}
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                alignItems: 'center',
+                marginTop: '6px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: 'var(--color-slate-muted)',
+                }}
+              >
+                {isTeacherMode
+                  ? (isEn ? 'Teacher Speech Prompts (Click to Test / Dictate):' : 'शिक्षक भाषण वाक्य (परीक्षण हेतु क्लिक करें):')
+                  : (isEn ? `${langMeta.name} Student Speech Prompts:` : `${langMeta.name} छात्र भाषण वाक्य:`)}
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '6px',
+                  justifyContent: 'center',
+                  maxWidth: '560px',
+                }}
+              >
+                {activePrompts.map((p, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleSimulateSpeech(p.text)}
+                    style={{
+                      padding: '5px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      borderRadius: 'var(--radius-pill)',
+                      backgroundColor: 'var(--color-surface-tint)',
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-slate)',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    title={isEn ? `Click to simulate speaking "${p.text}"` : `"${p.text}" बोलने का अनुकरण करें`}
+                  >
+                    <Mic size={11} color="var(--color-palash)" />
+                    <span>{p.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Live Translation Output Area (Rendered on card surface - No nested cards!) */}
