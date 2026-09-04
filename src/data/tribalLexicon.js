@@ -372,10 +372,10 @@ export const TRIBAL_LEXICON = [
       audioText: 'Besh te anjom me',
     },
     sadri: {
-      native: 'पानी पी लेवा।',
-      phoneticDeva: 'पानी पी लेवा।',
-      phoneticLatin: 'Pani pi lewa.',
-      audioText: 'Pani pi lewa',
+      native: 'ध्यान से सुना।',
+      phoneticDeva: 'ध्यान से सुना।',
+      phoneticLatin: 'Dhyan se suna.',
+      audioText: 'Dhyan se suna',
     },
   },
   {
