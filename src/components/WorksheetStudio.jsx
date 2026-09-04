@@ -8,16 +8,30 @@ import {
   Volume2,
   Check,
   CheckCircle2,
-  Sparkles,
+  XCircle,
   Star,
   RotateCcw,
   BookOpen,
   Hash,
   PenTool,
   Layers,
+  X,
+  HelpCircle,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
+
+// Color palettes for distinct matched pairs so students and teachers instantly see which matches which
+const PAIR_BADGES = [
+  { label: '①', bg: 'rgba(16, 185, 129, 0.15)', text: '#059669', border: 'rgba(16, 185, 129, 0.4)' },
+  { label: '②', bg: 'rgba(245, 158, 11, 0.15)', text: '#D97706', border: 'rgba(245, 158, 11, 0.4)' },
+  { label: '③', bg: 'rgba(59, 130, 246, 0.15)', text: '#2563EB', border: 'rgba(59, 130, 246, 0.4)' },
+  { label: '④', bg: 'rgba(139, 92, 246, 0.15)', text: '#7C3AED', border: 'rgba(139, 92, 246, 0.4)' },
+  { label: '⑤', bg: 'rgba(236, 72, 153, 0.15)', text: '#DB2777', border: 'rgba(236, 72, 153, 0.4)' },
+];
+
+// Counting illustrations (authentic rural/tribal items)
+const COUNT_ITEMS_ICONS = ['🍎', '🍃', '🌸', '🥭', '🐟', '🌳', '🐦', '⭐', '🥥', '🌻'];
 
 export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // Exercise type: 'matching' | 'numeracy' | 'fillblanks' | 'tracing'
@@ -25,11 +39,23 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   const [gradeLevel, setGradeLevel] = useState('grade1');
   const [seed, setSeed] = useState(1);
 
-  // Interactive state
-  const [matchingSelectedLeft, setMatchingSelectedLeft] = useState(null);
+  // 1. Matching state (Bidirectional, pair tracking, shake animation)
+  // activeSelection: { side: 'left' | 'right', item }
+  const [activeSelection, setActiveSelection] = useState(null);
   const [matchedPairs, setMatchedPairs] = useState({}); // { [leftId]: rightId }
-  const [interactiveAnswers, setInteractiveAnswers] = useState({});
+  const [pairColorMap, setPairColorMap] = useState({}); // { [leftId]: PAIR_BADGES[index] }
+  const [shakeCardId, setShakeCardId] = useState(null);
+
+  // 2. Numeracy / Counting state
+  const [numeracyAnswers, setNumeracyAnswers] = useState({}); // { [itemId]: selectedNumber }
+  const [tappedCounts, setTappedCounts] = useState({}); // { [itemId]: [1, 2, 3...] }
+
+  // 3. Sentence practice state
+  const [interactiveAnswers, setInteractiveAnswers] = useState({}); // { [qId]: selectedWord }
   const [isScoreEvaluated, setIsScoreEvaluated] = useState(false);
+
+  // 4. Script tracing state
+  const [practicedGlyphs, setPracticedGlyphs] = useState({});
 
   const isEn = uiLang === 'en';
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
@@ -47,10 +73,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
     return { native, phonetic, audio };
   };
 
-  // 1. Matching Items (Concrete nouns only)
+  // 1. Matching Items (5 concrete nouns)
   const matchingItems = useMemo(() => {
     const concrete = TRIBAL_LEXICON.filter((i) =>
-      ['animals', 'nature', 'family', 'numbers'].includes(i.category)
+      ['animals', 'nature', 'family', 'classroom'].includes(i.category)
     );
     const offset = (seed * 3) % Math.max(1, concrete.length - 4);
     return concrete.slice(offset, offset + 5);
@@ -59,19 +85,21 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // Shuffled right column for matching
   const matchingRightColumn = useMemo(() => {
     const list = [...matchingItems];
+    // Deterministic shuffle with seed
     return list.sort((a, b) => {
-      const hashA = (a.id.charCodeAt(0) + seed * 5) % 11;
-      const hashB = (b.id.charCodeAt(0) + seed * 5) % 11;
+      const hashA = (a.id.charCodeAt(0) * 17 + seed * 13) % 23;
+      const hashB = (b.id.charCodeAt(0) * 17 + seed * 13) % 23;
       return hashA - hashB;
     });
   }, [matchingItems, seed]);
 
-  // 2. Numeracy Items (Numbers 1-5 or 1-10)
+  // 2. Numeracy Items (Numbers 1-5 for Grade 1, 1-10 for Grade 2/3)
   const numberItems = useMemo(() => {
-    const nums = TRIBAL_LEXICON.filter((i) => i.category === 'numbers' && i.numeral <= 10);
+    const maxNum = gradeLevel === 'grade1' ? 5 : 10;
+    const nums = TRIBAL_LEXICON.filter((i) => i.category === 'numbers' && i.numeral <= maxNum);
     const offset = (seed * 2) % Math.max(1, nums.length - 4);
-    return nums.slice(offset, offset + 5);
-  }, [seed]);
+    return nums.slice(offset, offset + Math.min(5, nums.length));
+  }, [seed, gradeLevel]);
 
   // 3. Sentence Practice contextual questions
   const sentenceQuestions = useMemo(() => {
@@ -216,101 +244,298 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   const tracingGlyphs = useMemo(() => {
     if (selectedLang === 'santhali') {
       return [
-        { char: 'ᱚ', name: 'La (Vowel 1)', sound: 'A / La' },
-        { char: 'ᱛ', name: 'At (Consonant)', sound: 'Ta / At' },
-        { char: 'ᱜ', name: 'Ag (Guttural)', sound: 'Ga / Ag' },
-        { char: 'ᱝ', name: 'Ang (Nasal)', sound: 'Nga / Ang' },
+        { char: 'ᱚ', name: 'La (Vowel 1)', sound: 'A / La', guide: 'Stroke 1: Top loop ➔ Stroke 2: Down curve' },
+        { char: 'ᱛ', name: 'At (Consonant)', sound: 'Ta / At', guide: 'Stroke 1: Vertical line ➔ Stroke 2: Hook' },
+        { char: 'ᱜ', name: 'Ag (Guttural)', sound: 'Ga / Ag', guide: 'Stroke 1: Rounded cap ➔ Stroke 2: Stem' },
+        { char: 'ᱝ', name: 'Ang (Nasal)', sound: 'Nga / Ang', guide: 'Stroke 1: Loop ➔ Stroke 2: Right arc' },
       ];
     }
     if (selectedLang === 'ho') {
       return [
-        { char: '𑢹', name: 'Ho Ha', sound: 'Ha' },
-        { char: '𑣉', name: 'Ho O', sound: 'O' },
-        { char: '𑢵', name: 'Ho Da', sound: 'Da' },
-        { char: '𑢤', name: 'Ho Ba', sound: 'Ba' },
+        { char: '𑢹', name: 'Ho Ha', sound: 'Ha', guide: 'Warang Chiti: Horizontal bar ➔ Left drop' },
+        { char: '𑣉', name: 'Ho O', sound: 'O', guide: 'Warang Chiti: Circular eye ➔ Tail' },
+        { char: '𑢵', name: 'Ho Da', sound: 'Da', guide: 'Warang Chiti: Arch ➔ Bottom horizontal' },
+        { char: '𑢤', name: 'Ho Ba', sound: 'Ba', guide: 'Warang Chiti: Vertical stem ➔ Double curve' },
       ];
     }
     return [
-      { char: 'अ', name: 'स्वर (A)', sound: 'A' },
-      { char: 'क', name: 'व्यंजन (Ka)', sound: 'Ka' },
-      { char: 'म', name: 'व्यंजन (Ma)', sound: 'Ma' },
-      { char: 'द', name: 'व्यंजन (Da)', sound: 'Da' },
+      { char: 'अ', name: 'स्वर (A)', sound: 'A', guide: 'रेखा 1: अर्धगोलाकार ➔ रेखा 2: मध्य रेखा ➔ रेखा 3: खड़ी रेखा' },
+      { char: 'क', name: 'व्यंजन (Ka)', sound: 'Ka', guide: 'रेखा 1: खड़ी रेखा ➔ रेखा 2: गोला ➔ रेखा 3: वक्र' },
+      { char: 'म', name: 'व्यंजन (Ma)', sound: 'Ma', guide: 'रेखा 1: खड़ी रेखा ➔ रेखा 2: गांठ ➔ रेखा 3: आड़ी रेखा' },
+      { char: 'द', name: 'व्यंजन (Da)', sound: 'Da', guide: 'रेखा 1: छोटी रेखा ➔ रेखा 2: अर्धवृत्त ➔ रेखा 3: पूँछ' },
     ];
   }, [selectedLang]);
 
-  // Actions
+  // ==========================================================================
+  // ACTIONS & HANDLERS
+  // ==========================================================================
   const handleShuffle = () => {
     setSeed((prev) => prev + 1);
+    setActiveSelection(null);
     setMatchedPairs({});
-    setMatchingSelectedLeft(null);
+    setPairColorMap({});
+    setNumeracyAnswers({});
+    setTappedCounts({});
     setInteractiveAnswers({});
     setIsScoreEvaluated(false);
     toast.success(isEn ? 'Generated fresh exercise!' : 'नया अभ्यास तैयार किया गया!');
   };
 
   const handlePrint = () => {
-    toast.info(isEn ? 'Opening print dialog...' : 'प्रिंट संवाद खुल रहा है...');
+    toast.info(isEn ? 'Opening clean A4 printable view...' : 'प्रिंट / A4 संवाद खुल रहा है...');
     window.print();
   };
 
-  const handleSpeak = (text, label) => {
+  const handleSpeak = (text) => {
     voiceService.speakText(text, 'hi-IN');
   };
 
-  // Tap-to-pair matching handler
-  const handleLeftSelect = (item) => {
-    if (matchedPairs[item.id]) return;
-    setMatchingSelectedLeft(item);
-    voiceService.playChime('click');
-  };
-
-  const handleRightSelect = (item) => {
-    if (!matchingSelectedLeft) {
-      toast.info(isEn ? 'Select a word on the left first' : 'पहले बायीं ओर से एक शब्द चुनें');
+  // --------------------------------------------------------------------------
+  // 1. BI-DIRECTIONAL WORD MATCHING HANDLER
+  // --------------------------------------------------------------------------
+  const handleCardClick = (side, item) => {
+    // If card is already matched
+    if (side === 'left' && matchedPairs[item.id]) {
+      const tribal = getTribalData(item);
+      voiceService.speakText(tribal.audio, 'hi-IN');
+      return;
+    }
+    if (side === 'right' && Object.values(matchedPairs).includes(item.id)) {
+      const tribal = getTribalData(item);
+      voiceService.speakText(tribal.audio, 'hi-IN');
       return;
     }
 
-    if (matchingSelectedLeft.id === item.id) {
-      const newMatched = { ...matchedPairs, [matchingSelectedLeft.id]: item.id };
-      setMatchedPairs(newMatched);
-      setMatchingSelectedLeft(null);
+    voiceService.playChime('click');
+
+    // Case A: Nothing is currently selected -> select this card
+    if (!activeSelection) {
+      setActiveSelection({ side, item });
+      return;
+    }
+
+    // Case B: Clicked the same card again -> unselect
+    if (activeSelection.side === side && activeSelection.item.id === item.id) {
+      setActiveSelection(null);
+      return;
+    }
+
+    // Case C: Clicked another card on the SAME side -> switch selection
+    if (activeSelection.side === side) {
+      setActiveSelection({ side, item });
+      return;
+    }
+
+    // Case D: Clicked opposite side -> ATTEMPT MATCH
+    const leftItem = activeSelection.side === 'left' ? activeSelection.item : item;
+    const rightItem = activeSelection.side === 'right' ? activeSelection.item : item;
+
+    if (leftItem.id === rightItem.id) {
+      // CORRECT MATCH!
+      const currentCount = Object.keys(matchedPairs).length;
+      const assignedBadge = PAIR_BADGES[currentCount % PAIR_BADGES.length];
+
+      const nextMatched = { ...matchedPairs, [leftItem.id]: rightItem.id };
+      const nextColors = { ...pairColorMap, [leftItem.id]: assignedBadge };
+
+      setMatchedPairs(nextMatched);
+      setPairColorMap(nextColors);
+      setActiveSelection(null);
+
       voiceService.playChime('success');
-      const tribal = getTribalData(item);
+      const tribal = getTribalData(leftItem);
       voiceService.speakText(tribal.audio, 'hi-IN');
 
-      if (Object.keys(newMatched).length === matchingItems.length) {
-        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
+      toast.success(`${t.wsMatchPairSuccess}: ${leftItem.hindi} ↔ ${tribal.native}`);
+
+      if (Object.keys(nextMatched).length === matchingItems.length) {
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
+        toast.success(t.wsCheckToastAllCorrect);
       }
     } else {
+      // MISMATCH!
       voiceService.playChime('error');
-      toast.error(isEn ? 'Try again!' : 'गलत मिलान! पुनः प्रयास करें।');
+      setShakeCardId(item.id);
+      toast.error(t.wsMatchPairError);
+      setTimeout(() => {
+        setShakeCardId(null);
+        setActiveSelection(null);
+      }, 600);
     }
   };
 
+  const handleUnpair = (leftId, e) => {
+    e.stopPropagation();
+    const nextPairs = { ...matchedPairs };
+    delete nextPairs[leftId];
+    const nextColors = { ...pairColorMap };
+    delete nextColors[leftId];
+    setMatchedPairs(nextPairs);
+    setPairColorMap(nextColors);
+    toast.info(t.wsMatchUnpair);
+  };
+
+  // --------------------------------------------------------------------------
+  // 2. COUNTING / NUMERACY HANDLERS
+  // --------------------------------------------------------------------------
+  const handleTapCountDot = (itemId, dotIndex, targetNum) => {
+    voiceService.playChime('click');
+    const existing = tappedCounts[itemId] || [];
+    let updated;
+    if (existing.includes(dotIndex)) {
+      updated = existing.filter((idx) => idx !== dotIndex);
+    } else {
+      updated = [...existing, dotIndex];
+    }
+    setTappedCounts((prev) => ({ ...prev, [itemId]: updated }));
+
+    // Speak count number aloud
+    const currentCount = updated.length;
+    if (currentCount > 0) {
+      const matchNumItem = TRIBAL_LEXICON.find((i) => i.category === 'numbers' && i.numeral === currentCount);
+      if (matchNumItem) {
+        const tribal = getTribalData(matchNumItem);
+        voiceService.speakText(tribal.audio, 'hi-IN');
+      }
+    }
+  };
+
+  const handleSelectNumberAnswer = (item, chosenNum) => {
+    setNumeracyAnswers((prev) => ({ ...prev, [item.id]: chosenNum }));
+
+    if (chosenNum === item.numeral) {
+      voiceService.playChime('success');
+      const tribal = getTribalData(item);
+      voiceService.speakText(tribal.audio, 'hi-IN');
+      toast.success(`${t.wsCountCorrect} (${item.numeral} = ${tribal.native})`);
+    } else {
+      voiceService.playChime('error');
+      toast.error(t.wsCountTryAgain);
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // 3. SENTENCE PRACTICE HANDLERS
+  // --------------------------------------------------------------------------
   const handleSelectSentenceWord = (qId, option) => {
     setInteractiveAnswers((prev) => ({ ...prev, [qId]: option }));
     voiceService.playChime('click');
+    setIsScoreEvaluated(false); // reset until checked
   };
 
+  // --------------------------------------------------------------------------
+  // 4. INTELLIGENT & CONTEXT-AWARE "CHECK ANSWERS" HANDLER (ZERO FALSE CHEERS!)
+  // --------------------------------------------------------------------------
   const handleCheckAnswers = () => {
-    setIsScoreEvaluated(true);
-    confetti({ particleCount: 80, spread: 80, origin: { y: 0.55 } });
-    voiceService.playChime('success');
-    toast.success(t.wsCheckedToast);
+    // === EXERCISE 1: WORD MATCHING ===
+    if (worksheetType === 'matching') {
+      const matchedCount = Object.keys(matchedPairs).length;
+      const total = matchingItems.length;
+
+      if (matchedCount === 0) {
+        toast.info(t.wsCheckToastIncomplete);
+        voiceService.playChime('click');
+        return;
+      }
+
+      if (matchedCount < total) {
+        toast.warning(t.wsCheckToastPartial.replace('{count}', matchedCount).replace('{total}', total));
+        voiceService.playChime('error');
+        return;
+      }
+
+      // All 5 matched
+      confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
+      voiceService.playChime('success');
+      toast.success(t.wsCheckToastAllCorrect);
+      return;
+    }
+
+    // === EXERCISE 2: NUMERACY & COUNTING ===
+    if (worksheetType === 'numeracy') {
+      const total = numberItems.length;
+      const answeredKeys = Object.keys(numeracyAnswers);
+
+      if (answeredKeys.length === 0) {
+        toast.info(t.wsCheckToastIncomplete);
+        voiceService.playChime('click');
+        return;
+      }
+
+      const correctCount = numberItems.filter((i) => numeracyAnswers[i.id] === i.numeral).length;
+
+      if (answeredKeys.length < total) {
+        toast.warning(t.wsCheckToastPartial.replace('{count}', answeredKeys.length).replace('{total}', total));
+        voiceService.playChime('error');
+        return;
+      }
+
+      if (correctCount === total) {
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
+        voiceService.playChime('success');
+        toast.success(t.wsCheckToastAllCorrect);
+      } else {
+        voiceService.playChime('error');
+        toast.error(t.wsCheckToastPartial.replace('{count}', correctCount).replace('{total}', total));
+      }
+      return;
+    }
+
+    // === EXERCISE 3: SENTENCE PRACTICE ===
+    if (worksheetType === 'fillblanks') {
+      const total = sentenceQuestions.length;
+      const answeredKeys = Object.keys(interactiveAnswers);
+
+      if (answeredKeys.length === 0) {
+        toast.info(t.wsCheckToastIncomplete);
+        voiceService.playChime('click');
+        return;
+      }
+
+      if (answeredKeys.length < total) {
+        toast.warning(t.wsCheckToastIncomplete);
+        voiceService.playChime('error');
+        return;
+      }
+
+      const correctCount = sentenceQuestions.filter((q) => interactiveAnswers[q.id] === q.correct).length;
+      setIsScoreEvaluated(true);
+
+      if (correctCount === total) {
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.55 } });
+        voiceService.playChime('success');
+        toast.success(t.wsCheckToastAllCorrect);
+      } else {
+        voiceService.playChime('error');
+        toast.error(t.wsCheckToastPartial.replace('{count}', correctCount).replace('{total}', total));
+      }
+      return;
+    }
+
+    // === EXERCISE 4: SCRIPT TRACING ===
+    if (worksheetType === 'tracing') {
+      const total = tracingGlyphs.length;
+      const count = Object.keys(practicedGlyphs).length;
+      toast.info(isEn ? `Practiced ${count} of ${total} glyphs.` : `आपने ${count} में से ${total} अक्षरों का अभ्यास किया।`);
+    }
   };
 
   const handleReset = () => {
+    setActiveSelection(null);
     setMatchedPairs({});
-    setMatchingSelectedLeft(null);
+    setPairColorMap({});
+    setNumeracyAnswers({});
+    setTappedCounts({});
     setInteractiveAnswers({});
     setIsScoreEvaluated(false);
-    toast.info(isEn ? 'Reset completed' : 'अभ्यास रीसेट हुआ');
+    setPracticedGlyphs({});
+    toast.info(isEn ? 'Exercise reset' : 'अभ्यास रीसेट हुआ');
   };
 
   return (
     <div style={{ maxWidth: '980px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* ==================================================================== */}
-      {/* 1. CLEAN, SLEEK TOP HEADER (ZERO NESTED BOXES)                      */}
+      {/* 1. CLEAN TOP HEADER (NO BOX-IN-BOX)                                  */}
       {/* ==================================================================== */}
       <header className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
         <div>
@@ -341,7 +566,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <select
             value={gradeLevel}
-            onChange={(e) => setGradeLevel(e.target.value)}
+            onChange={(e) => {
+              setGradeLevel(e.target.value);
+              handleReset();
+            }}
             style={{
               padding: '6px 14px',
               borderRadius: 'var(--radius-pill)',
@@ -434,6 +662,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               type="button"
               onClick={() => {
                 setWorksheetType(tab.id);
+                setActiveSelection(null);
                 setIsScoreEvaluated(false);
               }}
               style={{
@@ -459,7 +688,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
       </nav>
 
       {/* ==================================================================== */}
-      {/* 3. THE WORKSHEET CANVAS (AIRY, AESTHETIC, NEVER BOX-IN-BOX)          */}
+      {/* 3. THE WORKSHEET CANVAS (SINGLE ELEVATED SURFACE)                    */}
       {/* ==================================================================== */}
       <main
         style={{
@@ -473,7 +702,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
           border: '1px solid var(--color-border-subtle)',
         }}
       >
-        {/* Printable Official Header (Shows when printed or on page) */}
+        {/* Printable Official Header (Shows when printed or on screen) */}
         <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
             <div>
@@ -491,14 +720,14 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
 
-            {/* Score & Evaluation Pill */}
+            {/* Score & Evaluation Progress Badge */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--color-surface-tint)' }}>
               <Star size={15} color="#EAB308" fill="#EAB308" />
               <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                {worksheetType === 'matching' && `${Object.keys(matchedPairs).length} / ${matchingItems.length}`}
-                {worksheetType === 'fillblanks' && `${Object.keys(interactiveAnswers).length} / ${sentenceQuestions.length}`}
-                {worksheetType === 'numeracy' && `${numberItems.length} items`}
-                {worksheetType === 'tracing' && `${tracingGlyphs.length} glyphs`}
+                {worksheetType === 'matching' && `${Object.keys(matchedPairs).length} / ${matchingItems.length} matched`}
+                {worksheetType === 'numeracy' && `${Object.keys(numeracyAnswers).length} / ${numberItems.length} solved`}
+                {worksheetType === 'fillblanks' && `${Object.keys(interactiveAnswers).length} / ${sentenceQuestions.length} completed`}
+                {worksheetType === 'tracing' && `${Object.keys(practicedGlyphs).length} / ${tracingGlyphs.length} practiced`}
               </span>
               <button
                 type="button"
@@ -513,69 +742,110 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         </div>
 
         {/* ================================================================== */}
-        {/* EXERCISE 1: WORD MATCHING (AESTHETIC 2-COLUMN BOARD)              */}
+        {/* EXERCISE 1: WORD MATCHING (ROBUST, BI-DIRECTIONAL, IDENTIFIERS)   */}
         {/* ================================================================== */}
         {worksheetType === 'matching' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              {isEn
-                ? 'Tap a word in Column A, then tap its mother-tongue translation in Column B.'
-                : 'कॉलम A से एक शब्द चुनें, फिर कॉलम B में उसके सही मातृभाषा शब्द पर टैप करें।'}
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+              <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+                {t.wsMatchSelectHint}
+              </p>
+              {activeSelection && (
+                <span style={{ fontSize: '0.78rem', fontWeight: 700, padding: '3px 10px', borderRadius: '999px', backgroundColor: 'rgba(194, 65, 12, 0.15)', color: 'var(--color-palash)' }}>
+                  {isEn
+                    ? `Selected "${activeSelection.item.hindi}" — Now tap matching in ${activeSelection.side === 'left' ? 'Column B' : 'Column A'}`
+                    : `चयनित: "${activeSelection.item.hindi}" — अब ${activeSelection.side === 'left' ? 'कॉलम B' : 'कॉलम A'} से मिलान करें`}
+                </span>
+              )}
+            </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              {/* Left: Column A */}
+              {/* Left Column A */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
-                  {isEn ? 'Column A (Hindi / English)' : 'कॉलम A (हिंदी शब्द)'}
+                  {isEn ? 'Column A (Hindi / English)' : 'कॉलम A (हिंदी / अंग्रेजी)'}
                 </div>
 
                 {matchingItems.map((item, idx) => {
-                  const isSelected = matchingSelectedLeft?.id === item.id;
+                  const isSelected = activeSelection?.side === 'left' && activeSelection?.item.id === item.id;
                   const isMatched = !!matchedPairs[item.id];
+                  const pairBadge = pairColorMap[item.id];
+
                   return (
                     <div
                       key={item.id}
-                      onClick={() => handleLeftSelect(item)}
+                      onClick={() => handleCardClick('left', item)}
                       style={{
                         padding: '12px 18px',
                         borderRadius: 'var(--radius-lg)',
                         backgroundColor: isMatched
-                          ? 'rgba(34, 197, 94, 0.12)'
+                          ? pairBadge?.bg || 'rgba(16, 185, 129, 0.12)'
                           : isSelected
-                          ? 'rgba(194, 65, 12, 0.12)'
+                          ? 'rgba(194, 65, 12, 0.14)'
                           : 'var(--color-surface-tint)',
                         border: isMatched
-                          ? '1px solid rgba(34, 197, 94, 0.3)'
+                          ? `1.5px solid ${pairBadge?.border || '#10B981'}`
                           : isSelected
-                          ? '1.5px solid var(--color-palash)'
+                          ? '2px solid var(--color-palash)'
+                          : shakeCardId === item.id
+                          ? '2px solid #EF4444'
                           : '1px solid transparent',
                         color: 'var(--color-slate)',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         cursor: isMatched ? 'default' : 'pointer',
-                        transition: 'all 0.15s ease',
+                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        transition: 'all 0.18s ease',
                       }}
                     >
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>
-                          {idx + 1}. {item.hindi}
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
-                          {item.english}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-slate-muted)' }}>
+                          {idx + 1}.
+                        </span>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>
+                            {item.hindi}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
+                            {item.english}
+                          </div>
                         </div>
                       </div>
 
+                      {/* Right indicator: Pair Badge or Selection Ring */}
                       {isMatched ? (
-                        <Check size={18} color="#16A34A" strokeWidth={3} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span
+                            style={{
+                              fontSize: '0.78rem',
+                              fontWeight: 800,
+                              padding: '2px 8px',
+                              borderRadius: '999px',
+                              backgroundColor: pairBadge?.bg,
+                              color: pairBadge?.text,
+                              border: `1px solid ${pairBadge?.border}`,
+                            }}
+                          >
+                            {pairBadge?.label}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={(e) => handleUnpair(item.id, e)}
+                            style={{ background: 'none', border: 'none', color: 'var(--color-slate-muted)', cursor: 'pointer', padding: '2px' }}
+                            title={t.wsMatchUnpair}
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
                       ) : (
                         <span
                           style={{
-                            width: '10px',
-                            height: '10px',
+                            width: '12px',
+                            height: '12px',
                             borderRadius: '50%',
                             backgroundColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
+                            transition: 'all 0.15s ease',
                           }}
                         />
                       )}
@@ -584,45 +854,61 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 })}
               </div>
 
-              {/* Right: Column B */}
+              {/* Right Column B */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
                   {isEn ? `Column B (${langMeta.name})` : `कॉलम B (${langMeta.name})`}
                 </div>
 
-                {matchingRightColumn.map((item) => {
+                {matchingRightColumn.map((item, idx) => {
                   const tribal = getTribalData(item);
+                  const isSelected = activeSelection?.side === 'right' && activeSelection?.item.id === item.id;
                   const isMatched = Object.values(matchedPairs).includes(item.id);
+                  const matchedLeftKey = Object.keys(matchedPairs).find((k) => matchedPairs[k] === item.id);
+                  const pairBadge = matchedLeftKey ? pairColorMap[matchedLeftKey] : null;
+
                   return (
                     <div
                       key={item.id}
-                      onClick={() => handleRightSelect(item)}
+                      onClick={() => handleCardClick('right', item)}
                       style={{
                         padding: '12px 18px',
                         borderRadius: 'var(--radius-lg)',
                         backgroundColor: isMatched
-                          ? 'rgba(34, 197, 94, 0.12)'
+                          ? pairBadge?.bg || 'rgba(16, 185, 129, 0.12)'
+                          : isSelected
+                          ? 'rgba(194, 65, 12, 0.14)'
                           : 'var(--color-surface-tint)',
                         border: isMatched
-                          ? '1px solid rgba(34, 197, 94, 0.3)'
+                          ? `1.5px solid ${pairBadge?.border || '#10B981'}`
+                          : isSelected
+                          ? '2px solid var(--color-palash)'
+                          : shakeCardId === item.id
+                          ? '2px solid #EF4444'
                           : '1px solid transparent',
                         color: 'var(--color-slate)',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         cursor: isMatched ? 'default' : 'pointer',
-                        transition: 'all 0.15s ease',
+                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                        transition: 'all 0.18s ease',
                       }}
                     >
-                      <div>
-                        <div
-                          className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                          style={{ fontWeight: 800, fontSize: '1.25rem', color: isMatched ? '#16A34A' : 'var(--color-forest)' }}
-                        >
-                          {tribal.native}
-                        </div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
-                          {tribal.phonetic}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-forest)' }}>
+                          {String.fromCharCode(65 + idx)}.
+                        </span>
+                        <div>
+                          <div
+                            className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
+                            style={{ fontWeight: 800, fontSize: '1.25rem', color: isMatched ? pairBadge?.text : 'var(--color-forest)' }}
+                          >
+                            {tribal.native}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
+                            {tribal.phonetic}
+                          </div>
                         </div>
                       </div>
 
@@ -631,7 +917,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleSpeak(tribal.audio, tribal.native);
+                            handleSpeak(tribal.audio);
                           }}
                           style={{
                             background: 'none',
@@ -645,7 +931,32 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         >
                           <Volume2 size={16} />
                         </button>
-                        {isMatched && <Check size={18} color="#16A34A" strokeWidth={3} />}
+
+                        {isMatched ? (
+                          <span
+                            style={{
+                              fontSize: '0.78rem',
+                              fontWeight: 800,
+                              padding: '2px 8px',
+                              borderRadius: '999px',
+                              backgroundColor: pairBadge?.bg,
+                              color: pairBadge?.text,
+                              border: `1px solid ${pairBadge?.border}`,
+                            }}
+                          >
+                            {pairBadge?.label}
+                          </span>
+                        ) : (
+                          <span
+                            style={{
+                              width: '12px',
+                              height: '12px',
+                              borderRadius: '50%',
+                              backgroundColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
+                              transition: 'all 0.15s ease',
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   );
@@ -656,85 +967,182 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         )}
 
         {/* ================================================================== */}
-        {/* EXERCISE 2: NUMERACY & COUNTING (AIRY COUNT CARDS)                 */}
+        {/* EXERCISE 2: NUMERACY & COUNTING (INTERACTIVE OBJECTS + QUIZ)       */}
         {/* ================================================================== */}
         {worksheetType === 'numeracy' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              {isEn
-                ? 'Count the visual items and listen to the mother-tongue numeral name.'
-                : 'चित्रों को गिनें एवं मातृभाषा में संख्या नाम व अंक सीखें।'}
+              {t.wsCountPrompt}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '16px' }}>
-              {numberItems.map((item) => {
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              {numberItems.map((item, idx) => {
                 const tribal = getTribalData(item);
+                const icon = COUNT_ITEMS_ICONS[idx % COUNT_ITEMS_ICONS.length];
                 const countArr = Array.from({ length: item.numeral }, (_, i) => i + 1);
+                const currentTaps = tappedCounts[item.id] || [];
+                const studentAnswer = numeracyAnswers[item.id];
+                const isSolved = studentAnswer !== undefined;
+                const isCorrect = studentAnswer === item.numeral;
+
+                // 3 Strictly Unique Multiple Choice options
+                const maxChoices = gradeLevel === 'grade1' ? 5 : 10;
+                const choiceSet = new Set([item.numeral]);
+                if (item.numeral + 1 <= maxChoices) choiceSet.add(item.numeral + 1);
+                if (item.numeral - 1 >= 1) choiceSet.add(item.numeral - 1);
+                if (item.numeral + 2 <= maxChoices) choiceSet.add(item.numeral + 2);
+                if (item.numeral - 2 >= 1) choiceSet.add(item.numeral - 2);
+                let fallback = 1;
+                while (choiceSet.size < 3 && fallback <= maxChoices) {
+                  choiceSet.add(fallback);
+                  fallback++;
+                }
+                const choices = Array.from(choiceSet).slice(0, 3).sort((a, b) => a - b);
+
                 return (
                   <div
                     key={item.id}
                     style={{
-                      padding: '18px',
-                      borderRadius: 'var(--radius-lg)',
-                      backgroundColor: 'var(--color-surface-tint)',
+                      padding: '20px 24px',
+                      borderRadius: 'var(--radius-xl)',
+                      backgroundColor: isSolved
+                        ? isCorrect
+                          ? 'rgba(16, 185, 129, 0.08)'
+                          : 'rgba(239, 68, 68, 0.08)'
+                        : 'var(--color-surface-tint)',
+                      border: isSolved
+                        ? isCorrect
+                          ? '1.5px solid rgba(16, 185, 129, 0.35)'
+                          : '1.5px solid rgba(239, 68, 68, 0.35)'
+                        : '1px solid transparent',
                       display: 'flex',
                       flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      gap: '10px',
+                      gap: '14px',
+                      transition: 'all 0.2s ease',
                     }}
                   >
-                    <div style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--color-palash)' }}>
-                      {item.numeral}
-                    </div>
+                    {/* Header of Count Card */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-slate-muted)' }}>
+                          #{idx + 1}
+                        </span>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                          {isEn ? `Count the ${icon} items:` : `${icon} वस्तुओं को गिनें:`}
+                        </div>
+                      </div>
 
-                    {/* Illustrated Count Dots / Leaves */}
-                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', justifyContent: 'center', minHeight: '32px' }}>
-                      {countArr.map((_, i) => (
-                        <span
-                          key={i}
-                          style={{
-                            width: '10px',
-                            height: '10px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--color-forest)',
-                            display: 'inline-block',
-                          }}
-                        />
-                      ))}
-                    </div>
-
-                    <div>
-                      <div
-                        className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                        style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-forest)' }}
+                      {/* Native Tribal Audio Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleSpeak(tribal.audio)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--color-forest)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                        }}
                       >
-                        {tribal.native}
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
-                        {tribal.phonetic} • {item.hindi}
-                      </div>
+                        <Volume2 size={15} />
+                        <span>{tribal.native} ({tribal.phonetic})</span>
+                      </button>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => handleSpeak(tribal.audio, tribal.native)}
+                    {/* Interactive Countable Objects (Tap each item to count) */}
+                    <div
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--color-forest)',
-                        cursor: 'pointer',
-                        padding: '4px',
                         display: 'flex',
+                        gap: '12px',
+                        flexWrap: 'wrap',
                         alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.76rem',
-                        fontWeight: 600,
+                        padding: '12px 16px',
+                        borderRadius: 'var(--radius-lg)',
+                        backgroundColor: 'var(--color-surface)',
                       }}
                     >
-                      <Volume2 size={14} />
-                      <span>{isEn ? 'Listen' : 'सुनें'}</span>
-                    </button>
+                      {countArr.map((dotNum) => {
+                        const isTapped = currentTaps.includes(dotNum);
+                        return (
+                          <button
+                            key={dotNum}
+                            type="button"
+                            onClick={() => handleTapCountDot(item.id, dotNum, item.numeral)}
+                            style={{
+                              fontSize: '2rem',
+                              background: isTapped ? 'rgba(16, 185, 129, 0.2)' : 'transparent',
+                              border: isTapped ? '2px solid #10B981' : '2px dashed var(--color-border)',
+                              borderRadius: 'var(--radius-lg)',
+                              padding: '8px 12px',
+                              cursor: 'pointer',
+                              transform: isTapped ? 'scale(1.12)' : 'scale(1)',
+                              transition: 'all 0.15s ease',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              lineHeight: 1,
+                            }}
+                            title={isEn ? `Tap to count item ${dotNum}` : `गिनने के लिए दबाएँ: वस्तु ${dotNum}`}
+                          >
+                            <span>{icon}</span>
+                            <span style={{ fontSize: '0.72rem', fontWeight: 800, color: isTapped ? '#10B981' : 'var(--color-slate-muted)', marginTop: '4px' }}>
+                              {dotNum}
+                            </span>
+                          </button>
+                        );
+                      })}
+
+                      <div style={{ marginLeft: 'auto', fontSize: '0.80rem', color: 'var(--color-slate-muted)', fontStyle: 'italic' }}>
+                        {isEn ? `Counted: ${currentTaps.length} of ${item.numeral}` : `गिना गया: ${currentTaps.length} / ${item.numeral}`}
+                      </div>
+                    </div>
+
+                    {/* Answer Selection Chips: How Many? */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+                      <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                        {isEn ? 'How many did you count?' : 'आपने कुल कितने गिने? सही संख्या चुनें:'}
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        {choices.map((choiceNum) => {
+                          const isThisChoice = studentAnswer === choiceNum;
+                          return (
+                            <button
+                              key={choiceNum}
+                              type="button"
+                              onClick={() => handleSelectNumberAnswer(item, choiceNum)}
+                              style={{
+                                minWidth: '44px',
+                                height: '40px',
+                                padding: '0 16px',
+                                borderRadius: 'var(--radius-pill)',
+                                border: isThisChoice
+                                  ? choiceNum === item.numeral
+                                    ? '2px solid #10B981'
+                                    : '2px solid #EF4444'
+                                  : '1px solid var(--color-border)',
+                                backgroundColor: isThisChoice
+                                  ? choiceNum === item.numeral
+                                    ? '#10B981'
+                                    : '#EF4444'
+                                  : 'var(--color-surface)',
+                                color: isThisChoice ? '#FFFFFF' : 'var(--color-slate)',
+                                fontSize: '1rem',
+                                fontWeight: 800,
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                              }}
+                            >
+                              {choiceNum}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -756,21 +1164,40 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {sentenceQuestions.map((q, idx) => {
                 const selected = interactiveAnswers[q.id];
+                const isAnswered = !!selected;
                 const isCorrect = selected === q.correct;
+
                 return (
                   <div
                     key={q.id}
                     style={{
-                      padding: '16px 20px',
+                      padding: '18px 22px',
                       borderRadius: 'var(--radius-lg)',
-                      backgroundColor: 'var(--color-surface-tint)',
+                      backgroundColor: isScoreEvaluated
+                        ? isCorrect
+                          ? 'rgba(16, 185, 129, 0.08)'
+                          : 'rgba(239, 68, 68, 0.08)'
+                        : 'var(--color-surface-tint)',
+                      border: isScoreEvaluated
+                        ? isCorrect
+                          ? '1.5px solid rgba(16, 185, 129, 0.35)'
+                          : '1.5px solid rgba(239, 68, 68, 0.35)'
+                        : '1px solid transparent',
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '12px',
+                      transition: 'all 0.2s ease',
                     }}
                   >
-                    <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
-                      #{idx + 1} {q.hindiPrompt} ({q.englishPrompt})
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                        #{idx + 1} {q.hindiPrompt} ({q.englishPrompt})
+                      </div>
+                      {isScoreEvaluated && (
+                        <span style={{ fontSize: '0.80rem', fontWeight: 800, color: isCorrect ? '#10B981' : '#EF4444' }}>
+                          {isCorrect ? '✓ सही उत्तर' : `✗ सही शब्द: ${q.correct}`}
+                        </span>
+                      )}
                     </div>
 
                     {/* Sentence with interactive blank */}
@@ -806,7 +1233,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                               borderRadius: 'var(--radius-pill)',
                               border: 'none',
                               backgroundColor: isScoreEvaluated && opt === q.correct
-                                ? 'rgba(34, 197, 94, 0.25)'
+                                ? 'rgba(16, 185, 129, 0.25)'
                                 : isThisSelected
                                 ? 'var(--color-forest)'
                                 : 'var(--color-surface)',
@@ -840,51 +1267,80 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 : 'सुंदर हस्तलेखन हेतु अक्षरों की बनावट का अभ्यास करें।'}
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
-              {tracingGlyphs.map((g, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: '24px 18px',
-                    borderRadius: 'var(--radius-lg)',
-                    backgroundColor: 'var(--color-surface-tint)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                    gap: '12px',
-                  }}
-                >
-                  <div style={{ fontSize: '0.80rem', fontWeight: 700, color: 'var(--color-forest)' }}>
-                    {g.name} ({g.sound})
-                  </div>
-
-                  <div style={{ fontSize: '3.6rem', fontWeight: 900, color: 'var(--color-palash)', margin: '4px 0' }}>
-                    {g.char}
-                  </div>
-
-                  {/* Dotted stroke practice */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+              {tracingGlyphs.map((g, i) => {
+                const isPracticed = !!practicedGlyphs[g.char];
+                return (
                   <div
+                    key={i}
                     style={{
-                      borderTop: '1px dashed var(--color-border)',
-                      borderBottom: '1px dashed var(--color-border)',
-                      padding: '8px 0',
-                      width: '100%',
-                      fontSize: '1.6rem',
-                      letterSpacing: '8px',
-                      color: 'var(--color-slate-muted)',
-                      opacity: 0.7,
+                      padding: '24px 18px',
+                      borderRadius: 'var(--radius-lg)',
+                      backgroundColor: isPracticed ? 'rgba(16, 185, 129, 0.08)' : 'var(--color-surface-tint)',
+                      border: isPracticed ? '1.5px solid rgba(16, 185, 129, 0.35)' : '1px solid transparent',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      gap: '12px',
                     }}
                   >
-                    {g.char} • {g.char} • {g.char}
+                    <div style={{ fontSize: '0.80rem', fontWeight: 700, color: 'var(--color-forest)' }}>
+                      {g.name} ({g.sound})
+                    </div>
+
+                    <div style={{ fontSize: '3.6rem', fontWeight: 900, color: 'var(--color-palash)', margin: '4px 0' }}>
+                      {g.char}
+                    </div>
+
+                    <div style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
+                      {g.guide}
+                    </div>
+
+                    {/* Dotted stroke practice line */}
+                    <div
+                      style={{
+                        borderTop: '1px dashed var(--color-border)',
+                        borderBottom: '1px dashed var(--color-border)',
+                        padding: '8px 0',
+                        width: '100%',
+                        fontSize: '1.6rem',
+                        letterSpacing: '8px',
+                        color: 'var(--color-slate-muted)',
+                        opacity: 0.7,
+                      }}
+                    >
+                      {g.char} • {g.char} • {g.char}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPracticedGlyphs((prev) => ({ ...prev, [g.char]: !prev[g.char] }));
+                        voiceService.playChime('success');
+                        toast.success(isEn ? `Practiced ${g.char}` : `${g.char} का अभ्यास पूरा हुआ!`);
+                      }}
+                      style={{
+                        padding: '5px 12px',
+                        borderRadius: 'var(--radius-pill)',
+                        border: 'none',
+                        backgroundColor: isPracticed ? '#10B981' : 'var(--color-surface)',
+                        color: isPracticed ? '#FFFFFF' : 'var(--color-slate)',
+                        fontSize: '0.76rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {isPracticed ? '✓ अभ्यास पूर्ण' : 'अभ्यास मार्क करें'}
+                    </button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
 
-        {/* Clean Footer Controls: Check Answers */}
+        {/* Clean Footer Controls: Real Intelligent "Check Answers" Button */}
         <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '12px' }}>
           <button
             type="button"
