@@ -78,35 +78,95 @@ export function translateHindiToTribal(hindiText, targetLang = 'santhali') {
 
   let result = null;
 
+  // 0. Dynamic Self-Introduction Pattern (e.g., "मेरा नाम रुद्र है" / "My name is Rudra")
+  const introMatchHindi = normalized.match(/(?:मेरा\s+नाम|हमार\s+नाम|मोर\s+नाम)\s+([^\s,।.]+)/i);
+  const introMatchEng = normalized.match(/(?:my\s+name\s+is|i\s+am)\s+([^\s,.]+)/i);
+  const extractedName = (introMatchHindi && introMatchHindi[1]) || (introMatchEng && introMatchEng[1]);
+
+  if (extractedName) {
+    const isRudra = extractedName.toLowerCase().includes('rudra') || extractedName.includes('रुद्र');
+    const capitalizedName = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
+    const santhaliScript = isRudra ? 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ' : `ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ${capitalizedName} ᱠᱟᱱᱟ`;
+    const devaName = isRudra ? 'रुद्र' : capitalizedName;
+
+    if (targetLang === 'santhali') {
+      result = {
+        sourceHindi: hindiText,
+        targetLang: 'santhali',
+        nativeScript: santhaliScript,
+        phoneticDeva: `इञाग ञुतुम दो ${devaName} काना`,
+        phoneticLatin: `Iñag ñutum do ${capitalizedName} kana`,
+        audioText: `Inyaag nyutum do ${capitalizedName} kana`,
+        confidence: 0.99,
+        matchType: 'Self-Introduction NIPUN Oral Language Template',
+      };
+    } else if (targetLang === 'mundari') {
+      result = {
+        sourceHindi: hindiText,
+        targetLang: 'mundari',
+        nativeScript: `आइङ-आह नुतुम ${devaName} तना`,
+        phoneticDeva: `आइंगाः नुतुम ${devaName} तना`,
+        phoneticLatin: `Ainga' nutum ${capitalizedName} tana`,
+        audioText: `Ainga nutum ${capitalizedName} tana`,
+        confidence: 0.99,
+        matchType: 'Self-Introduction NIPUN Oral Language Template',
+      };
+    } else if (targetLang === 'ho') {
+      result = {
+        sourceHindi: hindiText,
+        targetLang: 'ho',
+        nativeScript: `अयिङ-आ नुतुम ${devaName} तना`,
+        phoneticDeva: `अयिंगा नुतुम ${devaName} तना`,
+        phoneticLatin: `Aying-a nutum ${capitalizedName} tana`,
+        audioText: `Ayinga nutum ${capitalizedName} tana`,
+        confidence: 0.99,
+        matchType: 'Self-Introduction NIPUN Oral Language Template',
+      };
+    } else if (targetLang === 'sadri') {
+      result = {
+        sourceHindi: hindiText,
+        targetLang: 'sadri',
+        nativeScript: `मोर नाम ${devaName} हेके`,
+        phoneticDeva: `मोर नाम ${devaName} हेके`,
+        phoneticLatin: `Mor naam ${capitalizedName} heke`,
+        audioText: `Mor naam ${capitalizedName} heke`,
+        confidence: 0.99,
+        matchType: 'Self-Introduction NIPUN Oral Language Template',
+      };
+    }
+  }
+
   // 1. Semantic Vector Cosine Similarity Match (Threshold >= 0.58)
   let bestSemanticMatch = null;
   let highestSimilarity = 0;
 
-  for (const phrase of CLASSROOM_PHRASES) {
-    const targetVecHindi = vectorizeText(phrase.hindi);
-    const simHindi = computeCosineSimilarity(inputVec, targetVecHindi);
-    const targetVecEng = phrase.english ? vectorizeText(phrase.english) : null;
-    const simEng = targetVecEng ? computeCosineSimilarity(inputVec, targetVecEng) : 0;
-    const sim = Math.max(simHindi, simEng);
-    if (sim > highestSimilarity) {
-      highestSimilarity = sim;
-      bestSemanticMatch = phrase;
+  if (!result) {
+    for (const phrase of CLASSROOM_PHRASES) {
+      const targetVecHindi = vectorizeText(phrase.hindi);
+      const simHindi = computeCosineSimilarity(inputVec, targetVecHindi);
+      const targetVecEng = phrase.english ? vectorizeText(phrase.english) : null;
+      const simEng = targetVecEng ? computeCosineSimilarity(inputVec, targetVecEng) : 0;
+      const sim = Math.max(simHindi, simEng);
+      if (sim > highestSimilarity) {
+        highestSimilarity = sim;
+        bestSemanticMatch = phrase;
+      }
     }
-  }
 
-  if (highestSimilarity >= 0.58 && bestSemanticMatch) {
-    const langData = bestSemanticMatch[targetLang] || bestSemanticMatch.sadri || bestSemanticMatch.santhali || bestSemanticMatch.mundari || bestSemanticMatch.ho;
-    if (langData) {
-      result = {
-        sourceHindi: hindiText,
-        targetLang,
-        nativeScript: langData.nativeOlChiki || langData.native || hindiText,
-        phoneticDeva: langData.phoneticDeva || hindiText,
-        phoneticLatin: langData.phoneticLatin || '',
-        audioText: langData.audio || langData.audioText || langData.phoneticDeva || hindiText,
-        confidence: Math.min(0.99, Number((highestSimilarity * 0.98).toFixed(2))),
-        matchType: `Semantic Vector Cosine Match (${Math.round(highestSimilarity * 100)}%)`,
-      };
+    if (highestSimilarity >= 0.58 && bestSemanticMatch) {
+      const langData = bestSemanticMatch[targetLang] || bestSemanticMatch.sadri || bestSemanticMatch.santhali || bestSemanticMatch.mundari || bestSemanticMatch.ho;
+      if (langData) {
+        result = {
+          sourceHindi: hindiText,
+          targetLang,
+          nativeScript: langData.nativeOlChiki || langData.native || hindiText,
+          phoneticDeva: langData.phoneticDeva || hindiText,
+          phoneticLatin: langData.phoneticLatin || '',
+          audioText: langData.audio || langData.audioText || langData.phoneticDeva || hindiText,
+          confidence: Math.min(0.99, Number((highestSimilarity * 0.98).toFixed(2))),
+          matchType: `Semantic Vector Cosine Match (${Math.round(highestSimilarity * 100)}%)`,
+        };
+      }
     }
   }
 

@@ -178,6 +178,39 @@ export const TRIBAL_LEXICON = [
       audioText: 'Tohar naawn ka heke',
     },
   },
+  {
+    id: 'greet_5',
+    hindi: 'मेरा नाम रुद्र है।',
+    english: 'My name is Rudra.',
+    category: 'greetings',
+    nipunLevel: 'Balvatika',
+    icon: 'User',
+    ho: {
+      native: 'अयिङ-आ नुतुम रुद्र तना।',
+      phoneticDeva: 'अयिंगा नुतुम रुद्र तना।',
+      phoneticLatin: 'Aying-a nutum Rudra tana.',
+      audioText: 'Ayinga nutum Rudra tana',
+    },
+    mundari: {
+      native: 'आइङ-आह नुतुम रुद्र तना।',
+      phoneticDeva: 'आइंगाः नुतुम रुद्र तना।',
+      phoneticLatin: 'Ainga-ah nutum Rudra tana.',
+      audioText: 'Ainga nutum Rudra tana',
+    },
+    santhali: {
+      nativeOlChiki: 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ᱾',
+      nativeDeva: 'इञाग ञुतुम दो रुद्र काना।',
+      phoneticDeva: 'इञाग ञुतुम दो रुद्र काना।',
+      phoneticLatin: 'Inyag nyutum do Rudra kana.',
+      audioText: 'Inyaag nyutum do Rudra kana',
+    },
+    sadri: {
+      native: 'मोर नाम रुद्र हेके।',
+      phoneticDeva: 'मोर नाम रुद्र हेके।',
+      phoneticLatin: 'Mor naam Rudra heke.',
+      audioText: 'Mor naam Rudra heke',
+    },
+  },
 
   // ================= 2. CLASSROOM COMMANDS =================
   {

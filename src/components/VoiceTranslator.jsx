@@ -42,7 +42,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   ];
 
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student'); // 'teacher_to_student' | 'student_to_teacher'
-  const [inputText, setInputText] = useState(isEn ? 'Hello / Johar' : 'नमस्ते / जोहार');
+  const [inputText, setInputText] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('q');
+      if (p) return p;
+    }
+    return isEn ? 'Hello / Johar' : 'नमस्ते / जोहार';
+  });
   const [isRecording, setIsRecording] = useState(false);
   const [translationResult, setTranslationResult] = useState(null);
   const [history, setHistory] = useState([]);
@@ -61,7 +67,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     if (dialogModeIsTeacher && inputText.trim()) {
       handleTranslate(inputText);
     }
-  }, [selectedLang, dialogueMode]);
+  }, [selectedLang, dialogueMode, inputText]);
 
   const handleTranslate = (textToTranslate) => {
     const start = performance.now();

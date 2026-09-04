@@ -47,7 +47,7 @@ TRIBAL_LEXICON.forEach((item) => {
 });
 
 assert(scriptIntegrityOk, 'All lexicon items have complete translations across Ho, Mundari, and Santhali');
-assert(sadriIntegrityOk, 'All 27 lexicon items have complete verified Sadri (Nagpuri) native words and phonetics');
+assert(sadriIntegrityOk, `All ${TRIBAL_LEXICON.length} lexicon items have complete verified Sadri (Nagpuri) native words and phonetics`);
 assert(phoneticIntegrityOk, 'All items have native Ol Chiki glyphs and Devanagari phonetic pronunciation guides');
 
 // -----------------------------------------------------------------------------
