@@ -21,7 +21,7 @@
 4. [A Day in the Life of a Tribal Primary Classroom (9:00 AM to 3:00 PM)](#4-a-day-in-the-life-of-a-tribal-primary-classroom-900-am-to-300-pm)
 5. [The Closed-Loop Empathy Engine: Two-Way Classroom Dialogue](#5-the-closed-loop-empathy-engine-two-way-classroom-dialogue)
    * 5.1 Decoding the Child's Needs & Emotional Distress
-   * 5.2 One-Tap Empathetic Counter-Responses
+   * 5.2 Teacher Autonomous Response & Pedagogical Independence
 6. [Solving Hardware Scarcity: The 1-Tablet for 35-Students Solution](#6-solving-hardware-scarcity-the-1-tablet-for-35-students-solution)
    * 6.1 Printable Take-Home Worksheets
    * 6.2 The Home Audio QR Code Companion
@@ -116,11 +116,13 @@ SARJOM is a comprehensive, voice-first classroom pedagogy platform specifically 
 * In **Student Mode**, the tablet listens to the child's spoken mother tongue and instantly displays the meaning in Hindi for the teacher.
 * A teacher immediately understands when a child is asking to drink water, feeling unwell, or asking for help with a difficult word.
 
-#### 3. One-Tap Empathetic Teacher Counter-Responses
-* Understanding the child is only half the battle; the non-tribal teacher must be able to answer back!
-* Below the child's translated question, the app automatically suggests **3 gentle, pre-translated responses**.
-* With a single tap, the teacher plays an answer in the child's mother tongue (e.g., *"हाँ बच्चे, जाओ पानी पीकर आ जाओ"* ➔ spoken in Santhali: *"ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ"*).
-* The child feels heard, respected, and comforted.
+#### 3. Teacher Autonomous Response & Pedagogical Independence
+* Understanding the child is only half the battle; the non-tribal teacher must be able to answer back in their own natural words!
+* Rather than forcing rigid, pre-canned AI options, SARJOM gives the educator **100% pedagogical independence**:
+  * The teacher simply taps the microphone and speaks their own response in Hindi (or types it).
+  * The system instantly translates the educator's exact words into the child's mother tongue (Santhali, Ho, or Mundari) and broadcasts it through the classroom speaker.
+  * The AI never dictates or restricts what the teacher says.
+* The child feels heard, respected, and comforted by their teacher's own authentic guidance.
 
 #### 4. NIPUN Bharat FLN Daily Lesson Planning Studio
 * Contains structured, day-by-day lesson plans following the **80:20 Mother-Tongue-to-Hindi Transition Formula** recommended by educational research:
@@ -210,16 +212,13 @@ SARJOM implements a **Closed-Loop Empathy Engine**:
                    "छात्र ने कहा: मेरे पेट में दर्द हो रहा है"
                                      │
                                      ▼
-                   [ System Suggests 3 Empathetic Counter-Responses ]
-                   ┌───────────────────────────────────────────────┐
-                   │ Option 1: "थोड़ा आराम करो और पानी पियो"       │
-                   │ Option 2: "दवाई के लिए रुक जाओ"               │
-                   │ Option 3: "घर जाना चाहते हो?"                 │
-                   └───────────────────────┬───────────────────────┘
-                                           │
-                                           ▼ Teacher Taps Option 1
-                   [ Tablet Speaks Aloud in Santhali ]
-                   "ᱠᱟᱹᱴᱤᱡ ᱡᱤᱨᱟᱹᱣ ᱢᱮ ᱟᱨ ᱫᱟᱜ ᱧᱩᱭ ᱢᱮ"
+                   [ Teacher Speaks or Types Their Own Independent Response ]
+                   The educator has total autonomy — no rigid AI-prescribed options!
+                   Teacher speaks: "थोड़ा आराम करो, मैं पानी मंगाता हूँ"
+                                     │
+                                     ▼
+                   [ Tablet Translates & Broadcasts Aloud in Santhali ]
+                   "ᱠᱟᱹᱴᱤᱡ ᱡᱤᱨᱟᱹᱣ ᱢᱮ, ᱤᱧ ᱫᱟᱜ ᱤᱧ ᱢᱮᱛᱟ ᱠᱟᱱᱟ"
 ```
 
 This simple, three-step loop transforms the teacher from an intimidating authority figure speaking a foreign language into a caring guardian who understands and protects the child.

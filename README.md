@@ -186,11 +186,11 @@ This section provides technical and operational evidence explaining how each req
 #### 5. Interactive Two-Way Classroom Dialogue (Student Q&A)
 * **Official Requirement**: Conduct interactive classroom dialogue with tribal-language-speaking students.
 * **Our Implementation**:
-  * Avoids the fatal flaw of 1-way competitor monologues by implementing the **Two-Way Closed-Loop Student Ear**:
+  * Avoids the fatal flaw of 1-way competitor monologues by implementing the **Two-Way Closed-Loop Student Ear with Complete Teacher Autonomy**:
     1. The student speaks in their mother tongue (e.g. *"ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ"*).
     2. The tablet decodes the utterance into clear Hindi for the teacher (*"छात्र ने पूछा: क्या मैं पानी पीने जाऊं?"*).
-    3. The system generates **3 One-Tap Pedagogical Counter-Responses** in the student's mother tongue (*"हाँ, जाओ पानी पीकर आओ"*).
-    4. The teacher taps one chip, and the tablet speaks the response aloud in the child's native tongue!
+    3. **Teacher Pedagogical Independence (Zero AI Restrictions)**: Unlike rigid systems that prescribe 3 pre-canned responses, SARJOM gives the educator total freedom. The teacher freely taps the mic to speak or types their OWN natural response in Hindi (*"हाँ, जाओ पानी पीकर तुरंत आओ"* or *"अभी 2 मिनट रुको, पाठ पूरा करो"*).
+    4. SARJOM instantly translates the teacher's exact reply into the child's mother tongue and speaks it aloud through the classroom speaker!
 * **Source Files**: [`src/components/VoiceTranslator.jsx`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/components/VoiceTranslator.jsx) and [`src/data/classroomPhrases.js`](file:///Users/toru/.gemini/antigravity-ide/scratch/sarjom-tribal-pedagogy/src/data/classroomPhrases.js).
 
 #### 6. Auto-Generated Bilingual Worksheets (Aligned to NIPUN)
@@ -694,28 +694,22 @@ SARJOM closes this loop with the **Two-Way Pedagogical Assistant**:
 
 ```
 Step 1: Child Speaks Mother Tongue 
-        (e.g., Child speaks or teacher taps: "ᱤᱧ ᱵᱟᱹᱧ ᱵᱩᱡᱷᱟᱹᱣ ᱞᱮᱫ-ᱟ")
+        (e.g., Child speaks in Santhali: "ᱤᱧ ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ")
                           │
                           ▼
 Step 2: Tablet Translates for Teacher in Hindi
-        "छात्र का आशय: मुझे समझ नहीं आया, दोबारा बताइए"
+        "छात्र ने पूछा: क्या मैं पानी पीने जाऊं?"
                           │
                           ▼
-Step 3: Tablet Instantly Suggests 3 One-Tap Pedagogical Counter-Responses
-        ┌─────────────────────────────────────────────────────────────┐
-        │ Option A: "कोई बात नहीं, इस चित्र को देखो और दोबारा सुनो"     │
-        │ ➔ Santhali: "ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ"   │
-        ├─────────────────────────────────────────────────────────────┤
-        │ Option B: "हाँ, जाओ पानी पीकर तुरंत आ जाओ"                   │
-        │ ➔ Santhali: "ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ"        │
-        ├─────────────────────────────────────────────────────────────┤
-        │ Option C: "बहुत सुंदर लिखा है! शाबाश, अपनी जगह बैठो"         │
-        │ ➔ Santhali: "ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ ᱚᱞ ᱟᱠᱟᱱᱟ! ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ ᱨᱮ ᱫᱩᱲᱩᱵ ᱢᱮ"     │
-        └─────────────────────────────────────────────────────────────┘
+Step 3: Teacher Speaks or Types Their Own Independent Response (100% Autonomy)
+        The educator has full pedagogical freedom — no rigid AI-prescribed options!
+        Teacher freely speaks or types in Hindi:
+        "हाँ, जाओ पानी पीकर तुरंत आ जाओ।" OR "अभी 2 मिनट रुको, पाठ पूरा करो।"
                           │
-                          ▼ Teacher Taps One Chip
-Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
-        Child hears: "ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ!"
+                          ▼
+Step 4: SARJOM Instantly Translates Teacher's Response to Mother Tongue
+        Classroom speaker broadcasts in Santhali:
+        "ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ!"
         Child smiles, feels supported, and learns without fear!
 ```
 

@@ -164,28 +164,22 @@
 
 ```
 Step 1: Child Speaks Mother Tongue 
-        (e.g., Child speaks or teacher taps: "ᱤᱧ ᱵᱟᱹᱧ ᱵᱩᱡᱷᱟᱹᱣ ᱞᱮᱫ-ᱟ")
+        (e.g., Child speaks in Santhali: "ᱤᱧ ᱫᱟᱜ ᱧᱩᱧ ᱪᱟᱞᱟᱜ-ᱟ")
                           │
                           ▼
 Step 2: Tablet Translates for Teacher in Hindi
-        "छात्र का आशय: मुझे समझ नहीं आया, दोबारा बताइए"
+        "छात्र ने पूछा: क्या मैं पानी पीने जाऊं?"
                           │
                           ▼
-Step 3: Tablet Instantly Suggests 3 One-Tap Pedagogical Counter-Responses
-        ┌─────────────────────────────────────────────────────────────┐
-        │ Option A: "कोई बात नहीं, इस चित्र को देखो और दोबारा सुनो"     │
-        │ ➔ Santhali: "ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ"   │
-        ├─────────────────────────────────────────────────────────────┤
-        │ Option B: "हाँ, जाओ पानी पीकर तुरंत आ जाओ"                   │
-        │ ➔ Santhali: "ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ"        │
-        ├─────────────────────────────────────────────────────────────┤
-        │ Option C: "बहुत सुंदर लिखा है! शाबाश, अपनी जगह बैठो"         │
-        │ ➔ Santhali: "ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ ᱚᱞ ᱟᱠᱟᱱᱟ! ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ ᱨᱮ ᱫᱩᱲᱩᱵ ᱢᱮ"     │
-        └─────────────────────────────────────────────────────────────┘
+Step 3: Teacher Speaks or Types Their Own Independent Response (100% Autonomy)
+        The educator has full pedagogical freedom — no rigid AI-prescribed options!
+        Teacher freely speaks or types in Hindi:
+        "हाँ, जाओ पानी पीकर तुरंत आ जाओ।" OR "अभी 2 मिनट रुको, पाठ पूरा करो।"
                           │
-                          ▼ Teacher Taps One Chip
-Step 4: Tablet Speaks Aloud to Child in Native Tribal Tongue
-        Child hears: "ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ!"
+                          ▼
+Step 4: SARJOM Instantly Translates Teacher's Response to Mother Tongue
+        Classroom speaker broadcasts in Santhali:
+        "ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ!"
         Child smiles, feels supported, and learns without fear!
 ```
 

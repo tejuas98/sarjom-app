@@ -44,6 +44,8 @@ export function VoiceTranslator({ selectedLang }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [measuredLatency, setMeasuredLatency] = useState(42);
   const [showAdvancedInput, setShowAdvancedInput] = useState(false);
+  const [teacherReplyText, setTeacherReplyText] = useState('');
+  const [isReplyingMic, setIsReplyingMic] = useState(false);
 
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
   const quickSuggestions = getContextualSuggestions();
@@ -179,6 +181,36 @@ export function VoiceTranslator({ selectedLang }) {
     link.click();
     document.body.removeChild(link);
     toast.success('संवाद लॉग MicroSD / पेनड्राइव रिपोर्ट के रूप में निर्यातित!');
+  };
+
+  // Teacher Autonomous Response Handlers (No rigid canned options - Teacher has 100% independence)
+  const handleTeacherReplySubmit = (e) => {
+    if (e) e.preventDefault();
+    if (!teacherReplyText.trim()) return;
+    const res = translateHindiToTribal(teacherReplyText, selectedLang);
+    addToHistory(teacherReplyText, res, 'teacher');
+    handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
+    toast.success(`उत्तर छात्र को ${langMeta.name} में सुनाया: "${res.nativeScript}"`);
+    setTeacherReplyText('');
+  };
+
+  const handleTeacherReplyMic = () => {
+    setIsReplyingMic(true);
+    toast('🎙️ अपना स्वतंत्र उत्तर हिंदी में बोलें...');
+    voiceService.startListening(
+      (transcript) => {
+        setIsReplyingMic(false);
+        setTeacherReplyText(transcript);
+        const res = translateHindiToTribal(transcript, selectedLang);
+        addToHistory(transcript, res, 'teacher');
+        handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
+        toast.success(`उत्तर छात्र को ${langMeta.name} में सुनाया: "${transcript}"`);
+      },
+      (err) => {
+        setIsReplyingMic(false);
+        toast.error('माइक स्थिति: लिखकर उत्तर दें');
+      }
+    );
   };
 
   return (
@@ -725,92 +757,85 @@ export function VoiceTranslator({ selectedLang }) {
                 </div>
               </div>
 
-              {/* Real-World Teacher Pedagogical Counter-Response Assistant */}
-              <div style={{ marginTop: '16px' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-slate)', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🗣️</span>
-                  <span>शिक्षक का प्रत्युत्तर (Teacher Counter-Responses in Mother Tongue):</span>
+              {/* Teacher Autonomous Independent Response Hub */}
+              <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>🗣️</span>
+                    <span>शिक्षक का स्वतंत्र उत्तर (Teacher's Autonomous Response):</span>
+                  </div>
+                  <span className="badge-tag badge-forest">शिक्षक की स्वायत्तता</span>
                 </div>
-                <p style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', margin: '0 0 10px 0' }}>
-                  छात्र की बात सुनकर शिक्षक इनमें से किसी एक पर टैप करें। सिस्टम छात्र को उसकी मातृभाषा में उत्तर सुनाएगा:
-                </p>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {[
-                    {
-                      id: 'resp_water',
-                      hindiPrompt: 'हाँ, जाओ पानी पीकर तुरंत आ जाओ।',
-                      ho: 'हे, सेनोः मे दाः ञु केते हिजुः मे।',
-                      mundari: 'हे, सेनोः मे दाः ञू केते हिजू-मे।',
-                      santhali: 'ᱦᱮᱸ, ᱪᱟᱞᱟᱜ ᱢᱮ ᱫᱟᱜ ᱧᱩ ᱠᱟᱛᱮ ᱞᱚᱜᱚᱱ ᱦᱤᱡᱩᱜ ᱢᱮ᱾',
-                      santhaliPhonetic: 'हें, चालाग मे दाग ञु काते लोगोन हिजुग मे।',
-                    },
-                    {
-                      id: 'resp_doubt',
-                      hindiPrompt: 'कोई बात नहीं, इस चित्र को देखो और दोबारा सुनो।',
-                      ho: 'का काजी, नेना चित्र नेल मे आर आजोम मे।',
-                      mundari: 'का काजी, ने चित्र नेलेमे आर आयूम-एपे।',
-                      santhali: 'ᱪᱮᱫ ᱦᱚᱸ ᱵᱟᱝ, ᱱᱚᱣᱟ ᱪᱤᱛᱟᱹᱨ ᱧᱮᱞ ᱢᱮ ᱟᱨ ᱟᱧᱡᱚᱢ ᱢᱮ᱾',
-                      santhaliPhonetic: 'चेद हों बां, नोवा चितार ञेल मे आर आजोम मे।',
-                    },
-                    {
-                      id: 'resp_check',
-                      hindiPrompt: 'बहुत सुंदर लिखा है! शाबाश, अपनी जगह बैठो।',
-                      ho: 'बुगीते ओल अकाना! दूब मे आपन जाइगा रे।',
-                      mundari: 'बेस ओलेकड़ाम! दुबपे आपन ठाईं रे।',
-                      santhali: 'ᱟᱹᱰᱤ ᱱᱟᱯᱟᱭ ᱚᱞ ᱟᱠᱟᱱᱟ! ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ ᱨᱮ ᱫᱩᱲᱩᱵ ᱢᱮ᱾',
-                      santhaliPhonetic: 'अडि नापाय ओल आकाना! आमाग जायगा रे दुड़ुब मे।',
-                    },
-                    {
-                      id: 'resp_sick',
-                      hindiPrompt: 'थोड़ा आराम करो और पानी पियो।',
-                      ho: 'हुडिंग दूब मे आर दाः ञु मे।',
-                      mundari: 'हुडिंग आराम मे आर दाः ञू मे।',
-                      santhali: 'ᱠᱟᱹᱴᱤᱡ ᱡᱤᱨᱟᱹᱣ ᱢᱮ ᱟᱨ ᱫᱟᱜ ᱧᱩᱭ ᱢᱮ᱾',
-                      santhaliPhonetic: 'काटिज जिराव मे आर दाग ञुय मे।',
-                    },
-                  ].map((resp) => {
-                    const tribalText =
-                      selectedLang === 'santhali'
-                        ? resp.santhali
-                        : selectedLang === 'ho'
-                        ? resp.ho
-                        : resp.mundari;
-                    const phonetic =
-                      selectedLang === 'santhali'
-                        ? resp.santhaliPhonetic
-                        : tribalText;
-
-                    return (
-                      <button
-                        key={resp.id}
-                        type="button"
-                        onClick={() => {
-                          handleSpeakAudio(phonetic, resp.hindiPrompt);
-                          addToHistory(resp.hindiPrompt, { nativeScript: tribalText, phoneticDeva: phonetic }, 'teacher');
-                        }}
-                        className="btn-brutal"
-                        style={{
-                          padding: '10px 14px',
-                          backgroundColor: 'var(--color-bg)',
-                          textAlign: 'left',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          fontSize: '0.82rem',
-                        }}
-                      >
-                        <div>
-                          <div style={{ fontWeight: 700, color: 'var(--color-slate)' }}>{resp.hindiPrompt}</div>
-                          <div style={{ color: 'var(--color-forest)', fontSize: '0.78rem' }}>
-                            {tribalText} ({phonetic})
-                          </div>
-                        </div>
-                        <Volume2 size={16} color="var(--color-forest)" />
-                      </button>
-                    );
-                  })}
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--color-bg)',
+                    border: '1px solid var(--color-border)',
+                    fontSize: '0.82rem',
+                    color: 'var(--color-slate-muted)',
+                  }}
+                >
+                  💡 <strong>शिक्षक को पूर्ण स्वतंत्रता:</strong> AI शिक्षक का उत्तर तय नहीं करेगा। छात्र की बात सुनकर शिक्षक जो भी बोलना या निर्देश देना चाहें, अपनी हिंदी में बोलें या टाइप करें — सिस्टम तुरंत उसे छात्र की मातृभाषा <strong>({langMeta.name})</strong> में अनुवाद कर कक्षा स्पीकर पर सुनाएगा।
                 </div>
+
+                {/* Speak Response Button */}
+                <button
+                  type="button"
+                  onClick={isReplyingMic ? handleStopMic : handleTeacherReplyMic}
+                  className={`btn-brutal ${isReplyingMic ? 'btn-palash' : 'btn-forest'}`}
+                  style={{
+                    width: '100%',
+                    padding: '14px 20px',
+                    fontSize: '1.05rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {isReplyingMic ? (
+                    <>
+                      <MicOff size={20} className="audio-pulse" />
+                      <span>सुन रहे हैं... (रोकने हेतु पुनः दबाएं)</span>
+                    </>
+                  ) : (
+                    <>
+                      <Mic size={20} />
+                      <span>🎙️ अपना उत्तर बोलें (Speak Your Response in Hindi)</span>
+                    </>
+                  )}
+                </button>
+
+                {/* Type Response Form */}
+                <form onSubmit={handleTeacherReplySubmit} style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    type="text"
+                    value={teacherReplyText}
+                    onChange={(e) => setTeacherReplyText(e.target.value)}
+                    placeholder="या अपना स्वतंत्र उत्तर यहाँ लिखें (उदा: ठीक है, 2 मिनट बाद जाना / अभी कॉपी दिखाओ)..."
+                    style={{
+                      flex: 1,
+                      padding: '10px 14px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: 'var(--border-thick)',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '0.95rem',
+                      outline: 'none',
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    className="btn-brutal btn-palash"
+                    style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <Send size={16} />
+                    <span>सुनाएं</span>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
