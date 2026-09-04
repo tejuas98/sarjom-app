@@ -49,7 +49,7 @@ export default function App() {
     const lang = newLang || (uiLang === 'hi' ? 'en' : 'hi');
     setUiLang(lang);
     offlineStorage.setUILanguage(lang);
-    toast.success(lang === 'en' ? '🌐 Language switched to English' : '🌐 भाषा बदलकर हिन्दी की गई');
+    toast.success(lang === 'en' ? 'Language switched to English' : 'भाषा बदलकर हिन्दी की गई');
   };
 
   const handleSelectLang = (langId) => {

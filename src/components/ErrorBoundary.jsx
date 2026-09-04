@@ -29,7 +29,7 @@ export class ErrorBoundary extends React.Component {
           fontFamily: 'Inter, sans-serif'
         }}>
           <h2 style={{ color: '#9F1239', marginBottom: '12px', fontSize: '1.4rem' }}>
-            ⚠️ घटक रेंडरिंग सूचना (Component Notice)
+            घटक रेंडरिंग सूचना (Component Notice)
           </h2>
           <p style={{ color: '#4C0519', marginBottom: '16px', fontSize: '0.95rem' }}>
             {this.state.error?.message || 'घटक लोड करने में एक अस्थायी त्रुटि आई।'}
@@ -49,7 +49,7 @@ export class ErrorBoundary extends React.Component {
               cursor: 'pointer'
             }}
           >
-            🔄 पुनः लोड करें (Reload)
+            पुनः लोड करें (Reload)
           </button>
         </div>
       );

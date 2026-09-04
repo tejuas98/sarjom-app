@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { Printer, Download, RefreshCw, CheckCircle2, QrCode, Sparkles, BookCheck, Smartphone } from 'lucide-react';
+import { Printer, Download, RefreshCw, CheckCircle2, QrCode, Sparkles, BookCheck, Smartphone, Leaf } from 'lucide-react';
 import { toast } from 'sonner';
 import { ParentPhoneScanModal } from './ParentPhoneScanModal';
 
@@ -253,10 +253,10 @@ export function WorksheetStudio({ selectedLang }) {
                         प्रश्न {idx + 1}: {item.hindi}
                       </div>
                       {/* Object Icons for Counting */}
-                      <div style={{ display: 'flex', gap: '8px', margin: '12px 0', fontSize: '1.6rem' }}>
+                      <div style={{ display: 'flex', gap: '8px', margin: '12px 0' }}>
                         {objectsArray.map((_, i) => (
-                          <span key={i} title="पत्ता / वस्तु">
-                            🍃
+                          <span key={i} title="वस्तु" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                            <Leaf size={22} color="var(--color-forest)" />
                           </span>
                         ))}
                       </div>
@@ -331,7 +331,7 @@ export function WorksheetStudio({ selectedLang }) {
                     }}
                   >
                     <span>{idx + 1}. {item.hindi}</span>
-                    <span>⚪</span>
+                    <span style={{ width: '12px', height: '12px', borderRadius: '50%', border: '2px solid var(--color-slate)', display: 'inline-block' }} />
                   </div>
                 ))}
               </div>
@@ -357,7 +357,7 @@ export function WorksheetStudio({ selectedLang }) {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <span>⚪</span>
+                      <span style={{ width: '12px', height: '12px', borderRadius: '50%', border: '2px solid var(--color-forest)', display: 'inline-block' }} />
                       <span className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}>
                         {name} ({tribalData.phoneticDeva})
                       </span>

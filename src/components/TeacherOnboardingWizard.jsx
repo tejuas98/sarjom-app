@@ -11,6 +11,7 @@ import {
   Mic,
   ShieldCheck,
   X,
+  MapPin,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -148,8 +149,9 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
                   }}
                 >
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--color-slate)' }}>
-                      📍 {item.dist}
+                    <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <MapPin size={14} color="var(--color-palash)" />
+                      <span>{item.dist}</span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--color-forest)', marginTop: '2px' }}>
                       लक्षित भाषा: <strong>{item.lang}</strong>
@@ -218,7 +220,7 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
               }}
             >
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#8C5F08' }}>
-                {micTestPassed ? '✅ माइक कैलिब्रेशन पूर्ण (Noise Gate Active)' : 'परीक्षण वाक्य: "किताब खोलो"'}
+                {micTestPassed ? 'माइक कैलिब्रेशन पूर्ण (Noise Gate Active)' : 'परीक्षण वाक्य: "किताब खोलो"'}
               </div>
               {!micTestPassed ? (
                 <button

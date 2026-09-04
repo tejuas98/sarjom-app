@@ -82,21 +82,21 @@ export function NeuralModelInspector({ selectedLang }) {
           className={`btn-brutal ${activeView === 'flowchart' ? 'btn-forest' : 'btn-subtle'}`}
           style={{ padding: '8px 18px', fontSize: '0.88rem' }}
         >
-          🔄 विस्तृत डिसिजन फ़्लोचार्ट (If-Else Logic)
+          विस्तृत डिसिजन फ़्लोचार्ट (Decision Logic)
         </button>
         <button
           onClick={() => setActiveView('ipo')}
           className={`btn-brutal ${activeView === 'ipo' ? 'btn-forest' : 'btn-subtle'}`}
           style={{ padding: '8px 18px', fontSize: '0.88rem' }}
         >
-          📐 3-स्टेज Input · Process · Output (IPO)
+          3-स्टेज Input · Process · Output (IPO)
         </button>
         <button
           onClick={() => setActiveView('inference')}
           className={`btn-brutal ${activeView === 'inference' ? 'btn-palash' : 'btn-subtle'}`}
           style={{ padding: '8px 18px', fontSize: '0.88rem' }}
         >
-          ⚡ लाइव न्यूरल ट्रांसफॉर्मर व अटेंशन हीटमैप
+          लाइव न्यूरल ट्रांसफॉर्मर व अटेंशन हीटमैप
         </button>
       </div>
 
@@ -175,7 +175,6 @@ export function NeuralModelInspector({ selectedLang }) {
             {/* Input Stage Card */}
             <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #0284C7' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '1.2rem' }}>📥</span>
                 <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#0284C7' }}>
                   1. इनपुट चरण (Input Stage)
                 </h3>
@@ -194,7 +193,6 @@ export function NeuralModelInspector({ selectedLang }) {
             {/* Processing Stage Card */}
             <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #0E5B37' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '1.2rem' }}>⚙️</span>
                 <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#0E5B37' }}>
                   2. प्रसंस्करण चरण (Processing Stage)
                 </h3>
@@ -213,7 +211,6 @@ export function NeuralModelInspector({ selectedLang }) {
             {/* Output Stage Card */}
             <div className="card-brutal" style={{ padding: '20px', backgroundColor: '#FFFFFF', borderTop: '6px solid #D97706' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '1.2rem' }}>📤</span>
                 <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#D97706' }}>
                   3. निर्गत चरण (Output Stage)
                 </h3>
@@ -336,7 +333,7 @@ export function NeuralModelInspector({ selectedLang }) {
           {/* Quick Prompts */}
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-slate-muted)', marginBottom: '6px' }}>
-              ⚡ परीक्षण वाक्य (Test Prompts):
+              परीक्षण वाक्य (Test Prompts):
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {[

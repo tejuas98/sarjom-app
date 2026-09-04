@@ -28,7 +28,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
           </div>
         </div>
       ),
-      actionLabel: '🎙️ वास्तविक समय अनुवादक देखें',
+      actionLabel: 'वास्तविक समय अनुवादक देखें',
       actionTab: 'voice',
     },
     {
@@ -68,7 +68,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
           </table>
         </div>
       ),
-      actionLabel: '⚡ न्यूरल इंस्पेक्टर व लेटेंसी देखें',
+      actionLabel: 'न्यूरल इंस्पेक्टर व लेटेंसी देखें',
       actionTab: 'neural',
     },
     {
@@ -91,7 +91,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
           </div>
         </div>
       ),
-      actionLabel: '📝 अभ्यास पत्र व क्यूआर कोड देखें',
+      actionLabel: 'अभ्यास पत्र व क्यूआर कोड देखें',
       actionTab: 'worksheets',
     },
     {
@@ -110,7 +110,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
           </ul>
         </div>
       ),
-      actionLabel: '🏆 ज्यूरी बेंचमार्किंग मैट्रिक्स देखें',
+      actionLabel: 'ज्यूरी बेंचमार्किंग मैट्रिक्स देखें',
       actionTab: 'benchmark',
     },
   ];
@@ -291,7 +291,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
                   fontSize: '0.85rem',
                 }}
               >
-                टूर समाप्त करें ✓
+                टूर समाप्त करें
               </button>
             )}
           </div>

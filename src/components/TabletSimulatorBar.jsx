@@ -112,7 +112,7 @@ export function TabletSimulatorBar({
 
     setTimeout(() => {
       setIsSyncingEVV(false);
-      toast.success('e-Vidyavahini (EVV) सिंक सफल! ✅', {
+      toast.success('e-Vidyavahini (EVV) सिंक सफल!', {
         description: `14 छात्र FLN मूल्यांकन एवं 80:20 भाषा अनुपात JEPC डेटाबेस में दर्ज।`,
       });
     }, 700);
@@ -144,7 +144,7 @@ export function TabletSimulatorBar({
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <span style={{ color: '#E2E8F0', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span>🏫</span>
+            <Building size={13} color="#94A3B8" />
             <span>{currentSchool.schoolName} ({currentSchool.district.split(' ')[0]})</span>
           </span>
           <span style={{ color: '#94A3B8' }}>
@@ -197,7 +197,7 @@ export function TabletSimulatorBar({
                   cursor: 'pointer',
                 }}
               >
-                🍎 iPad
+                iPad
               </button>
               <button
                 onClick={() => onChangeDeviceMode('android')}
@@ -212,7 +212,7 @@ export function TabletSimulatorBar({
                   cursor: 'pointer',
                 }}
               >
-                🤖 Android
+                Android
               </button>
               <button
                 onClick={() => onChangeDeviceMode('full')}
@@ -227,7 +227,7 @@ export function TabletSimulatorBar({
                   cursor: 'pointer',
                 }}
               >
-                💻 Full
+                Full
               </button>
             </div>
           )}
@@ -247,7 +247,7 @@ export function TabletSimulatorBar({
             }}
             title="रैम, यूडाइस कोड, ई-विद्यावाहिनी और हार्डवेयर विवरण देखें"
           >
-            {isExpanded ? '▲ विवरण छुपाएं' : '⚙️ तकनीकी विवरण'}
+            {isExpanded ? 'विवरण छुपाएं' : 'तकनीकी विवरण'}
           </button>
         </div>
       </div>
@@ -334,7 +334,7 @@ export function TabletSimulatorBar({
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '0.72rem', color: '#70C28A', backgroundColor: '#132C1E', padding: '1px 7px', borderRadius: 'var(--radius-pill)', border: '1px solid #234E35' }}>
-                JEPC SARJOM 80:20 अनुपालन ✅
+                JEPC SARJOM 80:20 अनुपालन
               </span>
 
               <button

@@ -84,7 +84,7 @@ export function SlateAndFolklore({ selectedLang }) {
       origin: { y: 0.7 },
     });
     voiceService.playChime('success');
-    toast.success('शाबाश! बहुत सुंदर लिखावट! 🌟');
+    toast.success('शाबाश! बहुत सुंदर लिखावट!');
   };
 
   const playStoryLineAudio = (line, idx) => {
@@ -188,7 +188,7 @@ export function SlateAndFolklore({ selectedLang }) {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1.2rem' }}>✏️</span>
+                <PenTool size={16} color="#E8F4ED" />
                 <span style={{ fontWeight: 700, fontSize: '1.05rem', color: '#E8F4ED' }}>
                   प्राथमिक छात्र पट्टी (Tablet Blackboard)
                 </span>
@@ -385,7 +385,7 @@ export function SlateAndFolklore({ selectedLang }) {
             </div>
 
             <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', backgroundColor: 'var(--color-bg)', padding: '12px', borderRadius: 'var(--radius-sm)' }}>
-              💡 <strong>शिक्षक टिप:</strong> पहले बच्चे की उंगली पकड़कर अक्षर पर घुमाएं, फिर बच्चे को स्वयं चॉक से रेखाएं खींचने दें।
+              <strong>शिक्षक टिप:</strong> पहले बच्चे की उंगली पकड़कर अक्षर पर घुमाएं, फिर बच्चे को स्वयं चॉक से रेखाएं खींचने दें।
             </div>
           </div>
         </div>
@@ -443,7 +443,7 @@ export function SlateAndFolklore({ selectedLang }) {
               }}
             >
               <div style={{ fontWeight: 700, color: '#8C5F08', fontSize: '0.85rem' }}>
-                🌟 कथा की सीख (Moral of the Story):
+                कथा की सीख (Moral of the Story):
               </div>
               <div style={{ fontSize: '0.9rem', color: '#523702', marginTop: '4px' }}>
                 "{currentStory.moralHindi}"
@@ -525,7 +525,7 @@ export function SlateAndFolklore({ selectedLang }) {
 
                     {/* Teacher Phonetic Guide */}
                     <div style={{ fontSize: '0.82rem', color: '#8C5F08', fontStyle: 'italic' }}>
-                      🗣️ उच्चारण: {tribalObj.phoneticDeva}
+                      उच्चारण: {tribalObj.phoneticDeva}
                     </div>
                   </div>
                 );

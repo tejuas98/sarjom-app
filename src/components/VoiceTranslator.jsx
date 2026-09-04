@@ -16,6 +16,8 @@ import {
   ChevronDown,
   CheckCircle2,
   Radio,
+  Zap,
+  PenTool,
 } from 'lucide-react';
 import { translateHindiToTribal, getContextualSuggestions } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -29,14 +31,14 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const isEn = uiLang === 'en';
 
   const ONE_TAP_CLASSROOM_PROMPTS = [
-    { id: 'otp_1', icon: '📖', label: t.otp_1_label, phrase: t.otp_1_phrase },
-    { id: 'otp_2', icon: '🪑', label: t.otp_2_label, phrase: t.otp_2_phrase },
-    { id: 'otp_3', icon: '🌟', label: t.otp_3_label, phrase: t.otp_3_phrase },
-    { id: 'otp_4', icon: '💧', label: t.otp_4_label, phrase: t.otp_4_phrase },
-    { id: 'otp_5', icon: '🤫', label: t.otp_5_label, phrase: t.otp_5_phrase },
-    { id: 'otp_6', icon: '✍️', label: t.otp_6_label, phrase: t.otp_6_phrase },
-    { id: 'otp_7', icon: '🤝', label: t.otp_7_label, phrase: t.otp_7_phrase },
-    { id: 'otp_8', icon: '🍛', label: t.otp_8_label, phrase: t.otp_8_phrase },
+    { id: 'otp_1', num: '01', label: t.otp_1_label, phrase: t.otp_1_phrase },
+    { id: 'otp_2', num: '02', label: t.otp_2_label, phrase: t.otp_2_phrase },
+    { id: 'otp_3', num: '03', label: t.otp_3_label, phrase: t.otp_3_phrase },
+    { id: 'otp_4', num: '04', label: t.otp_4_label, phrase: t.otp_4_phrase },
+    { id: 'otp_5', num: '05', label: t.otp_5_label, phrase: t.otp_5_phrase },
+    { id: 'otp_6', num: '06', label: t.otp_6_label, phrase: t.otp_6_phrase },
+    { id: 'otp_7', num: '07', label: t.otp_7_label, phrase: t.otp_7_phrase },
+    { id: 'otp_8', num: '08', label: t.otp_8_label, phrase: t.otp_8_phrase },
   ];
 
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student'); // 'teacher_to_student' | 'student_to_teacher'
@@ -73,7 +75,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   const handleSpeakAudio = (textToSpeak, label, lang = 'hi-IN') => {
     setIsPlayingAudio(true);
-    toast.info(`🔊 कक्षा स्पीकर प्रसारण: "${label || textToSpeak}"`);
+    toast.info(`कक्षा स्पीकर प्रसारण: "${label || textToSpeak}"`);
     voiceService.speakText(textToSpeak, lang, () => {
       setIsPlayingAudio(false);
     });
@@ -82,7 +84,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   // ONE-TAP SPEAK & BROADCAST: Teacher taps once -> speaks -> translates -> broadcasts out loud
   const handleStartMic = () => {
     setIsRecording(true);
-    toast('🎙️ माइक्रोफ़ोन सक्रिय: हिंदी में बोलें...', {
+    toast('माइक्रोफ़ोन सक्रिय: हिंदी या अंग्रेजी में बोलें...', {
       description: dialogModeIsTeacher
         ? 'शिक्षक अपनी आवाज़ में निर्देश बोलें — स्वतः कक्षा स्पीकर पर प्रसारित होगा'
         : `छात्र अपनी मातृभाषा ${langMeta.name} में बोलें`,
@@ -120,7 +122,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     const res = handleTranslate(promptItem.phrase);
     addToHistory(promptItem.phrase, res, 'teacher');
     handleSpeakAudio(res.audioText || res.phoneticDeva, res.nativeScript);
-    toast.success(`📢 स्पीकर पर बजा: "${promptItem.label}"`);
+    toast.success(`स्पीकर पर बजा: "${promptItem.label}"`);
   };
 
   const addToHistory = (source, result, direction = 'teacher') => {
@@ -199,7 +201,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   const handleTeacherReplyMic = () => {
     setIsReplyingMic(true);
-    toast('🎙️ अपना स्वतंत्र उत्तर हिंदी में बोलें...');
+    toast('अपना स्वतंत्र उत्तर बोलें...');
     voiceService.startListening(
       (transcript) => {
         setIsReplyingMic(false);
@@ -441,7 +443,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             }}
           >
             <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>⚡</span>
+              <Zap size={16} color="var(--color-palash)" />
               <span>{t.quickCommandsTitle}</span>
             </div>
 
@@ -464,7 +466,24 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
                   }}
                 >
-                  <span style={{ fontSize: '1.4rem' }}>{prompt.icon}</span>
+                  <span
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '6px',
+                      backgroundColor: 'rgba(14, 91, 55, 0.08)',
+                      color: 'var(--color-forest)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      fontFamily: 'monospace',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {prompt.num}
+                  </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--color-slate)' }}>
                       {prompt.label}
@@ -499,7 +518,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1.1rem' }}>✍️</span>
+                <PenTool size={16} color="var(--color-forest)" />
                 <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-slate)' }}>
                   {t.manualInputTitle}
                 </span>
@@ -592,7 +611,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           <div className="card-brutal" style={{ padding: '24px', backgroundColor: 'var(--color-ochre-subtle)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1.4rem' }}>🧒</span>
+                <User size={20} color="#8C5F08" />
                 <h2 style={{ fontSize: '1.35rem', margin: 0, color: '#8C5F08' }}>
                   {t.studentDialogueTitle} ({langMeta.name})
                 </h2>
@@ -685,7 +704,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>🗣️</span>
+                    <MessageSquare size={16} color="var(--color-forest)" />
                     <span>{t.autonomousReplyTitle}</span>
                   </div>
                   <span className="badge-tag badge-forest">{t.autonomousBadge}</span>

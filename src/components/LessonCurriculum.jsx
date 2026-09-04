@@ -133,7 +133,7 @@ export function LessonCurriculum({ selectedLang }) {
                   {currentLesson.titleHindi}
                 </h1>
                 <p style={{ fontSize: '0.9rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-                  🎯 <strong>अधिगम प्रतिफल (Learning Outcome):</strong> {currentLesson.learningOutcome}
+                  <strong>अधिगम प्रतिफल (Learning Outcome):</strong> {currentLesson.learningOutcome}
                 </p>
               </div>
             </div>
@@ -196,7 +196,7 @@ export function LessonCurriculum({ selectedLang }) {
                 {currentTranslation.scriptOlChiki || currentTranslation.script}
               </div>
               <div style={{ fontSize: '0.88rem', color: '#0E5B37', fontWeight: 600 }}>
-                🗣️ शिक्षक हेतु उच्चारण: {currentTranslation.phoneticDeva}
+                शिक्षक हेतु उच्चारण: {currentTranslation.phoneticDeva}
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', fontStyle: 'italic', marginTop: '2px' }}>
                 रोमन: {currentTranslation.phoneticLatin}
@@ -219,7 +219,7 @@ export function LessonCurriculum({ selectedLang }) {
               }}
             >
               <div style={{ fontWeight: 700, color: '#8C5F08', fontSize: '1rem' }}>
-                🎮 {currentLesson.activity.name}
+                {currentLesson.activity.name}
               </div>
               <p style={{ fontSize: '0.85rem', color: '#523702', margin: '4px 0 10px 0' }}>
                 {currentLesson.activity.instructionsHindi}
@@ -394,7 +394,7 @@ export function LessonCurriculum({ selectedLang }) {
                   <strong>मातृभाषा संवाद:</strong> {customGeneratedLesson.openingScriptTribal}
                 </div>
                 <div style={{ color: '#8C5F08', fontSize: '0.8rem' }}>
-                  🗣️ उच्चारण: {customGeneratedLesson.phoneticDeva}
+                  उच्चारण: {customGeneratedLesson.phoneticDeva}
                 </div>
               </div>
             )}

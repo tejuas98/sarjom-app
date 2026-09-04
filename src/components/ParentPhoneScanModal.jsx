@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Volume2, Smartphone, CheckCircle, QrCode, Sparkles, ArrowRight } from 'lucide-react';
+import { X, Volume2, Smartphone, CheckCircle, QrCode, Sparkles, ArrowRight, BookOpen } from 'lucide-react';
 import { voiceService } from '../services/voiceTranslationService';
 
 export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali', worksheetType = 'numeracy' }) {
@@ -164,7 +164,9 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
               marginBottom: '16px',
             }}
           >
-            <div style={{ fontSize: '1.8rem', marginBottom: '4px' }}>🌳</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: '#0E5B37', color: '#FFFFFF', margin: '0 auto 6px auto' }}>
+              <BookOpen size={20} />
+            </div>
             <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#0E5B37', fontWeight: 800 }}>
               सरजोम ध्वनि साथी (Audio Companion)
             </h3>
@@ -238,7 +240,7 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
             }}
           >
             <Volume2 size={22} className={isPlaying ? 'animate-pulse' : ''} />
-            {isPlaying ? 'उच्चारण हो रहा है...' : '🔊 उच्चारण सुनें (Tap to Listen)'}
+            {isPlaying ? 'उच्चारण हो रहा है...' : 'उच्चारण सुनें (Tap to Listen)'}
           </button>
 
           {/* Explanation for Jury & Evaluators */}
@@ -254,7 +256,7 @@ export function ParentPhoneScanModal({ isOpen, onClose, selectedLang = 'santhali
               lineHeight: 1.4,
             }}
           >
-            <strong>💡 ज्यूरी मूल्यांकन संदर्भ:</strong> यह वेबपेज बिना किसी ऐप डाउनलोड के गाँव के किसी भी 4G/2G स्मार्टफोन पर खुलता है, जिससे निरक्षर माता-पिता भी घर पर बच्चे को सही मातृभाषा में अभ्यास करा सकते हैं।
+            <strong>ज्यूरी मूल्यांकन संदर्भ:</strong> यह वेबपेज बिना किसी ऐप डाउनलोड के गाँव के किसी भी 4G/2G स्मार्टफोन पर खुलता है, जिससे निरक्षर माता-पिता भी घर पर बच्चे को सही मातृभाषा में अभ्यास करा सकते हैं।
           </div>
         </div>
 

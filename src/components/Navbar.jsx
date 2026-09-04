@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe } from 'lucide-react';
+import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe, BookOpen } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -79,11 +79,10 @@ export function Navbar({
               alignItems: 'center',
               justifyContent: 'center',
               color: '#FFFFFF',
-              fontSize: '1.25rem',
               boxShadow: '0 2px 8px rgba(14, 91, 55, 0.2)',
             }}
           >
-            🌿
+            <BookOpen size={20} strokeWidth={2.2} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -92,14 +91,26 @@ export function Navbar({
               </span>
               <span
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
                   fontSize: '0.72rem',
-                  padding: '1px 7px',
+                  padding: '2px 8px',
                   borderRadius: '999px',
                   backgroundColor: isOffline ? '#DCFCE7' : '#EFF6FF',
                   color: isOffline ? '#166534' : '#1E40AF',
                   fontWeight: 600,
                 }}
               >
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: isOffline ? '#16A34A' : '#2563EB',
+                    display: 'inline-block',
+                  }}
+                />
                 {isOffline ? t.offlineStatus : t.onlineStatus}
               </span>
             </div>

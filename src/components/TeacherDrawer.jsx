@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drawer } from 'vaul';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { BookOpen, X, Sparkles, AlertCircle, HeartPulse, CheckCircle } from 'lucide-react';
+import { BookOpen, X, Sparkles, AlertCircle, HeartPulse, CheckCircle, Volume2, Award } from 'lucide-react';
 
 export function TeacherDrawer({
   isOpen,
@@ -138,7 +138,8 @@ export function TeacherDrawer({
                   textAlign: 'left',
                 }}
               >
-                <span>🔊 कक्षा ऑडियो प्लेयर</span>
+                <Volume2 size={16} color="var(--color-forest)" />
+                <span>कक्षा ऑडियो प्लेयर</span>
               </button>
             )}
 
@@ -159,7 +160,8 @@ export function TeacherDrawer({
                   textAlign: 'left',
                 }}
               >
-                <span>🏆 SIH ज्यूरी टूर</span>
+                <Award size={16} color="#D97706" />
+                <span>SIH ज्यूरी टूर</span>
               </button>
             )}
           </div>
@@ -203,7 +205,7 @@ export function TeacherDrawer({
             {/* 2. Phonetics & Glottal Shifts Guide for Non-Native Teachers */}
             <div>
               <h3 style={{ fontSize: '1.1rem', margin: '0 0 8px 0', color: 'var(--color-slate)' }}>
-                🗣️ {langMeta.name} भाषा ध्वनिविज्ञान (Phonetic Guide for Hindi Teachers):
+                {langMeta.name} भाषा ध्वनिविज्ञान (Phonetic Guide for Hindi Teachers):
               </h3>
 
               <div
