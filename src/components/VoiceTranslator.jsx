@@ -502,18 +502,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   type="button"
                   onClick={() => setPromptCategory('benchmark')}
                   style={{
-                    padding: '4px 12px',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    border: 'none',
+                    padding: '6px 14px',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
                     borderRadius: 'var(--radius-pill)',
+                    border: 'none',
                     backgroundColor: promptCategory === 'benchmark' ? 'var(--color-palash)' : 'transparent',
                     color: promptCategory === 'benchmark' ? '#FFFFFF' : 'var(--color-slate-muted)',
                     cursor: 'pointer',
                     transition: 'var(--transition-smooth)',
                   }}
                 >
-                  SIH मूल्यांकन (11)
+                  SIH मूल्यांकन ({BENCHMARK_CASES.length})
                 </button>
               </div>
             </div>
@@ -538,30 +538,49 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         textAlign: 'left',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px',
+                        justifyContent: 'space-between',
+                        gap: '10px',
                         transition: 'all 0.15s ease',
-                        boxShadow: isSelected ? '0 1px 3px rgba(0,0,0,0.05)' : 'none',
                       }}
                     >
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)',
-                          backgroundColor: isSelected ? 'rgba(249, 115, 22, 0.15)' : 'var(--color-border-subtle)',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                        }}
-                      >
-                        {prompt.num}
-                      </span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--color-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {prompt.label}
-                        </div>
-                        <div style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          "{prompt.phrase}"
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)',
+                            opacity: 0.8,
+                          }}
+                        >
+                          {prompt.num}
+                        </span>
+                        <div style={{ minWidth: 0 }}>
+                          <p
+                            style={{
+                              margin: 0,
+                              fontSize: '0.86rem',
+                              fontWeight: 600,
+                              color: isSelected ? 'var(--color-palash)' : 'var(--color-slate)',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {prompt.label}
+                          </p>
+                          <p
+                            style={{
+                              margin: 0,
+                              fontSize: '0.76rem',
+                              color: 'var(--color-slate-muted)',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            "{prompt.phrase}"
+                          </p>
                         </div>
                       </div>
                       <Volume2 size={13} style={{ color: isSelected ? 'var(--color-palash)' : 'var(--color-slate-muted)', opacity: 0.7, flexShrink: 0 }} />
