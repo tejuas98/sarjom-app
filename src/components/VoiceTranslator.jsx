@@ -152,14 +152,36 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     await runDiagnostics();
   };
 
+  const [sessionSeconds, setSessionSeconds] = useState(0);
+  const [liveSessionCount, setLiveSessionCount] = useState(0);
+
+  // Live session timer for continuous microphone mode
+  useEffect(() => {
+    let interval = null;
+    if (isRecording) {
+      interval = setInterval(() => {
+        setSessionSeconds((s) => s + 1);
+      }, 1000);
+    } else {
+      setSessionSeconds(0);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isRecording]);
+
+  const formatTimer = (sec) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
   const handleSimulateSpeech = (utteranceText) => {
-    setIsRecording(true);
     setInputText(utteranceText);
     toast.info(isEn ? `Classroom Speech: "${utteranceText}"` : `कक्षा भाषण: "${utteranceText}"`);
     voiceService.playChime('listen');
 
     setTimeout(() => {
-      setIsRecording(false);
       const res = executeTranslation(utteranceText);
       if (res) {
         const textToBroadcast = isTeacherMode
@@ -167,6 +189,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           : (res.hindiTranslation || res.nativeScript);
         handleSpeakAudio(textToBroadcast, res.nativeScript);
         addToHistory(utteranceText, res, isTeacherMode ? 'teacher' : 'student');
+        setLiveSessionCount((c) => c + 1);
       }
     }, 250);
   };
@@ -237,24 +260,26 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
     voiceService.startListening(
       (transcript) => {
-        setIsRecording(false);
+        // Continuous Classroom Mode: Keep mic ON and record every utterance
         setInputText(transcript);
         const res = executeTranslation(transcript);
-        toast.success(isEn ? `Transcribed: "${transcript}"` : `पहचाना गया: "${transcript}"`);
-
-        setTimeout(() => {
-          if (res) {
-            const textToBroadcast = isTeacherMode
-              ? (res.audioText || res.phoneticDeva)
-              : (res.hindiTranslation || res.nativeScript);
-            handleSpeakAudio(textToBroadcast, res.nativeScript);
-            addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
-          }
-        }, 120);
+        if (res) {
+          const textToBroadcast = isTeacherMode
+            ? (res.audioText || res.phoneticDeva)
+            : (res.hindiTranslation || res.nativeScript);
+          handleSpeakAudio(textToBroadcast, res.nativeScript);
+          addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
+          setLiveSessionCount((prev) => prev + 1);
+          toast.success(
+            isEn
+              ? `Sentence Logged: "${transcript}"`
+              : `वाक्य दर्ज हुआ: "${transcript}"`
+          );
+        }
       },
       (error) => {
-        setIsRecording(false);
         if (error.code === 'not-allowed') {
+          setIsRecording(false);
           toast.error(
             isEn
               ? 'Microphone permission blocked. Click "Mic Diagnostics" to grant permission.'
@@ -263,21 +288,19 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           setShowDiagnostics(true);
           runDiagnostics();
         } else if (error.code === 'network') {
+          setIsRecording(false);
           toast.warning(
             isEn
               ? 'Speech service offline/in simulator. Click any speech prompt below to test speech!'
               : 'सिम्युलेटर में क्लाउड स्पीच ऑफ़लाइन है। त्वरित परीक्षण हेतु नीचे दिए गए किसी भी वाक्य पर क्लिक करें!'
           );
         } else if (error.code === 'not-supported') {
+          setIsRecording(false);
           toast.warning(
             isEn
               ? 'Web Speech API is not supported in this browser. Quick speech prompts active.'
               : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। त्वरित भाषण वाक्य सक्रिय हैं।'
           );
-        } else if (error.code === 'no-speech') {
-          toast.info(isEn ? 'No voice detected. Please speak closer to the mic.' : 'कोई आवाज़ नहीं सुनाई दी। कृपया माइक के पास बोलें।');
-        } else {
-          toast.error(error.message || 'Microphone error');
         }
       },
       recognitionLang
@@ -287,6 +310,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const handleStopMic = () => {
     voiceService.stopListening();
     setIsRecording(false);
+    toast.success(
+      isEn
+        ? `Microphone stopped. All utterances preserved in Classroom Log!`
+        : `माइक्रोफ़ोन बंद। सभी संवाद कक्षा लॉग में सुरक्षित!`
+    );
   };
 
   const addToHistory = (source, res, direction = 'teacher') => {
@@ -671,16 +699,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
             {/* Mic Status & Guidance */}
             <div>
-              <div style={{ fontSize: '1.12rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-                {isRecording
-                  ? (isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent)
-                  : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)}
-              </div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.12rem', fontWeight: 700, color: isRecording ? '#DC2626' : 'var(--color-slate)', letterSpacing: '-0.01em' }}>
                 {isRecording
                   ? (isTeacherMode
-                    ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
-                    : t.tapToSpeakSubRecStudent)
+                    ? (isEn ? `🔴 Live Classroom Session (${formatTimer(sessionSeconds)})` : `🔴 लाइव कक्षा सत्र जारी (${formatTimer(sessionSeconds)})`)
+                    : (isEn ? `🔴 Live Student Session (${formatTimer(sessionSeconds)})` : `🔴 लाइव छात्र सत्र जारी (${formatTimer(sessionSeconds)})`))
+                  : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: isRecording ? 'var(--color-slate)' : 'var(--color-slate-muted)', marginTop: '4px', fontWeight: isRecording ? 600 : 400 }}>
+                {isRecording
+                  ? (isEn
+                    ? 'Listening continuously: speak sentence by sentence. Tap mic to conclude.'
+                    : 'सतत वाक पहचान चालू: बोलते रहें, हर वाक्य का अनुवाद होकर लॉग में दर्ज होगा। समाप्त करने हेतु माइक दबाएं।')
                   : (isTeacherMode
                     ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
                     : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name))}
@@ -706,7 +736,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               >
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
                 <span>
-                  {isEn ? `Listening in real-time (${langMeta.name})...` : `रीयल-टाइम में सुन रहा है (${langMeta.name})...`}
+                  {isEn
+                    ? `Live Session Active (${langMeta.name}) • ${liveSessionCount} sentences recorded • Tap mic to stop`
+                    : `लाइव सत्र सक्रिय (${langMeta.name}) • ${liveSessionCount} वाक्य दर्ज हुए • रोकने हेतु माइक दबाएं`}
                 </span>
               </div>
             )}
@@ -973,9 +1005,30 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <h3 style={{ fontSize: '1.05rem', margin: 0, fontWeight: 800, color: 'var(--color-slate)' }}>
                   {t.dialogueLogTitle}
                 </h3>
-                <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
-                  {history.length} {t.entriesCount} • Real-time
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
+                    {history.length} {t.entriesCount} • Real-time
+                  </span>
+                  {isRecording && (
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '1px 8px',
+                        borderRadius: '999px',
+                        backgroundColor: 'rgba(220, 38, 38, 0.12)',
+                        color: '#DC2626',
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
+                      LIVE RECORDING ({formatTimer(sessionSeconds)})
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -198,32 +198,36 @@ class VoiceTranslationService {
 
     try {
       this.recognition.lang = lang;
+      this.recognition.continuous = true;
+      this.recognition.interimResults = false;
     } catch (e) {}
 
     this.isListening = true;
     this.playChime('listen');
 
     this.recognition.onresult = (event) => {
-      this.isListening = false;
-      if (event.results && event.results[0] && event.results[0][0]) {
-        const transcript = event.results[0][0].transcript;
-        onResult(transcript);
-      } else {
-        onError({
-          code: 'no-speech',
-          message: 'No speech recognized. Please try speaking again.',
-        });
+      // Process all final recognized sentences continuously without stopping
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          const transcript = event.results[i][0].transcript.trim();
+          if (transcript) {
+            onResult(transcript);
+          }
+        }
       }
     };
 
     this.recognition.onerror = (err) => {
-      this.isListening = false;
       const errCode = err.error || 'unknown';
+      // In continuous classroom mode, 'no-speech' is just a natural classroom pause; do not terminate listening
+      if (errCode === 'no-speech') {
+        return;
+      }
+
+      this.isListening = false;
       let message = 'Microphone error: ' + errCode;
       if (errCode === 'not-allowed') {
         message = 'Microphone permission was denied. Please allow mic access in your browser.';
-      } else if (errCode === 'no-speech') {
-        message = 'No voice detected. Please speak closer to the microphone.';
       } else if (errCode === 'network') {
         message = 'Speech service network error (cloud recognition unavailable). You can use the instant quick speech prompts.';
       } else if (errCode === 'audio-capture') {
@@ -233,39 +237,41 @@ class VoiceTranslationService {
     };
 
     this.recognition.onend = () => {
-      this.isListening = false;
+      // Auto-restart recognition if teacher/student hasn't explicitly clicked stop
+      if (this.isListening) {
+        try {
+          this.recognition.start();
+        } catch (e) {
+          setTimeout(() => {
+            if (this.isListening) {
+              try {
+                this.recognition.start();
+              } catch (restartErr) {}
+            }
+          }, 200);
+        }
+      }
     };
 
     try {
       this.recognition.start();
     } catch (e) {
-      this.isListening = false;
       if (e.name === 'InvalidStateError') {
-        // Recognition already running: restart cleanly
-        try {
-          this.recognition.stop();
-          setTimeout(() => {
-            try {
-              this.recognition.start();
-            } catch (retryErr) {
-              onError({ code: 'start-failed', message: 'Could not restart speech recognition' });
-            }
-          }, 150);
-        } catch (stopErr) {
-          onError({ code: 'start-failed', message: 'Speech recognition is already running' });
-        }
+        // Recognition already running: keep listening
+        this.isListening = true;
       } else {
+        this.isListening = false;
         onError({ code: 'start-failed', message: e.message || 'Could not activate microphone' });
       }
     }
   }
 
   stopListening() {
-    if (this.recognition && this.isListening) {
+    this.isListening = false;
+    if (this.recognition) {
       try {
         this.recognition.stop();
       } catch (e) {}
-      this.isListening = false;
     }
   }
 }
