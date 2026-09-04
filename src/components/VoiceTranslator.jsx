@@ -21,6 +21,7 @@ import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpT
 import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
+import { STUDENT_HARD_BENCHMARK_CASES } from '../data/benchmarkCases';
 import { toast } from 'sonner';
 
 export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
@@ -115,7 +116,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       setTranslationResult(result);
     } else {
       result = translateTribalToHindi(textToTranslate, selectedLang);
-      const latency = Math.max(Math.round(performance.now() - start), 32);
+      const latency = Math.max(Math.round(performance.now() - start), 18);
       setMeasuredLatency(latency);
       setTranslationResult({
         sourceHindi: textToTranslate,
@@ -124,6 +125,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         audioText: result.hindiTranslation,
         matchType: result.matchType,
         confidence: result.confidence,
+        morphologyBreakdown: result.morphologyBreakdown,
+        grammaticalChallenge: result.grammaticalChallenge,
       });
     }
 
@@ -438,15 +441,51 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <div
                   className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
                   style={{
-                    fontSize: '2.1rem',
+                    fontSize: isTeacherMode ? '2.1rem' : '1.75rem',
                     fontWeight: 800,
                     color: 'var(--color-slate)',
-                    lineHeight: 1.25,
+                    lineHeight: 1.3,
                     letterSpacing: '-0.02em',
                   }}
                 >
                   {translationResult.nativeScript}
                 </div>
+
+                {/* Linguistic Details for Student Speech: Morphology Breakdown & Grammatical Challenge */}
+                {!isTeacherMode && translationResult.morphologyBreakdown && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', marginTop: '4px' }}>
+                    <div
+                      style={{
+                        fontSize: '0.80rem',
+                        backgroundColor: 'var(--color-surface-tint)',
+                        padding: '6px 12px',
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--color-border-subtle)',
+                        color: 'var(--color-slate)',
+                        lineHeight: 1.45,
+                      }}
+                    >
+                      <strong style={{ color: 'var(--color-forest-light)' }}>पद-विच्छेद (Morphology Breakdown): </strong>
+                      {translationResult.morphologyBreakdown}
+                    </div>
+                    {translationResult.grammaticalChallenge && (
+                      <div
+                        style={{
+                          fontSize: '0.78rem',
+                          backgroundColor: 'rgba(217, 90, 39, 0.08)',
+                          padding: '5px 12px',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid rgba(217, 90, 39, 0.2)',
+                          color: 'var(--color-palash)',
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        <strong>व्याकरण चुनौती: </strong>
+                        {translationResult.grammaticalChallenge}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Phonetic Pronunciation & Audio Broadcast Action */}
                 <div
@@ -461,11 +500,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   }}
                 >
                   <div style={{ fontSize: '0.92rem', color: 'var(--color-slate)' }}>
-                    <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>{t.pronounceAs}</span>
+                    <span style={{ color: 'var(--color-slate-muted)', marginRight: '6px' }}>
+                      {isTeacherMode ? t.pronounceAs : 'English Gloss:'}
+                    </span>
                     <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
                       {translationResult.phoneticDeva}
                     </strong>
-                    {translationResult.phoneticLatin && (
+                    {isTeacherMode && translationResult.phoneticLatin && (
                       <span style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginLeft: '8px', fontStyle: 'italic' }}>
                         ({translationResult.phoneticLatin})
                       </span>
@@ -564,6 +605,70 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <span>{t.translateBtn}</span>
               </button>
             </form>
+
+            {/* Quick Test Prompt Chips */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
+              <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                {!isTeacherMode ? 'हार्ड मोड छात्र भाषण परीक्षण (Hard Mode 6 Cases):' : 'कक्षा शिक्षक त्वरित वाक्य (Quick Teacher Prompts):'}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {!isTeacherMode
+                  ? STUDENT_HARD_BENCHMARK_CASES.map((sc, idx) => (
+                      <button
+                        key={sc.id}
+                        type="button"
+                        onClick={() => {
+                          const input = sc.tribalInputOlChiki || sc.tribalInputDeva || sc.tribalInputRoman;
+                          setInputText(input);
+                          executeTranslation(input);
+                        }}
+                        style={{
+                          fontSize: '0.72rem',
+                          padding: '4px 10px',
+                          borderRadius: 'var(--radius-pill)',
+                          border: '1px solid var(--color-border-subtle)',
+                          backgroundColor: 'var(--color-surface-tint)',
+                          color: 'var(--color-slate)',
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          transition: 'all 0.15s ease',
+                        }}
+                        title={sc.caseTitle}
+                      >
+                        Case {idx + 1}: {sc.langLabel.split(' ')[0]}
+                      </button>
+                    ))
+                  : [
+                      { label: 'तुम्हारा नाम?', text: 'तुम्हारा नाम क्या है?' },
+                      { label: 'किताब खोलो', text: 'किताब खोलो और सुनो।' },
+                      { label: 'पानी पियो', text: 'पानी पियो।' },
+                      { label: 'पेड़ के नीचे', text: 'पेड़ के नीचे बैठो।' },
+                      { label: 'शाबाश!', text: 'बहुत अच्छा! शाबाश!' },
+                    ].map((chip) => (
+                      <button
+                        key={chip.text}
+                        type="button"
+                        onClick={() => {
+                          setInputText(chip.text);
+                          executeTranslation(chip.text);
+                        }}
+                        style={{
+                          fontSize: '0.72rem',
+                          padding: '4px 10px',
+                          borderRadius: 'var(--radius-pill)',
+                          border: '1px solid var(--color-border-subtle)',
+                          backgroundColor: 'var(--color-surface-tint)',
+                          color: 'var(--color-slate)',
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {chip.label}
+                      </button>
+                    ))}
+              </div>
+            </div>
           </div>
         </div>
 
