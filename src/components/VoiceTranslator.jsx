@@ -405,33 +405,36 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             </div>
           </div>
 
-          {/* Unified Voice & Text Input Toolbar (Zero nested cards) */}
-          <form
-            onSubmit={handleSubmitText}
+          {/* Dedicated Hero Acoustic Microphone Stage (Pure Voice-First for Teachers & Students) */}
+          <div
             style={{
               display: 'flex',
-              gap: '8px',
+              flexDirection: 'column',
               alignItems: 'center',
+              textAlign: 'center',
+              padding: '16px 0 8px 0',
+              gap: '12px',
             }}
           >
-            {/* Mic Push-to-Talk Button */}
+            {/* Hero Mic Button */}
             <button
               type="button"
               onClick={isRecording ? handleStopMic : handleStartMic}
               style={{
-                width: '46px',
-                height: '46px',
-                flexShrink: 0,
-                borderRadius: 'var(--radius-md)',
+                width: '82px',
+                height: '82px',
+                borderRadius: '50%',
                 backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
                 color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
-                border: isRecording ? '2px solid rgba(220, 38, 38, 0.5)' : '1px solid var(--color-border)',
-                boxShadow: isRecording ? '0 0 12px rgba(220, 38, 38, 0.4)' : 'none',
+                border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
+                boxShadow: isRecording
+                  ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
+                  : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.2s ease',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
               title={
                 isRecording
@@ -439,85 +442,51 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)
               }
             >
-              {isRecording ? <MicOff size={20} className="audio-pulse" /> : <Mic size={20} />}
+              {isRecording ? <MicOff size={36} className="audio-pulse" /> : <Mic size={36} />}
             </button>
 
-            {/* Text Input Field */}
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => {
-                setInputText(e.target.value);
-                executeTranslation(e.target.value);
-              }}
-              placeholder={
-                isRecording
-                  ? (isEn ? 'Listening in real-time...' : 'रीयल-टाइम में सुन रहा है...')
-                  : (isTeacherMode ? t.textInputPlaceholderTeacher : t.textInputPlaceholderStudent)
-              }
-              style={{
-                flex: 1,
-                padding: '11px 14px',
-                borderRadius: 'var(--radius-md)',
-                border: isRecording ? '1.5px solid #DC2626' : '1px solid var(--color-border)',
-                backgroundColor: 'var(--color-surface-card)',
-                color: 'var(--color-slate)',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.92rem',
-                outline: 'none',
-                transition: 'border-color 0.2s ease',
-              }}
-            />
-
-            {/* Translate / Send Button */}
-            <button
-              type="submit"
-              style={{
-                padding: '11px 18px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'var(--color-slate)',
-                color: 'var(--color-bg)',
-                border: 'none',
-                borderRadius: 'var(--radius-md)',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: '0.88rem',
-                flexShrink: 0,
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <Send size={15} />
-              <span>{t.translateBtn}</span>
-            </button>
-          </form>
-
-          {/* Recording Banner when active */}
-          {isRecording && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                padding: '8px 14px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'rgba(220, 38, 38, 0.10)',
-                border: '1px solid rgba(220, 38, 38, 0.3)',
-                color: '#DC2626',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-              }}
-            >
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
-              <span>
-                {isTeacherMode
-                  ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
-                  : t.tapToSpeakSubRecStudent}
-              </span>
+            {/* Mic Status & Guidance */}
+            <div>
+              <div style={{ fontSize: '1.12rem', fontWeight: 700, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
+                {isRecording
+                  ? (isTeacherMode ? t.tapToSpeakRecTeacher : t.tapToSpeakRecStudent)
+                  : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+                {isRecording
+                  ? (isTeacherMode
+                    ? t.tapToSpeakSubRecTeacher.replace('{lang}', langMeta.name)
+                    : t.tapToSpeakSubRecStudent)
+                  : (isTeacherMode
+                    ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
+                    : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name))}
+              </div>
             </div>
-          )}
+
+            {/* Live Recording Pulse Banner */}
+            {isRecording && (
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '6px 16px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'rgba(220, 38, 38, 0.12)',
+                  border: '1px solid rgba(220, 38, 38, 0.3)',
+                  color: '#DC2626',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  marginTop: '2px',
+                }}
+              >
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
+                <span>
+                  {isEn ? `Listening in real-time (${langMeta.name})...` : `रीयल-टाइम में सुन रहा है (${langMeta.name})...`}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* Live Translation Output Area (Rendered on card surface - No nested cards!) */}
           {translationResult ? (
