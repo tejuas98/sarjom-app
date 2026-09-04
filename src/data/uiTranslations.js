@@ -1,209 +1,208 @@
 /**
- * SARJOM (सरजोम) — UI Translations (English & Hindi)
- * Enables bilingual interface toggle for teachers and evaluators
- * Clean minimalist typographic design system without emojis
+ * SARJOM (सरजोम) — Comprehensive UI Translations (English & Hindi)
+ * Clean, distraction-free typographic system aligned strictly with Problem Statement SIH26042.
  */
 
 export const UI_TRANSLATIONS = {
   hi: {
     // Brand & Header
-    brandTitle: 'सरजोम',
-    brandSub: '(SARJOM)',
+    brandTitle: 'सरजोम (SARJOM)',
+    brandSub: '',
     brandTagline: 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE',
     offlineStatus: 'ऑफ़लाइन',
     onlineStatus: 'ऑनलाइन',
-    teacherHelpBtn: 'शिक्षक सहायता',
     uiLangLabel: 'भाषा',
 
-    // Primary Tabs
-    tabVoice: 'कक्षा बोलें',
-    tabWorksheets: 'कार्यपत्रक',
-    tabFlashcards: 'फ़्लैशकार्ड',
+    // Core Tabs
+    tabVoice: 'कक्षा संवाद (Voice & Text)',
+    tabWorksheets: 'द्विभाषी कार्यपत्रक',
+    tabFlashcards: 'दृश्य फ्लैशकार्ड',
     tabDictionary: 'शब्दकोश',
-    tabMoreTools: 'और साधन',
 
-    // Secondary Tools Dropdown
-    tabCurriculum: 'पाठ योजना (Lessons)',
-    tabSlate: 'स्लेट व लोककथा (Slate & Stories)',
-    tabOrf: 'वाचन कोच (Pronunciation Coach)',
-    tabNeural: 'न्यूरल विवरण (Neural Specs)',
-    tabBenchmark: 'ज्यूरी मूल्यांकन (SIH Matrix)',
-    btnOnboarding: '60s शिक्षक ऑनबोर्डिंग',
-    btnAudioDeck: 'कक्षा ऑडियो डेक',
-    btnJuryTour: 'SIH ज्यूरी टूर',
+    // Voice Translator (Classroom Dialogue)
+    modeTeacherToStudent: 'शिक्षक बोलें (हिंदी ➔ मातृभाषा)',
+    modeStudentToTeacher: 'छात्र बोलें (मातृभाषा ➔ हिंदी)',
+    
+    // Teacher Mode
+    tapToSpeakIdleTeacher: 'माइक दबाकर बोलें (Tap to Speak)',
+    tapToSpeakSubIdleTeacher: 'हिंदी में बोलें — तुरंत {lang} में अनुवाद होकर स्पीकर पर बोलेगा',
+    tapToSpeakRecTeacher: 'माइक चालू है... (रोकने के लिए पुनः दबाएं)',
+    tapToSpeakSubRecTeacher: 'बोलना समाप्त करते ही स्वतः {lang} में अनुवाद होगा',
+    
+    // Student Mode
+    tapToSpeakIdleStudent: 'छात्र माइक दबाकर बोलें (Student Speak)',
+    tapToSpeakSubIdleStudent: 'छात्र अपनी मातृभाषा ({lang}) में बोलें — शिक्षक को हिंदी में सुनाई देगा',
+    tapToSpeakRecStudent: 'छात्र की आवाज़ सुन रहे हैं...',
+    tapToSpeakSubRecStudent: 'मातृभाषा में बोलने दें — रोकते ही हिंदी अर्थ मिलेगा',
 
-    // Voice Translator (Classroom Speak)
-    modeTeacherToStudent: 'शिक्षक ➔ कक्षा स्पीकर (One-Tap Speak)',
-    modeStudentToTeacher: 'छात्र ➔ शिक्षक (Reverse Ear)',
-    tapToSpeakIdle: 'यहाँ दबाकर बोलें (Tap to Speak)',
-    tapToSpeakSubIdle: 'हिंदी या अंग्रेजी में बोलें — सीधे कक्षा स्पीकर पर {lang} में गूंजेगा',
-    tapToSpeakRec: 'सुन रहे हैं... (रोकने हेतु यहाँ दबाएं)',
-    tapToSpeakSubRec: 'सामान्य बोलें — रोकते ही तुरंत {lang} में स्पीकर पर गूंजेगा',
-    youSpoke: 'आपने बोला:',
-    pronounceAs: 'ऐसे बोलें:',
-    replaySpeaker: 'दोबारा स्पीकर पर सुनाएं',
-    quickCommandsTitle: 'कक्षा में तुरंत बोलने वाले 8 आम निर्देश (टैप करते ही स्पीकर बोलेगा):',
-    manualInputTitle: 'मैन्युअल वाक्य टाइपिंग व अतिरिक्त FLN वाक्यांश (Manual Text Typing)',
-    manualInputSubtext: 'यदि आप कोई विशिष्ट पाठ या लंबा वाक्य अनुवाद करना चाहते हैं, तो नीचे टाइप करके अनुवाद करें:',
-    manualInputPlaceholder: 'कस्टम हिंदी या अंग्रेजी वाक्य लिखें (उदा: किताब खोलो / open book)...',
-    translateBtn: 'अनुवाद',
-    extraFLNSuggestions: 'अतिरिक्त FLN सुझाव:',
+    // Result Card
+    youSpoke: 'बोला गया वाक्य:',
+    pronounceAs: 'उच्चारण ध्वनि:',
+    replaySpeaker: 'स्पीकर पर सुनाएं',
+    onDeviceTag: 'ऑन-डिवाइस • <100ms',
 
-    // Reverse Ear Mode
-    studentDialogueTitle: 'छात्र मातृभाषा संवाद',
-    studentDialogueBadge: 'छात्र प्रत्युत्तर',
-    studentDialoguePrompt: 'कक्षा में जब आदिवासी छात्र अपनी मातृभाषा में बात करें, तो उस वाक्य पर टैप करें या छात्र से माइक में बोलने को कहें:',
-    translateStudentBtn: 'अनुवाद करें ➔',
-    teacherInterpretationTitle: 'शिक्षक व्याख्या (Hindi Interpretation)',
-    teacherInterpretationPrompt: 'छात्र द्वारा मातृभाषा में कही गई बात का तुरंत हिंदी अर्थ और ध्वनि:',
-    studentIntentLabel: 'छात्र का आशय (Meaning for Teacher):',
-    studentIntentEmpty: 'बाएं से छात्र का वाक्य चुनें या माइक में बोलने दें...',
-    autonomousReplyTitle: 'शिक्षक का स्वतंत्र उत्तर (Teacher\'s Autonomous Response):',
-    autonomousBadge: 'शिक्षक की स्वायत्तता',
-    autonomousHint: 'शिक्षक की स्वायत्तता: छात्र की बात सुनकर जो भी बोलना चाहें, अपनी भाषा में बोलें या लिखें — सिस्टम तुरंत छात्र की मातृभाषा में अनुवाद करेगा।',
-    speakReplyBtn: 'अपना उत्तर बोलें (Speak Your Response)',
-    speakReplyListening: 'सुन रहे हैं... (रोकने हेतु पुनः दबाएं)',
-    replyPlaceholder: 'या अपना स्वतंत्र उत्तर यहाँ लिखें...',
-    replySpeakSubmit: 'सुनाएं',
+    // Text Input Area
+    textInputTitle: 'पाठ टाइपिंग (Text Input & Translation)',
+    textInputPlaceholderTeacher: 'हिंदी वाक्य लिखें या पेस्ट करें (उदा: किताब खोलो और पाठ एक पढ़ो)...',
+    textInputPlaceholderStudent: 'मातृभाषा का वाक्य लिखें या पेस्ट करें...',
+    translateBtn: 'अनुवाद करें',
 
     // Dialogue Log
-    dialogueLogTitle: 'कक्षा संवाद लॉग (Classroom Interaction Log)',
+    dialogueLogTitle: 'कक्षा संवाद लॉग (Interaction Log)',
     entriesCount: 'प्रविष्टियाँ',
-    exportCsvBtn: 'MicroSD / पेनड्राइव लॉग निर्यात (CSV)',
-    emptyLogText: 'माइक बटन दबाकर बोलें या 1-टैप निर्देश चुनें। यहाँ कक्षा संवाद स्वतः दर्ज होता रहेगा।',
+    exportCsvBtn: 'CSV लॉग निर्यात',
+    emptyLogText: 'माइक बटन दबाकर बोलें या ऊपर टाइप करें। कक्षा संवाद यहाँ स्वतः दर्ज होता रहेगा।',
     roleTeacher: 'शिक्षक:',
     roleStudent: 'छात्र:',
 
-    // 8 Instant Prompts
-    otp_1_label: 'किताब खोलो',
-    otp_1_phrase: 'किताब खोलो और पाठ एक पढ़ो।',
-    otp_2_label: 'अपनी जगह बैठो',
-    otp_2_phrase: 'अपनी जगह पर बैठ जाओ।',
-    otp_3_label: 'शाबाश / बहुत अच्छा',
-    otp_3_phrase: 'शाबाश, तुमने बहुत अच्छा किया।',
-    otp_4_label: 'पानी पीने जाओ',
-    otp_4_phrase: 'हाँ, जाओ पानी पीकर तुरंत आओ।',
-    otp_5_label: 'शांत रहो और सुनो',
-    otp_5_phrase: 'शान्त रहो और सुनो।',
-    otp_6_label: 'स्लेट पर लिखो',
-    otp_6_phrase: 'स्लेट पर लिखकर दिखाओ।',
-    otp_7_label: 'नमस्ते / जोहार',
-    otp_7_phrase: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?',
-    otp_8_label: 'मध्याह्न भोजन (MDM)',
-    otp_8_phrase: 'हाथ धोकर मध्याह्न भोजन करो।',
+    // Worksheets Studio
+    wsTitle: 'निपुण भारत द्विभाषी कार्यपत्रक जनरेटर',
+    wsSubtitle: 'कक्षा 1-3 FLN दक्षताओं के अनुरूप स्वतः निर्मित द्विभाषी अभ्यास पत्र',
+    wsTypeNumeracy: 'संख्या ज्ञान (Numeracy 1-5)',
+    wsTypeMatching: 'शब्द-चित्र मिलान (Word Matching)',
+    wsTypeTracing: 'वर्णमाला लेखन (Letter Tracing)',
+    wsPrintBtn: 'प्रिंट / PDF सहेजें',
+    wsCheckBtn: 'उत्तर जांचें',
+    wsCheckedToast: 'अभ्यास पत्र सफलता पूर्वक जाँचा गया!',
+    wsSchoolLabel: 'विद्यालय:',
+    wsStudentLabel: 'विद्यार्थी का नाम:',
+    wsDateLabel: 'दिनांक:',
+    wsScoreLabel: 'अंक:',
 
-    // Drawer
-    drawerTitle: 'शिक्षक सहायता एवं MTB-MLE टूल्स',
-    drawerSub: 'झारखंड प्राथमिक विद्यालय शिक्षण मार्गदर्शन व अतिरिक्त साधन',
-    axiomsTitle: 'झारखंड पलाश शिक्षा के 3 स्वर्णिम नियम (Pedagogical Axioms):',
-    phoneticsTitle: 'भाषा ध्वनिविज्ञान (Phonetic Guide for Teachers):',
-    emergencyTitle: 'प्राथमिक स्वास्थ्य व आपातकालीन संवाद (Health Emergency Phrases):',
+    // Flashcards Deck
+    fcTitle: 'दृश्य बहुभाषी फ्लैशकार्ड्स',
+    fcSubtitle: 'चित्र, मातृभाषा लिपि एवं ऑडियो उच्चारण के साथ संवादात्मक कार्ड्स',
+    fcModeCards: 'कार्ड्स ब्राउज़ करें',
+    fcModeQuiz: 'संवादात्मक क्विज़ खेलें',
+    fcFlipHint: 'कार्ड पलटने के लिए टैप करें',
+    fcNextQuestion: 'अगला प्रश्न ➔',
+    fcQuizScore: 'आपका स्कोर:',
+    fcCatAll: 'सभी कार्ड्स',
+    fcCatGreetings: 'अभिवादन',
+    fcCatNumbers: 'संख्याएँ',
+    fcCatNature: 'प्रकृति',
+    fcCatAnimals: 'पशु-पक्षी',
+    fcCatFamily: 'परिवार',
+    fcCatClassroom: 'कक्षा निर्देश',
+
+    // Dictionary
+    dictTitle: 'झारखंड त्रैभाषिक FLN शब्दकोश',
+    dictSubtitle: 'हिंदी, अंग्रेजी एवं 4 प्रमुख जनजातीय भाषाओं (हो, मुण्डारी, संताली, सादरी) में त्वरित खोज',
+    dictSearchPlaceholder: 'हिंदी, अंग्रेजी या ध्वनि से खोजें (उदा: पानी, हाथी, नमस्ते, 1, माँ)...',
+    dictBadgeAllLangs: 'हो • मुण्डारी • संताली • सादरी',
+    dictColHindi: 'हिंदी',
+    dictColEnglish: 'English',
+    dictColHo: 'हो (Ho)',
+    dictColMundari: 'मुण्डारी (Mundari)',
+    dictColSanthali: 'संताली (Santhali)',
+    dictColSadri: 'सादरी (Sadri)',
+    dictAudioBtn: 'सुनें',
 
     // Footer
-    footerGovt: 'झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग (Govt of Jharkhand)',
-    footerProject: 'सरजोम मातृभाषा बहुभाषी शिक्षण कार्यक्रम (SARJOM MTB-MLE) • टीम कारासुनों (Team Karasuno)',
-    footerDevBarToggle: 'तकनीकी सिमुलेटर बार',
+    footerGovt: 'झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग',
+    footerProject: 'सरजोम मातृभाषा बहुभाषी शिक्षण मंच (SARJOM MTB-MLE)',
+    footerDevBarToggle: 'तकनीकी हार्डवेयर बार',
     footerDevBarHide: 'हार्डवेयर बार छुपाएं',
   },
 
   en: {
     // Brand & Header
     brandTitle: 'SARJOM',
-    brandSub: '(सरजोम)',
-    brandTagline: 'Jharkhand Primary Vernacular Bridge • MTB-MLE',
+    brandSub: '',
+    brandTagline: 'Jharkhand Primary Mother Tongue Bridge • MTB-MLE',
     offlineStatus: 'Offline',
     onlineStatus: 'Online',
-    teacherHelpBtn: 'Teacher Help',
     uiLangLabel: 'Language',
 
-    // Primary Tabs
-    tabVoice: 'Classroom Speak',
+    // Core Tabs
+    tabVoice: 'Classroom Voice',
     tabWorksheets: 'Worksheets',
     tabFlashcards: 'Flashcards',
     tabDictionary: 'Dictionary',
-    tabMoreTools: 'More Tools',
 
-    // Secondary Tools Dropdown
-    tabCurriculum: 'Lesson Plans',
-    tabSlate: 'Slate & Tribal Stories',
-    tabOrf: 'Fluency & Pronunciation Coach',
-    tabNeural: 'Neural Model Specs',
-    tabBenchmark: 'SIH Jury Matrix',
-    btnOnboarding: '60s Teacher Guide',
-    btnAudioDeck: 'Classroom Audio Deck',
-    btnJuryTour: 'SIH Jury Tour',
+    // Voice Translator (Classroom Dialogue)
+    modeTeacherToStudent: 'Teacher Speaks (Hindi ➔ Tribal)',
+    modeStudentToTeacher: 'Student Speaks (Tribal ➔ Hindi)',
 
-    // Voice Translator (Classroom Speak)
-    modeTeacherToStudent: 'Teacher ➔ Class Speaker (One-Tap Speak)',
-    modeStudentToTeacher: 'Student ➔ Teacher (Reverse Ear)',
-    tapToSpeakIdle: 'Tap Here to Speak & Broadcast',
-    tapToSpeakSubIdle: 'Speak in English or Hindi — broadcasts directly in {lang} on speaker',
-    tapToSpeakRec: 'Listening... (Tap to stop & broadcast)',
-    tapToSpeakSubRec: 'Speak naturally — broadcasts in {lang} as soon as you stop',
-    youSpoke: 'You Spoke:',
-    pronounceAs: 'Pronounce as:',
-    replaySpeaker: 'Play Again on Speaker',
-    quickCommandsTitle: '8 Instant Classroom Commands (Tap to broadcast immediately):',
-    manualInputTitle: 'Manual Text Typing & Full Syllabus (English / Hindi)',
-    manualInputSubtext: 'Type any custom phrase or textbook sentence to translate into tribal tongue:',
-    manualInputPlaceholder: 'Type in English or Hindi (e.g., Open book / किताब खोलो)...',
-    translateBtn: 'Translate',
-    extraFLNSuggestions: 'Extended FLN Suggestions:',
+    // Teacher Mode
+    tapToSpeakIdleTeacher: 'Tap to Speak',
+    tapToSpeakSubIdleTeacher: 'Speak in Hindi or English — instantly broadcasts in {lang} on classroom speaker',
+    tapToSpeakRecTeacher: 'Microphone Listening... (Tap to stop)',
+    tapToSpeakSubRecTeacher: 'Speak naturally — automatically broadcasts in {lang} when finished',
 
-    // Reverse Ear Mode
-    studentDialogueTitle: 'Student Vernacular Utterances',
-    studentDialogueBadge: 'Student Response',
-    studentDialoguePrompt: 'When a tribal child speaks in their mother tongue, tap the phrase or let them speak into the mic:',
-    translateStudentBtn: 'Translate ➔',
-    teacherInterpretationTitle: 'Teacher Interpretation',
-    teacherInterpretationPrompt: 'Instant meaning and phonetics of what the child communicated:',
-    studentIntentLabel: 'Meaning for Teacher:',
-    studentIntentEmpty: 'Select a phrase from left or let child speak into mic...',
-    autonomousReplyTitle: "Teacher's Autonomous Response:",
-    autonomousBadge: 'Teacher Autonomy',
-    autonomousHint: 'Teacher Autonomy: Express your instructions in English or Hindi — SARJOM instantly speaks it in the child\'s native language.',
-    speakReplyBtn: 'Speak Your Response (English / Hindi)',
-    speakReplyListening: 'Listening... (Tap again to finish & speak)',
-    replyPlaceholder: 'Or type your autonomous response here (e.g. Yes, go after 2 mins)...',
-    replySpeakSubmit: 'Broadcast',
+    // Student Mode
+    tapToSpeakIdleStudent: 'Student Speak (Mother Tongue)',
+    tapToSpeakSubIdleStudent: 'Child speaks in their mother tongue ({lang}) — translates into Hindi for the teacher',
+    tapToSpeakRecStudent: 'Listening to child...',
+    tapToSpeakSubRecStudent: 'Let child speak in tribal tongue — translates to Hindi upon stopping',
+
+    // Result Card
+    youSpoke: 'Input Utterance:',
+    pronounceAs: 'Pronounce As:',
+    replaySpeaker: 'Broadcast on Speaker',
+    onDeviceTag: 'On-Device • <100ms',
+
+    // Text Input Area
+    textInputTitle: 'Text Input & Translation',
+    textInputPlaceholderTeacher: 'Type or paste Hindi/English text (e.g., Open your book and read lesson one)...',
+    textInputPlaceholderStudent: 'Type or paste tribal vernacular phrase...',
+    translateBtn: 'Translate & Speak',
 
     // Dialogue Log
     dialogueLogTitle: 'Classroom Interaction Log',
     entriesCount: 'entries',
-    exportCsvBtn: 'Export Log to MicroSD / USB (CSV)',
-    emptyLogText: 'Tap the mic above or click 1-tap commands. Spoken interactions will be logged here automatically.',
+    exportCsvBtn: 'Export CSV Log',
+    emptyLogText: 'Tap the microphone above or type text. Classroom interactions will be logged here automatically.',
     roleTeacher: 'Teacher:',
     roleStudent: 'Student:',
 
-    // 8 Instant Prompts
-    otp_1_label: 'Open Book',
-    otp_1_phrase: 'Open your book and read lesson one.',
-    otp_2_label: 'Sit Down',
-    otp_2_phrase: 'Please sit down in your place.',
-    otp_3_label: 'Well Done / Great Job',
-    otp_3_phrase: 'Well done! You did very good work.',
-    otp_4_label: 'Go Drink Water',
-    otp_4_phrase: 'Yes, go drink water and come right back.',
-    otp_5_label: 'Be Quiet & Listen',
-    otp_5_phrase: 'Please be quiet and listen carefully.',
-    otp_6_label: 'Write on Slate',
-    otp_6_phrase: 'Write it on your slate and show me.',
-    otp_7_label: 'Hello / Johar',
-    otp_7_phrase: 'Hello / Johar, how are all the children today?',
-    otp_8_label: 'Midday Meal (MDM)',
-    otp_8_phrase: 'Wash your hands and proceed for midday meal.',
+    // Worksheets Studio
+    wsTitle: 'NIPUN Bharat Bilingual Worksheet Studio',
+    wsSubtitle: 'Auto-generated bilingual worksheets aligned with Grades 1-3 FLN competencies',
+    wsTypeNumeracy: 'Numeracy (1-5)',
+    wsTypeMatching: 'Word-Picture Matching',
+    wsTypeTracing: 'Letter Tracing',
+    wsPrintBtn: 'Print / Save PDF',
+    wsCheckBtn: 'Check Answers',
+    wsCheckedToast: 'Worksheet answers evaluated successfully!',
+    wsSchoolLabel: 'School:',
+    wsStudentLabel: 'Student Name:',
+    wsDateLabel: 'Date:',
+    wsScoreLabel: 'Score:',
 
-    // Drawer
-    drawerTitle: 'Teacher Support & MTB-MLE Handbook',
-    drawerSub: 'Jharkhand Primary Vernacular Teaching Guidance & Diagnostics',
-    axiomsTitle: '3 Golden Axioms of Jharkhand Vernacular Pedagogy:',
-    phoneticsTitle: 'Phonetic Guide for Non-Native Teachers:',
-    emergencyTitle: 'Classroom Health & Emergency Phrases:',
+    // Flashcards Deck
+    fcTitle: 'Visual Multilingual Flashcards',
+    fcSubtitle: 'Interactive flashcards with visual imagery, tribal script, and audio pronunciation',
+    fcModeCards: 'Browse Cards',
+    fcModeQuiz: 'Interactive Quiz',
+    fcFlipHint: 'Tap card to flip',
+    fcNextQuestion: 'Next Question ➔',
+    fcQuizScore: 'Your Score:',
+    fcCatAll: 'All Cards',
+    fcCatGreetings: 'Greetings',
+    fcCatNumbers: 'Numbers',
+    fcCatNature: 'Nature',
+    fcCatAnimals: 'Animals',
+    fcCatFamily: 'Family',
+    fcCatClassroom: 'Classroom Instructions',
+
+    // Dictionary
+    dictTitle: 'Jharkhand Tri-Lingual FLN Dictionary',
+    dictSubtitle: 'Instant search across Hindi, English, and 4 tribal languages (Ho, Mundari, Santhali, Sadri)',
+    dictSearchPlaceholder: 'Search by Hindi, English, or phonetics (e.g., water, elephant, johar, 1, mother)...',
+    dictBadgeAllLangs: 'Ho • Mundari • Santhali • Sadri',
+    dictColHindi: 'Hindi',
+    dictColEnglish: 'English',
+    dictColHo: 'Ho',
+    dictColMundari: 'Mundari',
+    dictColSanthali: 'Santhali',
+    dictColSadri: 'Sadri',
+    dictAudioBtn: 'Listen',
 
     // Footer
     footerGovt: 'Government of Jharkhand • Department of Higher & Technical Education',
-    footerProject: 'SARJOM Vernacular Pedagogy Platform (MTB-MLE) • Team Karasuno',
-    footerDevBarToggle: 'Technical Simulator Bar',
+    footerProject: 'SARJOM Primary Vernacular Education Bridge (MTB-MLE)',
+    footerDevBarToggle: 'Hardware Simulator Bar',
     footerDevBarHide: 'Hide Hardware Bar',
   },
 };

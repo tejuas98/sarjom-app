@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { TabletSimulatorBar } from './components/TabletSimulatorBar';
 import { VoiceTranslator } from './components/VoiceTranslator';
-import { LessonCurriculum } from './components/LessonCurriculum';
 import { WorksheetStudio } from './components/WorksheetStudio';
 import { FlashcardDeck } from './components/FlashcardDeck';
-import { SlateAndFolklore } from './components/SlateAndFolklore';
 import { DictionarySearch } from './components/DictionarySearch';
-import { NeuralModelInspector } from './components/NeuralModelInspector';
-import { AcousticPronunciationCoach } from './components/AcousticPronunciationCoach';
-import { JuryBenchmarkingMatrix } from './components/JuryBenchmarkingMatrix';
-import { TeacherOnboardingWizard } from './components/TeacherOnboardingWizard';
-import { TeacherDrawer } from './components/TeacherDrawer';
-import { JuryEvaluationTourModal } from './components/JuryEvaluationTourModal';
-import { AudioPlayerModal } from './components/AudioPlayerModal';
 import { offlineStorage } from './services/offlineStorage';
 import { UI_TRANSLATIONS } from './data/uiTranslations';
 import { toast } from 'sonner';
@@ -23,10 +14,6 @@ export default function App() {
   const initialLang = (urlParams && urlParams.get('lang')) || offlineStorage.getSelectedLanguage() || 'sadri';
   const initialOffline = urlParams && urlParams.has('offline') ? urlParams.get('offline') === 'true' : true;
   const initialTab = (urlParams && urlParams.get('tab')) || 'voice';
-  const initialDrawer = urlParams ? urlParams.get('drawer') === 'true' : false;
-  const initialWizard = urlParams ? urlParams.get('wizard') === 'true' : false;
-  const initialTour = urlParams ? urlParams.get('tour') === 'true' : false;
-  const initialAudio = urlParams ? urlParams.get('audio') === 'true' : false;
   const initialDevice = (urlParams && urlParams.get('device')) || 'full';
 
   const [selectedLang, setSelectedLang] = useState(initialLang);
@@ -38,10 +25,6 @@ export default function App() {
     return offlineStorage.getUILanguage() || 'hi';
   });
   const [activeTab, setActiveTab] = useState(initialTab);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(initialDrawer);
-  const [isWizardOpen, setIsWizardOpen] = useState(initialWizard);
-  const [isJuryTourOpen, setIsJuryTourOpen] = useState(initialTour);
-  const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(initialAudio);
   const [deviceMode, setDeviceMode] = useState(initialDevice); // 'full' | 'ios' | 'android'
   const [showDevBar, setShowDevBar] = useState(urlParams && urlParams.get('dev') === 'true');
   const [theme, setTheme] = useState(() => {
@@ -55,7 +38,7 @@ export default function App() {
     return 'dark';
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('sarjom_theme', theme);
   }, [theme]);
@@ -63,7 +46,7 @@ export default function App() {
   const handleToggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
-    toast.info(nextTheme === 'dark' ? 'डार्क मोड सक्रिय (Dark Mode)' : 'लाइट मोड सक्रिय (Light Mode)');
+    toast.info(nextTheme === 'dark' ? (uiLang === 'en' ? 'Dark Mode Active' : 'डार्क मोड सक्रिय (Dark Mode)') : (uiLang === 'en' ? 'Light Mode Active' : 'लाइट मोड सक्रिय (Light Mode)'));
   };
 
   const handleToggleUILang = (newLang) => {
@@ -76,7 +59,7 @@ export default function App() {
   const handleSelectLang = (langId) => {
     setSelectedLang(langId);
     offlineStorage.setSelectedLanguage(langId);
-    toast.success(`सक्रिय भाषा बदली गई: ${langId.toUpperCase()}`);
+    toast.success(uiLang === 'en' ? `Active Language: ${langId.toUpperCase()}` : `सक्रिय भाषा बदली गई: ${langId.toUpperCase()}`);
   };
 
   const handleToggleOffline = () => {
@@ -84,9 +67,9 @@ export default function App() {
     setIsOffline(nextState);
     offlineStorage.setOfflineMode(nextState);
     if (nextState) {
-      toast.warning('ऑफलाइन मोड सक्रिय: विद्यालय में बिना इंटरनेट सुचारु संचालन');
+      toast.warning(uiLang === 'en' ? 'Offline Mode Active: Seamless operation without internet' : 'ऑफलाइन मोड सक्रिय: विद्यालय में बिना इंटरनेट सुचारु संचालन');
     } else {
-      toast.info('ऑनलाइन मोड सक्रिय: केंद्रीय सर्वर से नया पाठ्यक्रम सिंक हो सकता है');
+      toast.info(uiLang === 'en' ? 'Online Mode Active: Cloud synchronization enabled' : 'ऑनलाइन मोड सक्रिय: केंद्रीय सर्वर से नया पाठ्यक्रम सिंक हो सकता है');
     }
   };
 
@@ -236,7 +219,7 @@ export default function App() {
           </div>
         )}
 
-        {/* 1. Tablet Diagnostic & Jharkhand EVV Status Bar (Hidden by default for clean teacher view) */}
+        {/* Diagnostic Simulator Bar (Toggleable from footer) */}
         {showDevBar && (
           <TabletSimulatorBar
             isOffline={isOffline}
@@ -249,7 +232,7 @@ export default function App() {
           />
         )}
 
-        {/* 2. Top Header & Navigation Bar */}
+        {/* 2. Top Header & Navigation Bar (Dynamic SARJOM title, 4 Core Tabs) */}
         <Navbar
           selectedLang={selectedLang}
           onSelectLang={handleSelectLang}
@@ -258,155 +241,98 @@ export default function App() {
           onToggleUILang={handleToggleUILang}
           theme={theme}
           onToggleTheme={handleToggleTheme}
-          onOpenDrawer={() => setIsDrawerOpen(true)}
-          onOpenWizard={() => setIsWizardOpen(true)}
-          onOpenJuryTour={() => setIsJuryTourOpen(true)}
-          onOpenAudioPlayer={() => setIsAudioPlayerOpen(true)}
           activeTab={activeTab}
           onSelectTab={setActiveTab}
         />
 
-      {/* 3. Main Tablet Canvas */}
-      <main className="tablet-canvas" style={{ flex: 1, width: '100%' }}>
-        {activeTab === 'voice' && <VoiceTranslator selectedLang={selectedLang} uiLang={uiLang} />}
-        {activeTab === 'curriculum' && <LessonCurriculum selectedLang={selectedLang} />}
-        {activeTab === 'worksheets' && <WorksheetStudio selectedLang={selectedLang} />}
-        {activeTab === 'flashcards' && <FlashcardDeck selectedLang={selectedLang} />}
-        {activeTab === 'slate' && <SlateAndFolklore selectedLang={selectedLang} />}
-        {activeTab === 'dictionary' && <DictionarySearch />}
-        {activeTab === 'neural' && <NeuralModelInspector selectedLang={selectedLang} />}
-        {activeTab === 'orf' && <AcousticPronunciationCoach selectedLang={selectedLang} />}
-        {activeTab === 'benchmark' && <JuryBenchmarkingMatrix />}
-      </main>
+        {/* 3. Main Tablet Canvas: Strictly the 4 Core Deliverables */}
+        <main className="tablet-canvas" style={{ flex: 1, width: '100%', padding: '24px' }}>
+          {activeTab === 'voice' && <VoiceTranslator selectedLang={selectedLang} uiLang={uiLang} />}
+          {activeTab === 'worksheets' && <WorksheetStudio selectedLang={selectedLang} uiLang={uiLang} />}
+          {activeTab === 'flashcards' && <FlashcardDeck selectedLang={selectedLang} uiLang={uiLang} />}
+          {activeTab === 'dictionary' && <DictionarySearch uiLang={uiLang} />}
+        </main>
 
-      {/* 4. Vaul Teacher Bottom Drawer */}
-      <TeacherDrawer
-        isOpen={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-        selectedLang={selectedLang}
-        onOpenWizard={() => {
-          setIsDrawerOpen(false);
-          setIsWizardOpen(true);
-        }}
-        onOpenAudio={() => {
-          setIsDrawerOpen(false);
-          setIsAudioPlayerOpen(true);
-        }}
-        onOpenTour={() => {
-          setIsDrawerOpen(false);
-          setIsJuryTourOpen(true);
-        }}
-        onSelectTab={(tabId) => {
-          setIsDrawerOpen(false);
-          setActiveTab(tabId);
-        }}
-      />
-
-      {/* 5. 60-Second Teacher Rapid Onboarding Wizard Modal */}
-      {isWizardOpen && (
-        <TeacherOnboardingWizard
-          isOpen={isWizardOpen}
-          onClose={() => setIsWizardOpen(false)}
-          selectedLang={selectedLang}
-          onSelectLang={handleSelectLang}
-        />
-      )}
-
-      {/* 6. 3-Minute SIH Jury Evaluation Pitch Tour Modal */}
-      {isJuryTourOpen && (
-        <JuryEvaluationTourModal
-          isOpen={isJuryTourOpen}
-          onClose={() => setIsJuryTourOpen(false)}
-          onNavigateTab={(tabId) => setActiveTab(tabId)}
-        />
-      )}
-
-      {/* 6.5 Interactive Audio Player Deck Modal */}
-      {isAudioPlayerOpen && (
-        <AudioPlayerModal
-          isOpen={isAudioPlayerOpen}
-          onClose={() => setIsAudioPlayerOpen(false)}
-        />
-      )}
-
-      {/* 7. Official Footer */}
-      <footer
-        className="no-print"
-        style={{
-          borderTop: 'var(--border-thick)',
-          backgroundColor: 'var(--color-surface)',
-          padding: '24px 20px',
-          marginTop: 'auto',
-          fontSize: '0.85rem',
-          color: 'var(--color-slate-muted)',
-        }}
-      >
-        <div
+        {/* 4. Official Footer */}
+        <footer
+          className="no-print"
           style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '16px',
-          }}
-        >
-          <div>
-            <div style={{ fontWeight: 700, color: 'var(--color-slate)', fontSize: '0.95rem' }}>
-              {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerGovt}
-            </div>
-            <div>
-              {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerProject}
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <span className="badge-tag badge-forest">हो (Ho)</span>
-            <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
-            <span className="badge-tag badge-ochre">संताली (Santhali)</span>
-            <span className="badge-tag" style={{ backgroundColor: 'rgba(2, 132, 199, 0.15)', color: '#38BDF8', borderColor: 'rgba(2, 132, 199, 0.3)' }}>सादरी (Sadri)</span>
-            <button
-              onClick={() => setShowDevBar((prev) => !prev)}
-              style={{
-                background: 'none',
-                border: '1px solid var(--color-border)',
-                borderRadius: '4px',
-                padding: '2px 8px',
-                fontSize: '0.74rem',
-                color: 'var(--color-slate-muted)',
-                cursor: 'pointer',
-              }}
-              title="परीक्षक व ज्यूरी हेतु हार्डवेयर और UDISE सिमुलेटर बार खोलें"
-            >
-              {showDevBar ? (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarHide : (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarToggle}
-            </button>
-          </div>
-        </div>
-      </footer>
-
-      {/* Apple iPad Home Indicator Bar */}
-      {isIOS && (
-        <div
-          style={{
-            padding: '8px 0 10px 0',
-            display: 'flex',
-            justifyContent: 'center',
-            backgroundColor: 'var(--color-bg)',
-            borderTop: '1px solid var(--color-border)',
+            borderTop: 'var(--border-thick)',
+            backgroundColor: 'var(--color-surface)',
+            padding: '24px 20px',
+            marginTop: 'auto',
+            fontSize: '0.85rem',
+            color: 'var(--color-slate-muted)',
           }}
         >
           <div
             style={{
-              width: '136px',
-              height: '5px',
-              borderRadius: '100px',
-              backgroundColor: '#94A3B8',
-              opacity: 0.75,
+              maxWidth: '1200px',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '16px',
             }}
-          />
-        </div>
-      )}
+          >
+            <div>
+              <div style={{ fontWeight: 700, color: 'var(--color-slate)', fontSize: '0.95rem' }}>
+                {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerGovt}
+              </div>
+              <div>
+                {(UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerProject}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span className="badge-tag badge-forest">हो (Ho)</span>
+              <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
+              <span className="badge-tag badge-ochre">संताली (Santhali)</span>
+              <span className="badge-tag" style={{ backgroundColor: 'rgba(2, 132, 199, 0.15)', color: '#38BDF8', borderColor: 'rgba(2, 132, 199, 0.3)' }}>सादरी (Sadri)</span>
+              <button
+                onClick={() => setShowDevBar((prev) => !prev)}
+                style={{
+                  background: 'none',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '4px',
+                  padding: '2px 8px',
+                  fontSize: '0.74rem',
+                  color: 'var(--color-slate-muted)',
+                  cursor: 'pointer',
+                }}
+                title={uiLang === 'en' ? 'Toggle Simulator Diagnostics Bar' : 'हार्डवेयर और UDISE सिमुलेटर बार खोलें'}
+              >
+                {showDevBar
+                  ? (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarHide
+                  : (UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi).footerDevBarToggle}
+              </button>
+            </div>
+          </div>
+        </footer>
+
+        {/* Apple iPad Home Indicator Bar */}
+        {isIOS && (
+          <div
+            style={{
+              padding: '8px 0 10px 0',
+              display: 'flex',
+              justifyContent: 'center',
+              backgroundColor: 'var(--color-bg)',
+              borderTop: '1px solid var(--color-border)',
+            }}
+          >
+            <div
+              style={{
+                width: '136px',
+                height: '5px',
+                borderRadius: '100px',
+                backgroundColor: '#94A3B8',
+                opacity: 0.75,
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

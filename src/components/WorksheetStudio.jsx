@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { Printer, Download, RefreshCw, CheckCircle2, QrCode, Sparkles, BookCheck, Smartphone, Leaf } from 'lucide-react';
+import { UI_TRANSLATIONS } from '../data/uiTranslations';
+import { Printer, BookCheck, Smartphone, Leaf } from 'lucide-react';
 import { toast } from 'sonner';
 import { ParentPhoneScanModal } from './ParentPhoneScanModal';
 
-export function WorksheetStudio({ selectedLang }) {
+export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   const [worksheetType, setWorksheetType] = useState('numeracy'); // 'numeracy' | 'matching' | 'tracing'
-  const [schoolName, setSchoolName] = useState('राजकीय प्राथमिक विद्यालय, खूंटी (झारखंड)');
-  const [studentAnswers, setStudentAnswers] = useState({});
-  const [isScoreChecked, setIsScoreChecked] = useState(false);
-  const [showPhoneScanModal, setShowPhoneScanModal] = useState(false);
-
+  const isEn = uiLang === 'en';
+  const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
+
+  const schoolName = isEn
+    ? 'Govt. Primary School, Khunti (Jharkhand)'
+    : 'राजकीय प्राथमिक विद्यालय, खूंटी (झारखंड)';
 
   // Filter items based on worksheet type
   const numberItems = TRIBAL_LEXICON.filter((i) => i.category === 'numbers').slice(0, 5);
   const wordItems = TRIBAL_LEXICON.filter((i) => ['animals', 'nature', 'greetings'].includes(i.category)).slice(0, 4);
 
   const handlePrint = () => {
-    toast.info('प्रिंट संवाद खुल रहा है (Print / Save PDF)...');
+    toast.info(isEn ? 'Opening print / save dialog...' : 'प्रिंट संवाद खुल रहा है (Print / Save PDF)...');
     window.print();
   };
 
-  const handleSelectAnswer = (qId, option) => {
-    setStudentAnswers((prev) => ({ ...prev, [qId]: option }));
-  };
-
-  const checkInteractiveAnswers = () => {
-    setIsScoreChecked(true);
-    toast.success('अभ्यास पत्र जाँचा गया! बहुत बढ़िया!');
-  };
+  const [showPhoneScanModal, setShowPhoneScanModal] = useState(false);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -49,12 +44,14 @@ export function WorksheetStudio({ selectedLang }) {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <BookCheck size={22} color="var(--color-forest)" />
-            <h2 style={{ fontSize: '1.35rem', margin: 0 }}>
-              द्विभाषी अभ्यास पत्र जनरेटर (NIPUN Bilingual Worksheets)
+            <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-slate)' }}>
+              {t.wsTitle}
             </h2>
           </div>
           <p style={{ fontSize: '0.85rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0' }}>
-            निपुण भारत दक्षता आधारित • हिंदी एवं {langMeta.name} भाषा में स्वतः निर्मित वर्कशीट
+            {isEn
+              ? `FLN Competency-Based • Auto-generated in English, Hindi & ${langMeta.name}`
+              : `निपुण भारत बुनियादी दक्षता • हिंदी एवं ${langMeta.name} में स्वतः निर्मित`}
           </p>
         </div>
 
@@ -70,10 +67,7 @@ export function WorksheetStudio({ selectedLang }) {
             }}
           >
             <button
-              onClick={() => {
-                setWorksheetType('numeracy');
-                setIsScoreChecked(false);
-              }}
+              onClick={() => setWorksheetType('numeracy')}
               style={{
                 padding: '6px 12px',
                 border: 'none',
@@ -85,13 +79,10 @@ export function WorksheetStudio({ selectedLang }) {
                 cursor: 'pointer',
               }}
             >
-              संख्या ज्ञान (1-5)
+              {t.wsTypeNumeracy}
             </button>
             <button
-              onClick={() => {
-                setWorksheetType('matching');
-                setIsScoreChecked(false);
-              }}
+              onClick={() => setWorksheetType('matching')}
               style={{
                 padding: '6px 12px',
                 border: 'none',
@@ -103,13 +94,10 @@ export function WorksheetStudio({ selectedLang }) {
                 cursor: 'pointer',
               }}
             >
-              शब्द मिलान (Matching)
+              {t.wsTypeMatching}
             </button>
             <button
-              onClick={() => {
-                setWorksheetType('tracing');
-                setIsScoreChecked(false);
-              }}
+              onClick={() => setWorksheetType('tracing')}
               style={{
                 padding: '6px 12px',
                 border: 'none',
@@ -121,18 +109,23 @@ export function WorksheetStudio({ selectedLang }) {
                 cursor: 'pointer',
               }}
             >
-              लिपि अनुरेखण (Tracing)
+              {t.wsTypeTracing}
             </button>
           </div>
 
-          <button onClick={() => setShowPhoneScanModal(true)} className="btn-brutal btn-forest" style={{ padding: '8px 14px', fontSize: '0.85rem' }} title="सिमुलेट करें: ग्रामीण निरक्षर माता-पिता का फोन स्कैन">
+          <button
+            onClick={() => setShowPhoneScanModal(true)}
+            className="btn-brutal btn-forest"
+            style={{ padding: '8px 14px', fontSize: '0.85rem' }}
+            title={isEn ? 'Simulate rural parent phone QR audio scan' : 'ग्रामीण अभिभावक फोन स्कैन सिमुलेशन'}
+          >
             <Smartphone size={16} />
-            फोन स्कैन सिमुलेशन
+            {isEn ? 'Parent Phone Scan' : 'फोन स्कैन सिमुलेशन'}
           </button>
 
           <button onClick={handlePrint} className="btn-brutal btn-palash" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
             <Printer size={16} />
-            प्रिंट / PDF निर्यात
+            {t.wsPrintBtn}
           </button>
         </div>
       </div>
@@ -155,7 +148,7 @@ export function WorksheetStudio({ selectedLang }) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '2.5px solid #1A2421',
+            borderBottom: '2.5px solid var(--color-border)',
             paddingBottom: '16px',
             flexWrap: 'wrap',
             gap: '12px',
@@ -163,33 +156,17 @@ export function WorksheetStudio({ selectedLang }) {
         >
           <div>
             <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              झारखंड शिक्षा परियोजना परिषद • सरजोम MTB-MLE कार्यक्रम
+              {isEn
+                ? 'Jharkhand Education Project Council • SARJOM MTB-MLE Programme'
+                : 'झारखंड शिक्षा परियोजना परिषद • सरजोम MTB-MLE कार्यक्रम'}
             </div>
             <h1 style={{ fontSize: '1.75rem', margin: '4px 0', color: 'var(--color-slate)' }}>
-              निपुण भारत बुनियादी शिक्षण अभ्यास पत्र (FLN Worksheet)
+              {isEn
+                ? 'NIPUN Bharat Foundational Learning Worksheet (FLN)'
+                : 'निपुण भारत बुनियादी शिक्षण अभ्यास पत्र (FLN Worksheet)'}
             </h1>
             <div style={{ fontSize: '0.9rem', color: 'var(--color-palash)', fontWeight: 700 }}>
-              माध्यम: हिंदी + {langMeta.name} ({langMeta.badgeText})
-            </div>
-          </div>
-
-          {/* QR Audio Companion Simulation */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '8px 12px',
-              border: '1.5px dashed var(--color-border)',
-              borderRadius: 'var(--radius-sm)',
-              backgroundColor: 'var(--color-bg)',
-            }}
-          >
-            <QrCode size={36} color="var(--color-forest)" />
-            <div style={{ fontSize: '0.72rem', lineHeight: 1.2 }}>
-              <strong>ध्वनि साथी क्यूआर</strong>
-              <br />
-              स्कैन कर उच्चारण सुनें
+              {isEn ? `Medium: Hindi + ${langMeta.name} (${langMeta.badgeText})` : `माध्यम: हिंदी + ${langMeta.name} (${langMeta.badgeText})`}
             </div>
           </div>
         </div>
@@ -207,10 +184,10 @@ export function WorksheetStudio({ selectedLang }) {
             fontSize: '0.85rem',
           }}
         >
-          <div><strong>विद्यालय:</strong> {schoolName}</div>
-          <div><strong>विद्यार्थी का नाम:</strong> ___________________</div>
-          <div><strong>कक्षा:</strong> बालवाटिका / 1 / 2</div>
-          <div><strong>दिनांक:</strong> {new Date().toLocaleDateString('hi-IN')}</div>
+          <div><strong>{t.wsSchoolLabel}</strong> {schoolName}</div>
+          <div><strong>{t.wsStudentLabel}</strong> ___________________</div>
+          <div><strong>{isEn ? 'Grade:' : 'कक्षा:'}</strong> {isEn ? 'Grade 1 / 2' : 'बालवाटिका / 1 / 2'}</div>
+          <div><strong>{t.wsDateLabel}</strong> {new Date().toLocaleDateString(isEn ? 'en-IN' : 'hi-IN')}</div>
         </div>
 
         {/* WORKSHEET CONTENT 1: NUMERACY */}
@@ -226,7 +203,9 @@ export function WorksheetStudio({ selectedLang }) {
                 color: 'var(--color-forest)',
               }}
             >
-              अभ्यास 1: वस्तुओं को गिनें और सही जनजातीय संख्या नाम पर घेरा लगाएं / लिखें।
+              {isEn
+                ? `Exercise 1: Count the objects and identify the corresponding ${langMeta.name} tribal number name.`
+                : `अभ्यास 1: वस्तुओं को गिनें और सही जनजातीय संख्या नाम पर घेरा लगाएं / लिखें।`}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
@@ -250,12 +229,11 @@ export function WorksheetStudio({ selectedLang }) {
                   >
                     <div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)' }}>
-                        प्रश्न {idx + 1}: {item.hindi}
+                        {isEn ? `Item ${idx + 1}: ${item.english} (${item.hindi})` : `प्रश्न ${idx + 1}: ${item.hindi}`}
                       </div>
-                      {/* Object Icons for Counting */}
                       <div style={{ display: 'flex', gap: '8px', margin: '12px 0' }}>
                         {objectsArray.map((_, i) => (
-                          <span key={i} title="वस्तु" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                          <span key={i} title="Object" style={{ display: 'inline-flex', alignItems: 'center' }}>
                             <Leaf size={22} color="var(--color-forest)" />
                           </span>
                         ))}
@@ -268,11 +246,12 @@ export function WorksheetStudio({ selectedLang }) {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         paddingTop: '8px',
-                        borderTop: '1px dashed #CCC',
+                        borderTop: '1px dashed var(--color-border)',
                       }}
                     >
-                      <div style={{ fontSize: '0.9rem' }}>
-                        मातृभाषा शब्द: <strong style={{ color: 'var(--color-forest)', fontSize: '1.1rem' }}>{tribalName}</strong>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--color-slate)' }}>
+                        {isEn ? 'Tribal Word:' : 'मातृभाषा शब्द:'}{' '}
+                        <strong style={{ color: 'var(--color-forest)', fontSize: '1.1rem' }}>{tribalName}</strong>
                       </div>
                       <div
                         style={{
@@ -310,13 +289,17 @@ export function WorksheetStudio({ selectedLang }) {
                 color: '#8C5F08',
               }}
             >
-              अभ्यास 2: हिंदी शब्द का उसकी {langMeta.name} मातृभाषा शब्द से रेखा खींचकर मिलान करें।
+              {isEn
+                ? `Exercise 2: Match each Hindi/English word with its correct ${langMeta.name} tribal equivalent.`
+                : `अभ्यास 2: हिंदी शब्द का उसकी ${langMeta.name} मातृभाषा शब्द से रेखा खींचकर मिलान करें।`}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'center' }}>
-              {/* Left column: Hindi words */}
+              {/* Left column: Words */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div style={{ fontWeight: 700, color: 'var(--color-slate)' }}>कॉलम A (हिंदी शब्द)</div>
+                <div style={{ fontWeight: 700, color: 'var(--color-slate)' }}>
+                  {isEn ? 'Column A (Hindi / English)' : 'कॉलम A (हिंदी शब्द)'}
+                </div>
                 {wordItems.map((item, idx) => (
                   <div
                     key={item.id}
@@ -328,9 +311,10 @@ export function WorksheetStudio({ selectedLang }) {
                       fontWeight: 600,
                       display: 'flex',
                       justifyContent: 'space-between',
+                      color: 'var(--color-slate)',
                     }}
                   >
-                    <span>{idx + 1}. {item.hindi}</span>
+                    <span>{idx + 1}. {item.hindi} {isEn ? `(${item.english})` : ''}</span>
                     <span style={{ width: '12px', height: '12px', borderRadius: '50%', border: '2px solid var(--color-slate)', display: 'inline-block' }} />
                   </div>
                 ))}
@@ -339,7 +323,7 @@ export function WorksheetStudio({ selectedLang }) {
               {/* Right column: Tribal words */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ fontWeight: 700, color: 'var(--color-forest)' }}>
-                  कॉलम B ({langMeta.name} मातृभाषा)
+                  {isEn ? `Column B (${langMeta.name} Mother Tongue)` : `कॉलम B (${langMeta.name} मातृभाषा)`}
                 </div>
                 {wordItems.slice().reverse().map((item, idx) => {
                   const tribalData = (item && (item[selectedLang] || item.sadri || item.santhali || item.mundari || item.ho)) || {};
@@ -382,15 +366,17 @@ export function WorksheetStudio({ selectedLang }) {
                 color: 'var(--color-palash)',
               }}
             >
-              अभ्यास 3: लिपि वर्ण अनुरेखण अभ्यास (Trace the native glyphs along the dots).
+              {isEn
+                ? 'Exercise 3: Letter glyph tracing practice along the dots.'
+                : 'अभ्यास 3: लिपि वर्ण अनुरेखण अभ्यास (Trace the native glyphs along the dots).'}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
               {[
-                { glyph: selectedLang === 'santhali' ? 'ᱚ' : 'अ', sound: 'La / A', desc: 'पहला वर्ण' },
-                { glyph: selectedLang === 'santhali' ? 'ᱛ' : 'त', sound: 'At / Ta', desc: 'व्यंजन वर्ण' },
-                { glyph: selectedLang === 'santhali' ? 'ᱜ' : 'ग', sound: 'Ag / Ga', desc: 'कंठ्य वर्ण' },
-                { glyph: selectedLang === 'santhali' ? 'ᱝ' : 'ङ', sound: 'Ang / Nga', desc: 'नासिक्य वर्ण' },
+                { glyph: selectedLang === 'santhali' ? 'ᱚ' : 'अ', sound: 'La / A', desc: isEn ? 'Letter 1' : 'पहला वर्ण' },
+                { glyph: selectedLang === 'santhali' ? 'ᱛ' : 'त', sound: 'At / Ta', desc: isEn ? 'Consonant' : 'व्यंजन वर्ण' },
+                { glyph: selectedLang === 'santhali' ? 'ᱜ' : 'ग', sound: 'Ag / Ga', desc: isEn ? 'Guttural' : 'कंठ्य वर्ण' },
+                { glyph: selectedLang === 'santhali' ? 'ᱝ' : 'ङ', sound: 'Ang / Nga', desc: isEn ? 'Nasal' : 'नासिक्य वर्ण' },
               ].map((char, i) => (
                 <div
                   key={i}
@@ -438,18 +424,20 @@ export function WorksheetStudio({ selectedLang }) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-end',
-            borderTop: '1px solid #CCCCCC',
+            borderTop: '1px solid var(--color-border)',
             paddingTop: '20px',
             marginTop: '10px',
             fontSize: '0.85rem',
+            color: 'var(--color-slate)',
           }}
         >
           <div>
-            <strong>मूल्यांकन टिप्पणी:</strong> ☐ उत्कृष्ट ☐ संतोषजनक ☐ उपचारात्मक शिक्षण आवश्यक
+            <strong>{isEn ? 'Evaluation Remarks:' : 'मूल्यांकन टिप्पणी:'}</strong>{' '}
+            {isEn ? '☐ Excellent  ☐ Satisfactory  ☐ Needs Remedial Support' : '☐ उत्कृष्ट ☐ संतोषजनक ☐ उपचारात्मक शिक्षण आवश्यक'}
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ width: '160px', borderBottom: '1px solid #000', marginBottom: '4px' }}></div>
-            <div>शिक्षक के हस्ताक्षर (Teacher Sign)</div>
+            <div style={{ width: '160px', borderBottom: '1px solid var(--color-slate)', marginBottom: '4px' }}></div>
+            <div>{isEn ? 'Teacher Signature' : 'शिक्षक के हस्ताक्षर (Teacher Sign)'}</div>
           </div>
         </div>
       </div>

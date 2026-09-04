@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Menu, ChevronDown, Sparkles, Volume2, Award, Globe, BookOpen, Sun, Moon } from 'lucide-react';
+import { Globe, BookOpen, Sun, Moon } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -11,38 +11,19 @@ export function Navbar({
   onToggleUILang,
   theme = 'light',
   onToggleTheme,
-  onOpenDrawer,
-  onOpenWizard,
-  onOpenJuryTour,
-  onOpenAudioPlayer,
   activeTab,
   onSelectTab,
 }) {
-  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
-  const currentLangMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
+  const isEn = uiLang === 'en';
 
-  // Primary 4 tabs that teachers use in everyday teaching
-  const PRIMARY_TABS = [
-    { id: 'voice', label: t.tabVoice, title: t.tabVoice },
-    { id: 'worksheets', label: t.tabWorksheets, title: t.tabWorksheets },
-    { id: 'flashcards', label: t.tabFlashcards, title: t.tabFlashcards },
-    { id: 'dictionary', label: t.tabDictionary, title: t.tabDictionary },
+  // Strictly the 4 core deliverables defined in SIH Problem Statement 26042
+  const CORE_TABS = [
+    { id: 'voice', label: t.tabVoice },
+    { id: 'worksheets', label: t.tabWorksheets },
+    { id: 'flashcards', label: t.tabFlashcards },
+    { id: 'dictionary', label: t.tabDictionary },
   ];
-
-  // Secondary tools (accessible via dropdown without cluttering the screen)
-  const MORE_TABS = [
-    { id: 'curriculum', label: t.tabCurriculum },
-    { id: 'slate', label: t.tabSlate },
-    { id: 'orf', label: t.tabOrf },
-    { id: 'neural', label: t.tabNeural },
-    { id: 'benchmark', label: t.tabBenchmark },
-  ];
-
-  const handleSelectMoreTab = (tabId) => {
-    onSelectTab(tabId);
-    setShowMoreMenu(false);
-  };
 
   return (
     <header
@@ -56,7 +37,7 @@ export function Navbar({
         zIndex: 40,
       }}
     >
-      {/* 1. Main Header: Brand + 4 Tribal Languages + UI Language Toggle (English & Hindi) + Unified Menu */}
+      {/* Top Header: Brand + 4 Tribal Languages + UI Lang Toggle + Dark Mode */}
       <div
         style={{
           display: 'flex',
@@ -69,7 +50,7 @@ export function Navbar({
           flexWrap: 'wrap',
         }}
       >
-        {/* Brand */}
+        {/* Brand Title (Dynamic for English vs Hindi) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div
             style={{
@@ -89,7 +70,7 @@ export function Navbar({
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-                {t.brandTitle} <span style={{ fontSize: '0.95rem', color: 'var(--color-palash)', fontWeight: 700 }}>{t.brandSub}</span>
+                {t.brandTitle}
               </span>
               <span
                 style={{
@@ -122,7 +103,7 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Center: The 4 Clean Tribal Language Buttons */}
+        {/* Center: The 4 Tribal Language Buttons */}
         <div
           style={{
             display: 'flex',
@@ -159,9 +140,9 @@ export function Navbar({
           })}
         </div>
 
-        {/* Right: Interface Language Switcher (English & Hindi) + Teacher Menu Button */}
+        {/* Right: UI Language Toggle (English / Hindi) & Theme Mode */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          {/* Language Change Option (English and Hindi) */}
+          {/* UI Language Switcher (English vs Hindi) */}
           <div
             style={{
               display: 'flex',
@@ -171,7 +152,7 @@ export function Navbar({
               padding: '2px',
               border: '1px solid var(--color-border)',
             }}
-            title="भाषा बदलें / Change Language (English & Hindi)"
+            title={isEn ? 'Switch Language (English / Hindi)' : 'भाषा बदलें (English / हिन्दी)'}
           >
             <div style={{ padding: '0 6px 0 8px', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center' }}>
               <Globe size={13} />
@@ -212,7 +193,7 @@ export function Navbar({
             </button>
           </div>
 
-          {/* Dark / Light Theme Mode Toggle */}
+          {/* Theme Mode Toggle (Dark / Light) */}
           <button
             type="button"
             onClick={onToggleTheme}
@@ -230,39 +211,15 @@ export function Navbar({
               boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
               transition: 'all 0.15s ease',
             }}
-            title={theme === 'dark' ? 'लाइट मोड (Switch to Light Mode)' : 'डार्क मोड (Switch to Dark Mode)'}
+            title={theme === 'dark' ? (isEn ? 'Switch to Light Mode' : 'लाइट मोड सक्रिय करें') : (isEn ? 'Switch to Dark Mode' : 'डार्क मोड सक्रिय करें')}
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? <Sun size={16} color="var(--color-palash)" /> : <Moon size={16} />}
           </button>
-
-          {/* Unified Teacher Help Button */}
-          <button
-            type="button"
-            onClick={onOpenDrawer}
-            style={{
-              padding: '7px 14px',
-              borderRadius: 'var(--radius-pill)',
-              border: '1px solid var(--color-border)',
-              backgroundColor: 'var(--color-surface-card)',
-              color: 'var(--color-slate)',
-              fontSize: '0.84rem',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              cursor: 'pointer',
-              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
-            }}
-            title={t.teacherHelpBtn}
-          >
-            <Menu size={16} color="var(--color-slate)" />
-            <span>{t.teacherHelpBtn}</span>
-          </button>
         </div>
       </div>
 
-      {/* 2. Simplified Clean Navigation Bar */}
+      {/* Navigation Tabs: Strictly the 4 Core Tabs */}
       <nav
         style={{
           display: 'flex',
@@ -271,10 +228,9 @@ export function Navbar({
           padding: '0 24px 8px 24px',
           gap: '8px',
           alignItems: 'center',
-          position: 'relative',
         }}
       >
-        {PRIMARY_TABS.map((tab) => {
+        {CORE_TABS.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
@@ -282,7 +238,7 @@ export function Navbar({
               type="button"
               onClick={() => onSelectTab(tab.id)}
               style={{
-                padding: '7px 16px',
+                padding: '7px 18px',
                 border: isActive ? '1px solid var(--color-border)' : '1px solid transparent',
                 borderRadius: 'var(--radius-pill)',
                 backgroundColor: isActive ? 'var(--color-surface-card)' : 'transparent',
@@ -293,157 +249,11 @@ export function Navbar({
                 boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.05)' : 'none',
                 transition: 'all 0.18s ease',
               }}
-              title={tab.title}
             >
               {tab.label}
             </button>
           );
         })}
-
-        {/* More Tools Dropdown */}
-        <div style={{ position: 'relative' }}>
-          <button
-            type="button"
-            onClick={() => setShowMoreMenu((prev) => !prev)}
-            style={{
-              padding: '7px 14px',
-              border: '1px solid transparent',
-              borderRadius: 'var(--radius-pill)',
-              backgroundColor: showMoreMenu || MORE_TABS.some((t) => t.id === activeTab) ? 'rgba(0, 0, 0, 0.05)' : 'transparent',
-              color: MORE_TABS.some((t) => t.id === activeTab) ? 'var(--color-forest)' : 'var(--color-slate-muted)',
-              fontWeight: MORE_TABS.some((t) => t.id === activeTab) ? 700 : 500,
-              fontSize: '0.86rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-          >
-            <span>{t.tabMoreTools}</span>
-            <ChevronDown size={14} />
-          </button>
-
-          {showMoreMenu && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '110%',
-                left: 0,
-                backgroundColor: 'var(--color-surface-card)',
-                borderRadius: '12px',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-hover)',
-                padding: '6px',
-                minWidth: '220px',
-                zIndex: 50,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '2px',
-              }}
-            >
-              {MORE_TABS.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => handleSelectMoreTab(tab.id)}
-                    style={{
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      backgroundColor: isActive ? 'var(--color-surface-tint)' : 'transparent',
-                      color: isActive ? 'var(--color-palash)' : 'var(--color-slate)',
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: '0.84rem',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-
-              <div style={{ height: '1px', backgroundColor: 'var(--color-border)', margin: '4px 0' }} />
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMoreMenu(false);
-                  onOpenWizard();
-                }}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  color: 'var(--color-slate)',
-                  fontSize: '0.84rem',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Sparkles size={14} color="var(--color-palash)" />
-                <span>{t.btnOnboarding}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMoreMenu(false);
-                  onOpenAudioPlayer();
-                }}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  color: 'var(--color-slate)',
-                  fontSize: '0.84rem',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Volume2 size={14} color="var(--color-forest)" />
-                <span>{t.btnAudioDeck}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMoreMenu(false);
-                  onOpenJuryTour();
-                }}
-                style={{
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  color: 'var(--color-slate-muted)',
-                  fontSize: '0.84rem',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}
-              >
-                <Award size={14} color="#D97706" />
-                <span>{t.btnJuryTour}</span>
-              </button>
-            </div>
-          )}
-        </div>
       </nav>
     </header>
   );

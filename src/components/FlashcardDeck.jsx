@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
+import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { voiceService } from '../services/voiceTranslationService';
-import { Volume2, RotateCw, Play, CheckCircle2, Award, Sparkles, Filter, Leaf, Hash } from 'lucide-react';
+import { Volume2, RotateCw, Sparkles, Leaf, Hash } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 
-export function FlashcardDeck({ selectedLang }) {
+export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [flippedCards, setFlippedCards] = useState({});
   const [isQuizMode, setIsQuizMode] = useState(false);
@@ -13,16 +14,18 @@ export function FlashcardDeck({ selectedLang }) {
   const [quizScore, setQuizScore] = useState(0);
   const [answeredQuestion, setAnsweredQuestion] = useState(false);
 
+  const isEn = uiLang === 'en';
+  const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
 
   const categories = [
-    { id: 'all', label: 'सभी कार्ड्स (All)' },
-    { id: 'greetings', label: 'अभिवादन (Greetings)' },
-    { id: 'numbers', label: 'संख्याएँ (Numbers)' },
-    { id: 'nature', label: 'प्रकृति (Nature)' },
-    { id: 'animals', label: 'पशु-पक्षी (Animals)' },
-    { id: 'family', label: 'परिवार (Family)' },
-    { id: 'classroom', label: 'कक्षा निर्देश (Classroom)' },
+    { id: 'all', label: t.fcCatAll },
+    { id: 'greetings', label: t.fcCatGreetings },
+    { id: 'numbers', label: t.fcCatNumbers },
+    { id: 'nature', label: t.fcCatNature },
+    { id: 'animals', label: t.fcCatAnimals },
+    { id: 'family', label: t.fcCatFamily },
+    { id: 'classroom', label: t.fcCatClassroom },
   ];
 
   const filteredCards = TRIBAL_LEXICON.filter((card) => {
@@ -39,7 +42,7 @@ export function FlashcardDeck({ selectedLang }) {
 
   const handlePlayAudio = (e, text, label) => {
     e.stopPropagation();
-    toast.info(`उच्चारण: "${label}"`);
+    toast.info(isEn ? `Pronunciation: "${label}"` : `उच्चारण: "${label}"`);
     voiceService.speakText(text, 'hi-IN');
   };
 
@@ -56,8 +59,8 @@ export function FlashcardDeck({ selectedLang }) {
     const options = [
       { text: correctVal, isCorrect: true, phonetic: correctTribal.phoneticDeva || currentQuizCard.hindi },
       ...shuffledOthers.map((c) => {
-        const t = c[selectedLang] || c.sadri || c.santhali || c.mundari || c.ho || {};
-        return { text: t.nativeOlChiki || t.native || c.hindi, isCorrect: false, phonetic: t.phoneticDeva || c.hindi };
+        const tObj = c[selectedLang] || c.sadri || c.santhali || c.mundari || c.ho || {};
+        return { text: tObj.nativeOlChiki || tObj.native || c.hindi, isCorrect: false, phonetic: tObj.phoneticDeva || c.hindi };
       }),
     ];
 
@@ -78,9 +81,9 @@ export function FlashcardDeck({ selectedLang }) {
         origin: { y: 0.6 },
       });
       voiceService.playChime('success');
-      toast.success('शाबाश! सही उत्तर!');
+      toast.success(isEn ? 'Excellent! Correct answer!' : 'शाबाश! सही उत्तर!');
     } else {
-      toast.error('पुनः प्रयास करें!');
+      toast.error(isEn ? 'Try again!' : 'पुनः प्रयास करें!');
     }
   };
 
@@ -110,9 +113,14 @@ export function FlashcardDeck({ selectedLang }) {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Sparkles size={22} color="var(--color-palash)" />
-          <h2 style={{ fontSize: '1.35rem', margin: 0 }}>
-            दृश्य फ्लैशकार्ड व क्विज स्टूडियो ({langMeta.name})
-          </h2>
+          <div>
+            <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-slate)' }}>
+              {t.fcTitle} ({langMeta.name})
+            </h2>
+            <p style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+              {t.fcSubtitle}
+            </p>
+          </div>
         </div>
 
         {/* Mode Switcher: Browse vs Quiz */}
@@ -122,7 +130,7 @@ export function FlashcardDeck({ selectedLang }) {
             className={`btn-brutal ${!isQuizMode ? 'btn-primary' : ''}`}
             style={{ padding: '8px 14px', fontSize: '0.85rem' }}
           >
-            कार्ड गैलरी (Cards View)
+            {t.fcModeCards}
           </button>
           <button
             onClick={() => {
@@ -132,7 +140,7 @@ export function FlashcardDeck({ selectedLang }) {
             className={`btn-brutal ${isQuizMode ? 'btn-ochre' : ''}`}
             style={{ padding: '8px 14px', fontSize: '0.85rem' }}
           >
-            कक्षा क्विज मोड (Quiz Mode)
+            {t.fcModeQuiz}
           </button>
         </div>
       </div>
@@ -170,7 +178,7 @@ export function FlashcardDeck({ selectedLang }) {
           }}
         >
           {filteredCards.map((card) => {
-            const tribalObj = card[selectedLang] || card.santhali;
+            const tribalObj = card[selectedLang] || card.santhali || {};
             const nativeText = tribalObj.nativeOlChiki || tribalObj.native;
             const isFlipped = !!flippedCards[card.id];
 
@@ -192,7 +200,7 @@ export function FlashcardDeck({ selectedLang }) {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span className="badge-tag badge-ochre">{card.category}</span>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>टैप कर पलटें</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>{t.fcFlipHint}</span>
                     </div>
 
                     <div style={{ margin: 'auto 0' }}>
@@ -210,7 +218,7 @@ export function FlashcardDeck({ selectedLang }) {
                     </div>
 
                     <div style={{ fontSize: '0.75rem', color: 'var(--color-palash)', fontWeight: 600 }}>
-                      क्लिक करें: {langMeta.name} रूपांतरण
+                      {isEn ? `Tap: View ${langMeta.name}` : `क्लिक करें: ${langMeta.name} रूपांतरण`}
                     </div>
                   </div>
 
@@ -252,9 +260,11 @@ export function FlashcardDeck({ selectedLang }) {
                         {tribalObj.phoneticDeva}
                       </div>
 
-                      <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', fontStyle: 'italic' }}>
-                        रोमन: {tribalObj.phoneticLatin}
-                      </div>
+                      {tribalObj.phoneticLatin && (
+                        <div style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', fontStyle: 'italic' }}>
+                          Roman: {tribalObj.phoneticLatin}
+                        </div>
+                      )}
                     </div>
 
                     {/* Audio Play Button on Back */}
@@ -264,7 +274,7 @@ export function FlashcardDeck({ selectedLang }) {
                       style={{ padding: '8px 12px', fontSize: '0.85rem', width: '100%' }}
                     >
                       <Volume2 size={16} />
-                      उच्चारण सुनें
+                      {isEn ? 'Listen Pronunciation' : 'उच्चारण सुनें'}
                     </button>
                   </div>
                 </div>
@@ -292,10 +302,10 @@ export function FlashcardDeck({ selectedLang }) {
           {/* Quiz Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span className="badge-tag badge-forest">
-              निपुण मौखिक प्रश्नोत्तरी (FLN Quiz)
+              {isEn ? 'NIPUN Oral Competency Quiz (FLN)' : 'निपुण मौखिक प्रश्नोत्तरी (FLN Quiz)'}
             </span>
             <div style={{ fontWeight: 700, color: 'var(--color-forest)', fontSize: '1rem' }}>
-              स्कोर: {quizScore} अंक
+              {t.fcQuizScore} {quizScore}
             </div>
           </div>
 
@@ -310,7 +320,9 @@ export function FlashcardDeck({ selectedLang }) {
             }}
           >
             <div style={{ fontSize: '0.9rem', color: '#8C5F08', fontWeight: 600 }}>
-              निम्नलिखित शब्द का {langMeta.name} भाषा में सही रूप क्या है?
+              {isEn
+                ? `What is the correct ${langMeta.name} word for:`
+                : `निम्नलिखित शब्द का ${langMeta.name} भाषा में सही रूप क्या है?`}
             </div>
             <div style={{ fontSize: '2.4rem', fontWeight: 800, margin: '10px 0', color: 'var(--color-slate)' }}>
               "{currentQuizCard.hindi}"
@@ -337,8 +349,8 @@ export function FlashcardDeck({ selectedLang }) {
                   backgroundColor: answeredQuestion
                     ? opt.isCorrect
                       ? 'var(--color-forest-subtle)'
-                      : '#FFF'
-                    : '#FFF',
+                      : 'var(--color-surface-card)'
+                    : 'var(--color-surface-card)',
                   borderColor: answeredQuestion && opt.isCorrect ? 'var(--color-forest)' : 'var(--color-border)',
                 }}
               >
@@ -359,7 +371,7 @@ export function FlashcardDeck({ selectedLang }) {
               className="btn-brutal btn-primary"
               style={{ padding: '12px 24px', fontSize: '1rem', marginTop: '10px' }}
             >
-              अगला प्रश्न ➔
+              {t.fcNextQuestion}
             </button>
           )}
         </div>

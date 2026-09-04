@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
+import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { voiceService } from '../services/voiceTranslationService';
-import { Search, Volume2, BookOpen, Layers, Filter } from 'lucide-react';
+import { Search, Volume2, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 
-export function DictionarySearch() {
+export function DictionarySearch({ uiLang = 'hi' }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCat, setSelectedCat] = useState('all');
+
+  const isEn = uiLang === 'en';
+  const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
 
   const filteredItems = TRIBAL_LEXICON.filter((item) => {
     const matchesCategory = selectedCat === 'all' || item.category === selectedCat;
@@ -25,7 +29,7 @@ export function DictionarySearch() {
   });
 
   const handlePlay = (text, langName) => {
-    toast.info(`${langName} उच्चारण: "${text}"`);
+    toast.info(isEn ? `${langName} pronunciation: "${text}"` : `${langName} उच्चारण: "${text}"`);
     voiceService.speakText(text, 'hi-IN');
   };
 
@@ -45,12 +49,15 @@ export function DictionarySearch() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <BookOpen size={22} color="var(--color-forest)" />
-            <h2 style={{ fontSize: '1.35rem', margin: 0 }}>
-              त्रैभाषिक FLN शब्दकोश (Tri-Lingual Lexicon Search)
+            <h2 style={{ fontSize: '1.35rem', margin: 0, color: 'var(--color-slate)' }}>
+              {t.dictTitle}
             </h2>
           </div>
-          <span className="badge-tag badge-forest">हो • मुण्डारी • संताली • सादरी शब्दकोश</span>
+          <span className="badge-tag badge-forest">{t.dictBadgeAllLangs}</span>
         </div>
+        <p style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+          {t.dictSubtitle}
+        </p>
 
         {/* Search Bar & Category Filter */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -60,12 +67,12 @@ export function DictionarySearch() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="हिंदी, अंग्रेजी या ध्वनि से खोजें (उदा: पानी, हाथी, नमस्ते, 1, माँ)..."
+              placeholder={t.dictSearchPlaceholder}
               style={{
                 width: '100%',
                 padding: '10px 14px 10px 42px',
                 borderRadius: 'var(--radius-md)',
-                border: 'var(--border-thick)',
+                border: '1px solid var(--color-border)',
                 backgroundColor: 'var(--color-surface-card)',
                 color: 'var(--color-slate)',
                 fontSize: '1rem',
@@ -81,7 +88,7 @@ export function DictionarySearch() {
             style={{
               padding: '10px 14px',
               borderRadius: 'var(--radius-md)',
-              border: 'var(--border-thick)',
+              border: '1px solid var(--color-border)',
               backgroundColor: 'var(--color-surface-card)',
               color: 'var(--color-slate)',
               fontWeight: 600,
@@ -89,13 +96,13 @@ export function DictionarySearch() {
               cursor: 'pointer',
             }}
           >
-            <option value="all">सभी श्रेणियाँ (All Categories)</option>
-            <option value="greetings">अभिवादन (Greetings)</option>
-            <option value="numbers">संख्याएँ (Numbers)</option>
-            <option value="classroom">कक्षा निर्देश (Classroom)</option>
-            <option value="nature">प्रकृति (Nature)</option>
-            <option value="animals">पशु-पक्षी (Animals)</option>
-            <option value="family">परिवार (Family)</option>
+            <option value="all">{isEn ? 'All Categories' : 'सभी श्रेणियाँ'}</option>
+            <option value="greetings">{isEn ? 'Greetings' : 'अभिवादन'}</option>
+            <option value="numbers">{isEn ? 'Numbers' : 'संख्याएँ'}</option>
+            <option value="classroom">{isEn ? 'Classroom' : 'कक्षा निर्देश'}</option>
+            <option value="nature">{isEn ? 'Nature' : 'प्रकृति'}</option>
+            <option value="animals">{isEn ? 'Animals' : 'पशु-पक्षी'}</option>
+            <option value="family">{isEn ? 'Family' : 'परिवार'}</option>
           </select>
         </div>
       </div>
@@ -127,15 +134,15 @@ export function DictionarySearch() {
               <span className="badge-tag badge-ochre">{item.category}</span>
             </div>
 
-            {/* 3 Tribal Columns Side-by-Side */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+            {/* 4 Tribal Columns Side-by-Side */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
               {/* 1. Ho */}
               <div
                 style={{
-                  backgroundColor: 'var(--color-palash-subtle)',
+                  backgroundColor: 'var(--color-surface-tint)',
                   padding: '12px',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid #F8C3AC',
+                  border: '1px solid var(--color-border)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -144,33 +151,44 @@ export function DictionarySearch() {
               >
                 <div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-palash)' }}>
-                    हो (Ho - 𑢹𑣉𑣉):
+                    {t.dictColHo}:
                   </div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0', color: 'var(--color-slate)' }}>
                     {item.ho.native}
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#523702' }}>
-                    उच्चारण: {item.ho.phoneticDeva}
+                  <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                    {isEn ? 'Sound:' : 'उच्चारण:'} {item.ho.phoneticDeva}
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => handlePlay(item.ho.audioText || item.ho.phoneticDeva, 'Ho')}
-                  className="btn-brutal btn-palash"
-                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                  style={{
+                    padding: '5px 10px',
+                    fontSize: '0.75rem',
+                    borderRadius: 'var(--radius-pill)',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-surface-card)',
+                    color: 'var(--color-slate)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
                 >
-                  <Volume2 size={12} />
-                  हो ध्वनि सुनें
+                  <Volume2 size={12} color="var(--color-palash)" />
+                  {t.dictAudioBtn} (Ho)
                 </button>
               </div>
 
               {/* 2. Mundari */}
               <div
                 style={{
-                  backgroundColor: 'var(--color-forest-subtle)',
+                  backgroundColor: 'var(--color-surface-tint)',
                   padding: '12px',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--color-forest-border)',
+                  border: '1px solid var(--color-border)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -179,33 +197,44 @@ export function DictionarySearch() {
               >
                 <div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest)' }}>
-                    मुण्डारी (Mundari):
+                    {t.dictColMundari}:
                   </div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0' }}>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0', color: 'var(--color-slate)' }}>
                     {item.mundari.native}
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#0E5B37' }}>
-                    उच्चारण: {item.mundari.phoneticDeva}
+                  <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                    {isEn ? 'Sound:' : 'उच्चारण:'} {item.mundari.phoneticDeva}
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => handlePlay(item.mundari.audioText || item.mundari.phoneticDeva, 'Mundari')}
-                  className="btn-brutal btn-primary"
-                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                  style={{
+                    padding: '5px 10px',
+                    fontSize: '0.75rem',
+                    borderRadius: 'var(--radius-pill)',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-surface-card)',
+                    color: 'var(--color-slate)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
                 >
-                  <Volume2 size={12} />
-                  मुण्डारी ध्वनि सुनें
+                  <Volume2 size={12} color="var(--color-forest)" />
+                  {t.dictAudioBtn} (Mundari)
                 </button>
               </div>
 
               {/* 3. Santhali */}
               <div
                 style={{
-                  backgroundColor: 'var(--color-ochre-subtle)',
+                  backgroundColor: 'var(--color-surface-tint)',
                   padding: '12px',
                   borderRadius: 'var(--radius-sm)',
-                  border: '1px solid #F5DEAE',
+                  border: '1px solid var(--color-border)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -213,24 +242,35 @@ export function DictionarySearch() {
                 }}
               >
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#8C5F08' }}>
-                    संताली (Santhali - ᱥᱟᱱᱛᱟᱲᱤ):
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#D97706' }}>
+                    {t.dictColSanthali} (Ol Chiki - ᱥᱟᱱᱛᱟᱲᱤ):
                   </div>
-                  <div className="font-olchiki" style={{ fontSize: '1.4rem', fontWeight: 800, margin: '4px 0' }}>
+                  <div className="font-olchiki" style={{ fontSize: '1.4rem', fontWeight: 800, margin: '4px 0', color: 'var(--color-slate)' }}>
                     {item.santhali.nativeOlChiki}
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#523702' }}>
-                    उच्चारण: {item.santhali.phoneticDeva}
+                  <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                    {isEn ? 'Sound:' : 'उच्चारण:'} {item.santhali.phoneticDeva}
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => handlePlay(item.santhali.audioText || item.santhali.phoneticDeva, 'Santhali')}
-                  className="btn-brutal btn-ochre"
-                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                  style={{
+                    padding: '5px 10px',
+                    fontSize: '0.75rem',
+                    borderRadius: 'var(--radius-pill)',
+                    border: '1px solid var(--color-border)',
+                    backgroundColor: 'var(--color-surface-card)',
+                    color: 'var(--color-slate)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
                 >
-                  <Volume2 size={12} />
-                  संताली ध्वनि सुनें
+                  <Volume2 size={12} color="#D97706" />
+                  {t.dictAudioBtn} (Santhali)
                 </button>
               </div>
 
@@ -238,10 +278,10 @@ export function DictionarySearch() {
               {item.sadri && (
                 <div
                   style={{
-                    backgroundColor: '#F0F9FF',
+                    backgroundColor: 'var(--color-surface-tint)',
                     padding: '12px',
                     borderRadius: 'var(--radius-sm)',
-                    border: '1px solid #BAE6FD',
+                    border: '1px solid var(--color-border)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -250,23 +290,34 @@ export function DictionarySearch() {
                 >
                   <div>
                     <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284C7' }}>
-                      सादरी (Sadri / Nagpuri):
+                      {t.dictColSadri}:
                     </div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0' }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, margin: '4px 0', color: 'var(--color-slate)' }}>
                       {item.sadri.native}
                     </div>
-                    <div style={{ fontSize: '0.82rem', color: '#0369A1' }}>
-                      उच्चारण: {item.sadri.phoneticDeva}
+                    <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                      {isEn ? 'Sound:' : 'उच्चारण:'} {item.sadri.phoneticDeva}
                     </div>
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => handlePlay(item.sadri.audioText || item.sadri.phoneticDeva, 'Sadri')}
-                    className="btn-brutal"
-                    style={{ padding: '4px 8px', fontSize: '0.75rem', backgroundColor: '#0284C7', color: '#FFF' }}
+                    style={{
+                      padding: '5px 10px',
+                      fontSize: '0.75rem',
+                      borderRadius: 'var(--radius-pill)',
+                      border: '1px solid var(--color-border)',
+                      backgroundColor: 'var(--color-surface-card)',
+                      color: 'var(--color-slate)',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
                   >
-                    <Volume2 size={12} />
-                    सादरी ध्वनि सुनें
+                    <Volume2 size={12} color="#0284C7" />
+                    {t.dictAudioBtn} (Sadri)
                   </button>
                 </div>
               )}
