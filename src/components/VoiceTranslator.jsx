@@ -3,6 +3,7 @@ import {
   Mic,
   MicOff,
   Volume2,
+  VolumeX,
   Clock,
   Sparkles,
   Send,
@@ -90,6 +91,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [history, setHistory] = useState(getInitialHistory);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [measuredLatency, setMeasuredLatency] = useState(42);
+  const [autoBroadcast, setAutoBroadcast] = useState(true);
   const [showDiagnostics, setShowDiagnostics] = useState(false);
   const [diagData, setDiagData] = useState(null);
   const [isCheckingPerm, setIsCheckingPerm] = useState(false);
@@ -213,7 +215,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           const textToBroadcast = isTeacherMode
             ? (res.audioText || res.phoneticDeva)
             : (res.hindiTranslation || res.nativeScript);
-          handleSpeakAudio(textToBroadcast, res.nativeScript);
+          if (autoBroadcast) {
+            handleSpeakAudio(textToBroadcast, res.nativeScript);
+          }
           addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
           setLiveSessionCount((prev) => prev + 1);
           toast.success(
@@ -456,7 +460,46 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const next = !autoBroadcast;
+                  setAutoBroadcast(next);
+                  toast.info(
+                    next
+                      ? (isEn ? 'Classroom Speaker: Auto-Broadcast ON (Acoustic Echo Suppression Active)' : 'कक्षा स्पीकर: स्वतः प्रसारण चालू (इको दमन सक्रिय)')
+                      : (isEn ? 'Classroom Speaker: Muted (Silent Mode, visual translation on screen)' : 'कक्षा स्पीकर: मूक मोड (केवल स्क्रीन पर अनुवाद)')
+                  );
+                }}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.70rem',
+                  padding: '3px 10px',
+                  borderRadius: '999px',
+                  backgroundColor: autoBroadcast ? 'rgba(37, 99, 235, 0.12)' : 'var(--color-surface-tint)',
+                  color: autoBroadcast ? '#2563EB' : 'var(--color-slate-muted)',
+                  border: `1px solid ${autoBroadcast ? 'rgba(37, 99, 235, 0.3)' : 'var(--color-border)'}`,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  transition: 'all 0.15s ease',
+                }}
+                title={
+                  autoBroadcast
+                    ? (isEn ? 'Speaker Auto-Broadcast ON (Acoustic Echo Suppression Active)' : 'स्पीकर स्वतः प्रसारण चालू (इको दमन सक्रिय)')
+                    : (isEn ? 'Silent Mode (Visual translation only, speaker muted)' : 'शांत मोड (केवल स्क्रीन पर, स्पीकर मूक)')
+                }
+              >
+                {autoBroadcast ? <Volume2 size={11} /> : <VolumeX size={11} />}
+                <span>
+                  {autoBroadcast
+                    ? (isEn ? 'Speaker: Auto (Anti-Echo)' : 'स्पीकर: स्वतः (इको-मुक्त)')
+                    : (isEn ? 'Speaker: Muted' : 'स्पीकर: मूक')}
+                </span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => {
@@ -685,6 +728,32 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   {isEn
                     ? `Live Session Active (${langMeta.name}) • ${liveSessionCount} sentences recorded • Tap mic to stop`
                     : `लाइव सत्र सक्रिय (${langMeta.name}) • ${liveSessionCount} वाक्य दर्ज हुए • रोकने हेतु माइक दबाएं`}
+                </span>
+              </div>
+            )}
+
+            {/* Live Speaker Broadcast & Mic Echo-Ducking Status */}
+            {isPlayingAudio && (
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '5px 14px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'rgba(37, 99, 235, 0.12)',
+                  border: '1px solid rgba(37, 99, 235, 0.3)',
+                  color: '#2563EB',
+                  fontSize: '0.76rem',
+                  fontWeight: 700,
+                  marginTop: '2px',
+                }}
+              >
+                <Volume2 size={13} className="audio-pulse" />
+                <span>
+                  {isEn
+                    ? '🔊 Speaker Broadcasting to Class • Mic Auto-Muted (Anti-Echo)'
+                    : '🔊 कक्षा में ध्वनि प्रसारण • माइक इको स्वतः म्यूट है'}
                 </span>
               </div>
             )}
