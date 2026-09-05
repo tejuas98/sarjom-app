@@ -10,6 +10,7 @@
 [![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-~34%20MB%20(Budget%20%E2%89%A42GB)-blue.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 [![Deep Math & Architecture Spec](https://img.shields.io/badge/Technical%20Spec-Mathematics%20%26%20Engineering%20Deep%20Dive-purple.svg)](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)
+[![Full Tech Stack & Logic Guide](https://img.shields.io/badge/Tech%20Stack%20%26%20Logic-Non--Tech%20Intuition%20to%20Matrix%20Math-teal.svg)](./TECH_STACK_AND_LOGIC_EXPLAINED.md)
 
 | Official Metadata | Specification Details |
 | :--- | :--- |
@@ -111,6 +112,7 @@ To provide immediate clarity and eliminate clutter for hackathon evaluators, sch
 │   • 🧭 Executive Strategic Guide        : EXECUTIVE_GUIDE.md                                           │
 ├────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ ⚙️ TIER 3: ENGINEERING, 34MB MODEL PROOF & ARCHITECTURE                                                │
+│   • 🧠 Full Stack, Logic & Math Guide   : TECH_STACK_AND_LOGIC_EXPLAINED.md (Non-Tech Intuition to Matrix Math) │
 │   • 🏗️ Connected System Architecture    : SYSTEM_ARCHITECTURE.md (Workflow, Decision Tree & Mermaid)  │
 │   • 🔬 Technical Approach & 34MB Defense: TECHNICAL_APPROACH.md (Edge ML, Acoustic DSP & PWA Cache)    │
 │   • 📐 Deep Mathematics Specification   : TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md (FST & Quant)     │
