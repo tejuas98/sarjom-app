@@ -144,8 +144,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     return defaults;
   };
 
-  // Mode: 'teacher_to_student' (Hindi -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
+  // Mode: 'teacher_to_student' (Hindi/English -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
   const [dialogueMode, setDialogueMode] = useState('teacher_to_student');
+  const [teacherVoiceLang, setTeacherVoiceLang] = useState('hi'); // 'hi' (Hindi) or 'en' (English)
   const [inputText, setInputText] = useState(() => {
     if (typeof window !== 'undefined') {
       const p = new URLSearchParams(window.location.search).get('q');
@@ -263,15 +264,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   const handleStartMic = async () => {
     setIsRecording(true);
-    const recognitionLang = isTeacherMode ? 'hi-IN' : 'hi-IN';
+    const recognitionLang = isTeacherMode
+      ? (teacherVoiceLang === 'en' ? 'en-IN' : 'hi-IN')
+      : 'hi-IN';
 
     toast.info(
       isEn
         ? isTeacherMode
-          ? 'Microphone active: Speak in Hindi...'
+          ? `Microphone active: Speak in ${teacherVoiceLang === 'en' ? 'English' : 'Hindi'}...`
           : `Student microphone active: Speak in ${langMeta.name}...`
         : isTeacherMode
-        ? 'माइक्रोफ़ोन सक्रिय: हिंदी में बोलें...'
+        ? `माइक्रोफ़ोन सक्रिय: ${teacherVoiceLang === 'en' ? 'अंग्रेजी' : 'हिंदी'} में बोलें...`
         : `छात्र माइक्रोफ़ोन सक्रिय: ${langMeta.name} में बोलें...`
     );
 
@@ -867,8 +870,63 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
 
-            {/* Audio Mode Controller (Clean & Quiet) */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            {/* Audio Mode Controller & Input Language Selector */}
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+              {isTeacherMode && (
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    padding: '2px',
+                    borderRadius: 'var(--radius-pill)',
+                    backgroundColor: 'var(--color-surface-tint)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                  title={isEn ? 'Choose Teacher Speaking Language' : 'शिक्षक के बोलने की भाषा चुनें'}
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTeacherVoiceLang('hi');
+                      toast.info(isEn ? 'Teacher language set to Hindi' : 'शिक्षक भाषा हिंदी पर सेट');
+                    }}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: '999px',
+                      border: 'none',
+                      backgroundColor: teacherVoiceLang === 'hi' ? 'var(--color-slate)' : 'transparent',
+                      color: teacherVoiceLang === 'hi' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
+                      fontWeight: teacherVoiceLang === 'hi' ? 700 : 500,
+                      cursor: 'pointer',
+                      fontSize: '0.70rem',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    🇮🇳 Hindi
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTeacherVoiceLang('en');
+                      toast.info(isEn ? 'Teacher language set to English' : 'शिक्षक भाषा अंग्रेजी पर सेट');
+                    }}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: '999px',
+                      border: 'none',
+                      backgroundColor: teacherVoiceLang === 'en' ? 'var(--color-slate)' : 'transparent',
+                      color: teacherVoiceLang === 'en' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
+                      fontWeight: teacherVoiceLang === 'en' ? 700 : 500,
+                      cursor: 'pointer',
+                      fontSize: '0.70rem',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    🇬🇧 English
+                  </button>
+                </div>
+              )}
+
               <button
                 type="button"
                 onClick={() => {
