@@ -136,9 +136,11 @@ class VoiceTranslationService {
 
   /**
    * Synthesizes tribal audio output using Web Speech API with tuned Indian pitch
-   * and fallback acoustic phoneme modulation.
+   * and fallback acoustic phoneme modulation. Suppresses microphone echo loop
+   * during speaker output.
    */
   speakText(text, lang = 'hi-IN', onEnd = () => {}) {
+    this.isSpeaking = true;
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel(); // cancel prior utterances
       const utterance = new SpeechSynthesisUtterance(text);
@@ -146,17 +148,24 @@ class VoiceTranslationService {
       utterance.rate = 0.88; // Slower, clear pace for primary school pedagogy
       utterance.pitch = 1.05;
 
-      utterance.onend = () => {
-        onEnd();
+      const finishSpeaking = () => {
+        // Acoustic decay buffer (350ms) to ensure classroom speaker reverberations do not trigger the mic
+        setTimeout(() => {
+          this.isSpeaking = false;
+          onEnd();
+        }, 350);
       };
-      utterance.onerror = () => {
-        onEnd();
-      };
+
+      utterance.onend = finishSpeaking;
+      utterance.onerror = finishSpeaking;
 
       window.speechSynthesis.speak(utterance);
     } else {
       this.playChime('success');
-      setTimeout(onEnd, 1200);
+      setTimeout(() => {
+        this.isSpeaking = false;
+        onEnd();
+      }, 1200);
     }
   }
 
@@ -174,22 +183,28 @@ class VoiceTranslationService {
     if (!this.recognition) {
       onError({
         code: 'not-supported',
-        message: 'Speech Recognition not supported in this browser. You can use the quick speech prompts below.',
+        message: 'Speech Recognition is not supported in this browser.',
       });
       return;
     }
 
-    // Attempt permission confirmation
+    // Hardware microphone permission with Acoustic Echo Cancellation (AEC) and Noise Suppression
     if (typeof navigator !== 'undefined' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+          },
+        });
         stream.getTracks().forEach((track) => track.stop());
       } catch (permErr) {
         const isDenied = permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError';
         if (isDenied) {
           onError({
             code: 'not-allowed',
-            message: 'Microphone permission denied. Please allow microphone access in your browser or iPad settings.',
+            message: 'Microphone permission denied. Please allow microphone access in your browser or device settings.',
           });
           return;
         }
@@ -203,14 +218,14 @@ class VoiceTranslationService {
     } catch (e) {}
 
     this.isListening = true;
-    this.isTemporarilyPaused = false;
     this.playChime('listen');
 
     this.recognition.onresult = (event) => {
-      // Acoustic Echo Cancellation (AEC) Guard: Ignore speaker audio while classroom speaker broadcasts
-      if (this.isTemporarilyPaused) return;
-
-      // Process all final recognized sentences continuously without stopping
+      // Acoustic Echo Suppression: If classroom speaker is broadcasting, ignore sound picked up
+      if (this.isSpeaking) {
+        return;
+      }
+      // Process final recognized sentences continuously without stopping
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           const transcript = event.results[i][0].transcript.trim();
@@ -233,7 +248,7 @@ class VoiceTranslationService {
       if (errCode === 'not-allowed') {
         message = 'Microphone permission was denied. Please allow mic access in your browser.';
       } else if (errCode === 'network') {
-        message = 'Speech service network error (cloud recognition unavailable). You can use the instant quick speech prompts.';
+        message = 'Speech service network error (cloud recognition unavailable).';
       } else if (errCode === 'audio-capture') {
         message = 'No microphone hardware found. Please plug in a microphone.';
       }
@@ -270,17 +285,8 @@ class VoiceTranslationService {
     }
   }
 
-  pauseListeningForPlayback() {
-    this.isTemporarilyPaused = true;
-  }
-
-  resumeListeningAfterPlayback() {
-    this.isTemporarilyPaused = false;
-  }
-
   stopListening() {
     this.isListening = false;
-    this.isTemporarilyPaused = false;
     if (this.recognition) {
       try {
         this.recognition.stop();

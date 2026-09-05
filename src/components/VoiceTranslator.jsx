@@ -97,43 +97,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const langMeta = TRIBAL_LANGUAGES[selectedLang] || TRIBAL_LANGUAGES.santhali;
   const isTeacherMode = dialogueMode === 'teacher_to_student';
 
-  const TEACHER_QUICK_PROMPTS = [
-    { text: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?', label: 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?' },
-    { text: 'अपनी किताब खोलो और पाठ एक पढ़ो', label: 'अपनी किताब खोलो और पाठ एक पढ़ो' },
-    { text: 'सब बच्चे ध्यान से सुनो', label: 'सब बच्चे ध्यान से सुनो' },
-    { text: 'आज हम जंगल और नदी के बारे में पढ़ेंगे', label: 'आज हम जंगल और नदी के बारे में पढ़ेंगे' },
-  ];
 
-  const STUDENT_QUICK_PROMPTS = {
-    santhali: [
-      { text: 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ, ᱜᱩᱨᱩᱡᱤ!', label: 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ (We are fine)' },
-      { text: 'ᱡᱚᱦᱟᱨ ᱢᱟᱪᱮᱛ!', label: 'ᱡᱚᱦᱟᱨ ᱢᱟᱪᱮᱛ (Johar Teacher)' },
-      { text: 'ᱤᱧ ᱫᱟᱜ ᱧᱩ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ', label: 'ᱤᱧ ᱫᱟᱜ ᱧᱩ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ (Need water)' },
-      { text: 'ᱟᱞᱮ ᱯᱟᱲᱦᱟᱣ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ', label: 'ᱟᱞᱮ ᱯᱟᱲᱦᱟᱣ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ (Want to study)' },
-    ],
-    ho: [
-      { text: 'हमे मन बेस अही, गुरुजी!', label: 'हमे मन बेस अही, गुरुजी! (We are fine)' },
-      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
-      { text: 'अले हातु-ते सेनोगाः', label: 'अले हातु-ते सेनोगाः (Going to village)' },
-      { text: 'दाः गामा-ए', label: 'दाः गामा-ए (It is raining)' },
-    ],
-    mundari: [
-      { text: 'आले बेस गे मेनागा, गुरुजी!', label: 'आले बेस गे मेनागा, गुरुजी! (We are fine)' },
-      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
-      { text: 'इन्गाः अजि गापा हिजुगाः', label: 'इन्गाः अजि गापा हिजुगाः (Sister coming)' },
-      { text: 'लोएयोंग अते बुबा जोम', label: 'लोएयोंग अते बुबा जोम (Field rice)' },
-    ],
-    sadri: [
-      { text: 'हमरे मन बेस आही, गुरुजी!', label: 'हमरे मन बेस आही, गुरुजी! (We are fine)' },
-      { text: 'जोहार गुरुजी!', label: 'जोहार गुरुजी! (Johar Teacher)' },
-      { text: 'किताब खोलत ही', label: 'किताब खोलत ही (Opening book)' },
-      { text: 'पानी बरसत हे', label: 'पानी बरसत हे (It is raining)' },
-    ],
-  };
-
-  const activePrompts = isTeacherMode
-    ? TEACHER_QUICK_PROMPTS
-    : (STUDENT_QUICK_PROMPTS[selectedLang] || STUDENT_QUICK_PROMPTS.santhali);
 
   const runDiagnostics = async () => {
     const data = await voiceService.getDiagnostics();
@@ -174,24 +138,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const handleSimulateSpeech = (utteranceText) => {
-    setInputText(utteranceText);
-    toast.info(isEn ? `Classroom Speech: "${utteranceText}"` : `कक्षा भाषण: "${utteranceText}"`);
-    voiceService.playChime('listen');
-
-    setTimeout(() => {
-      const res = executeTranslation(utteranceText);
-      if (res) {
-        const textToBroadcast = isTeacherMode
-          ? (res.audioText || res.phoneticDeva)
-          : (res.hindiTranslation || res.nativeScript);
-        handleSpeakAudio(textToBroadcast, res.nativeScript);
-        addToHistory(utteranceText, res, isTeacherMode ? 'teacher' : 'student');
-        setLiveSessionCount((c) => c + 1);
-      }
-    }, 250);
   };
 
   // Persist history to localStorage
@@ -238,16 +184,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   const handleSpeakAudio = (textToSpeak, label, speechLang = 'hi-IN') => {
     setIsPlayingAudio(true);
-    // Software Acoustic Echo Cancellation (AEC): Mute mic recognition while speaker is broadcasting
-    voiceService.pauseListeningForPlayback();
-
     toast.info(isEn ? `Classroom broadcast: "${label || textToSpeak}"` : `कक्षा प्रसारण: "${label || textToSpeak}"`);
     voiceService.speakText(textToSpeak, speechLang, () => {
       setIsPlayingAudio(false);
-      // Resume listening after a 300ms acoustic guard interval to clear room reverberation
-      setTimeout(() => {
-        voiceService.resumeListeningAfterPlayback();
-      }, 300);
     });
   };
 
@@ -298,15 +237,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           setIsRecording(false);
           toast.warning(
             isEn
-              ? 'Speech service offline/in simulator. Click any speech prompt below to test speech!'
-              : 'सिम्युलेटर में क्लाउड स्पीच ऑफ़लाइन है। त्वरित परीक्षण हेतु नीचे दिए गए किसी भी वाक्य पर क्लिक करें!'
+              ? 'Speech recognition service temporarily offline or network interrupted.'
+              : 'वाक पहचान नेटवर्क बाधित है। कृपया नेटवर्क की जाँच करें।'
           );
         } else if (error.code === 'not-supported') {
           setIsRecording(false);
           toast.warning(
             isEn
-              ? 'Web Speech API is not supported in this browser. Quick speech prompts active.'
-              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। त्वरित भाषण वाक्य सक्रिय हैं।'
+              ? 'Web Speech API is not supported in this browser. Please use Chrome/Edge.'
+              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। कृपया Chrome/Edge का प्रयोग करें।'
           );
         }
       },
@@ -609,7 +548,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)' }}>
                   <div style={{ color: 'var(--color-slate-muted)', fontSize: '0.72rem' }}>Speech Recognition Engine:</div>
                   <div style={{ fontWeight: 700, marginTop: '2px', color: diagData?.hasSpeechRecognition ? '#16A34A' : 'var(--color-palash)' }}>
-                    {diagData?.hasSpeechRecognition ? '✓ Web Speech API Supported' : '⚠ Simulator / Offline Mode (Speech Prompts Ready)'}
+                    {diagData?.hasSpeechRecognition ? '✓ Web Speech API Supported' : '⚠ Simulator / Native Offline Audio'}
                   </div>
                 </div>
               </div>
@@ -749,68 +688,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
             )}
-
-            {/* Quick Classroom Speech Prompts for Instant Debugging & Testing */}
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-                alignItems: 'center',
-                marginTop: '6px',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  color: 'var(--color-slate-muted)',
-                }}
-              >
-                {isTeacherMode
-                  ? (isEn ? 'Teacher Speech Prompts (Click to Test / Dictate):' : 'शिक्षक भाषण वाक्य (परीक्षण हेतु क्लिक करें):')
-                  : (isEn ? `${langMeta.name} Student Speech Prompts:` : `${langMeta.name} छात्र भाषण वाक्य:`)}
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '6px',
-                  justifyContent: 'center',
-                  maxWidth: '560px',
-                }}
-              >
-                {activePrompts.map((p, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleSimulateSpeech(p.text)}
-                    style={{
-                      padding: '5px 12px',
-                      fontSize: '0.78rem',
-                      fontWeight: 600,
-                      borderRadius: 'var(--radius-pill)',
-                      backgroundColor: 'var(--color-surface-tint)',
-                      border: '1px solid var(--color-border)',
-                      color: 'var(--color-slate)',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      transition: 'all 0.15s ease',
-                    }}
-                    title={isEn ? `Click to simulate speaking "${p.text}"` : `"${p.text}" बोलने का अनुकरण करें`}
-                  >
-                    <Mic size={11} color="var(--color-palash)" />
-                    <span>{p.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Live Translation Output Area (Rendered on card surface - No nested cards!) */}
