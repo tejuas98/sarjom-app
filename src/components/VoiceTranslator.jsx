@@ -1354,33 +1354,62 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    const textToBroadcast = isTeacherMode
-                      ? (translationResult.audioText || translationResult.phoneticDeva)
-                      : (translationResult.hindiTranslation || translationResult.nativeScript);
-                    handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
-                  }}
-                  style={{
-                    padding: '8px 18px',
-                    fontSize: '0.84rem',
-                    fontWeight: 600,
-                    borderRadius: 'var(--radius-pill)',
-                    backgroundColor: 'var(--color-palash)',
-                    border: 'none',
-                    color: '#FFFFFF',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: 'var(--shadow-flat)',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  <Volume2 size={15} className={isPlayingAudio ? 'audio-pulse' : ''} />
-                  <span>{t.replaySpeaker}</span>
-                </button>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  {!isTeacherMode && translationResult.sourceHindi && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleSpeakAudio(translationResult.sourceHindi, translationResult.sourceHindi);
+                      }}
+                      style={{
+                        padding: '8px 14px',
+                        fontSize: '0.80rem',
+                        fontWeight: 600,
+                        borderRadius: 'var(--radius-pill)',
+                        backgroundColor: 'var(--color-surface-tint)',
+                        border: '1px solid var(--color-border)',
+                        color: 'var(--color-slate)',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        transition: 'all 0.15s ease',
+                      }}
+                      title={isEn ? 'Listen to native tribal pronunciation' : 'मूल जनजाति उच्चारण सुनें'}
+                    >
+                      <Volume2 size={14} color="var(--color-palash)" />
+                      <span>{isEn ? 'Hear Tribal' : 'जनजाति उच्चारण'}</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const textToBroadcast = isTeacherMode
+                        ? (translationResult.audioText || translationResult.phoneticDeva)
+                        : (translationResult.hindiTranslation || translationResult.nativeScript);
+                      handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
+                    }}
+                    style={{
+                      padding: '8px 18px',
+                      fontSize: '0.84rem',
+                      fontWeight: 600,
+                      borderRadius: 'var(--radius-pill)',
+                      backgroundColor: 'var(--color-palash)',
+                      border: 'none',
+                      color: '#FFFFFF',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: 'var(--shadow-flat)',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <Volume2 size={15} className={isPlayingAudio ? 'audio-pulse' : ''} />
+                    <span>{isTeacherMode ? t.replaySpeaker : (isEn ? 'Play Hindi Translation' : 'हिंदी अनुवाद सुनें')}</span>
+                  </button>
+                </div>
               </div>
             </div>
           ) : (
