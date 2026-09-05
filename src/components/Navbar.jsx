@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Globe, BookOpen, Sun, Moon } from 'lucide-react';
+import { Globe, BookOpen, Sun, Moon, Maximize, Minimize } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -24,6 +24,40 @@ export function Navbar({
     { id: 'flashcards', label: t.tabFlashcards },
     { id: 'dictionary', label: t.tabDictionary },
   ];
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement || document.webkitFullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const handleToggleFullscreen = () => {
+    try {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    } catch (e) {
+      console.warn('Fullscreen request:', e);
+    }
+  };
 
   return (
     <header
@@ -238,6 +272,30 @@ export function Navbar({
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? <Sun size={16} color="var(--color-palash)" /> : <Moon size={16} />}
+          </button>
+
+          {/* Native Fullscreen Borderless Mode Toggle */}
+          <button
+            type="button"
+            onClick={handleToggleFullscreen}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-pill)',
+              border: '1px solid var(--color-border)',
+              backgroundColor: 'var(--color-surface-card)',
+              color: isFullscreen ? 'var(--color-palash)' : 'var(--color-slate)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+              transition: 'all 0.15s ease',
+            }}
+            title={isFullscreen ? (isEn ? 'Exit Fullscreen' : 'फुलस्क्रीन से बाहर निकलें') : (isEn ? 'Enter Native Fullscreen (Borderless Tablet)' : 'नेटिव फुलस्क्रीन मोड (Borderless Tablet)')}
+            aria-label="Toggle Fullscreen"
+          >
+            {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
           </button>
         </div>
       </div>
