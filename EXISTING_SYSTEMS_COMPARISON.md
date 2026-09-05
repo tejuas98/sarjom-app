@@ -230,3 +230,10 @@ The comparative evidence demonstrates that generic consumer translation tools an
 4. **Curriculum Synchronization**: Link SARJOM's FLN worksheet generator with JCERT's bi-monthly formative assessment calendar.
 
 By deploying SARJOM, the Government of Jharkhand can lead India in executing the constitutional mandate of Article 350A and the foundational promises of the National Education Policy 2020.
+
+---
+
+## 8. Related Official Documentation & Evidence Dossiers
+* **[Academic Research, Pedagogical Foundations & Empirical Citations](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/RESEARCH_AND_ACADEMIC_REFERENCES.md)**: Full 8-section research document detailing Cummins' CUP, Krashen's Comprehensible Input, Census 2011 Language Data, UDISE+ and ASER rural Jharkhand metrics, and 42 academic references.
+* **[Problem Statement & Regulatory Compliance Matrix](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/PROBLEM_STATEMENT_AND_COMPLIANCE.md)**: Official SIH26042 specification, line-by-line government compliance audit, and e-Vidyavahini 2.0 schemas.
+* **[Technical Stack & Logic Deep Dive](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/TECH_STACK_AND_LOGIC_EXPLAINED.md)**: Mathematical models, acoustic DSP pipeline, and INT8 quantization benchmarks.
