@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Globe, BookOpen, Sun, Moon, Maximize, Minimize } from 'lucide-react';
+import { Globe, BookOpen, Sun, Moon, Maximize, Minimize, Languages } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -142,39 +142,44 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Center: The 4 Tribal Language Buttons with Context Label */}
+        {/* Center: Sleek Segmented Tribal Dialect Bar */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: 'var(--color-surface-tint)',
+            backgroundColor: 'var(--color-surface-card)',
             border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-pill)',
-            padding: '3px 4px',
-            gap: '2px',
+            borderRadius: '12px',
+            padding: '4px',
+            gap: '3px',
+            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)',
           }}
         >
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
-              padding: '0 8px 0 6px',
+              gap: '6px',
+              padding: '0 10px 0 8px',
               color: 'var(--color-slate-muted)',
-              fontSize: '0.74rem',
-              fontWeight: 600,
+              fontSize: '0.78rem',
+              fontWeight: 700,
               userSelect: 'none',
+              letterSpacing: '0.02em',
             }}
+            title={isEn ? 'Active Classroom Tribal Dialect' : 'सक्रिय कक्षा मातृभाषा'}
           >
-            <Globe size={13} color="var(--color-palash)" />
-            <span>{isEn ? 'Classroom Language:' : 'कक्षा भाषा:'}</span>
+            <Languages size={15} color="var(--color-palash)" />
+            <span>{isEn ? 'Dialect' : 'मातृभाषा'}</span>
           </div>
+
+          <div style={{ width: '1px', height: '18px', backgroundColor: 'var(--color-border)', margin: '0 2px' }} />
 
           {Object.values(TRIBAL_LANGUAGES).map((lang) => {
             const isActive = selectedLang === lang.id;
             const displayName = isEn
-              ? (lang.id === 'ho' ? 'Ho' : lang.id === 'mundari' ? 'Mundari' : lang.id === 'santhali' ? 'Santali' : 'Sadri')
-              : (lang.id === 'ho' ? 'हो' : lang.id === 'mundari' ? 'मुंडारी' : lang.id === 'santhali' ? 'संताली' : 'सादरी');
+              ? (lang.id === 'ho' ? 'Ho' : lang.id === 'mundari' ? 'Mundari' : lang.id === 'santhali' ? 'Santhali' : 'Sadri')
+              : (lang.id === 'ho' ? 'हो' : lang.id === 'mundari' ? 'मुण्डारी' : lang.id === 'santhali' ? 'संताली' : 'सादरी');
 
             return (
               <button
@@ -182,19 +187,19 @@ export function Navbar({
                 type="button"
                 onClick={() => onSelectLang(lang.id)}
                 style={{
-                  padding: '5px 13px',
+                  padding: '6px 14px',
                   border: 'none',
-                  borderRadius: 'var(--radius-pill)',
-                  backgroundColor: isActive ? 'var(--color-forest)' : 'transparent',
+                  borderRadius: '8px',
+                  backgroundColor: isActive ? 'var(--color-palash)' : 'transparent',
                   color: isActive ? '#FFFFFF' : 'var(--color-slate)',
                   fontWeight: isActive ? 700 : 500,
                   fontSize: '0.84rem',
                   cursor: 'pointer',
-                  boxShadow: isActive ? '0 2px 8px rgba(14, 91, 55, 0.25)' : 'none',
-                  transition: 'all 0.18s ease',
+                  boxShadow: isActive ? '0 2px 8px rgba(217, 90, 39, 0.28)' : 'none',
+                  transition: 'all 0.15s ease',
                   whiteSpace: 'nowrap',
                 }}
-                title={lang.region}
+                title={`${lang.name} (${lang.enName}) — ${lang.region}`}
               >
                 {displayName}
               </button>
