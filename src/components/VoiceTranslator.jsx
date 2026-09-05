@@ -23,6 +23,7 @@ import {
   Wrench,
   AlertCircle,
   Check,
+  HardDrive,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -34,17 +35,21 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
-  // Clean real-time classroom interaction history (purging stale mock seeds)
+  // Clean real-time classroom interaction history (safely persisted in device localStorage)
   const getInitialHistory = () => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('sarjom_dialogue_log');
-      if (saved) {
-        try {
+      try {
+        const saved = localStorage.getItem('sarjom_dialogue_log');
+        if (saved) {
           const parsed = JSON.parse(saved);
-          // Discard legacy mock seeds (09:30 AM fixed timestamps)
-          const isMockSeed = Array.isArray(parsed) && parsed.some((p) => p.time === '09:30 AM' || p.id === 1);
-          if (!isMockSeed && Array.isArray(parsed)) return parsed;
-        } catch (e) {}
+          if (Array.isArray(parsed)) {
+            return parsed.filter(
+              (p) => p && typeof p === 'object' && p.sourceText && p.sourceText !== 'जोहार, आज हम क्या सीखेंगे?'
+            );
+          }
+        }
+      } catch (e) {
+        console.error('Error reading sarjom_dialogue_log:', e);
       }
     }
     return [];
@@ -241,9 +246,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   };
 
   const addToHistory = (source, res, direction = 'teacher') => {
-    setHistory((prev) => [
-      {
-        id: Date.now(),
+    setHistory((prev) => {
+      const newEntry = {
+        id: Date.now() + Math.random(),
         direction,
         sourceText: source,
         targetText: res.nativeScript || res.hindiTranslation || '',
@@ -251,9 +256,30 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         audioText: res.audioText || res.hindiTranslation || res.nativeScript || '',
         lang: selectedLang,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      },
-      ...prev.slice(0, 25),
-    ]);
+      };
+      const updated = [newEntry, ...prev.slice(0, 99)];
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('sarjom_dialogue_log', JSON.stringify(updated));
+        } catch (e) {
+          console.error('Storage write error', e);
+        }
+      }
+      return updated;
+    });
+  };
+
+  const handleDeleteEntry = (id) => {
+    setHistory((prev) => {
+      const updated = prev.filter((item) => item.id !== id);
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('sarjom_dialogue_log', JSON.stringify(updated));
+        } catch (e) {}
+      }
+      return updated;
+    });
+    toast.info(isEn ? 'Log entry deleted' : 'प्रविष्टि हटाई गई');
   };
 
   const handleSubmitText = (e) => {
@@ -278,11 +304,27 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   };
 
   const handleClearHistory = () => {
+    if (history.length === 0) return;
+    const backup = [...history];
     setHistory([]);
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('sarjom_dialogue_log');
+      try {
+        localStorage.removeItem('sarjom_dialogue_log');
+      } catch (e) {}
     }
-    toast.info(isEn ? 'Classroom log cleared' : 'संवाद लॉग साफ़ किया गया');
+    toast.success(isEn ? 'Classroom log cleared' : 'कक्षा संवाद लॉग साफ़ किया गया', {
+      action: {
+        label: isEn ? 'Undo' : 'वापस लाएं',
+        onClick: () => {
+          setHistory(backup);
+          if (typeof window !== 'undefined') {
+            try {
+              localStorage.setItem('sarjom_dialogue_log', JSON.stringify(backup));
+            } catch (e) {}
+          }
+        },
+      },
+    });
   };
 
   const exportClassroomDialogueCSV = () => {
@@ -1171,8 +1213,22 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   {t.dialogueLogTitle}
                 </h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
-                    {history.length} {t.entriesCount} • Real-time
+                  <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                    <span>{history.length} {t.entriesCount}</span>
+                    <span>•</span>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        color: 'var(--color-forest)',
+                        fontWeight: 600,
+                      }}
+                      title={isEn ? 'Stored securely on this device (offline)' : 'डिवाइस में सुरक्षित (ऑफलाइन)'}
+                    >
+                      <HardDrive size={11} />
+                      {t.savedOnDevice || (isEn ? 'Stored on device' : 'डिवाइस में सुरक्षित')}
+                    </span>
                   </span>
                   {isRecording && (
                     <span
@@ -1198,28 +1254,34 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             </div>
 
             <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-              {history.length > 0 && (
-                <button
-                  type="button"
-                  onClick={handleClearHistory}
-                  style={{
-                    padding: '6px 10px',
-                    fontSize: '0.74rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    backgroundColor: 'transparent',
-                    color: 'var(--color-slate-muted)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-pill)',
-                    cursor: 'pointer',
-                  }}
-                  title={isEn ? 'Clear History' : 'लॉग साफ़ करें'}
-                >
-                  <Trash2 size={12} />
-                  <span>{isEn ? 'Clear' : 'साफ़ करें'}</span>
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={handleClearHistory}
+                disabled={history.length === 0}
+                style={{
+                  padding: '6px 11px',
+                  fontSize: '0.76rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  backgroundColor: history.length === 0 ? 'transparent' : 'rgba(220, 38, 38, 0.08)',
+                  color: history.length === 0 ? 'var(--color-slate-muted)' : '#DC2626',
+                  border: history.length === 0 ? '1px solid var(--color-border)' : '1px solid rgba(220, 38, 38, 0.28)',
+                  borderRadius: 'var(--radius-pill)',
+                  cursor: history.length === 0 ? 'not-allowed' : 'pointer',
+                  opacity: history.length === 0 ? 0.45 : 1,
+                  fontWeight: 600,
+                  transition: 'all 0.15s ease',
+                }}
+                title={
+                  history.length === 0
+                    ? (isEn ? 'No logs to clear' : 'मिटाने के लिए कोई लॉग नहीं है')
+                    : (isEn ? 'Clear all dialogue logs (with Undo)' : 'सभी संवाद लॉग साफ़ करें (पूर्ववत विकल्प के साथ)')
+                }
+              >
+                <Trash2 size={13} />
+                <span>{t.clearLogBtn || (isEn ? 'Clear Log' : 'साफ़ करें')}</span>
+              </button>
 
               <button
                 type="button"
@@ -1289,7 +1351,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  {/* Top Bar: Direction Pill + Timestamp + Play button */}
+                  {/* Top Bar: Direction Pill + Timestamp + Play button + Delete button */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span
                       style={{
@@ -1305,7 +1367,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       {item.direction === 'teacher' ? (isEn ? 'TEACHER ➔ CLASS' : 'शिक्षक ➔ कक्षा') : (isEn ? 'STUDENT ➔ TEACHER' : 'छात्र ➔ शिक्षक')}
                     </span>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <span style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
                         {item.time}
                       </span>
@@ -1316,7 +1378,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           background: 'none',
                           border: 'none',
                           cursor: 'pointer',
-                          padding: '3px',
+                          padding: '4px',
                           display: 'flex',
                           alignItems: 'center',
                           borderRadius: '4px',
@@ -1325,6 +1387,26 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         title={t.replaySpeaker}
                       >
                         <Volume2 size={15} color="var(--color-palash)" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteEntry(item.id)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          borderRadius: '4px',
+                          color: 'var(--color-slate-muted)',
+                          transition: 'color 0.15s ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = '#DC2626')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-slate-muted)')}
+                        title={t.deleteEntryTooltip || (isEn ? 'Delete this entry' : 'यह प्रविष्टि हटाएं')}
+                      >
+                        <Trash2 size={13} />
                       </button>
                     </div>
                   </div>
