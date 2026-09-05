@@ -32,49 +32,20 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
-  // Seeded classroom interactions so the log is immediately visible and populated
+  // Clean real-time classroom interaction history (purging stale mock seeds)
   const getInitialHistory = () => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('sarjom_dialogue_log');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          // Discard legacy mock seeds (09:30 AM fixed timestamps)
+          const isMockSeed = Array.isArray(parsed) && parsed.some((p) => p.time === '09:30 AM' || p.id === 1);
+          if (!isMockSeed && Array.isArray(parsed)) return parsed;
         } catch (e) {}
       }
     }
-    return [
-      {
-        id: 1,
-        direction: 'teacher',
-        sourceText: isEn ? 'Hello / Johar, children!' : 'नमस्ते / जोहार, सभी बच्चे कैसे हैं?',
-        targetText: selectedLang === 'santhali' ? 'ᱡᱚᱦᱟᱨ, ᱥᱟᱱᱟᱢ ᱜᱤᱫᱽᱨᱟᱹ ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱯᱮᱭᱟ?' : 'जोहार, सब छौवा मन कइसन अहा?',
-        phonetic: selectedLang === 'santhali' ? 'जोहार, सानाम गिद्रा चेद लेका मेनाग पेया?' : 'जोहार, सब छौवा मन कइसन अहा?',
-        audioText: 'Johar',
-        lang: selectedLang,
-        time: '09:30 AM',
-      },
-      {
-        id: 2,
-        direction: 'student',
-        sourceText: selectedLang === 'santhali' ? 'ᱟᱞᱮ ᱫᱚ ᱵᱮᱥ ᱜᱮ ᱢᱮᱱᱟᱜ ᱞᱮᱭᱟ, ᱜᱩᱨᱩᱡᱤ!' : 'हमे मन बेस अही, गुरुजी!',
-        targetText: isEn ? 'We are all fine, Teacher!' : 'हम सब ठीक हैं, गुरुजी!',
-        phonetic: 'हम सब ठीक हैं, गुरुजी!',
-        audioText: 'हम सब ठीक हैं',
-        lang: selectedLang,
-        time: '09:31 AM',
-      },
-      {
-        id: 3,
-        direction: 'teacher',
-        sourceText: isEn ? 'Open your book and read lesson one.' : 'किताब खोलो और पाठ एक पढ़ो।',
-        targetText: selectedLang === 'santhali' ? 'ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱢᱮ ᱟᱨ ᱯᱟᱲᱦᱟᱣ ᱢᱮ᱾' : 'किताब खोलो और पाठ एक पढ़ा।',
-        phonetic: selectedLang === 'santhali' ? 'पुथि झिज मे आर पाड़हाव मे।' : 'किताब खोलो और पाठ एक पढ़ा।',
-        audioText: 'किताब खोलो',
-        lang: selectedLang,
-        time: '09:32 AM',
-      },
-    ];
+    return [];
   };
 
   // Mode: 'teacher_to_student' (Hindi -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
@@ -84,7 +55,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       const p = new URLSearchParams(window.location.search).get('q');
       if (p) return p;
     }
-    return isEn ? 'Hello / Johar' : 'नमस्ते / जोहार';
+    return '';
   });
   const [isRecording, setIsRecording] = useState(false);
   const [translationResult, setTranslationResult] = useState(null);
@@ -153,8 +124,10 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   useEffect(() => {
     if (inputText.trim()) {
       executeTranslation(inputText);
+    } else {
+      setTranslationResult(null);
     }
-  }, [selectedLang, dialogueMode]);
+  }, [selectedLang, dialogueMode, inputText]);
 
   const executeTranslation = (textToTranslate) => {
     const start = performance.now();
@@ -292,7 +265,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         ? (res.audioText || res.phoneticDeva)
         : (res.hindiTranslation || res.nativeScript);
       addToHistory(inputText, res, isTeacherMode ? 'teacher' : 'student');
-      handleSpeakAudio(textToBroadcast, res.nativeScript);
+      setLiveSessionCount((prev) => prev + 1);
+      toast.success(
+        isEn
+          ? `Sentence Logged: "${inputText}"`
+          : `वाक्य दर्ज हुआ: "${inputText}"`
+      );
+      if (autoBroadcast) {
+        handleSpeakAudio(textToBroadcast, res.nativeScript);
+      }
     }
   };
 
@@ -759,6 +740,95 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
+          {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
+          <form
+            onSubmit={handleSubmitText}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              width: '100%',
+              maxWidth: '540px',
+              margin: '2px auto 8px auto',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flex: 1,
+                backgroundColor: 'var(--color-surface-tint)',
+                border: '1.5px solid var(--color-border)',
+                borderRadius: 'var(--radius-pill)',
+                padding: '4px 14px',
+                gap: '8px',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder={
+                  isTeacherMode
+                    ? (isEn ? 'Type in Hindi (or speak with mic above)...' : 'हिंदी में लिखें (या ऊपर माइक से बोलें)...')
+                    : (isEn ? `Type in ${langMeta.name} (or speak with mic)...` : `${langMeta.name} में लिखें (या माइक से बोलें)...`)
+                }
+                style={{
+                  flex: 1,
+                  border: 'none',
+                  outline: 'none',
+                  background: 'transparent',
+                  fontSize: '0.86rem',
+                  color: 'var(--color-slate)',
+                  padding: '6px 0',
+                }}
+              />
+              {inputText && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputText('');
+                    setTranslationResult(null);
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--color-slate-muted)',
+                    cursor: 'pointer',
+                    padding: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                  title={isEn ? 'Clear' : 'साफ़ करें'}
+                >
+                  <Trash2 size={13} />
+                </button>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={!inputText.trim()}
+              style={{
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-pill)',
+                backgroundColor: inputText.trim() ? 'var(--color-palash)' : 'var(--color-surface-tint)',
+                color: inputText.trim() ? '#FFFFFF' : 'var(--color-slate-muted)',
+                border: '1px solid var(--color-border)',
+                cursor: inputText.trim() ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Send size={13} />
+              <span>{isEn ? 'Translate' : 'अनुवाद'}</span>
+            </button>
+          </form>
+
           {/* Live Translation Output Area (Rendered on card surface - No nested cards!) */}
           {translationResult ? (
             <div
@@ -772,8 +842,33 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             >
               {/* Utterance & Script */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
-                  {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', color: 'var(--color-slate-muted)' }}>
+                    {t.youSpoke} <span style={{ color: 'var(--color-slate)', fontWeight: 600 }}>"{inputText}"</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInputText('');
+                      setTranslationResult(null);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--color-slate-muted)',
+                      cursor: 'pointer',
+                      fontSize: '0.74rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '2px 6px',
+                      borderRadius: 'var(--radius-sm)',
+                    }}
+                    title={isEn ? 'Dismiss / Clear' : 'हटाएं'}
+                  >
+                    <Trash2 size={12} />
+                    <span>{isEn ? 'Clear' : 'हटाएं'}</span>
+                  </button>
                 </div>
 
                 {/* Main Script Display */}
