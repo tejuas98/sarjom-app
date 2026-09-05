@@ -14,6 +14,8 @@ import {
   User,
   School,
   FileDown,
+  Printer,
+  FileText,
   Trash2,
   CheckCircle2,
   Zap,
@@ -304,6 +306,287 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     link.click();
     document.body.removeChild(link);
     toast.success(isEn ? 'Classroom dialogue exported to CSV!' : 'कक्षा संवाद लॉग CSV फाइल में निर्यातित!');
+  };
+
+  const exportClassroomDialoguePDF = () => {
+    if (history.length === 0) {
+      toast.error(isEn ? 'No dialogue logs available to export' : 'निर्यात हेतु कोई संवाद लॉग उपलब्ध नहीं है');
+      return;
+    }
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast.error(isEn ? 'Please allow popups to open PDF report' : 'कृपया PDF रिपोर्ट के लिए पॉप-अप की अनुमति दें');
+      return;
+    }
+
+    const dateStr = new Date().toLocaleDateString(isEn ? 'en-IN' : 'hi-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const langName = langMeta.name;
+    const scriptName = langMeta.badgeText || langMeta.primaryScript;
+
+    const htmlContent = `<!DOCTYPE html>
+<html lang="${isEn ? 'en' : 'hi'}">
+<head>
+  <meta charset="utf-8">
+  <title>SARJOM MTB-MLE Classroom Dialogue Report - ${langName}</title>
+  <style>
+    @page { size: A4; margin: 12mm; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      margin: 0;
+      padding: 16px;
+      line-height: 1.4;
+    }
+    .gov-header {
+      border-bottom: 2px solid #0e5b37;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .gov-title h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #0e5b37;
+      letter-spacing: -0.01em;
+    }
+    .gov-title p {
+      margin: 3px 0 0;
+      font-size: 0.82rem;
+      color: #475569;
+    }
+    .meta-box {
+      text-align: right;
+      font-size: 0.78rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .stat-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0e5b37;
+      margin-top: 2px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+    th {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 8px 10px;
+      border: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    tr:nth-child(even) { background: #fafafa; }
+    .badge-teacher {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-student {
+      display: inline-block;
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .tribal-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0e5b37;
+      margin-bottom: 2px;
+    }
+    .phonetic-guide {
+      font-size: 0.76rem;
+      color: #64748b;
+      font-style: italic;
+    }
+    .footer-report {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px dashed #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 0.76rem;
+      color: #64748b;
+    }
+    .sig-line {
+      text-align: center;
+      width: 200px;
+      border-top: 1px solid #475569;
+      padding-top: 4px;
+      font-size: 0.75rem;
+      color: #334155;
+      font-weight: 600;
+    }
+    .no-print-bar {
+      background: #0e5b37;
+      color: #ffffff;
+      padding: 10px 16px;
+      margin: -16px -16px 16px -16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-print {
+      background: #ffffff;
+      color: #0e5b37;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    @media print {
+      .no-print-bar { display: none; }
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print-bar">
+    <span><strong>SARJOM MTB-MLE Report Preview</strong> • Click "Save as PDF" or Print</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <div class="gov-header">
+    <div class="gov-title">
+      <h1>सरजोम (SARJOM) • कक्षा संवाद एवं भाषा सेतु लॉग रिपोर्ट</h1>
+      <p>स्कूली शिक्षा एवं साक्षरता विभाग, झारखंड सरकार • मातृभाषा आधारित प्राथमिक शिक्षण (MTB-MLE)</p>
+    </div>
+    <div class="meta-box">
+      <strong>दिनांक:</strong> ${dateStr}<br>
+      <strong>जनजातीय भाषा:</strong> ${langName}<br>
+      <strong>स्वीकृत लिपि:</strong> ${scriptName}
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">कुल कक्षा संवाद</div>
+      <div class="stat-val">${history.length}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">लक्ष्य भाषा (Target)</div>
+      <div class="stat-val" style="font-size: 1rem;">${langName}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">लिपि (Script)</div>
+      <div class="stat-val" style="font-size: 0.85rem;">${scriptName}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">ऑफ़लाइन स्थिति</div>
+      <div class="stat-val" style="color: #10b981; font-size: 0.95rem;">100% Offline</div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 65px;">समय</th>
+        <th style="width: 110px;">दिशा (Direction)</th>
+        <th style="width: 35%;">मूल वाक्य (Hindi Speech)</th>
+        <th>जनजातीय अनुवाद व उच्चारण (Tribal Translation)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${history
+        .map(
+          (h) => `
+        <tr>
+          <td style="font-family: monospace; font-size: 0.8rem; color: #475569;">${h.time}</td>
+          <td>
+            <span class="${h.direction === 'teacher' ? 'badge-teacher' : 'badge-student'}">
+              ${h.direction === 'teacher' ? 'शिक्षक → छात्र' : 'छात्र → शिक्षक'}
+            </span>
+          </td>
+          <td style="font-weight: 500; color: #1e293b;">${h.sourceText}</td>
+          <td>
+            <div class="tribal-text">${h.targetText}</div>
+            ${h.phonetic ? `<div class="phonetic-guide">ध्वनि: ${h.phonetic}</div>` : ''}
+          </td>
+        </tr>
+      `
+        )
+        .join('')}
+    </tbody>
+  </table>
+
+  <div class="footer-report">
+    <div>
+      <div><strong>सिस्टम:</strong> SARJOM NIPUN-FLN Pedagogy Suite (Problem SIH26042)</div>
+      <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 2px;">
+        सत्यापित संदर्भ: Hoffmann (Mundari), Bodding (Santhali), Deeney (Ho), Nowrangi (Sadri)
+      </div>
+    </div>
+    <div class="sig-line">
+      हस्ताक्षर: शिक्षक / विद्यालय प्रभारी
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 400);
+    };
+  </script>
+</body>
+</html>`;
+
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    toast.success(isEn ? 'PDF Print Report generated!' : 'PDF प्रिंट रिपोर्ट तैयार!');
   };
 
   return (
@@ -940,23 +1223,47 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
               <button
                 type="button"
-                onClick={exportClassroomDialogueCSV}
+                onClick={exportClassroomDialoguePDF}
                 style={{
-                  padding: '6px 12px',
-                  fontSize: '0.76rem',
+                  padding: '6px 14px',
+                  fontSize: '0.78rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  backgroundColor: 'var(--color-slate)',
-                  color: 'var(--color-bg)',
+                  backgroundColor: 'var(--color-forest)',
+                  color: '#FFFFFF',
                   border: 'none',
+                  borderRadius: 'var(--radius-pill)',
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  boxShadow: '0 2px 6px rgba(14, 91, 55, 0.25)',
+                }}
+                title={isEn ? 'Export / Print Official PDF Report' : 'आधिकारिक PDF रिपोर्ट प्रिंट या सहेजें'}
+              >
+                <Printer size={13} />
+                <span>{t.exportPdfBtn || (isEn ? '📄 PDF Report' : '📄 PDF रिपोर्ट')}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={exportClassroomDialogueCSV}
+                style={{
+                  padding: '6px 11px',
+                  fontSize: '0.76rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  color: 'var(--color-slate)',
+                  border: '1px solid var(--color-border)',
                   borderRadius: 'var(--radius-pill)',
                   cursor: 'pointer',
                   fontWeight: 600,
                 }}
+                title={isEn ? 'Export raw CSV data for spreadsheets' : 'स्प्रेडशीट के लिए रॉ CSV डेटा निर्यात'}
               >
-                <FileDown size={13} />
-                <span>{t.exportCsvBtn}</span>
+                <FileDown size={12} />
+                <span>{t.exportCsvBtn || (isEn ? '📊 CSV Data' : '📊 CSV डेटा')}</span>
               </button>
             </div>
           </div>

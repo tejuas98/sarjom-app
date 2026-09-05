@@ -50,7 +50,8 @@ export const UI_TRANSLATIONS = {
     // Dialogue Log
     dialogueLogTitle: 'कक्षा संवाद लॉग (Interaction Log)',
     entriesCount: 'प्रविष्टियाँ',
-    exportCsvBtn: 'CSV लॉग निर्यात',
+    exportPdfBtn: '📄 PDF रिपोर्ट',
+    exportCsvBtn: '📊 CSV डेटा',
     emptyLogText: 'माइक बटन दबाकर बोलें या ऊपर टाइप करें। कक्षा संवाद यहाँ स्वतः दर्ज होता रहेगा।',
     roleTeacher: 'शिक्षक:',
     roleStudent: 'छात्र:',
@@ -168,7 +169,8 @@ export const UI_TRANSLATIONS = {
     // Dialogue Log
     dialogueLogTitle: 'Classroom Interaction Log',
     entriesCount: 'entries',
-    exportCsvBtn: 'Export CSV Log',
+    exportPdfBtn: '📄 PDF Report',
+    exportCsvBtn: '📊 CSV Data',
     emptyLogText: 'Tap the microphone above or type text. Classroom interactions will be logged here automatically.',
     roleTeacher: 'Teacher:',
     roleStudent: 'Student:',
