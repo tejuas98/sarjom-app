@@ -671,44 +671,48 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-      {/* 1. Mode Switcher (Centered at Top) */}
+      {/* 1. Voice Session Header: Sleek Unified Control Strip */}
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px',
+          padding: '4px 2px',
         }}
       >
+        {/* Left: Mode Switcher (Teacher vs Student) */}
         <div
           style={{
             display: 'inline-flex',
             backgroundColor: 'var(--color-surface-tint)',
             border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-pill)',
-            padding: '3px',
-            boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.04)',
+            borderRadius: '6px',
+            padding: '2px',
+            gap: '2px',
           }}
         >
           <button
             type="button"
             onClick={() => setDialogueMode('teacher_to_student')}
             style={{
-              padding: '8px 22px',
+              padding: '5px 14px',
               border: 'none',
-              borderRadius: 'var(--radius-pill)',
-              backgroundColor: isTeacherMode ? 'var(--color-slate)' : 'transparent',
-              color: isTeacherMode ? 'var(--color-bg)' : 'var(--color-slate)',
+              borderRadius: '4px',
+              backgroundColor: isTeacherMode ? 'var(--color-palash)' : 'transparent',
+              color: isTeacherMode ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: isTeacherMode ? 700 : 500,
-              fontSize: '0.88rem',
+              fontSize: '0.80rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              boxShadow: isTeacherMode ? 'var(--shadow-flat)' : 'none',
-              transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+              gap: '6px',
+              boxShadow: isTeacherMode ? '0 1px 3px rgba(217, 90, 39, 0.25)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
-            <School size={16} />
+            <School size={14} />
             <span>{t.modeTeacherToStudent}</span>
           </button>
 
@@ -716,23 +720,140 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             type="button"
             onClick={() => setDialogueMode('student_to_teacher')}
             style={{
-              padding: '8px 22px',
+              padding: '5px 14px',
               border: 'none',
-              borderRadius: 'var(--radius-pill)',
-              backgroundColor: !isTeacherMode ? 'var(--color-slate)' : 'transparent',
-              color: !isTeacherMode ? 'var(--color-bg)' : 'var(--color-slate)',
+              borderRadius: '4px',
+              backgroundColor: !isTeacherMode ? 'var(--color-palash)' : 'transparent',
+              color: !isTeacherMode ? '#FFFFFF' : 'var(--color-slate)',
               fontWeight: !isTeacherMode ? 700 : 500,
-              fontSize: '0.88rem',
+              fontSize: '0.80rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              boxShadow: !isTeacherMode ? 'var(--shadow-flat)' : 'none',
-              transition: 'all 0.18s cubic-bezier(0.16, 1, 0.3, 1)',
+              gap: '6px',
+              boxShadow: !isTeacherMode ? '0 1px 3px rgba(217, 90, 39, 0.25)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
-            <User size={16} />
+            <User size={14} />
             <span>{t.modeStudentToTeacher}</span>
+          </button>
+        </div>
+
+        {/* Right: Audio Session Controls (Hindi/English, Speaker, HD Voice) */}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+          {isTeacherMode && (
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                padding: '2px',
+                borderRadius: '6px',
+                backgroundColor: 'var(--color-surface-tint)',
+                border: '1px solid var(--color-border)',
+              }}
+              title={isEn ? 'Choose Teacher Speaking Language' : 'शिक्षक के बोलने की भाषा चुनें'}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  setTeacherVoiceLang('hi');
+                  toast.info(isEn ? 'Teacher language set to Hindi' : 'शिक्षक भाषा हिंदी पर सेट');
+                }}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  backgroundColor: teacherVoiceLang === 'hi' ? 'var(--color-slate)' : 'transparent',
+                  color: teacherVoiceLang === 'hi' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
+                  fontWeight: teacherVoiceLang === 'hi' ? 700 : 500,
+                  cursor: 'pointer',
+                  fontSize: '0.70rem',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                Hindi
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTeacherVoiceLang('en');
+                  toast.info(isEn ? 'Teacher language set to English' : 'शिक्षक भाषा अंग्रेजी पर सेट');
+                }}
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  backgroundColor: teacherVoiceLang === 'en' ? 'var(--color-slate)' : 'transparent',
+                  color: teacherVoiceLang === 'en' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
+                  fontWeight: teacherVoiceLang === 'en' ? 700 : 500,
+                  cursor: 'pointer',
+                  fontSize: '0.70rem',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                English
+              </button>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => {
+              const next = !autoBroadcast;
+              setAutoBroadcast(next);
+              toast.info(
+                next
+                  ? (isEn ? 'Classroom Speaker: ON' : 'कक्षा स्पीकर: चालू')
+                  : (isEn ? 'Classroom Speaker: Muted' : 'कक्षा स्पीकर: मूक')
+              );
+            }}
+            style={{
+              fontSize: '0.74rem',
+              fontWeight: 600,
+              padding: '5px 11px',
+              borderRadius: '6px',
+              backgroundColor: autoBroadcast ? 'rgba(37, 99, 235, 0.10)' : 'var(--color-surface-tint)',
+              color: autoBroadcast ? '#2563EB' : 'var(--color-slate-muted)',
+              border: `1px solid ${autoBroadcast ? 'rgba(37, 99, 235, 0.25)' : 'var(--color-border)'}`,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              transition: 'all 0.15s ease',
+            }}
+            title={
+              autoBroadcast
+                ? (isEn ? 'Speaker ON: Automatically plays tribal translation' : 'स्पीकर चालू: जनजाति अनुवाद स्वतः बोलेगा')
+                : (isEn ? 'Speaker Muted: Silent visual mode on screen' : 'स्पीकर मूक: अनुवाद केवल स्क्रीन पर दिखेगा')
+            }
+          >
+            {autoBroadcast ? <Volume2 size={13} /> : <VolumeX size={13} />}
+            <span>{autoBroadcast ? (isEn ? 'Speaker: ON' : 'स्पीकर: चालू') : (isEn ? 'Speaker: Muted' : 'स्पीकर: मूक')}</span>
+          </button>
+
+          {/* Natural Voice Audio Tuning & Quality Settings */}
+          <button
+            type="button"
+            onClick={() => setShowVoiceModal(true)}
+            style={{
+              fontSize: '0.74rem',
+              fontWeight: 600,
+              padding: '5px 11px',
+              borderRadius: '6px',
+              backgroundColor: 'rgba(16, 185, 129, 0.10)',
+              color: '#059669',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              transition: 'all 0.15s ease',
+            }}
+            title={isEn ? 'Voice Tuning: Natural Neural Voice, Pacing & Pointers' : 'आवाज़ सेटिंग्स: प्राकृतिक न्यूरल आवाज़ एवं गति'}
+          >
+            <SlidersHorizontal size={13} />
+            <span>{isEn ? 'HD Voice' : 'प्राकृतिक आवाज़'}</span>
           </button>
         </div>
       </div>
@@ -746,31 +867,28 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           alignItems: 'stretch',
         }}
       >
-        {/* LEFT COLUMN: Unified Interactive Translation Console (No boxes-in-boxes, proportional height) */}
+        {/* LEFT COLUMN: Unified Interactive Translation Console (Disciplined modern panel) */}
         <div
-          className="card-brutal"
           style={{
             padding: '22px',
             backgroundColor: 'var(--color-surface)',
             backdropFilter: 'var(--glass-blur)',
             WebkitBackdropFilter: 'var(--glass-blur)',
             border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-xl)',
+            borderRadius: '8px',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
-            boxShadow: 'var(--shadow-card)',
+            boxShadow: 'none',
             minHeight: '520px',
           }}
         >
-          {/* Header with Title, Mode & SLA Badges */}
+          {/* Header with Title & Pedagogic Language Metadata */}
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '8px',
               borderBottom: '1px solid var(--color-border-subtle)',
               paddingBottom: '12px',
             }}
@@ -780,7 +898,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '8px',
+                  borderRadius: '6px',
                   backgroundColor: 'var(--color-surface-tint)',
                   display: 'flex',
                   alignItems: 'center',
@@ -801,123 +919,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
             </div>
-
-            {/* Audio Mode Controller & Input Language Selector */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-              {isTeacherMode && (
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    padding: '2px',
-                    borderRadius: 'var(--radius-pill)',
-                    backgroundColor: 'var(--color-surface-tint)',
-                    border: '1px solid var(--color-border)',
-                  }}
-                  title={isEn ? 'Choose Teacher Speaking Language' : 'शिक्षक के बोलने की भाषा चुनें'}
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setTeacherVoiceLang('hi');
-                      toast.info(isEn ? 'Teacher language set to Hindi' : 'शिक्षक भाषा हिंदी पर सेट');
-                    }}
-                    style={{
-                      padding: '4px 10px',
-                      borderRadius: '999px',
-                      border: 'none',
-                      backgroundColor: teacherVoiceLang === 'hi' ? 'var(--color-slate)' : 'transparent',
-                      color: teacherVoiceLang === 'hi' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
-                      fontWeight: teacherVoiceLang === 'hi' ? 700 : 500,
-                      cursor: 'pointer',
-                      fontSize: '0.70rem',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    Hindi
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setTeacherVoiceLang('en');
-                      toast.info(isEn ? 'Teacher language set to English' : 'शिक्षक भाषा अंग्रेजी पर सेट');
-                    }}
-                    style={{
-                      padding: '4px 10px',
-                      borderRadius: '999px',
-                      border: 'none',
-                      backgroundColor: teacherVoiceLang === 'en' ? 'var(--color-slate)' : 'transparent',
-                      color: teacherVoiceLang === 'en' ? 'var(--color-bg)' : 'var(--color-slate-muted)',
-                      fontWeight: teacherVoiceLang === 'en' ? 700 : 500,
-                      cursor: 'pointer',
-                      fontSize: '0.70rem',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    English
-                  </button>
-                </div>
-              )}
-
-              <button
-                type="button"
-                onClick={() => {
-                  const next = !autoBroadcast;
-                  setAutoBroadcast(next);
-                  toast.info(
-                    next
-                      ? (isEn ? 'Classroom Speaker: ON' : 'कक्षा स्पीकर: चालू')
-                      : (isEn ? 'Classroom Speaker: Muted' : 'कक्षा स्पीकर: मूक')
-                  );
-                }}
-                style={{
-                  fontSize: '0.74rem',
-                  fontWeight: 600,
-                  padding: '5px 12px',
-                  borderRadius: '999px',
-                  backgroundColor: autoBroadcast ? 'rgba(37, 99, 235, 0.10)' : 'var(--color-surface-tint)',
-                  color: autoBroadcast ? '#2563EB' : 'var(--color-slate-muted)',
-                  border: `1px solid ${autoBroadcast ? 'rgba(37, 99, 235, 0.25)' : 'var(--color-border)'}`,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  transition: 'all 0.15s ease',
-                }}
-                title={
-                  autoBroadcast
-                    ? (isEn ? 'Speaker ON: Automatically plays tribal translation' : 'स्पीकर चालू: जनजाति अनुवाद स्वतः बोलेगा')
-                    : (isEn ? 'Speaker Muted: Silent visual mode on screen' : 'स्पीकर मूक: अनुवाद केवल स्क्रीन पर दिखेगा')
-                }
-              >
-                {autoBroadcast ? <Volume2 size={13} /> : <VolumeX size={13} />}
-                <span>{autoBroadcast ? (isEn ? 'Speaker: ON' : 'स्पीकर: चालू') : (isEn ? 'Speaker: Muted' : 'स्पीकर: मूक')}</span>
-              </button>
-
-              {/* Natural Voice Audio Tuning & Quality Settings */}
-              <button
-                type="button"
-                onClick={() => setShowVoiceModal(true)}
-                style={{
-                  fontSize: '0.74rem',
-                  fontWeight: 600,
-                  padding: '5px 12px',
-                  borderRadius: '999px',
-                  backgroundColor: 'rgba(16, 185, 129, 0.10)',
-                  color: '#059669',
-                  border: '1px solid rgba(16, 185, 129, 0.25)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  transition: 'all 0.15s ease',
-                }}
-                title={isEn ? 'Voice Tuning: Natural Neural Voice, Pacing & Pointers' : 'आवाज़ सेटिंग्स: प्राकृतिक न्यूरल आवाज़ एवं गति'}
-              >
-                <SlidersHorizontal size={13} />
-                <span>{isEn ? 'HD Voice' : 'प्राकृतिक आवाज़'}</span>
-              </button>
-            </div>
           </div>
 
           {/* Dedicated Hero Acoustic Microphone Stage (Pure Voice-First for Teachers & Students) */}
@@ -936,20 +937,20 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               type="button"
               onClick={isRecording ? handleStopMic : handleStartMic}
               style={{
-                width: '82px',
-                height: '82px',
+                width: '68px',
+                height: '68px',
                 borderRadius: '50%',
                 backgroundColor: isRecording ? '#DC2626' : 'var(--color-surface-tint)',
                 color: isRecording ? '#FFFFFF' : 'var(--color-palash)',
-                border: isRecording ? '3px solid rgba(220, 38, 38, 0.4)' : '1.5px solid var(--color-border)',
+                border: isRecording ? '2px solid #DC2626' : '1px solid var(--color-border)',
                 boxShadow: isRecording
-                  ? '0 0 0 10px rgba(220, 38, 38, 0.2), 0 8px 26px rgba(220, 38, 38, 0.35)'
-                  : '0 4px 18px rgba(0, 0, 0, 0.05), 0 0 0 6px var(--color-border-subtle)',
+                  ? '0 0 0 6px rgba(220, 38, 38, 0.18), 0 4px 16px rgba(220, 38, 38, 0.3)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.06)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: 'all 0.2s ease',
               }}
               title={
                 isRecording
@@ -957,7 +958,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)
               }
             >
-              {isRecording ? <MicOff size={36} className="audio-pulse" /> : <Mic size={36} />}
+              {isRecording ? <MicOff size={30} className="audio-pulse" /> : <Mic size={30} />}
             </button>
 
             {/* Mic Status & Guidance */}
@@ -992,17 +993,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '6px 16px',
-                  borderRadius: 'var(--radius-pill)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
                   backgroundColor: 'rgba(220, 38, 38, 0.12)',
                   border: '1px solid rgba(220, 38, 38, 0.3)',
                   color: '#DC2626',
-                  fontSize: '0.78rem',
+                  fontSize: '0.76rem',
                   fontWeight: 700,
                   marginTop: '2px',
                 }}
               >
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
                 <span>
                   {isEn
                     ? `Live Session Active (${langMeta.name}) • ${liveSessionCount} sentences recorded • Tap mic to stop`
@@ -1018,12 +1019,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '5px 14px',
-                  borderRadius: 'var(--radius-pill)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
                   backgroundColor: 'rgba(37, 99, 235, 0.12)',
                   border: '1px solid rgba(37, 99, 235, 0.3)',
                   color: '#2563EB',
-                  fontSize: '0.76rem',
+                  fontSize: '0.74rem',
                   fontWeight: 700,
                   marginTop: '2px',
                 }}
@@ -1056,9 +1057,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 alignItems: 'center',
                 flex: 1,
                 backgroundColor: 'var(--color-surface-tint)',
-                border: '1.5px solid var(--color-border)',
-                borderRadius: 'var(--radius-pill)',
-                padding: '4px 14px',
+                border: '1px solid var(--color-border)',
+                borderRadius: '6px',
+                padding: '4px 12px',
                 gap: '8px',
                 transition: 'all 0.15s ease',
               }}
@@ -1112,8 +1113,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               type="submit"
               disabled={!inputText.trim()}
               style={{
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-pill)',
+                padding: '7px 14px',
+                borderRadius: '6px',
                 backgroundColor: inputText.trim() ? 'var(--color-palash)' : 'var(--color-surface-tint)',
                 color: inputText.trim() ? '#FFFFFF' : 'var(--color-slate-muted)',
                 border: '1px solid var(--color-border)',
@@ -1164,7 +1165,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       alignItems: 'center',
                       gap: '4px',
                       padding: '2px 6px',
-                      borderRadius: 'var(--radius-sm)',
+                      borderRadius: '4px',
                     }}
                     title={isEn ? 'Dismiss / Clear' : 'हटाएं'}
                   >
@@ -1195,7 +1196,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         fontSize: '0.80rem',
                         backgroundColor: 'var(--color-surface-tint)',
                         padding: '6px 12px',
-                        borderRadius: 'var(--radius-md)',
+                        borderRadius: '4px',
                         color: 'var(--color-slate)',
                         lineHeight: 1.45,
                       }}
@@ -1209,7 +1210,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           fontSize: '0.78rem',
                           backgroundColor: 'rgba(217, 90, 39, 0.08)',
                           padding: '5px 12px',
-                          borderRadius: 'var(--radius-md)',
+                          borderRadius: '4px',
                           color: 'var(--color-palash)',
                           lineHeight: 1.4,
                         }}
@@ -1256,10 +1257,10 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         handleSpeakAudio(translationResult.sourceHindi, translationResult.sourceHindi);
                       }}
                       style={{
-                        padding: '8px 14px',
+                        padding: '6px 12px',
                         fontSize: '0.80rem',
                         fontWeight: 600,
-                        borderRadius: 'var(--radius-pill)',
+                        borderRadius: '6px',
                         backgroundColor: 'var(--color-surface-tint)',
                         border: '1px solid var(--color-border)',
                         color: 'var(--color-slate)',
@@ -1285,18 +1286,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
                     }}
                     style={{
-                      padding: '8px 18px',
-                      fontSize: '0.84rem',
+                      padding: '6px 14px',
+                      fontSize: '0.82rem',
                       fontWeight: 600,
-                      borderRadius: 'var(--radius-pill)',
+                      borderRadius: '6px',
                       backgroundColor: 'var(--color-palash)',
                       border: 'none',
                       color: '#FFFFFF',
                       cursor: 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      boxShadow: 'var(--shadow-flat)',
+                      gap: '7px',
+                      boxShadow: '0 1px 4px rgba(217, 90, 39, 0.25)',
                       transition: 'all 0.15s ease',
                     }}
                   >
@@ -1331,18 +1332,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           )}
         </div>
 
-        {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Proportional & Matching Height) */}
+        {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Disciplined modern stream) */}
         <div
-          className="card-brutal"
           style={{
             padding: '22px',
             backgroundColor: 'var(--color-surface)',
-            borderRadius: 'var(--radius-xl)',
+            borderRadius: '8px',
             border: '1px solid var(--color-border)',
             display: 'flex',
             flexDirection: 'column',
             gap: '14px',
-            boxShadow: 'var(--shadow-card)',
+            boxShadow: 'none',
             minHeight: '520px',
           }}
         >
@@ -1353,7 +1353,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   width: '32px',
                   height: '32px',
-                  borderRadius: '8px',
+                  borderRadius: '6px',
                   backgroundColor: 'var(--color-surface-tint)',
                   display: 'flex',
                   alignItems: 'center',
@@ -1391,8 +1391,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '4px',
-                        padding: '1px 8px',
-                        borderRadius: '999px',
+                        padding: '2px 7px',
+                        borderRadius: '4px',
                         backgroundColor: 'rgba(220, 38, 38, 0.12)',
                         color: '#DC2626',
                         fontSize: '0.68rem',
@@ -1414,15 +1414,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 onClick={handleClearHistory}
                 disabled={history.length === 0}
                 style={{
-                  padding: '6px 11px',
-                  fontSize: '0.76rem',
+                  padding: '5px 10px',
+                  fontSize: '0.75rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
                   backgroundColor: history.length === 0 ? 'transparent' : 'rgba(220, 38, 38, 0.08)',
                   color: history.length === 0 ? 'var(--color-slate-muted)' : '#DC2626',
                   border: history.length === 0 ? '1px solid var(--color-border)' : '1px solid rgba(220, 38, 38, 0.28)',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   cursor: history.length === 0 ? 'not-allowed' : 'pointer',
                   opacity: history.length === 0 ? 0.45 : 1,
                   fontWeight: 600,
@@ -1442,18 +1442,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 type="button"
                 onClick={exportClassroomDialoguePDF}
                 style={{
-                  padding: '6px 14px',
-                  fontSize: '0.78rem',
+                  padding: '5px 12px',
+                  fontSize: '0.76rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
                   backgroundColor: 'var(--color-forest)',
                   color: '#FFFFFF',
                   border: 'none',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   cursor: 'pointer',
                   fontWeight: 700,
-                  boxShadow: '0 2px 6px rgba(14, 91, 55, 0.25)',
+                  boxShadow: '0 1px 4px rgba(14, 91, 55, 0.25)',
                 }}
                 title={isEn ? 'Export / Print Official PDF Report' : 'आधिकारिक PDF रिपोर्ट प्रिंट या सहेजें'}
               >
@@ -1465,15 +1465,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 type="button"
                 onClick={exportClassroomDialogueCSV}
                 style={{
-                  padding: '6px 11px',
-                  fontSize: '0.76rem',
+                  padding: '5px 10px',
+                  fontSize: '0.75rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
                   backgroundColor: 'var(--color-surface-tint)',
                   color: 'var(--color-slate)',
                   border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   cursor: 'pointer',
                   fontWeight: 600,
                 }}
@@ -1492,18 +1492,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <p style={{ margin: 0, fontWeight: 500 }}>{t.emptyLogText}</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '450px', overflowY: 'auto', paddingRight: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '450px', overflowY: 'auto', paddingRight: '4px' }}>
               {history.map((item) => (
                 <div
                   key={item.id}
                   style={{
-                    padding: '12px 14px',
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'var(--color-surface-card)',
-                    border: '1px solid var(--color-border)',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    backgroundColor: 'var(--color-surface-tint)',
+                    border: '1px solid var(--color-border-subtle)',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '6px',
+                    gap: '5px',
                     transition: 'all 0.15s ease',
                   }}
                 >
@@ -1511,11 +1511,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span
                       style={{
-                        fontSize: '0.70rem',
+                        fontSize: '0.66rem',
                         fontWeight: 700,
-                        padding: '2px 8px',
-                        borderRadius: '999px',
+                        padding: '2px 6px',
+                        borderRadius: '3px',
                         fontFamily: 'var(--font-mono)',
+                        letterSpacing: '0.03em',
                         backgroundColor: item.direction === 'teacher' ? 'rgba(14, 91, 55, 0.12)' : 'rgba(217, 90, 39, 0.12)',
                         color: item.direction === 'teacher' ? 'var(--color-forest)' : 'var(--color-palash)',
                       }}
@@ -1524,7 +1525,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     </span>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
+                      <span style={{ fontSize: '0.70rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
                         {item.time}
                       </span>
                       <button
@@ -1534,7 +1535,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           background: 'none',
                           border: 'none',
                           cursor: 'pointer',
-                          padding: '4px',
+                          padding: '3px',
                           display: 'flex',
                           alignItems: 'center',
                           borderRadius: '4px',
@@ -1542,7 +1543,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         }}
                         title={t.replaySpeaker}
                       >
-                        <Volume2 size={15} color="var(--color-palash)" />
+                        <Volume2 size={14} color="var(--color-palash)" />
                       </button>
                       <button
                         type="button"
@@ -1551,7 +1552,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                           background: 'none',
                           border: 'none',
                           cursor: 'pointer',
-                          padding: '4px',
+                          padding: '3px',
                           display: 'flex',
                           alignItems: 'center',
                           borderRadius: '4px',
@@ -1568,17 +1569,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   </div>
 
                   {/* Utterance Content */}
-                  <div style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)' }}>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)' }}>
                     "{item.sourceText}"
                   </div>
                   <div
                     className={item.lang === 'santhali' && item.direction === 'teacher' ? 'font-olchiki' : 'font-deva'}
                     style={{
-                      fontSize: '1.05rem',
+                      fontSize: '1.02rem',
                       fontWeight: 700,
                       color: 'var(--color-slate)',
                       borderTop: '1px dashed var(--color-border-subtle)',
-                      paddingTop: '6px',
+                      paddingTop: '5px',
                     }}
                   >
                     "{item.targetText}"
@@ -1684,7 +1685,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   flex: 1,
                   padding: '8px 12px',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   backgroundColor: 'var(--color-palash)',
                   color: '#FFFFFF',
                   border: 'none',
@@ -1704,7 +1705,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 }}
                 style={{
                   padding: '8px 14px',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   backgroundColor: 'var(--color-surface-tint)',
                   border: '1px solid var(--color-border)',
                   color: 'var(--color-slate)',
@@ -1815,7 +1816,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     fontSize: '0.72rem',
                     fontWeight: 700,
                     padding: '2px 8px',
-                    borderRadius: 'var(--radius-pill)',
+                    borderRadius: '4px',
                     backgroundColor: 'rgba(16, 185, 129, 0.15)',
                     color: '#059669',
                     border: '1px solid rgba(16, 185, 129, 0.3)',
@@ -1850,7 +1851,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   style={{
                     width: '100%',
                     padding: '8px 10px',
-                    borderRadius: 'var(--radius-md)',
+                    borderRadius: '6px',
                     border: '1px solid var(--color-border)',
                     backgroundColor: 'var(--color-surface)',
                     color: 'var(--color-slate)',
@@ -1926,7 +1927,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             <div
               style={{
                 padding: '10px 12px',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: '6px',
                 backgroundColor: 'rgba(37, 99, 235, 0.05)',
                 border: '1px solid rgba(37, 99, 235, 0.15)',
                 display: 'flex',
@@ -1956,7 +1957,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 style={{
                   flex: 1,
                   padding: '9px 14px',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '6px',
                   backgroundColor: 'var(--color-palash)',
                   color: '#FFFFFF',
                   border: 'none',

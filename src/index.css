@@ -59,12 +59,13 @@
   --shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.06);
   --shadow-active: 0 1px 2px rgba(0, 0, 0, 0.04);
 
-  /* Border Radii */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 26px;
-  --radius-pill: 9999px;
+  /* Border Radii - Disciplined, Human-Crafted Architecture (No AI bubbly curves) */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-pill: 6px;
 
   /* Transitions */
   --transition-bounce: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -229,7 +230,7 @@ p, span, button, input, select, textarea {
   transition: var(--transition-smooth);
 }
 
-.card-brutal:hover {
+.card-brutal-interactive:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
   border-color: rgba(31, 36, 33, 0.16);

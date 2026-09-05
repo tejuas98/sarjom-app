@@ -313,7 +313,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
                   {isEn ? 'Master Reference Encyclopedias & Lexicons of Chota Nagpur' : 'छोटानागपुर व संताल परगना के प्रमाणिक महा-विश्वकोश एवं मानक शब्दकोश'}
                 </h3>
               </div>
-              <span style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-palash)', padding: '2px 8px', borderRadius: '999px', backgroundColor: 'rgba(194, 65, 12, 0.1)' }}>
+              <span style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-palash)', padding: '2px 8px', borderRadius: 'var(--radius-xs)', backgroundColor: 'rgba(194, 65, 12, 0.1)' }}>
                 {isEn ? 'Academic & Government Approved' : 'शैक्षणिक एवं शोध आधारित संदर्भ'}
               </span>
             </div>
@@ -511,7 +511,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
                   style={{
                     padding: '5px 10px',
                     fontSize: '0.75rem',
-                    borderRadius: 'var(--radius-pill)',
+                    borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-border)',
                     backgroundColor: 'var(--color-surface-card)',
                     color: 'var(--color-slate)',
@@ -557,7 +557,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
                   style={{
                     padding: '5px 10px',
                     fontSize: '0.75rem',
-                    borderRadius: 'var(--radius-pill)',
+                    borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-border)',
                     backgroundColor: 'var(--color-surface-card)',
                     color: 'var(--color-slate)',
@@ -603,7 +603,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
                   style={{
                     padding: '5px 10px',
                     fontSize: '0.75rem',
-                    borderRadius: 'var(--radius-pill)',
+                    borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-border)',
                     backgroundColor: 'var(--color-surface-card)',
                     color: 'var(--color-slate)',
@@ -650,7 +650,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
                     style={{
                       padding: '5px 10px',
                       fontSize: '0.75rem',
-                      borderRadius: 'var(--radius-pill)',
+                      borderRadius: 'var(--radius-sm)',
                       border: '1px solid var(--color-border)',
                       backgroundColor: 'var(--color-surface-card)',
                       color: 'var(--color-slate)',

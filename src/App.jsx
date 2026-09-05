@@ -122,11 +122,14 @@ export default function App() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <span className="badge-tag badge-forest">हो (Ho)</span>
-            <span className="badge-tag badge-palash">मुण्डारी (Mundari)</span>
-            <span className="badge-tag badge-ochre">संताली (Santhali)</span>
-            <span className="badge-tag" style={{ backgroundColor: 'rgba(2, 132, 199, 0.15)', color: '#38BDF8', borderColor: 'rgba(2, 132, 199, 0.3)' }}>सादरी (Sadri)</span>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', fontSize: '0.80rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
+            <span>हो (Ho)</span>
+            <span>•</span>
+            <span>मुण्डारी (Mundari)</span>
+            <span>•</span>
+            <span>संताली (Santhali)</span>
+            <span>•</span>
+            <span>सादरी (Sadri)</span>
           </div>
         </div>
       </footer>

@@ -809,7 +809,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 fontSize: '0.78rem',
                 fontWeight: 700,
                 padding: '3px 10px',
-                borderRadius: '999px',
+                borderRadius: 'var(--radius-xs)',
                 backgroundColor: 'var(--color-forest-subtle)',
                 color: 'var(--color-forest)',
                 border: '1px solid var(--color-forest-border)',
@@ -841,7 +841,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
             }}
             style={{
               padding: '6px 14px',
-              borderRadius: 'var(--radius-pill)',
+              borderRadius: 'var(--radius-md)',
               border: '1px solid var(--color-border)',
               backgroundColor: 'var(--color-surface)',
               color: 'var(--color-slate)',
@@ -864,7 +864,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               alignItems: 'center',
               gap: '6px',
               padding: '6px 14px',
-              borderRadius: 'var(--radius-pill)',
+              borderRadius: 'var(--radius-md)',
               border: '1px solid var(--color-border)',
               backgroundColor: 'var(--color-surface)',
               color: 'var(--color-slate)',
@@ -887,7 +887,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               alignItems: 'center',
               gap: '6px',
               padding: '7px 18px',
-              borderRadius: 'var(--radius-pill)',
+              borderRadius: 'var(--radius-md)',
               border: 'none',
               backgroundColor: 'var(--color-palash)',
               color: '#FFFFFF',
@@ -938,7 +938,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 alignItems: 'center',
                 gap: '7px',
                 padding: '8px 16px',
-                borderRadius: 'var(--radius-pill)',
+                borderRadius: 'var(--radius-sm)',
                 border: 'none',
                 backgroundColor: isActive ? 'var(--color-forest)' : 'transparent',
                 color: isActive ? '#FFFFFF' : 'var(--color-slate-muted)',
@@ -988,7 +988,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
             </div>
 
             {/* Score & Evaluation Progress Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--color-surface-tint)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: 'var(--radius-xs)', backgroundColor: 'var(--color-surface-tint)' }}>
               <Star size={15} color="#EAB308" fill="#EAB308" />
               <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate)' }}>
                 {worksheetType === 'matching' && `${Object.keys(matchedPairs).length} / ${matchingItems.length} matched`}
@@ -1028,7 +1028,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                   fontWeight: 800,
                   letterSpacing: '0.04em',
                   padding: '3px 10px',
-                  borderRadius: '999px',
+                  borderRadius: 'var(--radius-xs)',
                   backgroundColor: 'var(--color-forest)',
                   color: '#FFFFFF',
                   textTransform: 'uppercase',
@@ -1045,7 +1045,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                   fontSize: '0.72rem',
                   fontWeight: 700,
                   padding: '3px 9px',
-                  borderRadius: '999px',
+                  borderRadius: 'var(--radius-xs)',
                   backgroundColor: 'rgba(16, 185, 129, 0.15)',
                   color: 'var(--color-forest)',
                   border: '1px solid rgba(16, 185, 129, 0.3)',
@@ -1089,7 +1089,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 {t.wsMatchSelectHint}
               </p>
               {activeSelection && (
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, padding: '3px 10px', borderRadius: '999px', backgroundColor: 'rgba(194, 65, 12, 0.15)', color: 'var(--color-palash)' }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: 700, padding: '3px 10px', borderRadius: 'var(--radius-xs)', backgroundColor: 'rgba(194, 65, 12, 0.15)', color: 'var(--color-palash)' }}>
                   {isEn
                     ? `Selected "${activeSelection.item.hindi}" — Now tap matching in ${activeSelection.side === 'left' ? 'Column B' : 'Column A'}`
                     : `चयनित: "${activeSelection.item.hindi}" — अब ${activeSelection.side === 'left' ? 'कॉलम B' : 'कॉलम A'} से मिलान करें`}
@@ -1159,7 +1159,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                               fontSize: '0.74rem',
                               fontWeight: 700,
                               padding: '2px 8px',
-                              borderRadius: '999px',
+                              borderRadius: 'var(--radius-xs)',
                               backgroundColor: 'rgba(16, 185, 129, 0.14)',
                               color: '#10B981',
                               border: '1px solid rgba(16, 185, 129, 0.3)',
@@ -1276,7 +1276,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                               fontSize: '0.74rem',
                               fontWeight: 700,
                               padding: '2px 8px',
-                              borderRadius: '999px',
+                              borderRadius: 'var(--radius-xs)',
                               backgroundColor: 'rgba(16, 185, 129, 0.14)',
                               color: '#10B981',
                               border: '1px solid rgba(16, 185, 129, 0.3)',
@@ -1457,7 +1457,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                                 minWidth: '44px',
                                 height: '40px',
                                 padding: '0 16px',
-                                borderRadius: 'var(--radius-pill)',
+                                borderRadius: 'var(--radius-md)',
                                 border: isThisChoice
                                   ? choiceNum === item.numeral
                                     ? '2px solid #10B981'
@@ -1568,7 +1568,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                             onClick={() => handleSelectSentenceWord(q.id, opt)}
                             style={{
                               padding: '6px 14px',
-                              borderRadius: 'var(--radius-pill)',
+                              borderRadius: 'var(--radius-sm)',
                               border: 'none',
                               backgroundColor: isScoreEvaluated && opt === q.correct
                                 ? 'rgba(16, 185, 129, 0.25)'
@@ -1601,7 +1601,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
             onClick={handleCheckAnswers}
             style={{
               padding: '8px 24px',
-              borderRadius: 'var(--radius-pill)',
+              borderRadius: 'var(--radius-md)',
               border: 'none',
               backgroundColor: '#16A34A',
               color: '#FFFFFF',

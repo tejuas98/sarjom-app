@@ -444,7 +444,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
                 fontSize: '0.95rem',
                 backgroundColor: 'var(--color-forest)',
                 color: '#FFFFFF',
-                borderRadius: 'var(--radius-pill)',
+                borderRadius: 'var(--radius-md)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -467,7 +467,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
                 backgroundColor: 'var(--color-surface)',
                 color: 'var(--color-slate)',
                 border: '1.5px solid var(--color-border)',
-                borderRadius: 'var(--radius-pill)',
+                borderRadius: 'var(--radius-md)',
                 cursor: 'pointer',
               }}
             >
@@ -498,7 +498,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
               <span className="badge-tag badge-forest">
                 {isEn ? 'NIPUN Oral Quiz' : 'निपुण मौखिक प्रश्नोत्तरी'}
               </span>
-              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate-muted)', padding: '3px 8px', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--color-surface-tint)' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate-muted)', padding: '3px 8px', borderRadius: 'var(--radius-xs)', backgroundColor: 'var(--color-surface-tint)' }}>
                 {isEn ? `Q ${safeIndex + 1} of ${filteredCards.length}` : `प्रश्न ${safeIndex + 1} / ${filteredCards.length}`}
               </span>
             </div>
@@ -690,7 +690,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
                 backgroundColor: 'var(--color-forest)',
                 color: '#FFFFFF',
                 fontWeight: 700,
-                borderRadius: 'var(--radius-pill)',
+                borderRadius: 'var(--radius-md)',
                 border: 'none',
                 cursor: 'pointer',
                 display: 'flex',

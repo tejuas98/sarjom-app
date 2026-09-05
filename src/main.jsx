@@ -10,6 +10,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       <App />
     </ErrorBoundary>
-    <Toaster position="top-right" richColors closeButton />
+    <Toaster position="bottom-right" richColors closeButton />
   </React.StrictMode>,
 );
