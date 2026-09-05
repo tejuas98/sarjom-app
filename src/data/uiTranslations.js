@@ -20,20 +20,20 @@ export const UI_TRANSLATIONS = {
     tabDictionary: 'शब्दकोश',
 
     // Voice Translator (Classroom Dialogue)
-    modeTeacherToStudent: 'शिक्षक बोलें (हिंदी ➔ मातृभाषा)',
-    modeStudentToTeacher: 'छात्र बोलें (मातृभाषा ➔ हिंदी)',
+    modeTeacherToStudent: 'शिक्षक बोलें (हिंदी → मातृभाषा)',
+    modeStudentToTeacher: 'छात्र बोलें (मातृभाषा → हिंदी)',
     
     // Teacher Mode
     tapToSpeakIdleTeacher: 'माइक दबाकर बोलें (Tap to Speak)',
-    tapToSpeakSubIdleTeacher: 'हिंदी में बोलें — तुरंत {lang} में अनुवाद होकर स्पीकर पर बोलेगा',
+    tapToSpeakSubIdleTeacher: 'हिंदी या अंग्रेजी में बोलें — तुरंत {lang} में अनुवाद होकर स्पीकर पर बोलेगा',
     tapToSpeakRecTeacher: 'माइक चालू है... (रोकने के लिए पुनः दबाएं)',
     tapToSpeakSubRecTeacher: 'बोलना समाप्त करते ही स्वतः {lang} में अनुवाद होगा',
     
     // Student Mode
     tapToSpeakIdleStudent: 'छात्र माइक दबाकर बोलें (Student Speak)',
-    tapToSpeakSubIdleStudent: 'छात्र अपनी मातृभाषा ({lang}) में बोलें — शिक्षक को हिंदी में सुनाई देगा',
+    tapToSpeakSubIdleStudent: 'छात्र अपनी मातृभाषा ({lang}), हिंदी या अंग्रेजी में बोलें — शिक्षक को हिंदी में सुनाई देगा',
     tapToSpeakRecStudent: 'छात्र की आवाज़ सुन रहे हैं...',
-    tapToSpeakSubRecStudent: 'मातृभाषा में बोलने दें — रोकते ही हिंदी अर्थ मिलेगा',
+    tapToSpeakSubRecStudent: 'मातृभाषा या हिंदी में बोलने दें — रोकते ही स्पष्ट हिंदी अर्थ मिलेगा',
 
     // Result Card
     youSpoke: 'बोला गया वाक्य:',
@@ -43,16 +43,16 @@ export const UI_TRANSLATIONS = {
 
     // Text Input Area
     textInputTitle: 'पाठ टाइपिंग (Text Input & Translation)',
-    textInputPlaceholderTeacher: 'हिंदी वाक्य लिखें या पेस्ट करें (उदा: किताब खोलो और पाठ एक पढ़ो)...',
-    textInputPlaceholderStudent: 'मातृभाषा का वाक्य लिखें या पेस्ट करें...',
+    textInputPlaceholderTeacher: 'हिंदी या अंग्रेजी वाक्य लिखें या पेस्ट करें...',
+    textInputPlaceholderStudent: 'मातृभाषा, हिंदी या अंग्रेजी वाक्य लिखें...',
     translateBtn: 'अनुवाद करें',
 
     // Dialogue Log
     dialogueLogTitle: 'कक्षा संवाद लॉग (Interaction Log)',
     entriesCount: 'प्रविष्टियाँ',
-    exportPdfBtn: '📄 PDF रिपोर्ट',
-    exportCsvBtn: '📊 CSV डेटा',
-    clearLogBtn: '🗑️ साफ़ करें',
+    exportPdfBtn: 'PDF रिपोर्ट',
+    exportCsvBtn: 'CSV डेटा',
+    clearLogBtn: 'साफ़ करें',
     savedOnDevice: 'डिवाइस में सुरक्षित',
     deleteEntryTooltip: 'यह प्रविष्टि हटाएं',
     emptyLogText: 'माइक बटन दबाकर बोलें या ऊपर टाइप करें। कक्षा संवाद यहाँ स्वतः दर्ज होता रहेगा।',
@@ -96,7 +96,7 @@ export const UI_TRANSLATIONS = {
     fcModeCards: 'कार्ड्स ब्राउज़ करें',
     fcModeQuiz: 'संवादात्मक क्विज़ खेलें',
     fcFlipHint: 'कार्ड पलटने के लिए टैप करें',
-    fcNextQuestion: 'अगला प्रश्न ➔',
+    fcNextQuestion: 'अगला प्रश्न →',
     fcQuizScore: 'आपका स्कोर:',
     fcCatAll: 'सभी कार्ड्स',
     fcCatGreetings: 'अभिवादन',
@@ -107,43 +107,37 @@ export const UI_TRANSLATIONS = {
     fcCatClassroom: 'कक्षा निर्देश',
 
     // Dictionary
-    dictTitle: 'झारखंड त्रैभाषिक FLN शब्दकोश',
-    dictSubtitle: 'हिंदी, अंग्रेजी एवं 4 प्रमुख जनजातीय भाषाओं (हो, मुण्डारी, संताली, सादरी) में त्वरित खोज',
-    dictSearchPlaceholder: 'हिंदी, अंग्रेजी या ध्वनि से खोजें (उदा: पानी, हाथी, नमस्ते, 1, माँ)...',
-    dictBadgeAllLangs: 'हो • मुण्डारी • संताली • सादरी',
-    dictColHindi: 'हिंदी',
-    dictColEnglish: 'English',
-    dictColHo: 'हो (Ho)',
-    dictColMundari: 'मुण्डारी (Mundari)',
-    dictColSanthali: 'संताली (Santhali)',
-    dictColSadri: 'सादरी (Sadri)',
-    dictAudioBtn: 'सुनें',
-
-    // Footer
-    footerGovt: 'झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग',
-    footerProject: 'सरजोम मातृभाषा बहुभाषी शिक्षण मंच (SARJOM MTB-MLE)',
-    footerDevBarToggle: 'तकनीकी हार्डवेयर बार',
-    footerDevBarHide: 'हार्डवेयर बार छुपाएं',
+    dictTitle: 'बहुभाषी शब्दकोश (Multilingual Lexicon)',
+    dictSubtitle: '10,000+ प्रामाणिक जनजातीय शब्द, रूपात्मक व्याकरण एवं NIPUN भारत संदर्भ',
+    dictSearchPlaceholder: 'हिंदी, अंग्रेजी या जनजातीय भाषा में खोजें...',
+    dictAllDistricts: 'सभी जिले',
+    dictSelectLanguage: 'मातृभाषा चुनें:',
+    dictEntriesFound: 'शब्द मिले',
+    dictEmptyState: 'कोई शब्द नहीं मिला। अन्य शब्द खोजें या फ़िल्टर बदलें।',
+    dictCategoryLabel: 'श्रेणी:',
+    dictDistrictLabel: 'प्रचलित जिला:',
+    dictDevanagariLabel: 'देवनागरी:',
+    dictPhoneticLabel: 'ध्वन्यात्मक:',
+    dictAudioBtn: 'उच्चारण सुनें',
+    dictNoResults: 'कोई परिणाम नहीं मिला',
   },
 
   en: {
-    // Brand & Header
-    brandTitle: 'SARJOM',
-    brandSub: '',
-    brandTagline: 'Jharkhand Primary Mother Tongue Bridge • MTB-MLE',
-    offlineStatus: 'Offline',
-    onlineStatus: 'Online',
-    uiLangLabel: 'Language',
-
-    // Core Tabs
+    // Navigation & App Header
+    appTitle: 'SARJOM',
+    appSubtitle: 'Tribal Mother Tongue Classroom Pedagogic Bridge',
+    badgeOfficial: 'Official MTB-MLE Platform',
+    badgeOffline: '100% Offline Ready',
+    teacherProfile: 'Teacher Profile',
+    switchLang: 'Language',
     tabVoice: 'Classroom Voice',
     tabWorksheets: 'Worksheets',
     tabFlashcards: 'Flashcards',
     tabDictionary: 'Dictionary',
 
     // Voice Translator (Classroom Dialogue)
-    modeTeacherToStudent: 'Teacher Speaks (Hindi ➔ Tribal)',
-    modeStudentToTeacher: 'Student Speaks (Tribal ➔ Hindi)',
+    modeTeacherToStudent: 'Teacher Speaks (Hindi → Tribal)',
+    modeStudentToTeacher: 'Student Speaks (Tribal → Hindi)',
 
     // Teacher Mode
     tapToSpeakIdleTeacher: 'Tap to Speak',
@@ -172,9 +166,9 @@ export const UI_TRANSLATIONS = {
     // Dialogue Log
     dialogueLogTitle: 'Classroom Interaction Log',
     entriesCount: 'entries',
-    exportPdfBtn: '📄 PDF Report',
-    exportCsvBtn: '📊 CSV Data',
-    clearLogBtn: '🗑️ Clear Log',
+    exportPdfBtn: 'PDF Report',
+    exportCsvBtn: 'CSV Data',
+    clearLogBtn: 'Clear Log',
     savedOnDevice: 'Stored on device',
     deleteEntryTooltip: 'Delete this entry',
     emptyLogText: 'Tap the microphone above or type text. Classroom interactions will be logged here automatically.',

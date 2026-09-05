@@ -37,116 +37,33 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
-  // Default authentic classroom logs stored in device
-  const getDefaultClassroomLogs = (lang = 'sadri') => [
-    {
-      id: 1725513600001,
-      direction: 'teacher',
-      sourceText: 'बच्चों, अपनी किताब खोलो और पाठ एक पढ़ो।',
-      targetText:
-        lang === 'santhali'
-          ? 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ, ᱟᱯᱱᱟᱨ ᱯᱚᱛᱚᱵ ᱡᱷᱤᱡᱽ ᱯᱮ ᱟᱨ ᱯᱟᱦᱤᱞ ᱯᱟᱴᱷ ᱯᱟᱲᱦᱟᱣ ᱯᱮ᱾'
-          : lang === 'ho'
-          ? 'होनको, अपना पुथी उघुर पे अंदो पाठ एक पाड़ाव पे।'
-          : lang === 'mundari'
-          ? 'गिदरा-को, आपन पुथी उघुर-पे आउर पाठ एक पाड़ाव-पे।'
-          : 'किताब खोला आउर पाठ एक पढ़ा।',
-      phonetic:
-        lang === 'santhali'
-          ? 'Gidra ko, apnar potob jhij pe ar pahil path parhaw pe.'
-          : lang === 'ho'
-          ? 'Honko, apna puthi ughur pe ando path ek paraw pe.'
-          : lang === 'mundari'
-          ? 'Gidra-ko, aapan puthi ughur-pe aaur path ek paraw-pe.'
-          : 'Kitab khola aur path ek padha.',
-      audioText:
-        lang === 'santhali'
-          ? 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ, ᱟᱯᱱᱟᱨ ᱯᱚᱛᱚᱵ ᱡᱷᱤᱡᱽ ᱯᱮ ᱟᱨ ᱯᱟᱦᱤᱞ ᱯᱟᱴᱷ ᱯᱟᱲᱦᱟᱣ ᱯᱮ᱾'
-          : lang === 'ho'
-          ? 'होनको, अपना पुथी उघुर पे अंदो पाठ एक पाड़ाव पे'
-          : lang === 'mundari'
-          ? 'गिदरा-को, आपन पुथी उघुर-पे आउर पाठ एक पाड़ाव-पे'
-          : 'किताब खोला आउर पाठ एक पढ़ा',
-      lang: lang,
-      time: '10:32 AM',
-    },
-    {
-      id: 1725513600002,
-      direction: 'student',
-      sourceText:
-        lang === 'sadri'
-          ? 'जोहार गुरुजी, हमरे समझ गेली।'
-          : lang === 'santhali'
-          ? 'ᱡᱚᱦᱟᱨ ᱜᱩᱨᱩᱡᱤ, ᱟᱞᱮ ᱞᱮ ᱵᱩᱡᱷᱟᱹᱣ ᱠᱮᱫᱼᱟ᱾'
-          : lang === 'ho'
-          ? 'जोहार गुरुजी, अले बुझाव केदा।'
-          : 'जोहार गुरुजी, आबू बुझाव केदा।',
-      targetText: 'नमस्ते गुरुजी, हम समझ गए।',
-      phonetic: 'Namaste guruji, hum samajh gaye.',
-      audioText: 'नमस्ते गुरुजी, हम समझ गए।',
-      lang: lang,
-      time: '10:36 AM',
-    },
-    {
-      id: 1725513600003,
-      direction: 'teacher',
-      sourceText: 'शाबाश! अब सब मिलकर एक साथ बोलो।',
-      targetText:
-        lang === 'sadri'
-          ? 'बेस! अब सब मिल के एके संगे बोला।'
-          : lang === 'santhali'
-          ? 'ᱵᱷᱟᱹᱜᱤ! ᱱᱤᱛᱚᱜ ᱡᱚᱛᱚ ᱦᱚᱲ ᱢᱤᱫ ᱥᱟᱶᱛᱮ ᱨᱚᱲ ᱯᱮ᱾'
-          : lang === 'ho'
-          ? 'बेश! नाहः सबु मिलिके एके संगे कजी पे।'
-          : 'बेश! अब सब मिलिके एके संगे कजी पे।',
-      phonetic:
-        lang === 'sadri'
-          ? 'Bes! Ab sab mil ke eke sange bola.'
-          : lang === 'santhali'
-          ? 'Bhagi! Nitog joto hor mid sawte ror pe.'
-          : 'Besh! Sab milke bolo.',
-      audioText:
-        lang === 'sadri'
-          ? 'बेस! अब सब मिल के एके संगे बोला'
-          : lang === 'santhali'
-          ? 'ᱵᱷᱟᱹᱜᱤ! ᱱᱤᱛᱚᱜ ᱡᱚᱛᱚ ᱦᱚᱲ ᱢᱤᱫ ᱥᱟᱶᱛᱮ ᱨᱚᱲ ᱯᱮ᱾'
-          : 'शाबाश! सब मिलकर बोलो',
-      lang: lang,
-      time: '10:42 AM',
-    },
-  ];
-
-  // Clean real-time classroom interaction history (safely persisted in device localStorage)
+  // Authentic classroom interaction history (safely persisted in device localStorage, starts clean)
   const getInitialHistory = () => {
     if (typeof window !== 'undefined') {
       try {
         const saved = localStorage.getItem('sarjom_dialogue_log');
-        const userCleared = localStorage.getItem('sarjom_cleared_by_user');
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
+            // Only keep real user-entered interactions, clean out any legacy mock entries
             return parsed.filter(
-              (p) => p && typeof p === 'object' && p.sourceText && p.sourceText !== 'जोहार, आज हम क्या सीखेंगे?'
+              (p) =>
+                p &&
+                typeof p === 'object' &&
+                p.sourceText &&
+                p.sourceText !== 'जोहार, आज हम क्या सीखेंगे?' &&
+                !p.sourceText.includes('बच्चों, अपनी किताब खोलो')
             );
-          }
-          if (userCleared === 'true') {
-            return [];
           }
         }
       } catch (e) {
         console.error('Error reading sarjom_dialogue_log:', e);
       }
     }
-    const defaults = getDefaultClassroomLogs(selectedLang || 'sadri');
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('sarjom_dialogue_log', JSON.stringify(defaults));
-      } catch (e) {}
-    }
-    return defaults;
+    return [];
   };
 
-  // Mode: 'teacher_to_student' (Hindi/English -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
+  // Mode: 'teacher_to_student' (Hindi/English -> Tribal) | 'student_to_teacher' (Tribal/Hindi/English -> Hindi)
   const [dialogueMode, setDialogueMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const m = new URLSearchParams(window.location.search).get('mode');
@@ -154,20 +71,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     }
     return 'teacher_to_student';
   });
-  const [teacherVoiceLang, setTeacherVoiceLang] = useState('hi'); // 'hi' (Hindi) or 'en' (English)
-  const [inputText, setInputText] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const p = new URLSearchParams(window.location.search).get('q');
-      if (p) {
-        try {
-          return decodeURIComponent(p);
-        } catch (e) {
-          return p;
-        }
-      }
-    }
-    return '';
-  });
+  const [teacherVoiceLang, setTeacherVoiceLang] = useState('hi');
+  const [inputText, setInputText] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [translationResult, setTranslationResult] = useState(null);
   const [history, setHistory] = useState(getInitialHistory);
@@ -391,20 +296,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
-  // Auto-log initial query if ?q=...&log=1 is present in URL
+  // Clean URL query parameters on initial mount so page refreshes always remain completely clean
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const rawQ = params.get('q');
-      const autoLog = params.get('log') === '1' || params.get('autolog') === 'true';
-      if (rawQ && autoLog) {
-        let q = rawQ;
-        try { q = decodeURIComponent(rawQ); } catch (e) {}
-        const res = executeTranslation(q);
-        if (res) {
-          addToHistory(q, res, isTeacherMode ? 'teacher' : 'student');
-        }
-      }
+    if (typeof window !== 'undefined' && window.location.search) {
+      try {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (e) {}
     }
   }, []);
 
@@ -468,19 +365,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
-  const handleRestoreSampleLogs = () => {
-    const samples = getDefaultClassroomLogs(selectedLang || 'sadri');
-    setHistory(samples);
-    if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('sarjom_dialogue_log', JSON.stringify(samples));
-        localStorage.removeItem('sarjom_cleared_by_user');
-      } catch (e) {}
-    }
-    toast.success(isEn ? 'Sample classroom dialogues loaded & stored on device!' : 'कक्षा संवाद लॉग लोड हुआ एवं डिवाइस में सुरक्षित हुआ!');
-  };
-
-  const exportClassroomDialogueCSV = () => {
+    const exportClassroomDialogueCSV = () => {
     if (history.length === 0) {
       toast.error(isEn ? 'No dialogue logs available to export' : 'निर्यात हेतु कोई संवाद लॉग उपलब्ध नहीं है');
       return;
@@ -690,7 +575,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 <body>
   <div class="no-print-bar">
     <span><strong>SARJOM MTB-MLE Report Preview</strong> • Click "Save as PDF" or Print</span>
-    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
   </div>
 
   <div class="gov-header">
@@ -908,8 +793,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <div>
                 <h3 style={{ fontSize: '1.05rem', margin: 0, fontWeight: 800, color: 'var(--color-slate)' }}>
                   {isTeacherMode
-                    ? (isEn ? 'Teacher ➔ Tribal Speech' : 'शिक्षक ➔ जनजाति अनुवाद')
-                    : (isEn ? 'Tribal Student ➔ Hindi' : 'जनजाति छात्र ➔ शिक्षक अनुवाद')}
+                    ? (isEn ? 'Teacher → Tribal Speech' : 'शिक्षक → जनजाति अनुवाद')
+                    : (isEn ? 'Tribal Student → Hindi' : 'जनजाति छात्र → शिक्षक अनुवाद')}
                 </h3>
                 <span style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
                   {langMeta.name} ({langMeta.primaryScript || langMeta.script || 'Devanagari'}) • {isEn ? 'Pedagogic Bridge' : 'कक्षा शिक्षण सेतु'}
@@ -949,7 +834,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       transition: 'all 0.15s ease',
                     }}
                   >
-                    🇮🇳 Hindi
+                    Hindi
                   </button>
                   <button
                     type="button"
@@ -969,7 +854,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       transition: 'all 0.15s ease',
                     }}
                   >
-                    🇬🇧 English
+                    English
                   </button>
                 </div>
               )}
@@ -1078,11 +963,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             {/* Mic Status & Guidance */}
             <div>
               <div style={{ fontSize: '1.12rem', fontWeight: 700, color: isRecording ? '#DC2626' : 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-                {isRecording
-                  ? (isTeacherMode
-                    ? (isEn ? `🔴 Live Classroom Session (${formatTimer(sessionSeconds)})` : `🔴 लाइव कक्षा सत्र जारी (${formatTimer(sessionSeconds)})`)
-                    : (isEn ? `🔴 Live Student Session (${formatTimer(sessionSeconds)})` : `🔴 लाइव छात्र सत्र जारी (${formatTimer(sessionSeconds)})`))
-                  : (isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent)}
+                {isRecording ? (
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '9px', height: '9px', borderRadius: '50%', backgroundColor: '#DC2626', display: 'inline-block' }} />
+                    {isTeacherMode
+                      ? (isEn ? `Live Classroom Session (${formatTimer(sessionSeconds)})` : `लाइव कक्षा सत्र जारी (${formatTimer(sessionSeconds)})`)
+                      : (isEn ? `Live Student Session (${formatTimer(sessionSeconds)})` : `लाइव छात्र सत्र जारी (${formatTimer(sessionSeconds)})`)}
+                  </span>
+                ) : (
+                  isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent
+                )}
               </div>
               <div style={{ fontSize: '0.82rem', color: isRecording ? 'var(--color-slate)' : 'var(--color-slate-muted)', marginTop: '4px', fontWeight: isRecording ? 600 : 400 }}>
                 {isRecording
@@ -1141,8 +1031,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 <Volume2 size={13} className="audio-pulse" />
                 <span>
                   {isEn
-                    ? '🔊 Speaker Broadcasting to Class • Mic Auto-Muted (Anti-Echo)'
-                    : '🔊 कक्षा में ध्वनि प्रसारण • माइक इको स्वतः म्यूट है'}
+                    ? 'Speaker Broadcasting to Class • Mic Auto-Muted (Anti-Echo)'
+                    : 'कक्षा में ध्वनि प्रसारण • माइक इको स्वतः म्यूट है'}
                 </span>
               </div>
             )}
@@ -1177,6 +1067,10 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
                 placeholder={
                   isTeacherMode
                     ? (isEn ? 'Type in Hindi (or speak with mic above)...' : 'हिंदी में लिखें (या ऊपर माइक से बोलें)...')
@@ -1564,7 +1458,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 title={isEn ? 'Export / Print Official PDF Report' : 'आधिकारिक PDF रिपोर्ट प्रिंट या सहेजें'}
               >
                 <Printer size={13} />
-                <span>{t.exportPdfBtn || (isEn ? '📄 PDF Report' : '📄 PDF रिपोर्ट')}</span>
+                <span>{t.exportPdfBtn || (isEn ? 'PDF Report' : 'PDF रिपोर्ट')}</span>
               </button>
 
               <button
@@ -1586,35 +1480,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 title={isEn ? 'Export raw CSV data for spreadsheets' : 'स्प्रेडशीट के लिए रॉ CSV डेटा निर्यात'}
               >
                 <FileDown size={12} />
-                <span>{t.exportCsvBtn || (isEn ? '📊 CSV Data' : '📊 CSV डेटा')}</span>
+                <span>{t.exportCsvBtn || (isEn ? 'CSV Data' : 'CSV डेटा')}</span>
               </button>
             </div>
           </div>
 
           {/* Interaction Log List */}
           {history.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '36px 16px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
-              <p style={{ margin: '0 0 14px 0' }}>{t.emptyLogText}</p>
-              <button
-                type="button"
-                onClick={handleRestoreSampleLogs}
-                style={{
-                  padding: '7px 16px',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  backgroundColor: 'var(--color-surface-tint)',
-                  color: 'var(--color-forest)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-pill)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                }}
-              >
-                <span>➕ {isEn ? 'Load Sample Classroom Dialogue' : 'नमूना कक्षा संवाद लोड करें'}</span>
-              </button>
+            <div style={{ textAlign: 'center', padding: '40px 16px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
+              <MessageSquare size={32} style={{ margin: '0 auto 10px', opacity: 0.35, display: 'block' }} />
+              <p style={{ margin: 0, fontWeight: 500 }}>{t.emptyLogText}</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '450px', overflowY: 'auto', paddingRight: '4px' }}>
@@ -1645,7 +1520,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         color: item.direction === 'teacher' ? 'var(--color-forest)' : 'var(--color-palash)',
                       }}
                     >
-                      {item.direction === 'teacher' ? (isEn ? 'TEACHER ➔ CLASS' : 'शिक्षक ➔ कक्षा') : (isEn ? 'STUDENT ➔ TEACHER' : 'छात्र ➔ शिक्षक')}
+                      {item.direction === 'teacher' ? (isEn ? 'TEACHER → CLASS' : 'शिक्षक → कक्षा') : (isEn ? 'STUDENT → TEACHER' : 'छात्र → शिक्षक')}
                     </span>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1984,13 +1859,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   }}
                 >
                   <option value="auto">
-                    {isEn ? '✨ Auto-Select Best Natural Indian Voice (Recommended)' : '✨ स्वतः सर्वश्रेष्ठ भारतीय आवाज़ चुनें (अनुशंसित)'}
+                    {isEn ? 'Auto-Select Best Natural Indian Voice (Recommended)' : 'स्वतः सर्वश्रेष्ठ भारतीय आवाज़ चुनें (अनुशंसित)'}
                   </option>
                   {availableVoices
                     .filter((v) => v.lang.includes('hi') || v.lang.includes('IN') || v.lang.includes('en'))
                     .map((v) => (
                       <option key={v.name} value={v.name}>
-                        {v.name} ({v.lang}) {v.name.includes('Lekha') || v.name.includes('Rishi') || v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Enhanced') ? '★ HD' : ''}
+                        {v.name} ({v.lang}) {v.name.includes('Lekha') || v.name.includes('Rishi') || v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Enhanced') ? ' [HD]' : ''}
                       </option>
                     ))}
                 </select>

@@ -411,7 +411,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
             <Sparkles size={18} color="var(--color-forest)" />
             <div>
               <div style={{ fontSize: '0.88rem', fontWeight: 800, color: 'var(--color-forest)' }}>
-                {isEn ? '✨ Real-Time Morphological NLP Synthesis' : '✨ लाइव व्याकरणिक व रूपात्मक अनुवाद (सार्वभौमिक खोज)'}
+                {isEn ? 'Real-Time Morphological NLP Synthesis' : 'लाइव व्याकरणिक व रूपात्मक अनुवाद (सार्वभौमिक खोज)'}
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
                 {isEn

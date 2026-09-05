@@ -715,6 +715,47 @@ export const CONVERSATIONAL_PHRASES = [
       audioText: 'Pani piya',
     },
   },
+  {
+    hindi: 'पानी पीना है',
+    english: 'May I drink water / I want to drink water',
+    keys: [
+      'may i drink water',
+      'pani pina hai',
+      'paani peena hai',
+      'पानी पीना है',
+      'pani peena hai',
+      'water pina hai',
+      'sir pani pina hai',
+      'sir paani pina hai',
+      'i want water',
+      'can i drink water',
+    ],
+    ho: {
+      native: 'दाः ञु सनायिङ ताना',
+      phoneticDeva: 'दाः ञु सनायिंग ताना',
+      phoneticLatin: 'Daah nyu sanaying tana',
+      audioText: 'Daah nyu sanaying tana',
+    },
+    santhali: {
+      nativeOlChiki: 'ᱫᱟᱜ ᱧᱩ ᱥᱟᱱᱟᱹᱧ ᱠᱟᱱᱟ',
+      nativeDeva: 'दाग ञु सानाञ काना',
+      phoneticDeva: 'दाग ञु सानाञ काना',
+      phoneticLatin: 'Dak nyu sananj kana',
+      audioText: 'Dak nyu sananj kana',
+    },
+    mundari: {
+      native: 'दाः ञू सना-इङ ताना',
+      phoneticDeva: 'दाः ञू सना-इंग ताना',
+      phoneticLatin: 'Daah nyu sana-ing tana',
+      audioText: 'Daah nyu sana-ing tana',
+    },
+    sadri: {
+      native: 'पानी पीएक हे',
+      phoneticDeva: 'पानी पीएक हे',
+      phoneticLatin: 'Pani peek he',
+      audioText: 'Pani peek he',
+    },
+  },
 ];
 
 /**
