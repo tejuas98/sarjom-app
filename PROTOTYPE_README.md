@@ -1,7 +1,8 @@
 # SARJOM (सरजोम) — Interactive Prototype Walkthrough
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
-[![Prototype Status](https://img.shields.io/badge/Prototype-Fully%20Operational%20(100%25%20Offline)-brightgreen.svg)](./index.html)
+[![Live Demo on Vercel](https://img.shields.io/badge/Live%20Prototype-Deployed%20on%20Vercel-success?logo=vercel)](https://palash-setu.vercel.app)
+[![Prototype Status](https://img.shields.io/badge/Prototype-Fully%20Operational%20(100%25%20Offline)-brightgreen.svg)](https://palash-setu.vercel.app)
 [![Live Demo Video](https://img.shields.io/badge/Video%20Demo-Click--by--Click%20HD%20Walkthrough-blue.svg)](#1-interactive-click-by-click-prototype-video)
 [![Automated Tests](https://img.shields.io/badge/Automated%20Tests-12%2F12%20Passed%20(100%25)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
@@ -9,19 +10,28 @@
 > **Visual Prototype Walkthrough, Feature-by-Feature Screenshot Breakdown, Engineering Mechanics, and Pedagogical Impact Analysis.**  
 > Designed for Evaluators, Jury Panels, State Education Officials, and Primary Teachers.
 
+<div align="center">
+  <p>
+    <a href="https://palash-setu.vercel.app" target="_blank" rel="noopener noreferrer">
+      <img src="https://img.shields.io/badge/🚀_LAUNCH_LIVE_PROTOTYPE_ON_VERCEL-Click_to_Open_in_Chrome-orange?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Launch Live Prototype on Vercel" height="42" />
+    </a>
+  </p>
+</div>
+
 ---
 
 ## 1. Interactive Click-by-Click Prototype Video
 
-Below is the live, automated continuous recording of SARJOM running inside a Google Chrome headless test environment on a simulated Gyanodaya 10.1" classroom tablet. Every click displays a visual pulse ripple indicator and a real-time HUD action label:
+Below is the live, automated continuous recording of SARJOM running in Google Chrome, demonstrating Parchment Sand light mode, live voice translation, Student Ear dialogue, bilingual worksheets, NIPUN flashcards, and dark mode:
 
 <div align="center" style="margin: 24px 0;">
-  <a href="./public/sarjom_live_click_demo.mp4" title="Click to open full video with voiceover sound">
+  <a href="./public/sarjom_live_click_demo.mp4" title="Click to open full video with sound">
     <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Interactive Click-by-Click Video Demo" width="100%" style="border-radius: 12px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.3);" />
   </a>
   <p style="margin-top: 10px; font-size: 0.95rem; color: #4B5563;">
-    <strong>Continuous Autoplay Walkthrough (43s HD with Voice-Over Narration)</strong> &nbsp;·&nbsp;
-    <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video with Speech Narration]</strong></a> &nbsp;·&nbsp;
+    <strong>Continuous Autoplay Walkthrough (HD with Speech & Sound)</strong> &nbsp;·&nbsp;
+    <a href="https://palash-setu.vercel.app"><strong>[🌐 Open Live Demo on Vercel]</strong></a> &nbsp;·&nbsp;
+    <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video]</strong></a> &nbsp;·&nbsp;
     <a href="./public/sarjom_live_click_demo.gif"><strong>[🖼️ View Animation GIF]</strong></a>
   </p>
 </div>
@@ -83,7 +93,14 @@ Below is the live, automated continuous recording of SARJOM running inside a Goo
 ### Prototype Screenshot:
 
 <div align="center">
-  <img src="./public/screenshots/01_voice_translator_classroom.png" alt="Voice Translator Tab" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <img src="./public/screenshots/01_voice_translator_parchment.png" alt="Voice Translator Tab - Parchment Sand" width="95%" style="border-radius: 10px; border: 2px solid #826950; box-shadow: 0 8px 24px rgba(90,70,45,0.15);" />
+  <p style="font-size: 0.85rem; color: #786E64; margin-top: 6px;">
+    <strong>Figure 1.1: Live Voice Translator in Authentic Parchment Sand Light Mode with Two-Way Student Ear Toggle</strong>
+  </p>
+  <img src="./public/screenshots/02_translation_result.png" alt="Live Neural Translation Result" width="95%" style="border-radius: 10px; border: 2px solid #826950; box-shadow: 0 8px 24px rgba(90,70,45,0.15); margin-top: 14px;" />
+  <p style="font-size: 0.85rem; color: #786E64; margin-top: 6px;">
+    <strong>Figure 1.2: Real-Time Neural Translation into Santhali (Ol Chiki) with Dual Devanagari & Roman Phonetic Guide</strong>
+  </p>
 </div>
 
 ### 1. What It Is For:
@@ -177,7 +194,7 @@ National Achievement Survey (NAS) and ASER data indicate that **over 52% of trib
 ### Prototype Screenshot:
 
 <div align="center">
-  <img src="./public/screenshots/07_tab_worksheets.png" alt="Bilingual Worksheet Studio" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <img src="./public/screenshots/05_bilingual_worksheets.png" alt="Bilingual Worksheet Studio" width="95%" style="border-radius: 10px; border: 2px solid #826950; box-shadow: 0 8px 24px rgba(90,70,45,0.15);" />
 </div>
 
 ### 1. What It Is For:
@@ -198,7 +215,7 @@ Many tribal parents are illiterate in both Hindi and English. When a child bring
 ### Prototype Screenshot:
 
 <div align="center">
-  <img src="./public/screenshots/08_tab_flashcards.png" alt="Visual Flashcards Studio" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <img src="./public/screenshots/06_nipun_flashcards.png" alt="Visual Flashcards Studio" width="95%" style="border-radius: 10px; border: 2px solid #826950; box-shadow: 0 8px 24px rgba(90,70,45,0.15);" />
 </div>
 
 ### 1. What It Is For:
@@ -241,7 +258,7 @@ Fine motor skills and letter formation are major bottlenecks in foundational lit
 ### Prototype Screenshot:
 
 <div align="center">
-  <img src="./public/screenshots/10_tab_dictionary.png" alt="Tri-Lingual Lexicon Tab" width="95%" style="border-radius: 10px; border: 2px solid #D1D5DB; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+  <img src="./public/screenshots/07_tribal_dictionary.png" alt="Tri-Lingual Lexicon Tab" width="95%" style="border-radius: 10px; border: 2px solid #826950; box-shadow: 0 8px 24px rgba(90,70,45,0.15);" />
 </div>
 
 ### 1. What It Is For:

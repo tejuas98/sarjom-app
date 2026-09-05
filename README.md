@@ -1,6 +1,7 @@
 # SARJOM (सरजोम) — AI-Powered Vernacular Pedagogy & Real-Time Translation Suite
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
+[![Live Demo on Vercel](https://img.shields.io/badge/Live%20Prototype-Deployed%20on%20Vercel-success?logo=vercel)](https://palash-setu.vercel.app)
 [![Government of Jharkhand](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
 [![SIH Jury Pitch](https://img.shields.io/badge/SIH%20Jury%20Pitch-3--Min%20Pitch%20%26%20Q%26A%20Defense-orange.svg)](./DEPLOYMENT_AND_JURY_PITCH.md)
 [![Prototype Walkthrough](https://img.shields.io/badge/Prototype%20Walkthrough-Screenshots%20%26%20Analysis-purple.svg)](./PROTOTYPE_README.md)
@@ -24,14 +25,51 @@
 > **"Bridging the mother-tongue divide for 5,000+ tribal primary schools in Jharkhand through lightweight, offline, voice-first AI pedagogy, custom Transformer neural inference, and real-world e-Vidyavahini governance integration."**
 
 <div align="center">
+  <!-- Live Vercel Prototype Launch Button -->
+  <p>
+    <a href="https://palash-setu.vercel.app" target="_blank" rel="noopener noreferrer">
+      <img src="https://img.shields.io/badge/🚀_LAUNCH_LIVE_PROTOTYPE_ON_VERCEL-Click_to_Open_in_Chrome-orange?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Launch Live Prototype on Vercel" height="42" />
+    </a>
+  </p>
+
   <!-- Autoplay Loop Demonstration -->
   <a href="./public/sarjom_live_click_demo.mp4" title="Click to open full video with sound">
     <img src="./public/sarjom_live_click_demo.gif" alt="SARJOM Live Click-by-Click Autoplay Video Demo" width="100%" style="border-radius: 14px; border: 3px solid #0E5B37; box-shadow: 0 12px 36px rgba(0,0,0,0.25);" />
   </a>
-  <p><strong>Autoplaying Live Interactive Walkthrough</strong>: Demonstrating every button click, offline/online toggle, language switching (Ho, Mundari, Santhali), prompt translation, NIPUN lessons, audio QR worksheets, and Vaul drawer &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video with Voice-Over Narration]</strong></a></p>
+  <p><strong>Autoplaying Live Interactive Walkthrough</strong>: Demonstrating real-time voice translation, speech synthesis, authentic Ol Chiki/Devanagari scripts, Student Ear mode, bilingual worksheets, NIPUN flashcards, and Parchment Sand light mode &nbsp;·&nbsp; <a href="./public/sarjom_live_click_demo.mp4"><strong>[📹 Download Full HD MP4 Video]</strong></a> &nbsp;·&nbsp; <a href="https://palash-setu.vercel.app"><strong>[🌐 Open Live Demo on Vercel]</strong></a></p>
 </div>
 
 > 📸 **Interactive Prototype Walkthrough & Audio Deck**: For the exhaustive visual walkthrough, interactive audio deck, streamable classroom TTS samples, and feature-by-feature analysis, read **[PROTOTYPE_README.md](./PROTOTYPE_README.md)**.
+
+---
+
+## 📸 Live Prototype Visual Showcase & Interactive Modules
+
+SARJOM features a bespoke **Parchment Sand** paper aesthetic in light mode (reducing glare and eye strain for teachers in bright rural classrooms) and a high-contrast **OLED Dark Mode**. All modules are 100% operational in any browser:
+
+### 1. Classroom Voice Translator (Parchment Sand vs. Dark Mode)
+| 📜 Authentic Parchment Sand Light Mode | 🌙 Deep High-Contrast OLED Dark Mode |
+| :---: | :---: |
+| [![Voice Translator Parchment Sand](./public/screenshots/01_voice_translator_parchment.png)](./public/screenshots/01_voice_translator_parchment.png) | [![Voice Translator Dark Mode](./public/screenshots/08_dark_mode_oled.png)](./public/screenshots/08_dark_mode_oled.png) |
+| *Soft natural sandstone paper canvas, bistre typography, and zero eye-strain.* | *OLED battery saver mode for 48-hour village power outages.* |
+
+### 2. Neural Translation Engine & Closed-Loop Student Ear
+| 🗣️ Live Teacher Translation with Ol Chiki & Phonics | 👂 Closed-Loop Two-Way Student Ear Mode |
+| :---: | :---: |
+| [![Live Translation Result](./public/screenshots/02_translation_result.png)](./public/screenshots/02_translation_result.png) | [![Student Ear Mode](./public/screenshots/04_student_ear_mode.png)](./public/screenshots/04_student_ear_mode.png) |
+| *Teacher speaks Hindi ➔ Instant Santhali (Ol Chiki) with Devanagari pronunciation guide (`इञाग ञुतुम दो रुद्र काना...`).* | *Child speaks in tribal mother tongue ➔ Decoded into Hindi so non-tribal teachers understand.* |
+
+### 3. NIPUN Bharat Pedagogy: Worksheets & Visual Flashcards
+| 📝 Bilingual Worksheet Studio (A4 Print Aligned) | 🎴 NIPUN Multilingual Visual Flashcards |
+| :---: | :---: |
+| [![Bilingual Worksheets](./public/screenshots/05_bilingual_worksheets.png)](./public/screenshots/05_bilingual_worksheets.png) | [![NIPUN Flashcards](./public/screenshots/06_nipun_flashcards.png)](./public/screenshots/06_nipun_flashcards.png) |
+| *A4 print-ready worksheets with dynamic Audio QR codes for xerox machines and home study.* | *Interactive tap-to-flip cards with native phonetic pronunciation audio triggers.* |
+
+### 4. Tri-Lingual Lexicon Comparative Search & Live Audio
+| 📖 Multilingual FLN Lexicon Dictionary | 🔊 Live Classroom Audio Deck |
+| :---: | :---: |
+| [![Tribal Dictionary](./public/screenshots/07_tribal_dictionary.png)](./public/screenshots/07_tribal_dictionary.png) | [![Audio Player Deck](./public/screenshots/18_interactive_audio_player_deck.png)](./public/screenshots/18_interactive_audio_player_deck.png) |
+| *1,240+ words across Ho, Mundari, Santhali, and Sadri with authoritative encyclopedic citations.* | *High-amplitude certified native audio recordings tuned for noisy tin-roof classrooms.* |
 
 ---
 
