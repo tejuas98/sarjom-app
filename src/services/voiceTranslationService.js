@@ -10,7 +10,188 @@ class VoiceTranslationService {
     this.recognition = null;
     this.isListening = false;
     this.audioContext = null;
+    this.voices = [];
+    this.activeAudio = null;
+    this.voicePreference = 'auto'; // 'auto' or specific voice name
+    this.speechRate = 0.92; // Natural human classroom pacing (neither rushed nor sluggish robot)
+    this.speechPitch = 1.0; // Natural fundamental vocal frequency (1.0 = human, eliminates robotic pitch buzz)
     this.initSpeechRecognition();
+    this.initVoices();
+  }
+
+  initVoices() {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    this.loadVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        this.loadVoices();
+      };
+    }
+  }
+
+  loadVoices() {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    try {
+      this.voices = window.speechSynthesis.getVoices() || [];
+    } catch (e) {
+      this.voices = [];
+    }
+  }
+
+  getAvailableVoices() {
+    if (!this.voices || this.voices.length === 0) {
+      this.loadVoices();
+    }
+    return this.voices;
+  }
+
+  setSpeechRate(rate) {
+    this.speechRate = Math.max(0.7, Math.min(1.4, rate));
+  }
+
+  setSpeechPitch(pitch) {
+    this.speechPitch = Math.max(0.8, Math.min(1.3, pitch));
+  }
+
+  setVoicePreference(voiceName) {
+    this.voicePreference = voiceName;
+  }
+
+  /**
+   * Intelligently selects the highest-fidelity natural/neural voice
+   * installed on the OS (e.g. Apple Lekha/Rishi, Google WaveNet, Microsoft Natural).
+   */
+  getBestNaturalVoice(lang = 'hi-IN') {
+    const voices = this.getAvailableVoices();
+    if (!voices || voices.length === 0) return null;
+
+    if (this.voicePreference && this.voicePreference !== 'auto') {
+      const explicit = voices.find((v) => v.name === this.voicePreference);
+      if (explicit) return explicit;
+    }
+
+    const isHindiTarget = lang.toLowerCase().startsWith('hi');
+    const isEnglishTarget = lang.toLowerCase().startsWith('en');
+
+    if (isHindiTarget) {
+      // 1. High-fidelity Natural / Enhanced / Neural Indian Hindi voices
+      const primeHindi = voices.find(
+        (v) =>
+          (v.lang === 'hi-IN' || v.lang.startsWith('hi')) &&
+          (v.name.includes('Enhanced') ||
+            v.name.includes('Natural') ||
+            v.name.includes('Neural') ||
+            v.name.includes('Lekha') ||
+            v.name.includes('Google') ||
+            v.name.includes('Swara') ||
+            v.name.includes('Madhur') ||
+            v.name.includes('Kanya'))
+      );
+      if (primeHindi) return primeHindi;
+
+      // 2. Any hi-IN voice (e.g. Lekha compact)
+      const anyHiIn = voices.find((v) => v.lang === 'hi-IN');
+      if (anyHiIn) return anyHiIn;
+
+      // 3. Any Hindi voice
+      const anyHi = voices.find((v) => v.lang.startsWith('hi'));
+      if (anyHi) return anyHi;
+
+      // 4. Indian English natural voice (handles Indian phonology far better than US/UK robot)
+      const indianEn = voices.find(
+        (v) =>
+          v.lang === 'en-IN' &&
+          (v.name.includes('Rishi') ||
+            v.name.includes('Aman') ||
+            v.name.includes('Tara') ||
+            v.name.includes('Google') ||
+            v.name.includes('Natural'))
+      );
+      if (indianEn) return indianEn;
+    }
+
+    if (isEnglishTarget) {
+      // 1. Indian English natural
+      const indianEn = voices.find(
+        (v) =>
+          v.lang === 'en-IN' &&
+          (v.name.includes('Rishi') ||
+            v.name.includes('Aman') ||
+            v.name.includes('Tara') ||
+            v.name.includes('Google') ||
+            v.name.includes('Natural') ||
+            v.name.includes('Enhanced'))
+      );
+      if (indianEn) return indianEn;
+
+      // 2. Any en-IN
+      const anyEnIn = voices.find((v) => v.lang === 'en-IN');
+      if (anyEnIn) return anyEnIn;
+
+      // 3. High quality natural English
+      const enNatural = voices.find(
+        (v) =>
+          v.lang.startsWith('en') &&
+          (v.name.includes('Natural') ||
+            v.name.includes('Enhanced') ||
+            v.name.includes('Siri') ||
+            v.name.includes('Google'))
+      );
+      if (enNatural) return enNatural;
+    }
+
+    // Fallback: match by lang prefix or first default
+    return (
+      voices.find((v) => v.lang === lang) ||
+      voices.find((v) => v.lang.startsWith(lang.split('-')[0])) ||
+      voices[0] ||
+      null
+    );
+  }
+
+  /**
+   * Pre-recorded Studio Audio Bank lookup:
+   * Returns pre-recorded studio human voice clip when matching standard curriculum phrases,
+   * greetings, or self-introductions. 100% human, zero robotic artifacts.
+   */
+  getStudioAudioClip(text) {
+    if (!text || typeof text !== 'string') return null;
+    const clean = text.trim();
+    const lower = clean.toLowerCase();
+
+    // Ho self-introduction
+    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+        (clean.includes('अयिङ') || lower.includes('aying') || clean.includes('अयिंगा'))) {
+      return '/audio/rudra_ho.wav';
+    }
+
+    // Mundari self-introduction
+    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+        (clean.includes('आइङ') || lower.includes('ainga') || clean.includes('आइंगा'))) {
+      return '/audio/rudra_mundari.wav';
+    }
+
+    // Santhali self-introduction (Ol Chiki, Devanagari, or Latin phonetics)
+    if ((lower.includes('rudra') || clean.includes('रुद्र') || clean.includes('ᱨᱩᱫᱽᱨᱚ')) &&
+        (clean.includes('ᱧᱩᱛᱩᱢ') || clean.includes('इञाग') || lower.includes('inyaag') || lower.includes('iñag') || lower.includes('nyutum'))) {
+      return '/audio/rudra_santhali.wav';
+    }
+
+    // Sadri self-introduction
+    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+        (clean.includes('मोर नाम') || lower.includes('mor naam'))) {
+      return '/audio/rudra_sadri.wav';
+    }
+
+    // Greetings & Pedagogy
+    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar') return '/audio/johar_greeting.mp3';
+    if (clean.includes('यहाँ आओ') || clean.includes('बैठ जाओ') || clean.includes('किताब खोलो')) return '/audio/classroom_command.mp3';
+    if (clean.includes('शाबाश') || clean.includes('बेस गे')) return '/audio/teacher_praise.mp3';
+    if (clean.includes('प्यारे बच्चों') || clean.includes('निपुण')) return '/audio/nipun_lesson_opening.mp3';
+    if (clean.includes('ध्वनि साथी') || clean.includes('क्यूआर')) return '/audio/worksheet_qr_prompt.mp3';
+    if (clean.includes('कारासुनों') || clean.includes('SARJOM Briefing')) return '/audio/sarjom_overview.mp3';
+
+    return null;
   }
 
   initSpeechRecognition() {
@@ -135,18 +316,96 @@ class VoiceTranslationService {
   }
 
   /**
-   * Synthesizes tribal audio output using Web Speech API with tuned Indian pitch
-   * and fallback acoustic phoneme modulation. Suppresses microphone echo loop
+   * Synthesizes tribal audio output using high-fidelity natural voices with
+   * pre-recorded studio audio bank fallback. Suppresses microphone echo loop
    * during speaker output.
    */
   speakText(text, lang = 'hi-IN', onEnd = () => {}) {
     this.isSpeaking = true;
+
+    // 1. Pre-recorded Studio Audio Bank Lookup (100% human studio quality)
+    const studioClip = this.getStudioAudioClip(text);
+    if (studioClip && typeof Audio !== 'undefined') {
+      try {
+        if (this.activeAudio) {
+          this.activeAudio.pause();
+          this.activeAudio = null;
+        }
+        const audio = new Audio(studioClip);
+        this.activeAudio = audio;
+
+        const finishPlayback = () => {
+          setTimeout(() => {
+            this.isSpeaking = false;
+            this.activeAudio = null;
+            onEnd();
+          }, 350);
+        };
+
+        audio.onended = finishPlayback;
+        audio.onerror = () => {
+          // Graceful fallback to natural synthetic voice if file missing
+          this.synthesizeSpeech(text, lang, onEnd);
+        };
+
+        audio.play().catch(() => {
+          this.synthesizeSpeech(text, lang, onEnd);
+        });
+        return;
+      } catch (e) {
+        // Fall back to synthesis
+      }
+    }
+
+    // 2. High-Fidelity Natural Voice Synthesis
+    this.synthesizeSpeech(text, lang, onEnd);
+  }
+
+  /**
+   * High-fidelity speech synthesis using natural Indian neural voices
+   * (e.g. Apple Lekha/Rishi, Google WaveNet, Microsoft Natural) with
+   * smoothed morpheme phonetics and classroom teacher prosody.
+   */
+  synthesizeSpeech(text, lang = 'hi-IN', onEnd = () => {}) {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); // cancel prior utterances
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      utterance.rate = 0.88; // Slower, clear pace for primary school pedagogy
-      utterance.pitch = 1.05;
+      window.speechSynthesis.cancel(); // Cancel prior utterances
+
+      // Phonetic & Prosodic Normalization:
+      // Remove grammatical hyphens (e.g. "अयिङ-आ" -> "अयिङ आ") so speech synthesizers
+      // don't stutter on "-" or say "minus" / pause artificially.
+      const humanizedText = (text || '')
+        .replace(/[-_]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (!humanizedText) {
+        this.isSpeaking = false;
+        onEnd();
+        return;
+      }
+
+      // Script auto-detection to pair script with optimal phoneme acoustic model
+      let targetLang = lang;
+      const hasDevanagari = /[\u0900-\u097F]/.test(humanizedText);
+      const isPureLatin = /^[A-Za-z0-9\s.,!?'"()-]+$/.test(humanizedText);
+
+      if (hasDevanagari) {
+        targetLang = 'hi-IN';
+      } else if (isPureLatin && !targetLang.startsWith('en')) {
+        targetLang = 'en-IN';
+      }
+
+      const utterance = new SpeechSynthesisUtterance(humanizedText);
+      utterance.lang = targetLang;
+      utterance.rate = this.speechRate || 0.92; // Warm, natural human teacher pacing
+      utterance.pitch = this.speechPitch || 1.0; // Natural fundamental vocal frequency
+
+      // Intelligent Voice Binding: Select highest-quality natural/neural voice
+      const bestVoice = this.getBestNaturalVoice(targetLang);
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+        utterance.lang = bestVoice.lang || targetLang;
+      }
 
       const finishSpeaking = () => {
         // Acoustic decay buffer (350ms) to ensure classroom speaker reverberations do not trigger the mic
@@ -166,6 +425,21 @@ class VoiceTranslationService {
         this.isSpeaking = false;
         onEnd();
       }, 1200);
+    }
+  }
+
+  stopSpeaking() {
+    this.isSpeaking = false;
+    if (this.activeAudio) {
+      try {
+        this.activeAudio.pause();
+        this.activeAudio = null;
+      } catch (e) {}
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {}
     }
   }
 
