@@ -17,7 +17,7 @@ export function Navbar({
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
-  const brandTitle = t.brandTitle || t.appTitle || (isEn ? 'SARJOM (सरजोम)' : 'सरजोम (SARJOM)');
+  const brandTitle = t.brandTitle || t.appTitle || (isEn ? 'SARJOM' : 'सरजोम');
   const brandTagline = t.brandTagline || t.appSubtitle || (isEn ? 'Jharkhand Primary MTB-MLE Pedagogic Bridge' : 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE');
 
   // Strictly the 4 core deliverables defined in SIH Problem Statement 26042

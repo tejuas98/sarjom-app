@@ -6,7 +6,7 @@
 export const UI_TRANSLATIONS = {
   hi: {
     // Brand & Header
-    brandTitle: 'सरजोम (SARJOM)',
+    brandTitle: 'सरजोम',
     brandSub: '',
     brandTagline: 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE',
     offlineStatus: 'ऑफ़लाइन',
@@ -124,12 +124,12 @@ export const UI_TRANSLATIONS = {
 
   en: {
     // Navigation & App Header
-    brandTitle: 'SARJOM (सरजोम)',
+    brandTitle: 'SARJOM',
     brandSub: '',
     brandTagline: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
     offlineStatus: 'Offline',
     onlineStatus: 'Online',
-    appTitle: 'SARJOM (सरजोम)',
+    appTitle: 'SARJOM',
     appSubtitle: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
     badgeOfficial: 'Official MTB-MLE Platform',
     badgeOffline: '100% Offline Ready',
