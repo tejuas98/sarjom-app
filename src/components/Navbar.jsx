@@ -17,6 +17,9 @@ export function Navbar({
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
+  const brandTitle = t.brandTitle || t.appTitle || (isEn ? 'SARJOM (सरजोम)' : 'सरजोम (SARJOM)');
+  const brandTagline = t.brandTagline || t.appSubtitle || (isEn ? 'Jharkhand Primary MTB-MLE Pedagogic Bridge' : 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE');
+
   // Strictly the 4 core deliverables defined in SIH Problem Statement 26042
   const CORE_TABS = [
     { id: 'voice', label: t.tabVoice },
@@ -85,7 +88,7 @@ export function Navbar({
         }}
       >
         {/* Brand Title (Dynamic for English vs Hindi) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 'fit-content' }}>
           <div
             style={{
               width: '38px',
@@ -97,14 +100,15 @@ export function Navbar({
               justifyContent: 'center',
               color: '#FFFFFF',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+              flexShrink: 0,
             }}
           >
             <BookOpen size={20} strokeWidth={2.2} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
-                {t.brandTitle}
+              <span style={{ fontSize: '1.30rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+                {brandTitle}
               </span>
               <span
                 style={{
@@ -117,6 +121,7 @@ export function Navbar({
                   backgroundColor: isOffline ? '#DCFCE7' : '#EFF6FF',
                   color: isOffline ? '#166534' : '#1E40AF',
                   fontWeight: 600,
+                  whiteSpace: 'nowrap',
                 }}
               >
                 <span
@@ -128,11 +133,11 @@ export function Navbar({
                     display: 'inline-block',
                   }}
                 />
-                {isOffline ? t.offlineStatus : t.onlineStatus}
+                {isOffline ? (t.offlineStatus || 'Offline') : (t.onlineStatus || 'Online')}
               </span>
             </div>
-            <p style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-              {t.brandTagline}
+            <p style={{ fontSize: '0.76rem', color: 'var(--color-slate-muted)', margin: 0, whiteSpace: 'nowrap' }}>
+              {brandTagline}
             </p>
           </div>
         </div>
@@ -300,15 +305,17 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Navigation Tabs: Strictly the 4 Core Tabs */}
+      {/* Navigation Tabs: Strictly the 4 Core Tabs spanning the FULL ROW */}
       <nav
         style={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '0 24px 8px 24px',
-          gap: '8px',
-          alignItems: 'center',
+          padding: '0 24px 10px 24px',
+          gap: '12px',
+          width: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {CORE_TABS.map((tab) => {
@@ -320,16 +327,22 @@ export function Navbar({
               type="button"
               onClick={() => onSelectTab(tab.id)}
               style={{
-                padding: '7px 18px',
-                border: isActive ? '1px solid var(--color-border)' : '1px solid transparent',
-                borderRadius: 'var(--radius-pill)',
+                width: '100%',
+                padding: '9px 12px',
+                border: isActive ? '1.5px solid var(--color-palash)' : '1px solid var(--color-border)',
+                borderRadius: '12px',
                 backgroundColor: isActive ? 'var(--color-surface-card)' : 'transparent',
-                color: isActive ? 'var(--color-slate)' : 'var(--color-slate-muted)',
+                color: isActive ? 'var(--color-palash)' : 'var(--color-slate)',
                 fontWeight: isActive ? 700 : 500,
-                fontSize: '0.88rem',
+                fontSize: '0.90rem',
                 cursor: 'pointer',
-                boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.05)' : 'none',
+                boxShadow: isActive ? '0 2px 10px rgba(217, 90, 39, 0.15)' : 'none',
                 transition: 'all 0.18s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
               }}
             >
               {tab.label}

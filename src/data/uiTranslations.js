@@ -124,8 +124,13 @@ export const UI_TRANSLATIONS = {
 
   en: {
     // Navigation & App Header
-    appTitle: 'SARJOM',
-    appSubtitle: 'Tribal Mother Tongue Classroom Pedagogic Bridge',
+    brandTitle: 'SARJOM (सरजोम)',
+    brandSub: '',
+    brandTagline: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
+    offlineStatus: 'Offline',
+    onlineStatus: 'Online',
+    appTitle: 'SARJOM (सरजोम)',
+    appSubtitle: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
     badgeOfficial: 'Official MTB-MLE Platform',
     badgeOffline: '100% Offline Ready',
     teacherProfile: 'Teacher Profile',
