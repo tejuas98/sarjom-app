@@ -294,6 +294,9 @@ This section provides technical and operational evidence explaining how each req
 * **[IMPACT_AND_BENEFITS.md](./IMPACT_AND_BENEFITS.md)** — **Impact Assessment & Multi-Tiered Benefits**: Analysis covering pedagogical outcomes (3x FLN leap), child psychology, teacher wellbeing, script preservation, ₹900+ Cr state savings, and 5-year projections.
 
 #### Tier 6: Research, References & Evaluation Proposal
+* **[RESEARCH_AND_SYSTEMS_COMPARISON.md](./RESEARCH_AND_SYSTEMS_COMPARISON.md)** — **Master Research & Comparative Systems Evaluation**: Unified master dossier featuring Cummins' CUP, Krashen, Vygotsky, 12-dimensional comparison matrix vs Google/Bhashini/Azure, visual demographic charts, UDISE+/ASER portal audits, and 42+ citations.
+* **[RESEARCH_AND_ACADEMIC_REFERENCES.md](./RESEARCH_AND_ACADEMIC_REFERENCES.md)** — **Academic & Pedagogical Foundations**: In-depth research dossier, Problem Statement forensic decoding, and Austroasiatic computational linguistics.
+* **[EXISTING_SYSTEMS_COMPARISON.md](./EXISTING_SYSTEMS_COMPARISON.md)** — **12-Dimensional Systems Comparison**: Master comparative matrix, 2GB tablet latency/RAM benchmarks, and Saranda forest failure post-mortems.
 * **[DATA_AND_RESEARCH_REFERENCES.md](./DATA_AND_RESEARCH_REFERENCES.md)** — **Academic & Research Citations**: Audit of state reports, UNICEF publications, CIIL corpora, and Unicode standards.
 * **[PITCH_AND_EVALUATION_PROPOSAL.md](./PITCH_AND_EVALUATION_PROPOSAL.md)** — **Evaluation Proposal & Pitch Blueprint**: Structured presentation deck covering Input-Process-Output flows, Lean Canvas, risk mitigation matrix, and scaling roadmap.
 

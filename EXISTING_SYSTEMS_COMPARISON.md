@@ -234,6 +234,7 @@ By deploying SARJOM, the Government of Jharkhand can lead India in executing the
 ---
 
 ## 8. Related Official Documentation & Evidence Dossiers
-* **[Academic Research, Pedagogical Foundations & Empirical Citations](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/RESEARCH_AND_ACADEMIC_REFERENCES.md)**: Full 8-section research document detailing Cummins' CUP, Krashen's Comprehensible Input, Census 2011 Language Data, UDISE+ and ASER rural Jharkhand metrics, and 42 academic references.
+* **[Master Research & Comparative Systems Evaluation Dossier](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/RESEARCH_AND_SYSTEMS_COMPARISON.md)**: Unified master document synthesizing academic theories, empirical demographics, Problem Statement forensic decoding, and 12-dimensional systems comparison.
+* **[Academic Research, Pedagogical Foundations & Empirical Citations](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/RESEARCH_AND_ACADEMIC_REFERENCES.md)**: Full 9-section research document detailing Cummins' CUP, Krashen's Comprehensible Input, Census 2011 Language Data, UDISE+ and ASER rural Jharkhand metrics, and 42 academic references.
 * **[Problem Statement & Regulatory Compliance Matrix](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/PROBLEM_STATEMENT_AND_COMPLIANCE.md)**: Official SIH26042 specification, line-by-line government compliance audit, and e-Vidyavahini 2.0 schemas.
 * **[Technical Stack & Logic Deep Dive](file:///Users/toru/.gemini/antigravity-ide/scratch/palash-tribal-pedagogy/TECH_STACK_AND_LOGIC_EXPLAINED.md)**: Mathematical models, acoustic DSP pipeline, and INT8 quantization benchmarks.
