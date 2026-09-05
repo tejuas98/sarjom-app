@@ -74,21 +74,21 @@ export function Navbar({
         zIndex: 40,
       }}
     >
-      {/* Top Header: Brand + 4 Tribal Languages + UI Lang Toggle + Dark Mode */}
+      {/* Top Header: Balanced 3-Column Grid (Left: Brand | Center: Dialect | Right: Controls) */}
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
           alignItems: 'center',
           padding: '12px 24px',
           maxWidth: '1200px',
           margin: '0 auto',
-          gap: '16px',
-          flexWrap: 'wrap',
+          width: '100%',
+          boxSizing: 'border-box',
         }}
       >
-        {/* Brand Title (Dynamic for English vs Hindi) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 'fit-content' }}>
+        {/* Left Column: Brand Title & Official Subtitle (Anchored to Left) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'start', minWidth: 0 }}>
           <div
             style={{
               width: '38px',
@@ -142,7 +142,7 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Center: Sleek Segmented Tribal Dialect Bar */}
+        {/* Center: Sleek Segmented Tribal Dialect Bar (Locked Dead-Center) */}
         <div
           style={{
             display: 'flex',
@@ -153,6 +153,7 @@ export function Navbar({
             padding: '4px',
             gap: '3px',
             boxShadow: '0 1px 4px rgba(0, 0, 0, 0.04)',
+            justifySelf: 'center',
           }}
         >
           <div
@@ -207,8 +208,8 @@ export function Navbar({
           })}
         </div>
 
-        {/* Right: UI Language Toggle (English / Hindi) & Theme Mode */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Right: UI Language Toggle (English / Hindi) & Theme Mode (Anchored to Right) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'end' }}>
           {/* UI Language Switcher (English vs Hindi) */}
           <div
             style={{
