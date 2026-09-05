@@ -361,6 +361,21 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
+  // Auto-log initial query if ?q=...&log=1 is present in URL
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      const autoLog = params.get('log') === '1' || params.get('autolog') === 'true';
+      if (q && autoLog) {
+        const res = executeTranslation(q);
+        if (res) {
+          addToHistory(q, res, isTeacherMode ? 'teacher' : 'student');
+        }
+      }
+    }
+  }, []);
+
   const handleDeleteEntry = (id) => {
     setHistory((prev) => {
       const updated = prev.filter((item) => item.id !== id);

@@ -8,6 +8,11 @@ import { TRIBAL_LEXICON } from '../data/tribalLexicon.js';
 import { CLASSROOM_PHRASES } from '../data/classroomPhrases.js';
 import { NIPUN_LESSONS } from '../data/nipunCurriculum.js';
 import { BENCHMARK_CASES, STUDENT_HARD_BENCHMARK_CASES } from '../data/benchmarkCases.js';
+import {
+  CONVERSATIONAL_PHRASES,
+  CONVERSATIONAL_TOKENS,
+  HINGLISH_VERBAL_CHUNKS,
+} from '../data/conversationalHinglishLexicon.js';
 
 /**
  * Verified Classical Root Morphemes from Hoffmann, Bodding, Deeney, and Nowrangi lexicons
@@ -316,6 +321,73 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     }
   }
 
+  // 00B. Conversational Idioms, Everyday Interjections & Teacher Commands ("go away from me", "yes", "ok", "thanks", "come here", "sit down", etc.)
+  if (!result) {
+    let bestCPhrase = null;
+    let longestKeyLen = 0;
+
+    for (const cPhrase of CONVERSATIONAL_PHRASES) {
+      if (!cPhrase.keys) continue;
+      for (const key of cPhrase.keys) {
+        const normK = normalizeHindi(key);
+        if (normalized === normK) {
+          bestCPhrase = cPhrase;
+          longestKeyLen = 9999;
+          break;
+        } else if (
+          normK.length >= 3 &&
+          (normalized.startsWith(normK + ' ') || normalized.endsWith(' ' + normK) || normalized === normK)
+        ) {
+          if (normK.length > longestKeyLen) {
+            longestKeyLen = normK.length;
+            bestCPhrase = cPhrase;
+          }
+        }
+      }
+      if (longestKeyLen === 9999) break;
+    }
+
+    if (bestCPhrase) {
+      const langData = bestCPhrase[targetLang] || bestCPhrase.santhali || bestCPhrase.ho || bestCPhrase.mundari || bestCPhrase.sadri;
+      if (langData) {
+        result = {
+          sourceHindi: hindiText,
+          targetLang,
+          nativeScript: langData.nativeOlChiki || langData.native || langData.phoneticDeva || hindiText,
+          phoneticDeva: langData.phoneticDeva || langData.native || hindiText,
+          phoneticLatin: langData.phoneticLatin || '',
+          audioText: langData.audioText || langData.phoneticLatin || langData.phoneticDeva || hindiText,
+          confidence: 0.99,
+          matchType: 'Conversational Interjection & Teacher Command',
+        };
+      }
+    }
+  }
+
+  // 00C. Hinglish Code-Switching Verbal Combinations ("book open karo", "read karo", "write karo", "water peeyo", etc.)
+  if (!result) {
+    for (const chunk of HINGLISH_VERBAL_CHUNKS) {
+      if (!chunk.patterns) continue;
+      const matched = chunk.patterns.some((pattern) => pattern.test(normalized) || pattern.test(hindiText));
+      if (matched) {
+        const langData = chunk[targetLang] || chunk.santhali || chunk.ho || chunk.mundari || chunk.sadri;
+        if (langData) {
+          result = {
+            sourceHindi: hindiText,
+            targetLang,
+            nativeScript: langData.nativeOlChiki || langData.native || langData.phoneticDeva || hindiText,
+            phoneticDeva: langData.phoneticDeva || langData.native || hindiText,
+            phoneticLatin: langData.phoneticLatin || '',
+            audioText: langData.audioText || langData.phoneticLatin || langData.phoneticDeva || hindiText,
+            confidence: 0.98,
+            matchType: 'Hinglish Code-Switching Verbal Construction',
+          };
+          break;
+        }
+      }
+    }
+  }
+
   // 1. Semantic Vector Cosine Similarity Match (Threshold >= 0.58)
   let bestSemanticMatch = null;
   let highestSimilarity = 0;
@@ -429,6 +501,20 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
 
     for (const token of tokens) {
       let matched = false;
+
+      // 4a0. Check Conversational Tokens (ok, yes, no, thanks, please, sorry, go, away, from, me, etc.)
+      const cleanToken = token.replace(/^[^\w\u0900-\u097F]+|[^\w\u0900-\u097F]+$/g, '').toLowerCase();
+      if (CONVERSATIONAL_TOKENS[token] || CONVERSATIONAL_TOKENS[cleanToken]) {
+        const cTok = CONVERSATIONAL_TOKENS[token] || CONVERSATIONAL_TOKENS[cleanToken];
+        const tokData = cTok[targetLang] || cTok.santhali || cTok.ho || cTok.mundari || cTok.sadri;
+        if (tokData) {
+          translatedTokens.push(tokData.native || tokData.nativeOlChiki || tokData.phoneticDeva || token);
+          phoneticDevaTokens.push(tokData.phoneticDeva || tokData.native || token);
+          phoneticLatinTokens.push(tokData.phoneticLatin || '');
+          audioTokens.push(tokData.audioText || tokData.phoneticDeva || token);
+          matched = true;
+        }
+      }
 
       // 4a. Check Classical Root Morphemes
       if (TRIBAL_MORPHOLOGICAL_ROOTS[token]) {
@@ -720,6 +806,34 @@ export function translateTribalToHindi(tribalText, sourceLang = 'sadri') {
         englishMeaning: bCase.english,
         confidence: 0.98,
         matchType: 'Direct Benchmark Corpus Match',
+        latencyMs,
+      };
+    }
+  }
+
+  // 2.5 Conversational Mother Tongue Interjections ("होए", "हें", "जोहार", "बुगीया", etc.)
+  for (const cPhrase of CONVERSATIONAL_PHRASES) {
+    const langData = cPhrase[sourceLang] || cPhrase.santhali || cPhrase.sadri || {};
+    const native = normalizeTribalInput(langData.native || '');
+    const nativeOlChiki = normalizeTribalInput(langData.nativeOlChiki || '');
+    const deva = normalizeTribalInput(langData.phoneticDeva || '');
+    const latin = normalizeTribalInput(langData.phoneticLatin || '');
+
+    const isMatch =
+      cleanInput === native ||
+      cleanInput === nativeOlChiki ||
+      cleanInput === deva ||
+      cleanInput === latin;
+
+    if (isMatch) {
+      const latencyMs = Math.max(Math.round(performance.now() - t0), 10);
+      return {
+        sourceTribal: tribalText,
+        sourceLang,
+        hindiTranslation: cPhrase.hindi || cPhrase.keys.find((k) => /[\u0900-\u097F]/.test(k)) || cPhrase.keys[0],
+        englishMeaning: cPhrase.english || cPhrase.keys[0],
+        confidence: 0.98,
+        matchType: 'Conversational Mother Tongue Interjection',
         latencyMs,
       };
     }
