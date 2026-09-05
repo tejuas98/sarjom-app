@@ -35,24 +35,113 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
 
+  // Default authentic classroom logs stored in device
+  const getDefaultClassroomLogs = (lang = 'sadri') => [
+    {
+      id: 1725513600001,
+      direction: 'teacher',
+      sourceText: 'बच्चों, अपनी किताब खोलो और पाठ एक पढ़ो।',
+      targetText:
+        lang === 'santhali'
+          ? 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ, ᱟᱯᱱᱟᱨ ᱯᱚᱛᱚᱵ ᱡᱷᱤᱡᱽ ᱯᱮ ᱟᱨ ᱯᱟᱦᱤᱞ ᱯᱟᱴᱷ ᱯᱟᱲᱦᱟᱣ ᱯᱮ᱾'
+          : lang === 'ho'
+          ? 'होनको, अपना पुथी उघुर पे अंदो पाठ एक पाड़ाव पे।'
+          : lang === 'mundari'
+          ? 'गिदरा-को, आपन पुथी उघुर-पे आउर पाठ एक पाड़ाव-पे।'
+          : 'किताब खोला आउर पाठ एक पढ़ा।',
+      phonetic:
+        lang === 'santhali'
+          ? 'Gidra ko, apnar potob jhij pe ar pahil path parhaw pe.'
+          : lang === 'ho'
+          ? 'Honko, apna puthi ughur pe ando path ek paraw pe.'
+          : lang === 'mundari'
+          ? 'Gidra-ko, aapan puthi ughur-pe aaur path ek paraw-pe.'
+          : 'Kitab khola aur path ek padha.',
+      audioText:
+        lang === 'santhali'
+          ? 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ, ᱟᱯᱱᱟᱨ ᱯᱚᱛᱚᱵ ᱡᱷᱤᱡᱽ ᱯᱮ ᱟᱨ ᱯᱟᱦᱤᱞ ᱯᱟᱴᱷ ᱯᱟᱲᱦᱟᱣ ᱯᱮ᱾'
+          : lang === 'ho'
+          ? 'होनको, अपना पुथी उघुर पे अंदो पाठ एक पाड़ाव पे'
+          : lang === 'mundari'
+          ? 'गिदरा-को, आपन पुथी उघुर-पे आउर पाठ एक पाड़ाव-पे'
+          : 'किताब खोला आउर पाठ एक पढ़ा',
+      lang: lang,
+      time: '10:32 AM',
+    },
+    {
+      id: 1725513600002,
+      direction: 'student',
+      sourceText:
+        lang === 'sadri'
+          ? 'जोहार गुरुजी, हमरे समझ गेली।'
+          : lang === 'santhali'
+          ? 'ᱡᱚᱦᱟᱨ ᱜᱩᱨᱩᱡᱤ, ᱟᱞᱮ ᱞᱮ ᱵᱩᱡᱷᱟᱹᱣ ᱠᱮᱫᱼᱟ᱾'
+          : lang === 'ho'
+          ? 'जोहार गुरुजी, अले बुझाव केदा।'
+          : 'जोहार गुरुजी, आबू बुझाव केदा।',
+      targetText: 'नमस्ते गुरुजी, हम समझ गए।',
+      phonetic: 'Namaste guruji, hum samajh gaye.',
+      audioText: 'नमस्ते गुरुजी, हम समझ गए।',
+      lang: lang,
+      time: '10:36 AM',
+    },
+    {
+      id: 1725513600003,
+      direction: 'teacher',
+      sourceText: 'शाबाश! अब सब मिलकर एक साथ बोलो।',
+      targetText:
+        lang === 'sadri'
+          ? 'बेस! अब सब मिल के एके संगे बोला।'
+          : lang === 'santhali'
+          ? 'ᱵᱷᱟᱹᱜᱤ! ᱱᱤᱛᱚᱜ ᱡᱚᱛᱚ ᱦᱚᱲ ᱢᱤᱫ ᱥᱟᱶᱛᱮ ᱨᱚᱲ ᱯᱮ᱾'
+          : lang === 'ho'
+          ? 'बेश! नाहः सबु मिलिके एके संगे कजी पे।'
+          : 'बेश! अब सब मिलिके एके संगे कजी पे।',
+      phonetic:
+        lang === 'sadri'
+          ? 'Bes! Ab sab mil ke eke sange bola.'
+          : lang === 'santhali'
+          ? 'Bhagi! Nitog joto hor mid sawte ror pe.'
+          : 'Besh! Sab milke bolo.',
+      audioText:
+        lang === 'sadri'
+          ? 'बेस! अब सब मिल के एके संगे बोला'
+          : lang === 'santhali'
+          ? 'ᱵᱷᱟᱹᱜᱤ! ᱱᱤᱛᱚᱜ ᱡᱚᱛᱚ ᱦᱚᱲ ᱢᱤᱫ ᱥᱟᱶᱛᱮ ᱨᱚᱲ ᱯᱮ᱾'
+          : 'शाबाश! सब मिलकर बोलो',
+      lang: lang,
+      time: '10:42 AM',
+    },
+  ];
+
   // Clean real-time classroom interaction history (safely persisted in device localStorage)
   const getInitialHistory = () => {
     if (typeof window !== 'undefined') {
       try {
         const saved = localStorage.getItem('sarjom_dialogue_log');
+        const userCleared = localStorage.getItem('sarjom_cleared_by_user');
         if (saved) {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
+          if (Array.isArray(parsed) && parsed.length > 0) {
             return parsed.filter(
               (p) => p && typeof p === 'object' && p.sourceText && p.sourceText !== 'जोहार, आज हम क्या सीखेंगे?'
             );
+          }
+          if (userCleared === 'true') {
+            return [];
           }
         }
       } catch (e) {
         console.error('Error reading sarjom_dialogue_log:', e);
       }
     }
-    return [];
+    const defaults = getDefaultClassroomLogs(selectedLang || 'sadri');
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('sarjom_dialogue_log', JSON.stringify(defaults));
+      } catch (e) {}
+    }
+    return defaults;
   };
 
   // Mode: 'teacher_to_student' (Hindi -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
@@ -309,7 +398,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     setHistory([]);
     if (typeof window !== 'undefined') {
       try {
-        localStorage.removeItem('sarjom_dialogue_log');
+        localStorage.setItem('sarjom_dialogue_log', JSON.stringify([]));
+        localStorage.setItem('sarjom_cleared_by_user', 'true');
       } catch (e) {}
     }
     toast.success(isEn ? 'Classroom log cleared' : 'कक्षा संवाद लॉग साफ़ किया गया', {
@@ -320,11 +410,24 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           if (typeof window !== 'undefined') {
             try {
               localStorage.setItem('sarjom_dialogue_log', JSON.stringify(backup));
+              localStorage.removeItem('sarjom_cleared_by_user');
             } catch (e) {}
           }
         },
       },
     });
+  };
+
+  const handleRestoreSampleLogs = () => {
+    const samples = getDefaultClassroomLogs(selectedLang || 'sadri');
+    setHistory(samples);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('sarjom_dialogue_log', JSON.stringify(samples));
+        localStorage.removeItem('sarjom_cleared_by_user');
+      } catch (e) {}
+    }
+    toast.success(isEn ? 'Sample classroom dialogues loaded & stored on device!' : 'कक्षा संवाद लॉग लोड हुआ एवं डिवाइस में सुरक्षित हुआ!');
   };
 
   const exportClassroomDialogueCSV = () => {
@@ -1333,7 +1436,27 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           {/* Interaction Log List */}
           {history.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '36px 16px', color: 'var(--color-slate-muted)', fontSize: '0.88rem' }}>
-              {t.emptyLogText}
+              <p style={{ margin: '0 0 14px 0' }}>{t.emptyLogText}</p>
+              <button
+                type="button"
+                onClick={handleRestoreSampleLogs}
+                style={{
+                  padding: '7px 16px',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  backgroundColor: 'var(--color-surface-tint)',
+                  color: 'var(--color-forest)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-pill)',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                }}
+              >
+                <span>➕ {isEn ? 'Load Sample Classroom Dialogue' : 'नमूना कक्षा संवाद लोड करें'}</span>
+              </button>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '450px', overflowY: 'auto', paddingRight: '4px' }}>
