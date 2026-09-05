@@ -25,3 +25,11 @@ dist-ssr
 
 # Temporary test screenshots (root only)
 /screenshots/
+
+# Android build outputs
+android/app/build/
+android/build/
+android/.gradle/
+.gradle/
+*.apk
+
