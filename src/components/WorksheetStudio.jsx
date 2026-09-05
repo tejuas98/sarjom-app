@@ -796,200 +796,207 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   return (
     <div style={{ maxWidth: '980px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* ==================================================================== */}
-      {/* 1. CLEAN TOP HEADER (NO BOX-IN-BOX)                                  */}
+      {/* 1. NATIVE IPAD STUDIO HEADER & CONTROLS                              */}
       {/* ==================================================================== */}
-      <header className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <header className="no-print" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+          <div>
             <h1 style={{ fontSize: '1.65rem', fontWeight: 800, margin: 0, color: 'var(--color-slate)', letterSpacing: '-0.02em' }}>
               {t.wsTitle}
             </h1>
-            <span
+            <p style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>{t.wsSubtitle}</span>
+              <span>•</span>
+              <span style={{ color: 'var(--color-palash)', fontWeight: 600 }}>{langMeta.name} ({langMeta.badgeText})</span>
+            </p>
+          </div>
+
+          {/* Action Controls: Grade + Shuffle + Print */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <select
+              id="select-grade-level"
+              value={gradeLevel}
+              onChange={(e) => {
+                const newGrade = e.target.value;
+                setGradeLevel(newGrade);
+                handleReset();
+                const c = GRADE_CURRICULUM[newGrade];
+                toast.success(
+                  isEn
+                    ? `Loaded ${c.labelEnglish}: ${c.themeEnglish}!`
+                    : `${c.labelHindi} का पाठ्यक्रम एवं नए अभ्यास लोड किए गए!`
+                );
+              }}
               style={{
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                padding: '3px 10px',
-                borderRadius: 'var(--radius-xs)',
-                backgroundColor: 'var(--color-forest-subtle)',
-                color: 'var(--color-forest)',
-                border: '1px solid var(--color-forest-border)',
+                padding: '7px 14px',
+                borderRadius: '6px',
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-slate)',
+                fontSize: '0.84rem',
+                fontWeight: 600,
+                outline: 'none',
+                cursor: 'pointer',
               }}
             >
-              {langMeta.name} ({langMeta.badgeText})
-            </span>
+              <option value="grade1">{isEn ? 'Class 1 (Foundational FLN)' : 'कक्षा 1 (बालवाटिका व कक्षा 1)'}</option>
+              <option value="grade2">{isEn ? 'Class 2 (Intermediate FLN)' : 'कक्षा 2 (मध्यवर्ती FLN)'}</option>
+              <option value="grade3">{isEn ? 'Class 3 (Advanced FLN)' : 'कक्षा 3 (उन्नत FLN)'}</option>
+            </select>
+
+            <button
+              type="button"
+              onClick={handleShuffle}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '7px 14px',
+                borderRadius: '6px',
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-slate)',
+                fontSize: '0.84rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+              title={t.wsShuffleBtn}
+            >
+              <RefreshCw size={14} />
+              <span>{t.wsShuffleBtn}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handlePrint}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '7px 18px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: 'var(--color-palash)',
+                color: '#FFFFFF',
+                fontSize: '0.84rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(194, 65, 12, 0.25)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Printer size={15} />
+              <span>{t.wsPrintBtn}</span>
+            </button>
           </div>
-          <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0' }}>
-            {t.wsSubtitle}
-          </p>
         </div>
 
-        {/* Action Controls: Grade + Shuffle + Print */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <select
-            id="select-grade-level"
-            value={gradeLevel}
-            onChange={(e) => {
-              const newGrade = e.target.value;
-              setGradeLevel(newGrade);
-              handleReset();
-              const c = GRADE_CURRICULUM[newGrade];
-              toast.success(
-                isEn
-                  ? `Loaded ${c.labelEnglish}: ${c.themeEnglish}!`
-                  : `${c.labelHindi} का पाठ्यक्रम एवं नए अभ्यास लोड किए गए!`
-              );
-            }}
-            style={{
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border)',
-              backgroundColor: 'var(--color-surface)',
-              color: 'var(--color-slate)',
-              fontSize: '0.84rem',
-              fontWeight: 700,
-              outline: 'none',
-              cursor: 'pointer',
-            }}
-          >
-            <option value="grade1">{isEn ? 'Class 1 (Foundational FLN)' : 'कक्षा 1 (बालवाटिका व कक्षा 1)'}</option>
-            <option value="grade2">{isEn ? 'Class 2 (Intermediate FLN)' : 'कक्षा 2 (मध्यवर्ती FLN)'}</option>
-            <option value="grade3">{isEn ? 'Class 3 (Advanced FLN)' : 'कक्षा 3 (उन्नत FLN)'}</option>
-          </select>
-
-          <button
-            type="button"
-            onClick={handleShuffle}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border)',
-              backgroundColor: 'var(--color-surface)',
-              color: 'var(--color-slate)',
-              fontSize: '0.84rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            title={t.wsShuffleBtn}
-          >
-            <RefreshCw size={14} />
-            <span>{t.wsShuffleBtn}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handlePrint}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '7px 18px',
-              borderRadius: 'var(--radius-md)',
-              border: 'none',
-              backgroundColor: 'var(--color-palash)',
-              color: '#FFFFFF',
-              fontSize: '0.84rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(194, 65, 12, 0.25)',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Printer size={15} />
-            <span>{t.wsPrintBtn}</span>
-          </button>
+        {/* 2. NATIVE IPAD SEGMENTED CONTROL (SINGLE COHESIVE TRACK) */}
+        <div
+          style={{
+            display: 'inline-flex',
+            backgroundColor: 'var(--color-surface-tint)',
+            padding: '4px',
+            borderRadius: '8px',
+            border: '1px solid var(--color-border-subtle)',
+            gap: '2px',
+            alignSelf: 'flex-start',
+          }}
+        >
+          {[
+            { id: 'matching', label: t.wsTypeMatching, icon: Layers },
+            { id: 'numeracy', label: t.wsTypeNumeracy, icon: Hash },
+            { id: 'fillblanks', label: t.wsTypeFillBlanks, icon: BookOpen },
+          ].map((tab) => {
+            const isActive = worksheetType === tab.id;
+            const TabIcon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  setWorksheetType(tab.id);
+                  setActiveSelection(null);
+                  setIsScoreEvaluated(false);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '7px 16px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: isActive ? 'var(--color-surface-card)' : 'transparent',
+                  color: isActive ? 'var(--color-slate)' : 'var(--color-slate-muted)',
+                  fontWeight: isActive ? 700 : 500,
+                  fontSize: '0.86rem',
+                  cursor: 'pointer',
+                  boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                <TabIcon size={14} color={isActive ? 'var(--color-palash)' : 'currentColor'} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </header>
 
       {/* ==================================================================== */}
-      {/* 2. MINIMALIST SEGMENTED TABS (CLEAN & HORIZONTAL)                    */}
-      {/* ==================================================================== */}
-      <nav
-        className="no-print"
-        style={{
-          display: 'flex',
-          gap: '8px',
-          borderBottom: '1px solid var(--color-border-subtle)',
-          paddingBottom: '8px',
-          overflowX: 'auto',
-        }}
-      >
-        {[
-          { id: 'matching', label: t.wsTypeMatching, icon: Layers },
-          { id: 'numeracy', label: t.wsTypeNumeracy, icon: Hash },
-          { id: 'fillblanks', label: t.wsTypeFillBlanks, icon: BookOpen },
-        ].map((tab) => {
-          const isActive = worksheetType === tab.id;
-          const TabIcon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => {
-                setWorksheetType(tab.id);
-                setActiveSelection(null);
-                setIsScoreEvaluated(false);
-              }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '7px',
-                padding: '8px 16px',
-                borderRadius: 'var(--radius-sm)',
-                border: 'none',
-                backgroundColor: isActive ? 'var(--color-forest)' : 'transparent',
-                color: isActive ? '#FFFFFF' : 'var(--color-slate-muted)',
-                fontWeight: isActive ? 700 : 500,
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                transition: 'all 0.18s ease',
-              }}
-            >
-              <TabIcon size={15} />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* ==================================================================== */}
-      {/* 3. THE WORKSHEET CANVAS (SINGLE ELEVATED SURFACE)                    */}
+      {/* 3. THE WORKSHEET DOCUMENT CANVAS (NO BOX-IN-BOX CALLOUTS)            */}
       {/* ==================================================================== */}
       <main
         style={{
-          backgroundColor: 'var(--color-surface)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '36px 40px',
+          backgroundColor: 'var(--color-surface-card)',
+          borderRadius: '8px',
+          padding: '30px 32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '28px',
-          boxShadow: 'var(--shadow-card)',
+          gap: '24px',
           border: '1px solid var(--color-border-subtle)',
         }}
       >
         {/* Printable Official Header (Shows when printed or on screen) */}
-        <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '18px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <div style={{ fontSize: '0.74rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <div style={{ fontSize: '0.70rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {t.wsEmblemGovt}
               </div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-slate)', margin: '4px 0 2px 0' }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', margin: '4px 0 6px 0' }}>
                 {worksheetType === 'matching' && (isEn ? 'Exercise 1: Word & Picture Association' : 'अभ्यास 1: शब्द एवं चित्र मिलान')}
                 {worksheetType === 'numeracy' && (isEn ? 'Exercise 2: Foundational Numeracy & Counting' : 'अभ्यास 2: बुनियादी संख्या ज्ञान एवं गिनती')}
                 {worksheetType === 'fillblanks' && (isEn ? 'Exercise 3: Bilingual Sentence Practice' : 'अभ्यास 3: द्विभाषी वाक्य रचना अभ्यास')}
+              </h2>
+
+              {/* Integrated Editorial Syllabus Line (NO CALLOUT BOX!) */}
+              <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontWeight: 700, color: 'var(--color-slate)' }}>
+                  {isEn ? activeCurriculum.labelEnglish : activeCurriculum.labelHindi}
+                </span>
+                <span>•</span>
+                <span style={{ fontFamily: 'monospace', fontWeight: 700, color: 'var(--color-forest)' }}>
+                  {activeCurriculum.nipunCode}
+                </span>
+                <span>•</span>
+                <span>{isEn ? activeCurriculum.themeEnglish : activeCurriculum.themeHindi}</span>
+                <span>•</span>
+                <span style={{ color: 'var(--color-palash)', fontWeight: 600 }}>
+                  {isEn ? `Medium: Hindi + ${langMeta.name}` : `माध्यम: हिंदी + ${langMeta.name}`}
+                </span>
               </div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--color-palash)', fontWeight: 600 }}>
-                {isEn ? `Medium: Hindi + ${langMeta.name}` : `माध्यम: हिंदी + ${langMeta.name}`}
+
+              <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+                <strong style={{ color: 'var(--color-forest)' }}>{isEn ? 'Learning Outcome (LO): ' : 'दक्षता लक्ष्य: '}</strong>
+                {isEn ? activeCurriculum.competencyEnglish : activeCurriculum.competencyHindi}
               </div>
             </div>
 
             {/* Score & Evaluation Progress Badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: 'var(--radius-xs)', backgroundColor: 'var(--color-surface-tint)' }}>
-              <Star size={15} color="#EAB308" fill="#EAB308" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 12px', borderRadius: '6px', backgroundColor: 'var(--color-surface)', border: '1px solid var(--color-border-subtle)' }}>
+              <Star size={14} color="#EAB308" fill="#EAB308" />
               <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate)' }}>
                 {worksheetType === 'matching' && `${Object.keys(matchedPairs).length} / ${matchingItems.length} matched`}
                 {worksheetType === 'numeracy' && `${Object.keys(numeracyAnswers).length} / ${numberItems.length} solved`}
@@ -998,7 +1005,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               <button
                 type="button"
                 onClick={handleReset}
-                style={{ background: 'none', border: 'none', color: 'var(--color-slate-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                style={{ background: 'none', border: 'none', color: 'var(--color-slate-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '2px' }}
                 title={t.wsResetBtn}
               >
                 <RotateCcw size={13} />
@@ -1007,89 +1014,17 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
           </div>
         </div>
 
-        {/* Dynamic NIPUN Bharat Syllabus & Competency Banner (Updates on Class change) */}
-        <div
-          id="ws-curriculum-banner"
-          style={{
-            padding: '12px 16px',
-            borderRadius: 'var(--radius-lg)',
-            backgroundColor: 'rgba(16, 185, 129, 0.05)',
-            border: '1px solid rgba(16, 185, 129, 0.22)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  letterSpacing: '0.04em',
-                  padding: '3px 10px',
-                  borderRadius: 'var(--radius-xs)',
-                  backgroundColor: 'var(--color-forest)',
-                  color: '#FFFFFF',
-                  textTransform: 'uppercase',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                <GraduationCap size={13} />
-                {isEn ? activeCurriculum.labelEnglish : activeCurriculum.labelHindi}
-              </span>
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  padding: '3px 9px',
-                  borderRadius: 'var(--radius-xs)',
-                  backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                  color: 'var(--color-forest)',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
-                  fontFamily: 'monospace',
-                }}
-              >
-                {activeCurriculum.nipunCode}
-              </span>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                {isEn ? activeCurriculum.themeEnglish : activeCurriculum.themeHindi}
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: 'var(--color-slate-muted)' }}>
-              <Target size={14} color="var(--color-palash)" />
-              <span style={{ fontWeight: 600 }}>
-                {worksheetType === 'matching' && (isEn ? 'Categories: ' + activeCurriculum.matchingCategories.join(', ') : 'शब्दावली: ' + activeCurriculum.matchingCategories.join(', '))}
-                {worksheetType === 'numeracy' && (isEn ? `Range: ${activeCurriculum.numberRange[0]} to ${activeCurriculum.numberRange[1]}` : `परास: ${activeCurriculum.numberRange[0]} से ${activeCurriculum.numberRange[1]}`)}
-                {worksheetType === 'fillblanks' && (isEn ? 'FLN Sentence Structure' : 'FLN वाक्य संरचना')}
-              </span>
-            </div>
-          </div>
-
-          <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-            <span style={{ fontWeight: 700, color: 'var(--color-forest)' }}>
-              {isEn ? 'Learning Outcome (LO):' : 'दक्षता लक्ष्य:'}
-            </span>
-            <span>
-              {isEn ? activeCurriculum.competencyEnglish : activeCurriculum.competencyHindi}
-            </span>
-          </div>
-        </div>
-
         {/* ================================================================== */}
-        {/* EXERCISE 1: WORD MATCHING (ROBUST, BI-DIRECTIONAL, IDENTIFIERS)   */}
+        {/* EXERCISE 1: WORD MATCHING (CLEAN TACTILE LIST STRIPS, NO GREY BOXES) */}
         {/* ================================================================== */}
         {worksheetType === 'matching' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-              <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+              <p style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', margin: 0 }}>
                 {t.wsMatchSelectHint}
               </p>
               {activeSelection && (
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, padding: '3px 10px', borderRadius: 'var(--radius-xs)', backgroundColor: 'rgba(194, 65, 12, 0.15)', color: 'var(--color-palash)' }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-palash)' }}>
                   {isEn
                     ? `Selected "${activeSelection.item.hindi}" — Now tap matching in ${activeSelection.side === 'left' ? 'Column B' : 'Column A'}`
                     : `चयनित: "${activeSelection.item.hindi}" — अब ${activeSelection.side === 'left' ? 'कॉलम B' : 'कॉलम A'} से मिलान करें`}
@@ -1097,10 +1032,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               )}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {/* Left Column A */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
                   {isEn ? 'Column A (Hindi / English)' : 'कॉलम A (हिंदी / अंग्रेजी)'}
                 </div>
 
@@ -1114,35 +1049,46 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                       key={item.id}
                       onClick={() => handleCardClick('left', item)}
                       style={{
-                        padding: '12px 18px',
-                        borderRadius: 'var(--radius-lg)',
+                        padding: '12px 16px',
+                        borderRadius: '6px',
                         backgroundColor: isMatched
                           ? 'rgba(16, 185, 129, 0.08)'
                           : isSelected
-                          ? 'rgba(194, 65, 12, 0.12)'
-                          : 'var(--color-surface-tint)',
+                          ? 'rgba(194, 65, 12, 0.08)'
+                          : 'var(--color-surface)',
                         border: isMatched
                           ? '1.5px solid rgba(16, 185, 129, 0.4)'
                           : isSelected
                           ? '2px solid var(--color-palash)'
                           : shakeCardId === item.id
                           ? '2px solid #EF4444'
-                          : '1px solid transparent',
-                        color: 'var(--color-slate)',
+                          : '1px solid var(--color-border-subtle)',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         cursor: isMatched ? 'default' : 'pointer',
-                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                        transition: 'all 0.18s ease',
+                        transition: 'all 0.15s ease',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-slate-muted)' }}>
-                          {idx + 1}.
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span
+                          style={{
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
+                            backgroundColor: isSelected ? 'var(--color-palash)' : isMatched ? 'var(--color-forest)' : 'var(--color-surface-tint)',
+                            color: isSelected || isMatched ? '#FFFFFF' : 'var(--color-slate-muted)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.78rem',
+                            fontWeight: 800,
+                          }}
+                        >
+                          {idx + 1}
                         </span>
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.96rem', color: 'var(--color-slate)' }}>
                             {item.hindi}
                           </div>
                           <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
@@ -1151,20 +1097,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         </div>
                       </div>
 
-                      {/* Right indicator: Clean Pair Badge or Selection Ring */}
+                      {/* Right indicator: Clean Pair Badge or Selection Dot */}
                       {isMatched ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span
-                            style={{
-                              fontSize: '0.74rem',
-                              fontWeight: 700,
-                              padding: '2px 8px',
-                              borderRadius: 'var(--radius-xs)',
-                              backgroundColor: 'rgba(16, 185, 129, 0.14)',
-                              color: '#10B981',
-                              border: '1px solid rgba(16, 185, 129, 0.3)',
-                            }}
-                          >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#10B981' }}>
                             ✓ {isEn ? `Pair ${pairNum}` : `जोड़ी ${pairNum}`}
                           </span>
                           <button
@@ -1173,14 +1109,14 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                             style={{ background: 'none', border: 'none', color: 'var(--color-slate-muted)', cursor: 'pointer', padding: '2px' }}
                             title={t.wsMatchUnpair}
                           >
-                            <X size={14} />
+                            <X size={13} />
                           </button>
                         </div>
                       ) : (
                         <span
                           style={{
-                            width: '12px',
-                            height: '12px',
+                            width: '8px',
+                            height: '8px',
                             borderRadius: '50%',
                             backgroundColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
                             transition: 'all 0.15s ease',
@@ -1193,8 +1129,8 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               </div>
 
               {/* Right Column B */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>
                   {isEn ? `Column B (${langMeta.name})` : `कॉलम B (${langMeta.name})`}
                 </div>
 
@@ -1210,37 +1146,48 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                       key={item.id}
                       onClick={() => handleCardClick('right', item)}
                       style={{
-                        padding: '12px 18px',
-                        borderRadius: 'var(--radius-lg)',
+                        padding: '12px 16px',
+                        borderRadius: '6px',
                         backgroundColor: isMatched
                           ? 'rgba(16, 185, 129, 0.08)'
                           : isSelected
-                          ? 'rgba(194, 65, 12, 0.12)'
-                          : 'var(--color-surface-tint)',
+                          ? 'rgba(194, 65, 12, 0.08)'
+                          : 'var(--color-surface)',
                         border: isMatched
                           ? '1.5px solid rgba(16, 185, 129, 0.4)'
                           : isSelected
                           ? '2px solid var(--color-palash)'
                           : shakeCardId === item.id
                           ? '2px solid #EF4444'
-                          : '1px solid transparent',
-                        color: 'var(--color-slate)',
+                          : '1px solid var(--color-border-subtle)',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         cursor: isMatched ? 'default' : 'pointer',
-                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                        transition: 'all 0.18s ease',
+                        transition: 'all 0.15s ease',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-forest)' }}>
-                          {String.fromCharCode(65 + idx)}.
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span
+                          style={{
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
+                            backgroundColor: isSelected ? 'var(--color-palash)' : isMatched ? 'var(--color-forest)' : 'var(--color-surface-tint)',
+                            color: isSelected || isMatched ? '#FFFFFF' : 'var(--color-forest)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.78rem',
+                            fontWeight: 800,
+                          }}
+                        >
+                          {String.fromCharCode(65 + idx)}
                         </span>
                         <div>
                           <div
                             className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                            style={{ fontWeight: 800, fontSize: '1.25rem', color: isMatched ? '#10B981' : 'var(--color-forest)' }}
+                            style={{ fontWeight: 800, fontSize: '1.15rem', color: isMatched ? '#10B981' : 'var(--color-slate)' }}
                           >
                             {tribal.native}
                           </div>
@@ -1250,7 +1197,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <button
                           type="button"
                           onClick={(e) => {
@@ -1260,35 +1207,25 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                           style={{
                             background: 'none',
                             border: 'none',
-                            color: 'var(--color-forest)',
+                            color: 'var(--color-slate-muted)',
                             cursor: 'pointer',
                             padding: '4px',
                             display: 'flex',
                           }}
                           title={isEn ? 'Listen' : 'उच्चारण सुनें'}
                         >
-                          <Volume2 size={16} />
+                          <Volume2 size={15} />
                         </button>
 
                         {isMatched ? (
-                          <span
-                            style={{
-                              fontSize: '0.74rem',
-                              fontWeight: 700,
-                              padding: '2px 8px',
-                              borderRadius: 'var(--radius-xs)',
-                              backgroundColor: 'rgba(16, 185, 129, 0.14)',
-                              color: '#10B981',
-                              border: '1px solid rgba(16, 185, 129, 0.3)',
-                            }}
-                          >
+                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#10B981' }}>
                             ✓ {isEn ? `Pair ${pairNum}` : `जोड़ी ${pairNum}`}
                           </span>
                         ) : (
                           <span
                             style={{
-                              width: '12px',
-                              height: '12px',
+                              width: '8px',
+                              height: '8px',
                               borderRadius: '50%',
                               backgroundColor: isSelected ? 'var(--color-palash)' : 'var(--color-border)',
                               transition: 'all 0.15s ease',
@@ -1341,31 +1278,31 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                   <div
                     key={item.id}
                     style={{
-                      padding: '20px 24px',
-                      borderRadius: 'var(--radius-xl)',
+                      padding: '18px 20px',
+                      borderRadius: '6px',
                       backgroundColor: isSolved
                         ? isCorrect
                           ? 'rgba(16, 185, 129, 0.08)'
                           : 'rgba(239, 68, 68, 0.08)'
-                        : 'var(--color-surface-tint)',
+                        : 'var(--color-surface)',
                       border: isSolved
                         ? isCorrect
                           ? '1.5px solid rgba(16, 185, 129, 0.35)'
                           : '1.5px solid rgba(239, 68, 68, 0.35)'
-                        : '1px solid transparent',
+                        : '1px solid var(--color-border-subtle)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '14px',
-                      transition: 'all 0.2s ease',
+                      gap: '12px',
+                      transition: 'all 0.15s ease',
                     }}
                   >
-                    {/* Header of Count Card */}
+                    {/* Header of Count Row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <span style={{ fontSize: '0.84rem', fontWeight: 800, color: 'var(--color-slate-muted)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--color-slate-muted)' }}>
                           #{idx + 1}
                         </span>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--color-slate)' }}>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-slate)' }}>
                           {isEn ? `Count the ${icon} items:` : `${icon} वस्तुओं को गिनें:`}
                         </div>
                       </div>
@@ -1395,12 +1332,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                     <div
                       style={{
                         display: 'flex',
-                        gap: '12px',
+                        gap: '10px',
                         flexWrap: 'wrap',
                         alignItems: 'center',
-                        padding: '12px 16px',
-                        borderRadius: 'var(--radius-lg)',
-                        backgroundColor: 'var(--color-surface)',
+                        padding: '8px 0',
                       }}
                     >
                       {countArr.map((dotNum) => {
@@ -1411,14 +1346,14 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                             type="button"
                             onClick={() => handleTapCountDot(item.id, dotNum, item.numeral)}
                             style={{
-                              fontSize: '2rem',
-                              background: isTapped ? 'rgba(16, 185, 129, 0.2)' : 'transparent',
-                              border: isTapped ? '2px solid #10B981' : '2px dashed var(--color-border)',
-                              borderRadius: 'var(--radius-lg)',
-                              padding: '8px 12px',
+                              fontSize: '1.8rem',
+                              background: isTapped ? 'rgba(16, 185, 129, 0.15)' : 'var(--color-surface-tint)',
+                              border: isTapped ? '2px solid #10B981' : '1px solid var(--color-border-subtle)',
+                              borderRadius: '6px',
+                              padding: '6px 12px',
                               cursor: 'pointer',
-                              transform: isTapped ? 'scale(1.12)' : 'scale(1)',
-                              transition: 'all 0.15s ease',
+                              transform: isTapped ? 'scale(1.08)' : 'scale(1)',
+                              transition: 'all 0.12s ease',
                               display: 'flex',
                               flexDirection: 'column',
                               alignItems: 'center',
@@ -1427,22 +1362,22 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                             title={isEn ? `Tap to count item ${dotNum}` : `गिनने के लिए दबाएँ: वस्तु ${dotNum}`}
                           >
                             <span>{icon}</span>
-                            <span style={{ fontSize: '0.72rem', fontWeight: 800, color: isTapped ? '#10B981' : 'var(--color-slate-muted)', marginTop: '4px' }}>
+                            <span style={{ fontSize: '0.70rem', fontWeight: 800, color: isTapped ? '#10B981' : 'var(--color-slate-muted)', marginTop: '4px' }}>
                               {dotNum}
                             </span>
                           </button>
                         );
                       })}
 
-                      <div style={{ marginLeft: 'auto', fontSize: '0.80rem', color: 'var(--color-slate-muted)', fontStyle: 'italic' }}>
+                      <div style={{ marginLeft: 'auto', fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
                         {isEn ? `Counted: ${currentTaps.length} of ${item.numeral}` : `गिना गया: ${currentTaps.length} / ${item.numeral}`}
                       </div>
                     </div>
 
                     {/* Answer Selection Chips: How Many? */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-                      <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                        {isEn ? 'How many did you count?' : 'आपने कुल कितने गिने? सही संख्या चुनें:'}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', paddingTop: '6px', borderTop: '1px dashed var(--color-border-subtle)' }}>
+                      <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-slate-muted)' }}>
+                        {isEn ? 'Choose correct number:' : 'सही संख्या चुनें:'}
                       </div>
 
                       <div style={{ display: 'flex', gap: '8px' }}>
@@ -1454,10 +1389,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                               type="button"
                               onClick={() => handleSelectNumberAnswer(item, choiceNum)}
                               style={{
-                                minWidth: '44px',
-                                height: '40px',
-                                padding: '0 16px',
-                                borderRadius: 'var(--radius-md)',
+                                minWidth: '40px',
+                                height: '36px',
+                                padding: '0 14px',
+                                borderRadius: '6px',
                                 border: isThisChoice
                                   ? choiceNum === item.numeral
                                     ? '2px solid #10B981'
@@ -1469,10 +1404,10 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                                     : '#EF4444'
                                   : 'var(--color-surface)',
                                 color: isThisChoice ? '#FFFFFF' : 'var(--color-slate)',
-                                fontSize: '1rem',
+                                fontSize: '0.95rem',
                                 fontWeight: 800,
                                 cursor: 'pointer',
-                                transition: 'all 0.15s ease',
+                                transition: 'all 0.12s ease',
                               }}
                             >
                               {choiceNum}
@@ -1492,14 +1427,14 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         {/* EXERCISE 3: SENTENCE PRACTICE (AIRY CLOZE ROWS)                   */}
         {/* ================================================================== */}
         {worksheetType === 'fillblanks' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p style={{ fontSize: '0.88rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <p style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', margin: 0 }}>
               {isEn
                 ? 'Complete each sentence by selecting the matching tribal word.'
                 : 'सही जनजातीय शब्द चुनकर वाक्य पूरा करें।'}
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {sentenceQuestions.map((q, idx) => {
                 const selected = interactiveAnswers[q.id];
                 const isAnswered = !!selected;
@@ -1509,30 +1444,30 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                   <div
                     key={q.id}
                     style={{
-                      padding: '18px 22px',
-                      borderRadius: 'var(--radius-lg)',
+                      padding: '16px 20px',
+                      borderRadius: '6px',
                       backgroundColor: isScoreEvaluated
                         ? isCorrect
                           ? 'rgba(16, 185, 129, 0.08)'
                           : 'rgba(239, 68, 68, 0.08)'
-                        : 'var(--color-surface-tint)',
+                        : 'var(--color-surface)',
                       border: isScoreEvaluated
                         ? isCorrect
                           ? '1.5px solid rgba(16, 185, 129, 0.35)'
                           : '1.5px solid rgba(239, 68, 68, 0.35)'
-                        : '1px solid transparent',
+                        : '1px solid var(--color-border-subtle)',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '12px',
-                      transition: 'all 0.2s ease',
+                      gap: '10px',
+                      transition: 'all 0.15s ease',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)' }}>
+                      <div style={{ fontSize: '0.80rem', color: 'var(--color-slate-muted)' }}>
                         #{idx + 1} {q.hindiPrompt} ({q.englishPrompt})
                       </div>
                       {isScoreEvaluated && (
-                        <span style={{ fontSize: '0.80rem', fontWeight: 800, color: isCorrect ? '#10B981' : '#EF4444' }}>
+                        <span style={{ fontSize: '0.78rem', fontWeight: 800, color: isCorrect ? '#10B981' : '#EF4444' }}>
                           {isCorrect ? '✓ सही उत्तर' : `✗ सही शब्द: ${q.correct}`}
                         </span>
                       )}
@@ -1541,7 +1476,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                     {/* Sentence with interactive blank */}
                     <div
                       className={selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
-                      style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)' }}
+                      style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-slate)' }}
                     >
                       <span>{q.sentencePre}</span>
                       <span
@@ -1567,19 +1502,19 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                             type="button"
                             onClick={() => handleSelectSentenceWord(q.id, opt)}
                             style={{
-                              padding: '6px 14px',
-                              borderRadius: 'var(--radius-sm)',
-                              border: 'none',
+                              padding: '5px 12px',
+                              borderRadius: '4px',
+                              border: '1px solid var(--color-border-subtle)',
                               backgroundColor: isScoreEvaluated && opt === q.correct
                                 ? 'rgba(16, 185, 129, 0.25)'
                                 : isThisSelected
                                 ? 'var(--color-forest)'
-                                : 'var(--color-surface)',
+                                : 'var(--color-surface-tint)',
                               color: isThisSelected && !isScoreEvaluated ? '#FFFFFF' : 'var(--color-slate)',
                               fontWeight: 700,
-                              fontSize: '0.92rem',
+                              fontSize: '0.88rem',
                               cursor: 'pointer',
-                              transition: 'all 0.15s ease',
+                              transition: 'all 0.12s ease',
                             }}
                           >
                             {opt}
