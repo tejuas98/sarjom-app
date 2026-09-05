@@ -141,7 +141,7 @@ export function TeacherOnboardingWizard({ isOpen, onClose, selectedLang, onSelec
                   style={{
                     padding: '12px 16px',
                     textAlign: 'left',
-                    backgroundColor: selectedLang === item.id ? 'var(--color-forest-subtle)' : '#FFFFFF',
+                    backgroundColor: selectedLang === item.id ? 'var(--color-forest-subtle)' : 'var(--color-surface-card)',
                     borderColor: selectedLang === item.id ? 'var(--color-forest)' : 'var(--color-border)',
                     display: 'flex',
                     justifyContent: 'space-between',

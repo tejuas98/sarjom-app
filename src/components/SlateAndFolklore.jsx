@@ -344,7 +344,7 @@ export function SlateAndFolklore({ selectedLang }) {
                       padding: '12px 6px',
                       fontSize: '1.6rem',
                       fontWeight: 800,
-                      backgroundColor: selectedTemplateGlyph === glyph ? 'var(--color-forest-subtle)' : '#FFFFFF',
+                      backgroundColor: selectedTemplateGlyph === glyph ? 'var(--color-forest-subtle)' : 'var(--color-surface-card)',
                       borderColor: selectedTemplateGlyph === glyph ? 'var(--color-forest)' : 'var(--color-border)',
                       color: selectedTemplateGlyph === glyph ? 'var(--color-forest)' : 'var(--color-slate)',
                     }}
@@ -374,7 +374,7 @@ export function SlateAndFolklore({ selectedLang }) {
                       padding: '10px 4px',
                       fontSize: '1.3rem',
                       fontWeight: 700,
-                      backgroundColor: selectedTemplateGlyph === num ? 'var(--color-palash-subtle)' : '#FFFFFF',
+                      backgroundColor: selectedTemplateGlyph === num ? 'var(--color-palash-subtle)' : 'var(--color-surface-card)',
                       borderColor: selectedTemplateGlyph === num ? 'var(--color-palash)' : 'var(--color-border)',
                     }}
                   >
@@ -480,7 +480,7 @@ export function SlateAndFolklore({ selectedLang }) {
                   <div
                     key={line.id}
                     style={{
-                      backgroundColor: isPlayingThisLine ? 'var(--color-palash-subtle)' : '#FFFFFF',
+                      backgroundColor: isPlayingThisLine ? 'var(--color-palash-subtle)' : 'var(--color-surface-card)',
                       border: isPlayingThisLine ? '2px solid var(--color-palash)' : '1px solid var(--color-border)',
                       borderRadius: 'var(--radius-md)',
                       padding: '16px',
