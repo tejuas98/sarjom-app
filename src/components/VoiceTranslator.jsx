@@ -205,11 +205,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           setIsRecording(false);
           toast.error(
             isEn
-              ? 'Microphone permission blocked. Click "Mic Diagnostics" to grant permission.'
-              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। अनुमति देने के लिए "माइक जाँच" पर क्लिक करें।'
+              ? 'Microphone permission blocked. Please allow mic access in your browser settings.'
+              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया ब्राउज़र सेटिंग्स में अनुमति दें।'
           );
-          setShowDiagnostics(true);
-          runDiagnostics();
         } else if (error.code === 'network') {
           setIsRecording(false);
           toast.warning(
@@ -441,7 +439,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* Audio Mode Controller (Clean & Quiet) */}
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
               <button
                 type="button"
                 onClick={() => {
@@ -449,183 +448,35 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                   setAutoBroadcast(next);
                   toast.info(
                     next
-                      ? (isEn ? 'Classroom Speaker: Auto-Broadcast ON (Acoustic Echo Suppression Active)' : 'कक्षा स्पीकर: स्वतः प्रसारण चालू (इको दमन सक्रिय)')
-                      : (isEn ? 'Classroom Speaker: Muted (Silent Mode, visual translation on screen)' : 'कक्षा स्पीकर: मूक मोड (केवल स्क्रीन पर अनुवाद)')
+                      ? (isEn ? 'Classroom Speaker: ON' : 'कक्षा स्पीकर: चालू')
+                      : (isEn ? 'Classroom Speaker: Muted' : 'कक्षा स्पीकर: मूक')
                   );
                 }}
                 style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.70rem',
-                  padding: '3px 10px',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  padding: '5px 12px',
                   borderRadius: '999px',
-                  backgroundColor: autoBroadcast ? 'rgba(37, 99, 235, 0.12)' : 'var(--color-surface-tint)',
+                  backgroundColor: autoBroadcast ? 'rgba(37, 99, 235, 0.10)' : 'var(--color-surface-tint)',
                   color: autoBroadcast ? '#2563EB' : 'var(--color-slate-muted)',
-                  border: `1px solid ${autoBroadcast ? 'rgba(37, 99, 235, 0.3)' : 'var(--color-border)'}`,
+                  border: `1px solid ${autoBroadcast ? 'rgba(37, 99, 235, 0.25)' : 'var(--color-border)'}`,
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '4px',
+                  gap: '5px',
                   transition: 'all 0.15s ease',
                 }}
                 title={
                   autoBroadcast
-                    ? (isEn ? 'Speaker Auto-Broadcast ON (Acoustic Echo Suppression Active)' : 'स्पीकर स्वतः प्रसारण चालू (इको दमन सक्रिय)')
-                    : (isEn ? 'Silent Mode (Visual translation only, speaker muted)' : 'शांत मोड (केवल स्क्रीन पर, स्पीकर मूक)')
+                    ? (isEn ? 'Speaker ON: Automatically plays tribal translation' : 'स्पीकर चालू: जनजाति अनुवाद स्वतः बोलेगा')
+                    : (isEn ? 'Speaker Muted: Silent visual mode on screen' : 'स्पीकर मूक: अनुवाद केवल स्क्रीन पर दिखेगा')
                 }
               >
-                {autoBroadcast ? <Volume2 size={11} /> : <VolumeX size={11} />}
-                <span>
-                  {autoBroadcast
-                    ? (isEn ? 'Speaker: Auto (Anti-Echo)' : 'स्पीकर: स्वतः (इको-मुक्त)')
-                    : (isEn ? 'Speaker: Muted' : 'स्पीकर: मूक')}
-                </span>
+                {autoBroadcast ? <Volume2 size={13} /> : <VolumeX size={13} />}
+                <span>{autoBroadcast ? (isEn ? 'Speaker: ON' : 'स्पीकर: चालू') : (isEn ? 'Speaker: Muted' : 'स्पीकर: मूक')}</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  const next = !showDiagnostics;
-                  setShowDiagnostics(next);
-                  if (next) runDiagnostics();
-                }}
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.70rem',
-                  padding: '3px 10px',
-                  borderRadius: '999px',
-                  backgroundColor: showDiagnostics ? 'var(--color-palash)' : 'var(--color-surface-tint)',
-                  color: showDiagnostics ? '#FFFFFF' : 'var(--color-slate)',
-                  border: '1px solid var(--color-border)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  transition: 'all 0.15s ease',
-                }}
-                title={isEn ? 'Microphone & Audio Hardware Diagnostics' : 'माइक्रोफ़ोन एवं ऑडियो हार्डवेयर जाँच'}
-              >
-                <Wrench size={11} />
-                <span>{isEn ? 'Mic Diagnostics' : 'माइक जाँच'}</span>
-              </button>
-
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.70rem',
-                  padding: '3px 9px',
-                  borderRadius: '999px',
-                  backgroundColor: 'var(--color-surface-tint)',
-                  color: 'var(--color-slate-muted)',
-                  border: '1px solid var(--color-border-subtle)',
-                }}
-              >
-                {measuredLatency} ms • {t.onDeviceTag}
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.70rem',
-                  padding: '3px 9px',
-                  borderRadius: '999px',
-                  backgroundColor: 'rgba(34, 197, 94, 0.12)',
-                  color: '#16A34A',
-                  fontWeight: 700,
-                }}
-              >
-                SLA &lt; 3.0s OK
-              </span>
             </div>
           </div>
-
-          {/* Interactive Microphone Diagnostics Drawer */}
-          {showDiagnostics && (
-            <div
-              style={{
-                backgroundColor: 'var(--color-surface-card)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '14px 16px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px',
-                fontSize: '0.80rem',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <strong style={{ color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Wrench size={14} color="var(--color-palash)" />
-                  {isEn ? 'Microphone & Speech Diagnostics' : 'माइक्रोफ़ोन एवं वाक पहचान जाँच'}
-                </strong>
-                <span style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontFamily: 'var(--font-mono)' }}>
-                  Channel: {isTeacherMode ? 'Teacher (Hindi hi-IN)' : `Student (${langMeta.name})`}
-                </span>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px' }}>
-                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)' }}>
-                  <div style={{ color: 'var(--color-slate-muted)', fontSize: '0.72rem' }}>Hardware Mic Permission:</div>
-                  <div style={{ fontWeight: 700, marginTop: '2px', color: diagData?.micPermission === 'granted' ? '#16A34A' : diagData?.micPermission === 'denied' ? '#DC2626' : 'var(--color-palash)' }}>
-                    {diagData?.micPermission === 'granted' ? '✓ Granted (सक्रिय)' : diagData?.micPermission === 'denied' ? '✗ Denied (अवरुद्ध)' : 'Ready / Prompt (तैयार)'}
-                  </div>
-                </div>
-
-                <div style={{ padding: '8px 10px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)' }}>
-                  <div style={{ color: 'var(--color-slate-muted)', fontSize: '0.72rem' }}>Speech Recognition Engine:</div>
-                  <div style={{ fontWeight: 700, marginTop: '2px', color: diagData?.hasSpeechRecognition ? '#16A34A' : 'var(--color-palash)' }}>
-                    {diagData?.hasSpeechRecognition ? '✓ Web Speech API Supported' : '⚠ Simulator / Native Offline Audio'}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', paddingTop: '4px' }}>
-                <button
-                  type="button"
-                  onClick={handleRequestPermission}
-                  disabled={isCheckingPerm}
-                  style={{
-                    padding: '6px 12px',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    borderRadius: 'var(--radius-pill)',
-                    backgroundColor: 'var(--color-slate)',
-                    color: 'var(--color-bg)',
-                    border: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {isCheckingPerm ? (isEn ? 'Checking...' : 'जाँच जारी...') : (isEn ? 'Grant / Verify Mic Access' : 'माइक्रोफ़ोन अनुमति सत्यापित करें')}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    voiceService.playChime('success');
-                    voiceService.speakText(
-                      isTeacherMode ? 'नमस्ते, सरजोम ऑडियो कार्यरत है।' : 'जोहार, सरजोम ऑडियो कार्यरत है।',
-                      'hi-IN'
-                    );
-                    toast.success(isEn ? 'Audio Chime & Speaker Verified!' : 'ऑडियो चाइम एवं स्पीकर सत्यापित!');
-                  }}
-                  style={{
-                    padding: '6px 12px',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    borderRadius: 'var(--radius-pill)',
-                    backgroundColor: 'var(--color-surface-tint)',
-                    color: 'var(--color-slate)',
-                    border: '1px solid var(--color-border)',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                  }}
-                >
-                  <Volume2 size={12} />
-                  <span>{isEn ? 'Test Speaker Output' : 'स्पीकर आउटपुट परीक्षण'}</span>
-                </button>
-              </div>
-            </div>
-          )}
 
           {/* Dedicated Hero Acoustic Microphone Stage (Pure Voice-First for Teachers & Students) */}
           <div
@@ -1210,6 +1061,137 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           )}
         </div>
       </div>
+
+      {/* Discreet Audio Diagnostic Link (Non-distracting, tucked away in footer) */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4px' }}>
+        <button
+          type="button"
+          onClick={() => {
+            setShowDiagnostics(true);
+            runDiagnostics();
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'var(--color-slate-muted)',
+            fontSize: '0.74rem',
+            cursor: 'pointer',
+            opacity: 0.65,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '5px',
+            padding: '4px 10px',
+          }}
+        >
+          <Wrench size={11} />
+          <span>{isEn ? 'Hardware Mic & Audio Help' : 'माइक्रोफ़ोन एवं ऑडियो सहायता'}</span>
+        </button>
+      </div>
+
+      {/* Non-intrusive Audio Diagnostics Modal (Never pushes down classroom UI) */}
+      {showDiagnostics && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.45)',
+            backdropFilter: 'blur(3px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '20px',
+          }}
+          onClick={() => setShowDiagnostics(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: 'var(--color-surface)',
+              borderRadius: 'var(--radius-xl)',
+              border: '1px solid var(--color-border)',
+              padding: '22px',
+              maxWidth: '420px',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-slate)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Wrench size={15} color="var(--color-palash)" />
+                <span>{isEn ? 'Microphone & Audio Help' : 'माइक्रोफ़ोन एवं ऑडियो सहायता'}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowDiagnostics(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--color-slate-muted)', cursor: 'pointer', fontSize: '1.1rem', padding: '2px 6px' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ padding: '8px 12px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'var(--color-slate-muted)', fontSize: '0.78rem' }}>Microphone Hardware:</span>
+                <span style={{ fontWeight: 700, fontSize: '0.78rem', color: diagData?.micPermission === 'granted' ? '#16A34A' : '#DC2626' }}>
+                  {diagData?.micPermission === 'granted' ? '✓ Ready' : 'Permission Needed'}
+                </span>
+              </div>
+              <div style={{ padding: '8px 12px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface-tint)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'var(--color-slate-muted)', fontSize: '0.78rem' }}>Speech Engine:</span>
+                <span style={{ fontWeight: 700, fontSize: '0.78rem', color: diagData?.hasSpeechRecognition ? '#16A34A' : 'var(--color-palash)' }}>
+                  {diagData?.hasSpeechRecognition ? '✓ Web Speech API' : 'Browser Offline'}
+                </span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+              <button
+                type="button"
+                onClick={handleRequestPermission}
+                disabled={isCheckingPerm}
+                style={{
+                  flex: 1,
+                  padding: '8px 12px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'var(--color-palash)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  fontSize: '0.80rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {isCheckingPerm ? 'Checking...' : (isEn ? 'Verify Access' : 'अनुमति जाँचें')}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  voiceService.playChime('success');
+                  voiceService.speakText('नमस्ते, ऑडियो परीक्षण सफल रहा।', 'hi-IN');
+                  toast.success('Speaker verified!');
+                }}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'var(--color-surface-tint)',
+                  border: '1px solid var(--color-border)',
+                  color: 'var(--color-slate)',
+                  fontSize: '0.80rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                <Volume2 size={13} style={{ display: 'inline', marginRight: '4px' }} />
+                {isEn ? 'Test Sound' : 'ध्वनि जाँचें'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
