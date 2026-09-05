@@ -13,8 +13,8 @@ class VoiceTranslationService {
     this.voices = [];
     this.activeAudio = null;
     this.voicePreference = 'auto'; // 'auto' or specific voice name
-    this.speechRate = 0.92; // Natural human classroom pacing (neither rushed nor sluggish robot)
-    this.speechPitch = 1.0; // Natural fundamental vocal frequency (1.0 = human, eliminates robotic pitch buzz)
+    this.speechRate = 1.05; // Fast, crisp, natural classroom pacing
+    this.speechPitch = 1.0; // Natural fundamental vocal frequency
     this.initSpeechRecognition();
     this.initVoices();
   }
@@ -335,11 +335,9 @@ class VoiceTranslationService {
         this.activeAudio = audio;
 
         const finishPlayback = () => {
-          setTimeout(() => {
-            this.isSpeaking = false;
-            this.activeAudio = null;
-            onEnd();
-          }, 350);
+          this.isSpeaking = false;
+          this.activeAudio = null;
+          onEnd();
         };
 
         audio.onended = finishPlayback;
@@ -384,20 +382,15 @@ class VoiceTranslationService {
         return;
       }
 
-      // Script auto-detection to pair script with optimal phoneme acoustic model
-      let targetLang = lang;
+      // Script-Acoustic Routing:
+      // Devanagari characters (/[\u0900-\u097F]/) MUST be pronounced by an Indian Hindi voice (e.g. Lekha),
+      // English romanized text (/^[a-zA-Z\s.,?!']+$/) MUST be pronounced by an Indian English voice (e.g. Rishi).
       const hasDevanagari = /[\u0900-\u097F]/.test(humanizedText);
-      const isPureLatin = /^[A-Za-z0-9\s.,!?'"()-]+$/.test(humanizedText);
-
-      if (hasDevanagari) {
-        targetLang = 'hi-IN';
-      } else if (isPureLatin && !targetLang.startsWith('en')) {
-        targetLang = 'en-IN';
-      }
+      const isPureEnglish = /^[a-zA-Z\s.,?!']+$/.test(humanizedText);
+      const targetLang = isPureEnglish ? 'en-IN' : (hasDevanagari ? 'hi-IN' : lang);
 
       const utterance = new SpeechSynthesisUtterance(humanizedText);
-      utterance.lang = targetLang;
-      utterance.rate = this.speechRate || 0.92; // Warm, natural human teacher pacing
+      utterance.rate = this.speechRate || 1.05; // Fast, crisp natural pacing
       utterance.pitch = this.speechPitch || 1.0; // Natural fundamental vocal frequency
 
       // Intelligent Voice Binding: Select highest-quality natural/neural voice
@@ -408,11 +401,8 @@ class VoiceTranslationService {
       }
 
       const finishSpeaking = () => {
-        // Acoustic decay buffer (350ms) to ensure classroom speaker reverberations do not trigger the mic
-        setTimeout(() => {
-          this.isSpeaking = false;
-          onEnd();
-        }, 350);
+        this.isSpeaking = false;
+        onEnd();
       };
 
       utterance.onend = finishSpeaking;

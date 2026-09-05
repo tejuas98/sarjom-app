@@ -85,7 +85,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [showVoiceModal, setShowVoiceModal] = useState(false);
   const [availableVoices, setAvailableVoices] = useState([]);
   const [selectedVoiceName, setSelectedVoiceName] = useState('auto');
-  const [voiceRate, setVoiceRate] = useState(0.92);
+  const [voiceRate, setVoiceRate] = useState(1.05);
   const [voicePitch, setVoicePitch] = useState(1.0);
 
   useEffect(() => {
@@ -167,12 +167,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
     if (isTeacherMode) {
       result = translateHindiToTribal(textToTranslate, selectedLang);
-      const latency = Math.max(Math.round(performance.now() - start), 38);
+      const latency = Math.max(Math.round(performance.now() - start), 1);
       setMeasuredLatency(latency);
       setTranslationResult(result);
     } else {
       result = translateTribalToHindi(textToTranslate, selectedLang);
-      const latency = Math.max(Math.round(performance.now() - start), 18);
+      const latency = Math.max(Math.round(performance.now() - start), 1);
       setMeasuredLatency(latency);
       setTranslationResult({
         sourceHindi: textToTranslate,
