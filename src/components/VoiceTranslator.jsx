@@ -714,7 +714,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             }}
           >
             <School size={14} />
-            <span>{t.modeTeacherToStudent}</span>
+            <span className="voice-mode-desktop">{t.modeTeacherToStudent}</span>
+            <span className="voice-mode-mobile">{isEn ? 'Teacher' : 'शिक्षक'}</span>
           </button>
 
           <button
@@ -737,7 +738,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             }}
           >
             <User size={14} />
-            <span>{t.modeStudentToTeacher}</span>
+            <span className="voice-mode-desktop">{t.modeStudentToTeacher}</span>
+            <span className="voice-mode-mobile">{isEn ? 'Student' : 'छात्र'}</span>
           </button>
         </div>
 
@@ -1179,13 +1181,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
                 {/* Main Script Display */}
                 <div
-                  className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki' : 'font-deva'}
+                  className={isTeacherMode && selectedLang === 'santhali' ? 'font-olchiki voice-result-script' : 'font-deva voice-result-script'}
                   style={{
                     fontSize: isTeacherMode ? '2rem' : '1.75rem',
                     fontWeight: 800,
                     color: 'var(--color-slate)',
                     lineHeight: 1.35,
                     letterSpacing: '-0.02em',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'anywhere',
                   }}
                 >
                   {translationResult.nativeScript}

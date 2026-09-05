@@ -192,7 +192,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
         </p>
 
         {/* Search Bar & Category Filter */}
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <div className="dict-search-controls" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ position: 'relative', flex: 1, minWidth: '260px' }}>
             <Search size={18} color="var(--color-slate-muted)" style={{ position: 'absolute', left: '14px', top: '13px' }} />
             <input

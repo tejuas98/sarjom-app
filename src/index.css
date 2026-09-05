@@ -446,165 +446,316 @@ p, span, button, input, select, textarea {
   }
 }
 
+/* Mobile Bottom Navigation & Mobile-Only Elements: Hidden on Desktop and Tablet */
+.mobile-bottom-nav,
+.voice-mode-mobile,
+.ws-tab-mobile {
+  display: none !important;
+}
+
+.voice-mode-desktop,
+.ws-tab-desktop {
+  display: inline !important;
+}
+
 /* ==========================================================================
    MOBILE PHONE RESPONSIVE ADAPTATIONS (max-width: 768px)
    Strictly scoped to mobile screens (< 768px).
    Desktop (> 768px) and Tablet layouts remain 100% UNTOUCHED and pristine.
    ========================================================================== */
 @media (max-width: 768px) {
-  /* 1. Canvas & Global Layout Padding on Phones */
+  /* 1. Canvas & Global Layout Padding on Phones (with safe-area bottom cushion) */
   .tablet-canvas {
-    padding: 10px 10px 48px 10px !important;
+    padding: 12px 12px calc(80px + env(safe-area-inset-bottom, 16px)) 12px !important;
     max-width: 100vw !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
   }
 
-  /* 2. Top Header Navigation (2-Tier Clean Row) */
+  /* 2. Streamlined Native 2-Row Top Header */
   .nav-header-grid {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 8px 12px !important;
+    padding: 8px 12px 6px 12px !important;
     gap: 8px !important;
   }
 
   .nav-brand-col {
-    order: 1;
-    flex: 1 1 auto;
-    min-width: 0;
+    order: 1 !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    gap: 6px !important;
+  }
+
+  .nav-brand-logo {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+  }
+
+  .nav-brand-logo svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .nav-brand-title {
+    font-size: 1.10rem !important;
+  }
+
+  .nav-offline-badge {
+    padding: 1.5px 5px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .nav-brand-tagline {
+    display: none !important;
+  }
+
+  .nav-fullscreen-btn {
+    display: none !important;
   }
 
   .nav-controls-right {
-    order: 2;
-    flex: 0 0 auto;
-    margin-left: auto;
+    order: 2 !important;
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    gap: 6px !important;
+  }
+
+  .nav-lang-switcher button {
+    padding: 3px 6px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .nav-theme-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  /* 3. Sleek 4-Segment Equal Dialect Pill Bar (Row 2) */
+  .nav-dialect-label,
+  .nav-dialect-divider {
+    display: none !important;
   }
 
   .nav-dialect-bar {
-    order: 3;
+    order: 3 !important;
     width: 100% !important;
-    justify-self: stretch !important;
+    display: flex !important;
     justify-content: space-between !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 3px 4px !important;
+    padding: 3px !important;
+    gap: 4px !important;
+    background: var(--color-surface-tint) !important;
+    border-radius: 9px !important;
+    border: 1px solid var(--color-border) !important;
     box-sizing: border-box !important;
-  }
-
-  .nav-dialect-bar::-webkit-scrollbar {
-    display: none;
+    margin: 0 !important;
   }
 
   .nav-dialect-bar button {
-    flex: 1 0 auto !important;
-    padding: 6px 9px !important;
-    font-size: 0.78rem !important;
+    flex: 1 1 25% !important;
+    min-width: 0 !important;
+    padding: 7px 2px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
     text-align: center !important;
-  }
-
-  /* 3. Horizontal Scrollable Touch Tabs Strip */
-  .nav-tabs-bar {
-    display: flex !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0 6px !important;
-    border-bottom: 1px solid var(--color-border-subtle) !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .nav-tabs-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav-tab-item {
-    width: auto !important;
-    flex: 1 0 auto !important;
-    padding: 9px 10px !important;
-    font-size: 0.78rem !important;
+    border-radius: 7px !important;
     white-space: nowrap !important;
   }
 
-  /* 4. Voice Translator on Mobile */
-  .voice-session-controls {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 8px !important;
+  /* 4. Hide Top Tabs Bar on Phones (Replaced by Native iOS Bottom Bar) */
+  .nav-tabs-bar {
+    display: none !important;
   }
 
-  .voice-session-controls > div {
+  /* 5. Apple iOS Native Frosted Bottom Tab Bar */
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     width: 100% !important;
-    justify-content: space-between !important;
-  }
-
-  .voice-two-column-grid {
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-
-  .voice-console-card,
-  .voice-log-card {
-    padding: 16px 12px !important;
-    min-height: auto !important;
+    background: var(--color-surface) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    border-top: 1px solid var(--color-border) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05) !important;
+    z-index: 9999 !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    padding: 6px 10px calc(env(safe-area-inset-bottom, 8px) + 4px) 10px !important;
     box-sizing: border-box !important;
   }
 
-  /* 5. Worksheet Studio on Mobile */
-  .worksheet-title-actions-row {
+  .mobile-tab-btn {
+    flex: 1 1 25% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 !important;
+    gap: 3px !important;
+    color: var(--color-slate-muted) !important;
+    cursor: pointer !important;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .mobile-tab-btn:active {
+    transform: scale(0.92) !important;
+  }
+
+  .mobile-tab-btn.is-active {
+    color: var(--color-palash) !important;
+  }
+
+  .mobile-tab-text {
+    font-size: 0.69rem !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1 !important;
+  }
+
+  .mobile-tab-btn.is-active .mobile-tab-text {
+    font-weight: 700 !important;
+    color: var(--color-palash) !important;
+  }
+
+  /* 6. Voice Translator on Mobile */
+  .voice-session-controls {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 10px !important;
   }
 
+  .voice-session-controls > div:first-child {
+    width: 100% !important;
+    display: flex !important;
+    border-radius: 8px !important;
+  }
+
+  .voice-session-controls > div:first-child button {
+    flex: 1 1 50% !important;
+    justify-content: center !important;
+    padding: 7px 10px !important;
+    font-size: 0.82rem !important;
+    border-radius: 6px !important;
+  }
+
+  .voice-session-controls > div:last-child {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .voice-two-column-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .voice-console-card,
+  .voice-log-card {
+    padding: 16px 14px !important;
+    min-height: auto !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 7. Worksheet Studio on Mobile */
+  .worksheet-title-actions-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
   .worksheet-title-actions-row h1 {
-    font-size: 1.25rem !important;
+    font-size: 1.35rem !important;
   }
 
   .worksheet-action-buttons-group {
     display: flex !important;
     flex-wrap: wrap !important;
     width: 100% !important;
-    gap: 6px !important;
+    gap: 8px !important;
   }
 
   .worksheet-action-buttons-group select {
     flex: 1 1 100% !important;
     width: 100% !important;
+    padding: 8px 12px !important;
   }
 
   .worksheet-action-buttons-group button {
-    flex: 1 1 45% !important;
+    flex: 1 1 calc(50% - 4px) !important;
     justify-content: center !important;
+    padding: 9px 12px !important;
+    font-size: 0.85rem !important;
   }
 
+  /* Mobile labels vs Desktop labels */
+  .voice-mode-mobile,
+  .ws-tab-mobile {
+    display: inline !important;
+  }
+
+  .voice-mode-desktop,
+  .ws-tab-desktop {
+    display: none !important;
+  }
+
+  /* Sonner Toaster elevated above mobile bottom navigation bar */
+  [data-sonner-toaster] {
+    bottom: calc(68px + env(safe-area-inset-bottom, 10px)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+  }
+
+  /* Voice translation native script responsive sizing */
+  .voice-result-script {
+    font-size: 1.55rem !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Worksheet Subtitle Row */
+  .worksheet-subtitle-row {
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+
+  /* Worksheet Segmented Control - 3 Equal Balanced Pills */
   .worksheet-segmented-track {
     display: flex !important;
     width: 100% !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    justify-content: space-between !important;
+    align-self: stretch !important;
     box-sizing: border-box !important;
     padding: 3px !important;
-  }
-
-  .worksheet-segmented-track::-webkit-scrollbar {
-    display: none;
+    border-radius: 8px !important;
+    gap: 3px !important;
   }
 
   .worksheet-segmented-track button {
-    flex: 1 0 auto !important;
-    padding: 6px 10px !important;
-    font-size: 0.78rem !important;
+    flex: 1 1 33.33% !important;
+    justify-content: center !important;
+    padding: 7px 4px !important;
+    font-size: 0.80rem !important;
     white-space: nowrap !important;
+    border-radius: 6px !important;
+    gap: 5px !important;
   }
 
   .worksheet-main-card {
-    padding: 16px 10px !important;
+    padding: 16px 12px !important;
     gap: 14px !important;
+    border-radius: 12px !important;
     box-sizing: border-box !important;
   }
 
@@ -613,13 +764,43 @@ p, span, button, input, select, textarea {
   }
 
   .worksheet-matching-columns > div > div {
-    padding: 10px 8px !important;
+    padding: 12px 10px !important;
+    border-radius: 8px !important;
+    font-size: 0.90rem !important;
   }
 
-  /* 6. Flashcard Deck & Dictionary Cards on Mobile */
+  /* 8. Flashcard Deck on Mobile */
   .card-brutal {
-    padding: 14px 12px !important;
+    padding: 16px 14px !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .flip-card-container {
+    height: 320px !important;
+    max-height: 50vh !important;
+  }
+
+  .flip-card-front, .flip-card-back {
+    padding: 20px 16px !important;
+    border-radius: 14px !important;
+  }
+
+  /* 9. Dictionary Search Controls on Mobile */
+  .dict-search-controls {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .dict-search-controls > div {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .dict-search-controls select {
+    width: 100% !important;
     box-sizing: border-box !important;
   }
 }
+
 

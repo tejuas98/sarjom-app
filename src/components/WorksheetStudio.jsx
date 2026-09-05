@@ -804,7 +804,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
             <h1 style={{ fontSize: '1.65rem', fontWeight: 800, margin: 0, color: 'var(--color-slate)', letterSpacing: '-0.02em' }}>
               {t.wsTitle}
             </h1>
-            <p style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <p className="worksheet-subtitle-row" style={{ fontSize: '0.86rem', color: 'var(--color-slate-muted)', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>{t.wsSubtitle}</span>
               <span>•</span>
               <span style={{ color: 'var(--color-palash)', fontWeight: 600 }}>{langMeta.name} ({langMeta.badgeText})</span>
@@ -906,9 +906,9 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
           }}
         >
           {[
-            { id: 'matching', label: t.wsTypeMatching, icon: Layers },
-            { id: 'numeracy', label: t.wsTypeNumeracy, icon: Hash },
-            { id: 'fillblanks', label: t.wsTypeFillBlanks, icon: BookOpen },
+            { id: 'matching', label: t.wsTypeMatching, mobileLabel: isEn ? 'Matching' : 'मिलान', icon: Layers },
+            { id: 'numeracy', label: t.wsTypeNumeracy, mobileLabel: isEn ? 'Numbers' : 'संख्याएं', icon: Hash },
+            { id: 'fillblanks', label: t.wsTypeFillBlanks, mobileLabel: isEn ? 'Sentences' : 'वाक्य', icon: BookOpen },
           ].map((tab) => {
             const isActive = worksheetType === tab.id;
             const TabIcon = tab.icon;
@@ -938,7 +938,8 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 }}
               >
                 <TabIcon size={14} color={isActive ? 'var(--color-palash)' : 'currentColor'} />
-                <span>{tab.label}</span>
+                <span className="ws-tab-desktop">{tab.label}</span>
+                <span className="ws-tab-mobile">{tab.mobileLabel}</span>
               </button>
             );
           })}

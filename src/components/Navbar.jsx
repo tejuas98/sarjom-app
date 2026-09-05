@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { Globe, BookOpen, Sun, Moon, Maximize, Minimize, Languages } from 'lucide-react';
+import { Globe, BookOpen, Sun, Moon, Maximize, Minimize, Languages, Mic, FileText, Layers } from 'lucide-react';
 
 export function Navbar({
   selectedLang,
@@ -22,10 +22,10 @@ export function Navbar({
 
   // Strictly the 4 core deliverables defined in SIH Problem Statement 26042
   const CORE_TABS = [
-    { id: 'voice', label: t.tabVoice },
-    { id: 'worksheets', label: t.tabWorksheets },
-    { id: 'flashcards', label: t.tabFlashcards },
-    { id: 'dictionary', label: t.tabDictionary },
+    { id: 'voice', label: t.tabVoice, mobileLabel: isEn ? 'Voice' : 'संवाद', icon: Mic },
+    { id: 'worksheets', label: t.tabWorksheets, mobileLabel: isEn ? 'Worksheets' : 'कार्यपत्रक', icon: FileText },
+    { id: 'flashcards', label: t.tabFlashcards, mobileLabel: isEn ? 'Flashcards' : 'फ्लैशकार्ड', icon: Layers },
+    { id: 'dictionary', label: t.tabDictionary, mobileLabel: isEn ? 'Dictionary' : 'शब्दकोश', icon: BookOpen },
   ];
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -63,7 +63,8 @@ export function Navbar({
   };
 
   return (
-    <header
+    <>
+      <header
       style={{
         borderBottom: '1px solid var(--color-border)',
         backgroundColor: 'var(--color-surface)',
@@ -92,6 +93,7 @@ export function Navbar({
         {/* Left Column: Brand Title & Official Subtitle (Anchored to Left) */}
         <div className="nav-brand-col" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'start', minWidth: 0 }}>
           <div
+            className="nav-brand-logo"
             style={{
               width: '36px',
               height: '36px',
@@ -109,10 +111,11 @@ export function Navbar({
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+              <span className="nav-brand-title" style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
                 {brandTitle}
               </span>
               <span
+                className="nav-offline-badge"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -138,7 +141,7 @@ export function Navbar({
                 {isOffline ? (t.offlineStatus || 'Offline') : (t.onlineStatus || 'Online')}
               </span>
             </div>
-            <p style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)', margin: 0, whiteSpace: 'nowrap' }}>
+            <p className="nav-brand-tagline" style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)', margin: 0, whiteSpace: 'nowrap' }}>
               {brandTagline}
             </p>
           </div>
@@ -160,6 +163,7 @@ export function Navbar({
           }}
         >
           <div
+            className="nav-dialect-label"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -177,7 +181,7 @@ export function Navbar({
             <span>{isEn ? 'Dialect' : 'मातृभाषा'}</span>
           </div>
 
-          <div style={{ width: '1px', height: '16px', backgroundColor: 'var(--color-border)', margin: '0 2px' }} />
+          <div className="nav-dialect-divider" style={{ width: '1px', height: '16px', backgroundColor: 'var(--color-border)', margin: '0 2px' }} />
 
           {Object.values(TRIBAL_LANGUAGES).map((lang) => {
             const isActive = selectedLang === lang.id;
@@ -215,6 +219,7 @@ export function Navbar({
         <div className="nav-controls-right" style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
           {/* UI Language Switcher (English vs Hindi) */}
           <div
+            className="nav-lang-switcher"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -267,6 +272,7 @@ export function Navbar({
           {/* Theme Mode Toggle (Dark / Light) */}
           <button
             type="button"
+            className="nav-theme-btn"
             onClick={onToggleTheme}
             style={{
               width: '32px',
@@ -291,6 +297,7 @@ export function Navbar({
           {/* Native Fullscreen Borderless Mode Toggle */}
           <button
             type="button"
+            className="nav-fullscreen-btn"
             onClick={handleToggleFullscreen}
             style={{
               width: '32px',
@@ -362,5 +369,26 @@ export function Navbar({
         })}
       </nav>
     </header>
+
+    {/* Mobile Bottom Navigation Bar (Apple iOS Style - Hidden on Desktop & Tablet) */}
+    <nav className="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+      {CORE_TABS.map((tab) => {
+        const isActive = activeTab === tab.id;
+        const TabIcon = tab.icon;
+        return (
+          <button
+            key={tab.id}
+            id={`mobile-tab-${tab.id}`}
+            type="button"
+            onClick={() => onSelectTab(tab.id)}
+            className={`mobile-tab-btn ${isActive ? 'is-active' : ''}`}
+          >
+            <TabIcon size={20} strokeWidth={isActive ? 2.4 : 1.8} />
+            <span className="mobile-tab-text">{tab.mobileLabel || tab.label}</span>
+          </button>
+        );
+      })}
+    </nav>
+    </>
   );
 }
