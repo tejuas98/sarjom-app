@@ -18,9 +18,9 @@ export default function App() {
   const [isOffline, setIsOffline] = useState(initialOffline);
   const [uiLang, setUiLang] = useState(() => {
     if (urlParams && urlParams.get('ui')) {
-      return urlParams.get('ui') === 'en' ? 'en' : 'hi';
+      return urlParams.get('ui') === 'hi' ? 'hi' : 'en';
     }
-    return offlineStorage.getUILanguage() || 'hi';
+    return offlineStorage.getUILanguage() || 'en';
   });
   const [activeTab, setActiveTab] = useState(initialTab);
   const [theme, setTheme] = useState(() => {
@@ -29,9 +29,9 @@ export default function App() {
       if (p) return p === 'dark' ? 'dark' : 'light';
       const saved = localStorage.getItem('sarjom_theme');
       if (saved) return saved;
-      return 'dark'; // Clean, authentic dark mode default
+      return 'light'; // Clean, authentic Parchment Sand light mode default
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {

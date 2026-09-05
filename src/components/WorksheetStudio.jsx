@@ -799,7 +799,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
       {/* 1. NATIVE IPAD STUDIO HEADER & CONTROLS                              */}
       {/* ==================================================================== */}
       <header className="no-print" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+        <div className="worksheet-title-actions-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <h1 style={{ fontSize: '1.65rem', fontWeight: 800, margin: 0, color: 'var(--color-slate)', letterSpacing: '-0.02em' }}>
               {t.wsTitle}
@@ -812,7 +812,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
           </div>
 
           {/* Action Controls: Grade + Shuffle + Print */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="worksheet-action-buttons-group" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <select
               id="select-grade-level"
               value={gradeLevel}
@@ -894,6 +894,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
 
         {/* 2. NATIVE IPAD SEGMENTED CONTROL (SINGLE COHESIVE TRACK) */}
         <div
+          className="worksheet-segmented-track"
           style={{
             display: 'inline-flex',
             backgroundColor: 'var(--color-surface-tint)',
@@ -948,6 +949,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
       {/* 3. THE WORKSHEET DOCUMENT CANVAS (NO BOX-IN-BOX CALLOUTS)            */}
       {/* ==================================================================== */}
       <main
+        className="worksheet-main-card"
         style={{
           backgroundColor: 'var(--color-surface-card)',
           borderRadius: '8px',
@@ -1032,7 +1034,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               )}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="worksheet-matching-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {/* Left Column A */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', paddingBottom: '4px' }}>

@@ -445,3 +445,181 @@ p, span, button, input, select, textarea {
     page-break-after: always;
   }
 }
+
+/* ==========================================================================
+   MOBILE PHONE RESPONSIVE ADAPTATIONS (max-width: 768px)
+   Strictly scoped to mobile screens (< 768px).
+   Desktop (> 768px) and Tablet layouts remain 100% UNTOUCHED and pristine.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Canvas & Global Layout Padding on Phones */
+  .tablet-canvas {
+    padding: 10px 10px 48px 10px !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 2. Top Header Navigation (2-Tier Clean Row) */
+  .nav-header-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+
+  .nav-brand-col {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .nav-controls-right {
+    order: 2;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  .nav-dialect-bar {
+    order: 3;
+    width: 100% !important;
+    justify-self: stretch !important;
+    justify-content: space-between !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 3px 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  .nav-dialect-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-dialect-bar button {
+    flex: 1 0 auto !important;
+    padding: 6px 9px !important;
+    font-size: 0.78rem !important;
+    text-align: center !important;
+  }
+
+  /* 3. Horizontal Scrollable Touch Tabs Strip */
+  .nav-tabs-bar {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 6px !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .nav-tabs-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-tab-item {
+    width: auto !important;
+    flex: 1 0 auto !important;
+    padding: 9px 10px !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* 4. Voice Translator on Mobile */
+  .voice-session-controls {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .voice-session-controls > div {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .voice-two-column-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .voice-console-card,
+  .voice-log-card {
+    padding: 16px 12px !important;
+    min-height: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 5. Worksheet Studio on Mobile */
+  .worksheet-title-actions-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .worksheet-title-actions-row h1 {
+    font-size: 1.25rem !important;
+  }
+
+  .worksheet-action-buttons-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  .worksheet-action-buttons-group select {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+
+  .worksheet-action-buttons-group button {
+    flex: 1 1 45% !important;
+    justify-content: center !important;
+  }
+
+  .worksheet-segmented-track {
+    display: flex !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    box-sizing: border-box !important;
+    padding: 3px !important;
+  }
+
+  .worksheet-segmented-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .worksheet-segmented-track button {
+    flex: 1 0 auto !important;
+    padding: 6px 10px !important;
+    font-size: 0.78rem !important;
+    white-space: nowrap !important;
+  }
+
+  .worksheet-main-card {
+    padding: 16px 10px !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .worksheet-matching-columns {
+    gap: 8px !important;
+  }
+
+  .worksheet-matching-columns > div > div {
+    padding: 10px 8px !important;
+  }
+
+  /* 6. Flashcard Deck & Dictionary Cards on Mobile */
+  .card-brutal {
+    padding: 14px 12px !important;
+    box-sizing: border-box !important;
+  }
+}
+

@@ -673,6 +673,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
       {/* 1. Voice Session Header: Sleek Unified Control Strip */}
       <div
+        className="voice-session-controls"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -860,6 +861,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
       {/* 2. Side-by-Side Responsive Layout: Left = Voice/Text Console, Right = Classroom Dialogue Log */}
       <div
+        className="voice-two-column-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
@@ -869,6 +871,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       >
         {/* LEFT COLUMN: Unified Interactive Translation Console (Disciplined modern panel) */}
         <div
+          className="voice-console-card"
           style={{
             padding: '22px',
             backgroundColor: 'var(--color-surface)',
@@ -1334,6 +1337,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
         {/* RIGHT COLUMN: Real-Time Classroom Interaction Log (Disciplined modern stream) */}
         <div
+          className="voice-log-card"
           style={{
             padding: '22px',
             backgroundColor: 'var(--color-surface)',

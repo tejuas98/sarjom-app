@@ -76,6 +76,7 @@ export function Navbar({
     >
       {/* Top Header: Balanced 3-Column Grid (Left: Brand | Center: Dialect | Right: Controls) */}
       <div
+        className="nav-header-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 1fr) auto minmax(0, 1fr)',
@@ -89,7 +90,7 @@ export function Navbar({
         }}
       >
         {/* Left Column: Brand Title & Official Subtitle (Anchored to Left) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'start', minWidth: 0 }}>
+        <div className="nav-brand-col" style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'start', minWidth: 0 }}>
           <div
             style={{
               width: '36px',
@@ -145,6 +146,7 @@ export function Navbar({
 
         {/* Center: Sleek Segmented Tribal Dialect Bar (Locked Dead-Center) */}
         <div
+          className="nav-dialect-bar"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -210,7 +212,7 @@ export function Navbar({
         </div>
 
         {/* Right: UI Language Toggle (English / Hindi) & Theme Mode (Anchored to Right) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
+        <div className="nav-controls-right" style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
           {/* UI Language Switcher (English vs Hindi) */}
           <div
             style={{
@@ -314,6 +316,7 @@ export function Navbar({
 
       {/* Navigation Tabs: Sleek Modern Tab Bar (No chunky boxes!) */}
       <nav
+        className="nav-tabs-bar"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
@@ -331,6 +334,7 @@ export function Navbar({
             <button
               key={tab.id}
               id={`tab-btn-${tab.id}`}
+              className={`nav-tab-item ${isActive ? 'is-active' : ''}`}
               type="button"
               onClick={() => onSelectTab(tab.id)}
               style={{
