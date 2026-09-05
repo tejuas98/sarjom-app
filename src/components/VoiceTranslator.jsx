@@ -145,12 +145,24 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   };
 
   // Mode: 'teacher_to_student' (Hindi/English -> Tribal) | 'student_to_teacher' (Tribal -> Hindi)
-  const [dialogueMode, setDialogueMode] = useState('teacher_to_student');
+  const [dialogueMode, setDialogueMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const m = new URLSearchParams(window.location.search).get('mode');
+      if (m === 'student' || m === 'student_to_teacher') return 'student_to_teacher';
+    }
+    return 'teacher_to_student';
+  });
   const [teacherVoiceLang, setTeacherVoiceLang] = useState('hi'); // 'hi' (Hindi) or 'en' (English)
   const [inputText, setInputText] = useState(() => {
     if (typeof window !== 'undefined') {
       const p = new URLSearchParams(window.location.search).get('q');
-      if (p) return p;
+      if (p) {
+        try {
+          return decodeURIComponent(p);
+        } catch (e) {
+          return p;
+        }
+      }
     }
     return '';
   });
@@ -365,9 +377,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      const q = params.get('q');
+      const rawQ = params.get('q');
       const autoLog = params.get('log') === '1' || params.get('autolog') === 'true';
-      if (q && autoLog) {
+      if (rawQ && autoLog) {
+        let q = rawQ;
+        try { q = decodeURIComponent(rawQ); } catch (e) {}
         const res = executeTranslation(q);
         if (res) {
           addToHistory(q, res, isTeacherMode ? 'teacher' : 'student');

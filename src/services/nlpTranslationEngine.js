@@ -263,16 +263,17 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     }
   }
 
-  // 0. Dynamic Self-Introduction Pattern (e.g., "मेरा नाम रुद्र है" / "My name is Rudra")
-  const introMatchHindi = normalized.match(/(?:मेरा\s+नाम|हमार\s+नाम|मोर\s+नाम)\s+([^\s,।.]+)/i);
-  const introMatchEng = normalized.match(/(?:my\s+name\s+is|i\s+am)\s+([^\s,.]+)/i);
-  const extractedName = (introMatchHindi && introMatchHindi[1]) || (introMatchEng && introMatchEng[1]);
+  // 0. Dynamic Self-Introduction Pattern (e.g., "मेरा नाम रुद्र है" / "My name is Rudra" / "mera name rudra hai")
+  const introMatch = normalized.match(
+    /(?:(?:मेरा|हमार|मोर|mera|hamar|mor)\s+(?:नाम|name|naam)|(?:my\s+name(?:\s+is)?|i\s+am))\s+(?:है\s+|hai\s+|is\s+)?([^\s,।.]+)/i
+  );
+  const extractedName = introMatch && introMatch[1];
 
   if (!result && extractedName) {
-    const isRudra = extractedName.toLowerCase().includes('rudra') || extractedName.includes('रुद्र');
-    const capitalizedName = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
-    const santhaliScript = isRudra ? 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ' : `ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ${capitalizedName} ᱠᱟᱱᱟ`;
-    const devaName = isRudra ? 'रुद्र' : capitalizedName;
+    const isRudra = extractedName.toLowerCase().includes('rudra') || extractedName.includes('रुद्र') || extractedName.includes('ᱨᱩᱫᱽᱨᱚ');
+    const latinName = isRudra ? 'Rudra' : (extractedName.charAt(0).toUpperCase() + extractedName.slice(1));
+    const devaName = isRudra ? 'रुद्र' : extractedName;
+    const santhaliScript = isRudra ? 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ' : `ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ${devaName} ᱠᱟᱱᱟ`;
 
     if (targetLang === 'santhali') {
       result = {
@@ -280,8 +281,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'santhali',
         nativeScript: santhaliScript,
         phoneticDeva: `इञाग ञुतुम दो ${devaName} काना`,
-        phoneticLatin: `Iñag ñutum do ${capitalizedName} kana`,
-        audioText: `Inyaag nyutum do ${capitalizedName} kana`,
+        phoneticLatin: `Iñag ñutum do ${latinName} kana`,
+        audioText: `Inyaag nyutum do ${latinName} kana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -291,8 +292,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'mundari',
         nativeScript: `आइङ-आह नुतुम ${devaName} तना`,
         phoneticDeva: `आइंगाः नुतुम ${devaName} तना`,
-        phoneticLatin: `Ainga' nutum ${capitalizedName} tana`,
-        audioText: `Ainga nutum ${capitalizedName} tana`,
+        phoneticLatin: `Ainga' nutum ${latinName} tana`,
+        audioText: `Ainga nutum ${latinName} tana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -302,8 +303,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'ho',
         nativeScript: `अयिङ-आ नुतुम ${devaName} तना`,
         phoneticDeva: `अयिंगा नुतुम ${devaName} तना`,
-        phoneticLatin: `Aying-a nutum ${capitalizedName} tana`,
-        audioText: `Ayinga nutum ${capitalizedName} tana`,
+        phoneticLatin: `Aying-a nutum ${latinName} tana`,
+        audioText: `Ayinga nutum ${latinName} tana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -313,8 +314,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'sadri',
         nativeScript: `मोर नाम ${devaName} हेके`,
         phoneticDeva: `मोर नाम ${devaName} हेके`,
-        phoneticLatin: `Mor naam ${capitalizedName} heke`,
-        audioText: `Mor naam ${capitalizedName} heke`,
+        phoneticLatin: `Mor naam ${latinName} heke`,
+        audioText: `Mor naam ${latinName} heke`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -781,6 +782,28 @@ export function translateTribalToHindi(tribalText, sourceLang = 'sadri') {
         latencyMs,
       };
     }
+  }
+
+  // 1.5 Dynamic Student Self-Introduction Pattern ("अयिङ-आ नुतुम रुद्र तना", "आइङ-आह नुतुम रुद्र तना", "ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ", "मोर नाम रुद्र हेके")
+  const introMatchStudent = cleanInput.match(
+    /(?:अयिङ|अयिंग|आइङ|आइंगा|ᱤᱧᱟᱜ|इञाग|मोर|हमार|aying|ainga|aing|inyag|inag|mor|hamar)[\s\S]*?(?:नुतुम|ञुतुम|ᱧᱩᱛᱩᱢ|नाम|nutum|nyutum|naam)\s+(?:दो|ᱫᱚ|do)?\s*([^\s]+)\s+(?:तना|काना|ᱠᱟᱱᱟ|हेके|हे|tana|kana|heke|he)/i
+  );
+
+  if (introMatchStudent) {
+    const rawName = introMatchStudent[1];
+    const isRudra = rawName.includes('rudra') || rawName.includes('रुद्र') || rawName.includes('ᱨᱩᱫᱽᱨᱚ');
+    const name = isRudra ? 'रुद्र' : rawName;
+    const engName = isRudra ? 'Rudra' : rawName.charAt(0).toUpperCase() + rawName.slice(1);
+    const latencyMs = Math.max(Math.round(performance.now() - t0), 12);
+    return {
+      sourceTribal: tribalText,
+      sourceLang,
+      hindiTranslation: `मेरा नाम ${name} है`,
+      englishMeaning: `My name is ${engName}`,
+      confidence: 0.99,
+      matchType: 'Self-Introduction Student Oral Language Template',
+      latencyMs,
+    };
   }
 
   // 2. Exact or Strict Benchmark Cases Match (Strict Sentence / Token Match, not raw substring)
