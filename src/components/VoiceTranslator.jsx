@@ -827,43 +827,26 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
           ) : (
-            /* Empty State Guide (Direct surface, no nested boxes) */
+            /* Clean Empty State Placeholder (No duplicate mic or text) */
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                padding: '40px 20px',
+                padding: '30px 16px',
                 textAlign: 'center',
-                gap: '10px',
                 color: 'var(--color-slate-muted)',
+                fontSize: '0.84rem',
+                borderTop: '1px dashed var(--color-border-subtle)',
+                marginTop: '8px',
               }}
             >
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  backgroundColor: 'var(--color-surface-tint)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--color-palash)',
-                  opacity: 0.7,
-                }}
-              >
-                <Mic size={26} />
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-slate)' }}>
-                {isTeacherMode ? t.tapToSpeakIdleTeacher : t.tapToSpeakIdleStudent}
-              </div>
-              <div style={{ fontSize: '0.80rem', maxWidth: '360px', lineHeight: 1.45 }}>
+              <span>
                 {isTeacherMode
-                  ? t.tapToSpeakSubIdleTeacher.replace('{lang}', langMeta.name)
-                  : t.tapToSpeakSubIdleStudent.replace('{lang}', langMeta.name)}
-              </div>
+                  ? (isEn ? 'Translated tribal speech & phonetics will appear here.' : 'जनजाति अनुवाद और उच्चारण यहाँ दिखाई देगा।')
+                  : (isEn ? 'Hindi translation will appear here.' : 'हिंदी अनुवाद यहाँ दिखाई देगा।')}
+              </span>
             </div>
           )}
         </div>
