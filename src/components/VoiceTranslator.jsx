@@ -87,6 +87,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [selectedVoiceName, setSelectedVoiceName] = useState('auto');
   const [voiceRate, setVoiceRate] = useState(1.05);
   const [voicePitch, setVoicePitch] = useState(1.0);
+  const [activeActionCategory, setActiveActionCategory] = useState('all');
 
   useEffect(() => {
     const updateVoices = () => {
@@ -357,6 +358,67 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       }
     }
   };
+
+  const handleTeacherActionClick = (phraseText, englishHint = '') => {
+    setInputText(phraseText);
+    const res = executeTranslation(phraseText);
+    if (res) {
+      const textToBroadcast = isTeacherMode
+        ? (res.phoneticDeva || res.nativeScript || res.audioText)
+        : (res.hindiTranslation || res.nativeScript);
+      if (autoBroadcast) {
+        handleSpeakAudio(textToBroadcast, res.nativeScript);
+      }
+      addToHistory(phraseText, res, isTeacherMode ? 'teacher' : 'student');
+      setLiveSessionCount((prev) => prev + 1);
+      toast.success(
+        isEn
+          ? `Classroom broadcast: "${phraseText}"`
+          : `कक्षा प्रसारण: "${phraseText}"`
+      );
+    }
+  };
+
+  const TEACHER_QUICK_ACTIONS = [
+    // Greetings
+    { label: 'नमस्ते बच्चों, शुभ प्रभात!', display: 'सुप्रभात बच्चों', hint: 'Good Morning', cat: 'greetings', icon: '🌅' },
+    { label: 'नमस्ते', display: 'नमस्ते / जोहार', hint: 'Hello', cat: 'greetings', icon: '🙏' },
+    { label: 'आप कैसे हैं?', display: 'आप कैसे हैं?', hint: 'How are you?', cat: 'greetings', icon: '❓' },
+    { label: 'आप लोग कैसे हैं?', display: 'सब लोग कैसे हैं?', hint: 'How is everyone?', cat: 'greetings', icon: '🌟' },
+
+    // Commands
+    { label: 'अपनी जगह पर बैठ जाओ।', display: 'बैठ जाओ', hint: 'Sit Down', cat: 'commands', icon: '🪑' },
+    { label: 'सभी बच्चे खड़े हो जाओ।', display: 'खड़े हो जाओ', hint: 'Stand Up', cat: 'commands', icon: '🧍' },
+    { label: 'बच्चों, अपनी किताब खोलो और पहला पाठ पढ़ो।', display: 'किताब खोलो', hint: 'Open Book', cat: 'commands', icon: '📖' },
+    { label: 'अपनी कॉपी में लिखो।', display: 'कॉपी में लिखो', hint: 'Start Writing', cat: 'commands', icon: '✍️' },
+    { label: 'शान्त रहो और सुनो।', display: 'शांत रहो और सुनो', hint: 'Be Quiet', cat: 'commands', icon: '🤫' },
+    { label: 'सब लोग बोर्ड की तरफ देखो।', display: 'बोर्ड देखो', hint: 'Look at Board', cat: 'commands', icon: '🎯' },
+    { label: 'ध्यान से सुनो।', display: 'ध्यान से सुनो', hint: 'Listen Carefully', cat: 'commands', icon: '👂' },
+    { label: 'यहाँ आओ।', display: 'यहाँ आओ', hint: 'Come Here', cat: 'commands', icon: '🏃' },
+
+    // Praise & Care
+    { label: 'बहुत अच्छा! तुमने बहुत अच्छा किया।', display: 'शाबाश! बहुत अच्छा', hint: 'Well Done!', cat: 'praise', icon: '👏' },
+    { label: 'पानी पीने जाओ और जल्दी वापस आओ।', display: 'पानी पियो', hint: 'Drink Water', cat: 'praise', icon: '💧' },
+    { label: 'आज हम एक नई कहानी सुनेंगे।', display: 'नई कहानी सुनेंगे', hint: 'Story Time', cat: 'praise', icon: '📚' },
+    { label: 'खाना खा लो।', display: 'खाना खा लो', hint: 'Have Food', cat: 'praise', icon: '🍎' },
+
+    // Q&A
+    { label: 'यह क्या है?', display: 'यह क्या है?', hint: 'What is this?', cat: 'qa', icon: '❓' },
+    { label: 'तुम्हारा नाम क्या है?', display: 'तुम्हारा नाम क्या है?', hint: 'What is your name?', cat: 'qa', icon: '❓' },
+    { label: 'तुम कहाँ जा रहे हो?', display: 'तुम कहाँ जा रहे हो?', hint: 'Where are you going?', cat: 'qa', icon: '🚶' },
+    { label: 'बारिश हो रही है।', display: 'बारिश हो रही है', hint: 'It is Raining', cat: 'qa', icon: '🌧️' },
+    { label: 'बड़ा पेड़', display: 'बड़ा पेड़', hint: 'Big Tree', cat: 'qa', icon: '🌲' },
+  ];
+
+  const STUDENT_QUICK_ACTIONS = [
+    { label: 'जोहार', display: 'जोहार', hint: 'Johar greeting', cat: 'all', icon: '🙏' },
+    { label: 'दाः ओंङा', display: 'दाः ओंङा', hint: 'I want water', cat: 'all', icon: '💧' },
+    { label: 'अयिङ रुद्र तना', display: 'अयिङ रुद्र तना', hint: 'My name is Rudra', cat: 'all', icon: '🙋' },
+    { label: 'ᱤᱧ ᱫᱟᱜ ᱧᱩᱭᱟ', display: 'ᱤᱧ ᱫᱟᱜ ᱧᱩᱭᱟ', hint: 'I want water', cat: 'all', icon: '💧' },
+    { label: 'ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟᱹᱧ', display: 'ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟᱹᱧ', hint: 'I am Rudra', cat: 'all', icon: '👦' },
+    { label: 'ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱠᱮᱫ-ᱟᱹᱧ', display: 'ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱠᱮᱫ-ᱟᱹᱧ', hint: 'I opened book', cat: 'all', icon: '📖' },
+    { label: 'ᱥᱟᱨᱦᱟᱣ', display: 'ᱥᱟᱨᱦᱟᱣ', hint: 'Thank you', cat: 'all', icon: '🙏' },
+  ];
 
   const handleClearHistory = () => {
     if (history.length === 0) return;
@@ -1061,6 +1123,153 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
             )}
+          </div>
+
+          {/* 1-Click Live Classroom Actions for Laptop & Demonstration */}
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '640px',
+              margin: '4px auto 10px auto',
+              padding: '10px 12px',
+              borderRadius: '8px',
+              backgroundColor: 'var(--color-surface-card)',
+              border: '1.5px solid var(--color-border)',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
+            }}
+          >
+            {/* Header: Title & Category Tabs */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '8px',
+                marginBottom: '8px',
+                paddingBottom: '6px',
+                borderBottom: '1px solid var(--color-border)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Zap size={14} color="var(--color-palash)" />
+                <span style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--color-slate)', letterSpacing: '-0.01em' }}>
+                  {isEn ? '⚡ 1-Click Classroom Broadcast' : '⚡ 1-क्लिक कक्षा प्रसारण (लाइव संवाद)'}
+                </span>
+                <span
+                  style={{
+                    fontSize: '0.68rem',
+                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(217, 90, 39, 0.12)',
+                    color: 'var(--color-palash)',
+                    fontWeight: 700,
+                  }}
+                >
+                  {isTeacherMode ? (isEn ? 'Teacher Mode' : 'शिक्षक मोड') : (isEn ? 'Student Mode' : 'छात्र मोड')}
+                </span>
+              </div>
+
+              {/* Category Filter Pills (Teacher Mode) */}
+              {isTeacherMode && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
+                  {[
+                    { id: 'all', label: isEn ? 'All' : 'सभी' },
+                    { id: 'commands', label: isEn ? 'Commands' : 'निर्देश' },
+                    { id: 'greetings', label: isEn ? 'Greetings' : 'अभिवादन' },
+                    { id: 'praise', label: isEn ? 'Praise' : 'प्रोत्साहन' },
+                    { id: 'qa', label: isEn ? 'Q&A' : 'प्रश्नोत्तर' },
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setActiveActionCategory(cat.id)}
+                      style={{
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        fontSize: '0.70rem',
+                        fontWeight: activeActionCategory === cat.id ? 700 : 500,
+                        border: '1px solid',
+                        borderColor: activeActionCategory === cat.id ? 'var(--color-palash)' : 'var(--color-border)',
+                        backgroundColor: activeActionCategory === cat.id ? 'var(--color-palash)' : 'var(--color-surface-tint)',
+                        color: activeActionCategory === cat.id ? '#FFFFFF' : 'var(--color-slate)',
+                        cursor: 'pointer',
+                        transition: 'all 0.12s ease',
+                      }}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Quick Action Buttons Grid */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '6px',
+                alignItems: 'center',
+                maxHeight: '140px',
+                overflowY: 'auto',
+                paddingRight: '2px',
+              }}
+            >
+              {(isTeacherMode
+                ? TEACHER_QUICK_ACTIONS.filter(
+                    (a) => activeActionCategory === 'all' || a.cat === activeActionCategory
+                  )
+                : STUDENT_QUICK_ACTIONS
+              ).map((action) => (
+                <button
+                  key={action.label}
+                  type="button"
+                  onClick={() => handleTeacherActionClick(action.label, action.hint)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '5px 10px',
+                    borderRadius: '6px',
+                    backgroundColor: inputText === action.label ? 'rgba(217, 90, 39, 0.15)' : 'var(--color-surface-tint)',
+                    border: '1px solid',
+                    borderColor: inputText === action.label ? 'var(--color-palash)' : 'var(--color-border)',
+                    color: 'var(--color-slate)',
+                    cursor: 'pointer',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    transition: 'all 0.15s ease',
+                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
+                  }}
+                  title={isEn ? `Click to translate & speak: "${action.hint}"` : `क्लिक करके अनुवाद व ध्वनि सुनें: "${action.hint}"`}
+                >
+                  <span style={{ fontSize: '0.86rem' }}>{action.icon}</span>
+                  <span>{action.display}</span>
+                  <span style={{ fontSize: '0.68rem', color: 'var(--color-slate-muted)', fontWeight: 400 }}>
+                    ({action.hint})
+                  </span>
+                  <Volume2 size={11} color="var(--color-palash)" style={{ marginLeft: '2px', opacity: 0.85 }} />
+                </button>
+              ))}
+            </div>
+            <div
+              style={{
+                fontSize: '0.68rem',
+                color: 'var(--color-slate-muted)',
+                marginTop: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              <span>💡</span>
+              <span>
+                {isEn
+                  ? `Click any button to instantly translate to ${langMeta.name} and broadcast through laptop speaker.`
+                  : `किसी भी बटन पर क्लिक करें — तुरंत ${langMeta.name} में अनुवाद होकर लैपटॉप स्पीकर से आवाज़ आएगी।`}
+              </span>
+            </div>
           </div>
 
           {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
