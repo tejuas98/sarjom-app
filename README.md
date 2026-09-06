@@ -350,6 +350,7 @@ This section provides technical and operational evidence explaining how each req
 * 9. [The Dual-Engine Hybrid AI/ML Architecture](#4-the-dual-engine-hybrid-aiml-architecture)
   * 9.0 [Input-Process-Output (IPO) Architectural Pipeline](#40-the-input-process-output-ipo-architectural-pipeline)
   * 9.0.1 [Detailed If-Else Operational Workflow Flowchart](#401-detailed-if-else-operational-workflow-flowchart)
+  * 9.0.2 [Classroom Real-Time Speech & Dialogue Flowchart (System Architecture)](#402-classroom-real-time-speech--dialogue-flowchart-system-architecture)
   * 9.1 Master Architectural Flowchart (ASCII Diagram)
   * 9.2 Tier 1: Cloud & BRC Server Pipeline (LoRA Fine-Tuning)
   * 9.3 Tier 2: 100% Offline Edge ML Transducer Engine
@@ -631,6 +632,73 @@ Below is the complete decision-logic flowchart showing how the system branches a
     <a href="./public/sarjom_detailed_flowchart.svg"><em>[Vector SVG Format]</em></a>
   </p>
 </div>
+
+### 4.0.2 Classroom Real-Time Speech & Dialogue Flowchart (System Architecture)
+
+The following end-to-end flowchart details the exact runtime data pipeline during a live classroom lesson — illustrating how speech from either a Hindi-speaking teacher or a tribal student is captured, transcribed, translated, transliterated into authentic scripts (such as Santhali Ol Chiki), and synthesized aloud with sub-2.0 second roundtrip latency:
+
+```mermaid
+flowchart TD
+    %% Styling
+    classDef startNode fill:#EFF6FF,stroke:#3B82F6,stroke-width:2px,color:#1E3A8A;
+    classDef branchOrange fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#92400E;
+    classDef branchPink fill:#FCE7F3,stroke:#EC4899,stroke-width:2px,color:#9D174D;
+    classDef branchGreen fill:#DCFCE7,stroke:#10B981,stroke-width:2px,color:#065F46;
+    classDef captureNode fill:#ECFDF5,stroke:#059669,stroke-width:2px,color:#065F46;
+    classDef decisionNode fill:#FEF9C3,stroke:#EAB308,stroke-width:2px,color:#854D0E;
+    classDef aiNode fill:#EEF2FF,stroke:#6366F1,stroke-width:2px,color:#312E81;
+    classDef ttsNode fill:#F0FDF4,stroke:#22C55E,stroke-width:2px,color:#14532D;
+    classDef loopNode fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A;
+
+    Start["📱 Teacher Opens SARJOM App<br/>(Classroom Mic & Speaker · 100% Offline)"]:::startNode
+
+    %% 3 Classroom Branches
+    Start --> TeachHindi["🗣️ Teacher Teaches in Hindi<br/>(Explains chapter concepts)"]:::branchOrange
+    Start --> AskQuestion["❓ Teacher Asks a Question<br/>(Plays in Tribal Mother Tongue)"]:::branchPink
+    Start --> StudentAnswer["👤 Student Answers in Mother Tongue<br/>(Ho / Mundari / Santhali / Sadri)"]:::branchGreen
+
+    %% Audio Ingestion
+    TeachHindi --> AudioCap["🎙️ Audio Capture<br/>(16 kHz PCM · VAD Noise Chunks)"]:::captureNode
+    AskQuestion --> AudioCap
+    StudentAnswer --> AudioCap
+
+    %% VAD Decision
+    AudioCap --> AudioCheck{"Audio<br/>Captured?"}:::decisionNode
+    AudioCheck -- "No" --> Retry["🔄 Retry Speak"]:::decisionNode
+    Retry --> AudioCap
+    AudioCheck -- "Yes" --> ASR["⚡ ML Speech Recognition (ASR)<br/>IndicConformer / IndicWav2Vec · ~0.90 s"]:::aiNode
+
+    %% NLP Tokenization & Translation
+    ASR --> Tokenize["🔤 Tokenize & Normalize<br/>SentencePiece · Custom Munda Corpus"]:::aiNode
+    Tokenize --> DirCheck["↔️ Translation Direction Check<br/>Hindi ➔ Tribal (L1) &nbsp;|&nbsp; Tribal (L1) ➔ Hindi"]:::aiNode
+    DirCheck --> NMT["🧠 ML Neural Machine Translation<br/>IndicTrans2 INT8 / Morphological FST · ~0.12 s"]:::aiNode
+
+    %% Script Transliteration & TTS
+    NMT --> ScriptEngine["📝 Script & Phonetic Transliteration<br/>Ol Chiki ↔ Devanagari Mapping & Phonetic Guide"]:::ttsNode
+    ScriptEngine --> TTS["🔊 ML Voice Synthesis (TTS)<br/>Dual-Formant Acoustic Synthesizer / IndicParler · ~0.45 s"]:::ttsNode
+
+    %% Broadcast & Visual Display
+    TTS --> HearAudio["📢 Class Hears Audio (~1.75 s Total Latency)<br/>Broadcast in Student's Mother Tongue"]:::ttsNode
+    HearAudio --> TeacherSees["👨‍🏫 Teacher Understands Response<br/>(Devanagari Meaning + Phonetic Guide)"]:::branchGreen
+    TeacherSees --> TabletScreen["📲 Live Text Display on Tablet Screen<br/>Dual-Script: Hindi + Tribal (Ol Chiki / Nagari)"]:::startNode
+
+    %% Live Interactive Loop
+    TabletScreen --> LiveLoop["🔁 Live Interactive Classroom Loop<br/>(Both Ways · Continuous Q&A Dialogue)"]:::loopNode
+    LiveLoop -. "Next Question / Follow-up" .-> AudioCap
+    LiveLoop --> Complete["✅ Process Complete & Cached<br/>(Session Stored Locally in IndexedDB)"]:::captureNode
+```
+
+#### Step-by-Step Processing Breakdown:
+1. **Classroom Ingestion**: Supports three natural pedagogical entry points — teacher Hindi explanation, teacher translated questions, or tribal student spontaneous answers.
+2. **Audio Preprocessing**: Captures 16 kHz single-channel PCM audio through a Voice Activity Detection (VAD) noise gate, filtering ceiling fan and tin-roof rain noise.
+3. **Speech Recognition (ASR)**: On-device acoustic recognition via fine-tuned `IndicConformer` / `IndicWav2Vec` (~0.90s).
+4. **Tokenization & Direction Check**: Normalizes text with `SentencePiece` and routes bidirectionally (`Teacher: Hindi ➔ Tribal` or `Student: Tribal ➔ Hindi`).
+5. **Neural Translation (NMT)**: Runs quantized `IndicTrans2 INT8` combined with our 2.1 MB Munda agglutinative morphological FST (~0.12s).
+6. **Script & Phonetic Engine**: Translates text into authentic **Ol Chiki** (for Santhali) or **Devanagari** (for Ho, Mundari, Sadri), while generating phonetic pronunciation guides for non-tribal teachers.
+7. **Speech Synthesis (TTS)**: Synthesizes high-amplitude native audio in ~0.45s using our offline Web Audio dual-formant synthesizer or cached neural voices.
+8. **Live Classroom Loop**: Closes the loop in **~1.75 seconds total latency**, enabling interactive back-and-forth teacher-student conversation without internet access.
+
+---
 
 SARJOM operates on a **Dual-Engine Hybrid Machine Learning Architecture** engineered to balance high-end neural intelligence with extreme rural edge constraints:
 
