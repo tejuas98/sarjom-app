@@ -637,55 +637,88 @@ Below is the complete decision-logic flowchart showing how the system branches a
 
 The following end-to-end flowchart details the exact runtime data pipeline during a live classroom lesson — illustrating how speech from either a Hindi-speaking teacher or a tribal student is captured, transcribed, translated, transliterated into authentic scripts (such as Santhali Ol Chiki), and synthesized aloud with sub-2.0 second roundtrip latency:
 
-```mermaid
-flowchart TD
-    %% Styling
-    classDef startNode fill:#EFF6FF,stroke:#3B82F6,stroke-width:2px,color:#1E3A8A;
-    classDef branchOrange fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px,color:#92400E;
-    classDef branchPink fill:#FCE7F3,stroke:#EC4899,stroke-width:2px,color:#9D174D;
-    classDef branchGreen fill:#DCFCE7,stroke:#10B981,stroke-width:2px,color:#065F46;
-    classDef captureNode fill:#ECFDF5,stroke:#059669,stroke-width:2px,color:#065F46;
-    classDef decisionNode fill:#FEF9C3,stroke:#EAB308,stroke-width:2px,color:#854D0E;
-    classDef aiNode fill:#EEF2FF,stroke:#6366F1,stroke-width:2px,color:#312E81;
-    classDef ttsNode fill:#F0FDF4,stroke:#22C55E,stroke-width:2px,color:#14532D;
-    classDef loopNode fill:#F1F5F9,stroke:#64748B,stroke-width:2px,color:#0F172A;
-
-    Start["📱 Teacher Opens SARJOM App<br/>(Classroom Mic & Speaker · 100% Offline)"]:::startNode
-
-    %% 3 Classroom Branches
-    Start --> TeachHindi["🗣️ Teacher Teaches in Hindi<br/>(Explains chapter concepts)"]:::branchOrange
-    Start --> AskQuestion["❓ Teacher Asks a Question<br/>(Plays in Tribal Mother Tongue)"]:::branchPink
-    Start --> StudentAnswer["👤 Student Answers in Mother Tongue<br/>(Ho / Mundari / Santhali / Sadri)"]:::branchGreen
-
-    %% Audio Ingestion
-    TeachHindi --> AudioCap["🎙️ Audio Capture<br/>(16 kHz PCM · VAD Noise Chunks)"]:::captureNode
-    AskQuestion --> AudioCap
-    StudentAnswer --> AudioCap
-
-    %% VAD Decision
-    AudioCap --> AudioCheck{"Audio<br/>Captured?"}:::decisionNode
-    AudioCheck -- "No" --> Retry["🔄 Retry Speak"]:::decisionNode
-    Retry --> AudioCap
-    AudioCheck -- "Yes" --> ASR["⚡ ML Speech Recognition (ASR)<br/>IndicConformer / IndicWav2Vec · ~0.90 s"]:::aiNode
-
-    %% NLP Tokenization & Translation
-    ASR --> Tokenize["🔤 Tokenize & Normalize<br/>SentencePiece · Custom Munda Corpus"]:::aiNode
-    Tokenize --> DirCheck["↔️ Translation Direction Check<br/>Hindi ➔ Tribal (L1) &nbsp;|&nbsp; Tribal (L1) ➔ Hindi"]:::aiNode
-    DirCheck --> NMT["🧠 ML Neural Machine Translation<br/>IndicTrans2 INT8 / Morphological FST · ~0.12 s"]:::aiNode
-
-    %% Script Transliteration & TTS
-    NMT --> ScriptEngine["📝 Script & Phonetic Transliteration<br/>Ol Chiki ↔ Devanagari Mapping & Phonetic Guide"]:::ttsNode
-    ScriptEngine --> TTS["🔊 ML Voice Synthesis (TTS)<br/>Dual-Formant Acoustic Synthesizer / IndicParler · ~0.45 s"]:::ttsNode
-
-    %% Broadcast & Visual Display
-    TTS --> HearAudio["📢 Class Hears Audio (~1.75 s Total Latency)<br/>Broadcast in Student's Mother Tongue"]:::ttsNode
-    HearAudio --> TeacherSees["👨‍🏫 Teacher Understands Response<br/>(Devanagari Meaning + Phonetic Guide)"]:::branchGreen
-    TeacherSees --> TabletScreen["📲 Live Text Display on Tablet Screen<br/>Dual-Script: Hindi + Tribal (Ol Chiki / Nagari)"]:::startNode
-
-    %% Live Interactive Loop
-    TabletScreen --> LiveLoop["🔁 Live Interactive Classroom Loop<br/>(Both Ways · Continuous Q&A Dialogue)"]:::loopNode
-    LiveLoop -. "Next Question / Follow-up" .-> AudioCap
-    LiveLoop --> Complete["✅ Process Complete & Cached<br/>(Session Stored Locally in IndexedDB)"]:::captureNode
+```text
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 📱 TEACHER OPENS SARJOM APP                                 │
+│                       Classroom Mic + Speaker · 100% Offline (₹0 Cloud)                     │
+└──────────────────────────────────────────────┬──────────────────────────────────────────────┘
+                                               │
+               ┌───────────────────────────────┼───────────────────────────────┐
+               ▼                               ▼                               ▼
+    ┌──────────────────────┐        ┌──────────────────────┐        ┌──────────────────────┐
+    │ 🗣️ TEACHER TEACHES   │        │ ❓ TEACHER ASKS      │        │ 👤 STUDENT ANSWERS   │
+    │   Explains in Hindi  │        │   Question in Hindi  │        │   In Mother Tongue   │
+    └──────────┬───────────┘        └──────────┬───────────┘        └──────────┬───────────┘
+               │                               │                               │
+               └───────────────────────────────┼───────────────────────────────┘
+                                               ▼
+                              ┌─────────────────────────────────┐
+                              │       🎙️ AUDIO CAPTURE          │
+                              │     16 kHz PCM · VAD Chunks     │
+                              └────────────────┬────────────────┘
+                                               │
+                                               ▼
+                                      /─────────────────\
+                                     <   Audio Captured? >
+                                      \─────────────────/
+                                         │           │
+                                    [Yes]│           │[No]
+                                         │           ▼
+                                         │   ┌───────────────┐
+                                         │   │  RETRY SPEAK  │
+                                         │   └───────┬───────┘
+                                         │           │
+                                         ▼ ◄─────────┘
+┌──────────────────────────────────────────────┐     ┌──────────────────────────────────────────────┐
+│           STAGE 1: SPEECH & NLP PIPELINE     │     │           STAGE 2: SCRIPT & VOICE OUTPUT     │
+├──────────────────────────────────────────────┤     ├──────────────────────────────────────────────┤
+│                                              │     │                                              │
+│ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
+│ │ ⚡ ML SPEECH RECOGNITION (ASR)           │ │     │ │ 📝 SCRIPT & PHONETIC ENGINE              │ │
+│ │ IndicConformer / IndicWav2Vec · ~0.90 s  │ │     │ │ Ol Chiki ↔ Devanagari Transliteration    │ │
+│ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
+│                      │                       │     │                      │                       │
+│                      ▼                       │     │                      ▼                       │
+│ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
+│ │ 🔤 TOKENIZE & NORMALIZE                  │ │     │ │ 🔊 ML VOICE SYNTHESIS (TTS)              │ │
+│ │ SentencePiece · Custom Munda Vocabulary  │ │     │ │ Dual-Formant Acoustic Synthesizer ~0.45s │ │
+│ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
+│                      │                       │     │                      │                       │
+│                      ▼                       │     │                      ▼                       │
+│ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
+│ │ ↔️ DIRECTION CHECK                        │ │     │ │ 📢 CLASSROOM AUDIO BROADCAST             │ │
+│ │ Hindi ➔ Tribal (L1) | Tribal ➔ Hindi     │ │     │ │ Total Roundtrip Latency: ~1.75 s         │ │
+│ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
+│                      │                       │     │                      │                       │
+│                      ▼                       │     │                      ▼                       │
+│ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
+│ │ 🧠 ML NEURAL MACHINE TRANSLATION         │ │     │ │ 👨‍🏫 TEACHER COMPREHENSION DISPLAY        │ │
+│ │ IndicTrans2 INT8 / Munda FST · ~0.12 s   │ │     │ │ Devanagari Meaning + Phonetic Guide      │ │
+│ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
+│                      │                       │     │                      │                       │
+│                      ▼                       │     │                      ▼                       │
+│ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
+│ │ 📄 TRANSLATED BILINGUAL TEXT             │ │     │ │ 📲 LIVE BILINGUAL TABLET SCREEN          │ │
+│ │ Dual Word Mappings Ready for Transliter. │ │     │ │ Hindi + Tribal Ol Chiki / Nagari Display │ │
+│ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
+│                      │                       │     │                      │                       │
+└──────────────────────┼───────────────────────┘     └──────────────────────┼───────────────────────┘
+                       │                                                    │
+                       └───────────────────► TRANSFERS TO STAGE 2 ──────────┘
+                                                                            │
+                                                                            ▼
+                                                     ┌──────────────────────────────────────────────┐
+                                                     │ 🔁 LIVE INTERACTIVE CLASSROOM LOOP           │
+                                                     │ Both Ways · Continuous Q&A Dialogue          │
+                                                     └──────────────────────┬───────────────────────┘
+                                                          │                 │
+                                     (Next Classroom Turn)│                 ▼
+                                                          │  ┌──────────────────────────────────────┐
+                                                          │  │ ✅ LESSON PROGRESS COMPLETE          │
+                                                          │  │ Session Saved Locally in IndexedDB   │
+                                                          │  └──────────────────────────────────────┘
+                                                          ▼
+                                            (Loops back to Audio Capture)
 ```
 
 #### Step-by-Step Processing Breakdown:
