@@ -79,7 +79,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱠᱟᱱᱟ᱾',
         correct: 'ᱚᱲᱟᱜ',
         phonetic: 'Oṛak’',
-        options: ['ᱚᱲᱟᱜ', 'ᱫᱟᱜ', 'ᱫᱟᱨᱮ'],
+        options: ['ᱫᱟᱜ', 'ᱚᱲᱟᱜ', 'ᱫᱟᱨᱮ'], // Answer is B (index 1)
       },
       {
         id: 'sq_g1_2',
@@ -89,7 +89,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱧᱩ ᱥᱟᱱᱟᱹᱧᱟ᱾',
         correct: 'ᱫᱟᱜ',
         phonetic: 'Dāk',
-        options: ['ᱫᱟᱜ', 'ᱫᱟᱠᱟ', 'ᱫᱟᱨᱮ'],
+        options: ['ᱫᱟᱠᱟ', 'ᱫᱟᱨᱮ', 'ᱫᱟᱜ'], // Answer is C (index 2)
       },
       {
         id: 'sq_g1_3',
@@ -99,7 +99,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱤᱧ ᱫᱩᱞᱟᱹᱲᱟᱹᱧ ᱠᱟᱱᱟᱭ᱾',
         correct: 'ᱟᱭᱳ',
         phonetic: 'Ayo',
-        options: ['ᱟᱭᱳ', 'ᱵᱟᱵᱟ', 'ᱜᱟᱛᱮ'],
+        options: ['ᱟᱭᱳ', 'ᱵᱟᱵᱟ', 'ᱜᱟᱛᱮ'], // Answer is A (index 0)
       },
     ],
     ho: [
@@ -111,7 +111,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' तना।',
         correct: 'ओड़ाः',
         phonetic: 'Ora-ah',
-        options: ['ओड़ाः', 'दाः', 'दारु'],
+        options: ['दाः', 'ओड़ाः', 'दारु'], // Answer is B (index 1)
       },
       {
         id: 'sq_g1_2',
@@ -121,7 +121,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' नू सनांग-तन्या।',
         correct: 'दाः',
         phonetic: 'Da-ah',
-        options: ['दाः', 'मंडी', 'दारु'],
+        options: ['मंडी', 'दारु', 'दाः'], // Answer is C (index 2)
       },
       {
         id: 'sq_g1_3',
@@ -131,7 +131,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' इंग-के दुलार-ए तन्या।',
         correct: 'एंगा',
         phonetic: 'Enga',
-        options: ['एंगा', 'अप्पा', 'जोता'],
+        options: ['एंगा', 'अप्पा', 'जोता'], // Answer is A (index 0)
       },
     ],
     mundari: [
@@ -143,7 +143,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' तना।',
         correct: 'ओड़ाः',
         phonetic: 'Ora-ah',
-        options: ['ओड़ाः', 'दाः', 'दारु'],
+        options: ['दाः', 'ओड़ाः', 'दारु'], // Answer is B (index 1)
       },
       {
         id: 'sq_g1_2',
@@ -153,7 +153,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' नू सनांग-तन्या।',
         correct: 'दाः',
         phonetic: 'Da-ah',
-        options: ['दाः', 'मंडी', 'दारु'],
+        options: ['मंडी', 'दारु', 'दाः'], // Answer is C (index 2)
       },
       {
         id: 'sq_g1_3',
@@ -163,7 +163,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' आइङ-के दुलार-ए तना।',
         correct: 'एंगा',
         phonetic: 'Enga',
-        options: ['एंगा', 'अप्पा', 'गाते'],
+        options: ['एंगा', 'अप्पा', 'गाते'], // Answer is A (index 0)
       },
     ],
     sadri: [
@@ -175,7 +175,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' हेके।',
         correct: 'घर',
         phonetic: 'Ghor',
-        options: ['घर', 'पानी', 'गाछ'],
+        options: ['पानी', 'घर', 'गाछ'], // Answer is B (index 1)
       },
       {
         id: 'sq_g1_2',
@@ -185,7 +185,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' पिएक मन करत हे।',
         correct: 'पानी',
         phonetic: 'Pani',
-        options: ['पानी', 'भात', 'गाछ'],
+        options: ['भात', 'गाछ', 'पानी'], // Answer is C (index 2)
       },
       {
         id: 'sq_g1_3',
@@ -195,7 +195,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' मोके प्यार करेला।',
         correct: 'माई',
         phonetic: 'Mai',
-        options: ['माई', 'बाप', 'संगी'],
+        options: ['माई', 'बाप', 'संगी'], // Answer is A (index 0)
       },
     ],
   },
@@ -209,7 +209,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱵᱤᱨ ᱨᱮ ᱛᱟᱦᱮᱸᱱᱟ᱾',
         correct: 'ᱦᱟᱹᱛᱤ',
         phonetic: 'Hāti',
-        options: ['ᱦᱟᱹᱛᱤ', 'ᱥᱮᱛᱟ', 'ᱦᱟᱹᱠᱩ'],
+        options: ['ᱥᱮᱛᱟ', 'ᱦᱟᱹᱛᱤ', 'ᱦᱟᱹᱠᱩ'], // Answer is B (index 1)
       },
       {
         id: 'sq_g2_2',
@@ -219,7 +219,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱨᱮ ᱫᱩᱲᱩᱵᱼᱟ᱾',
         correct: 'ᱫᱟᱨᱮ',
         phonetic: 'Dāre',
-        options: ['ᱫᱟᱨᱮ', 'ᱚᱲᱟᱜ', 'ᱜᱟᱰᱟ'],
+        options: ['ᱚᱲᱟᱜ', 'ᱜᱟᱰᱟ', 'ᱫᱟᱨᱮ'], // Answer is C (index 2)
       },
       {
         id: 'sq_g2_3',
@@ -229,7 +229,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱡᱷᱤᱡᱽ ᱢᱮ᱾',
         correct: 'ᱯᱩᱛᱷᱤ',
         phonetic: 'Puthi',
-        options: ['ᱯᱩᱛᱷᱤ', 'ᱚᱲᱟᱜ', 'ᱥᱮᱛᱟ'],
+        options: ['ᱯᱩᱛᱷᱤ', 'ᱚᱲᱟᱜ', 'ᱥᱮᱛᱟ'], // Answer is A (index 0)
       },
     ],
     ho: [
@@ -241,7 +241,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' बिर रे ताइना।',
         correct: 'हाती',
         phonetic: 'Hāti',
-        options: ['हाती', 'सेता', 'हाकु'],
+        options: ['सेता', 'हाती', 'हाकु'], // Answer is B (index 1)
       },
       {
         id: 'sq_g2_2',
@@ -251,7 +251,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' रे दुब तन्या।',
         correct: 'दारु',
         phonetic: 'Daru',
-        options: ['दारु', 'ओड़ाः', 'गड़ा'],
+        options: ['ओड़ाः', 'गड़ा', 'दारु'], // Answer is C (index 2)
       },
       {
         id: 'sq_g2_3',
@@ -261,7 +261,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' उताये मे।',
         correct: 'पोथी',
         phonetic: 'Pothi',
-        options: ['पोथी', 'ओड़ाः', 'सेता'],
+        options: ['पोथी', 'ओड़ाः', 'सेता'], // Answer is A (index 0)
       },
     ],
     mundari: [
@@ -273,7 +273,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' बीर रे तइना।',
         correct: 'हाती',
         phonetic: 'Hāti',
-        options: ['हाती', 'सेता', 'हाकु'],
+        options: ['सेता', 'हाती', 'हाकु'], // Answer is B (index 1)
       },
       {
         id: 'sq_g2_2',
@@ -283,7 +283,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' रे दुब तना।',
         correct: 'दारु',
         phonetic: 'Daru',
-        options: ['दारु', 'ओड़ाः', 'गड़ा'],
+        options: ['ओड़ाः', 'गड़ा', 'दारु'], // Answer is C (index 2)
       },
       {
         id: 'sq_g2_3',
@@ -293,7 +293,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ओताइमे।',
         correct: 'पुथी',
         phonetic: 'Puthi',
-        options: ['पुथी', 'ओड़ाः', 'सेता'],
+        options: ['पुथी', 'ओड़ाः', 'सेता'], // Answer is A (index 0)
       },
     ],
     sadri: [
@@ -305,7 +305,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' जंगल मे रहेला।',
         correct: 'हाथी',
         phonetic: 'Hathi',
-        options: ['हाथी', 'कुकुर', 'माछ'],
+        options: ['कुकुर', 'हाथी', 'माछ'], // Answer is B (index 1)
       },
       {
         id: 'sq_g2_2',
@@ -315,7 +315,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ऊपर बैसेला।',
         correct: 'गाछ',
         phonetic: 'Gaachh',
-        options: ['गाछ', 'घर', 'नदी'],
+        options: ['घर', 'नदी', 'गाछ'], // Answer is C (index 2)
       },
       {
         id: 'sq_g2_3',
@@ -325,7 +325,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' खोला।',
         correct: 'किताब',
         phonetic: 'Kitab',
-        options: ['किताब', 'घर', 'कुकुर'],
+        options: ['किताब', 'घर', 'कुकुर'], // Answer is A (index 0)
       },
     ],
   },
@@ -339,7 +339,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱨᱟᱠᱟᱵᱼᱟ᱾',
         correct: 'ᱥᱤᱧᱡᱚ',
         phonetic: 'Sinjo',
-        options: ['ᱥᱤᱧᱡᱚ', 'ᱫᱟᱨᱮ', 'ᱜᱟᱰᱟ'],
+        options: ['ᱫᱟᱨᱮ', 'ᱥᱤᱧᱡᱚ', 'ᱜᱟᱰᱟ'], // Answer is B (index 1)
       },
       {
         id: 'sq_g3_2',
@@ -349,7 +349,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱢᱮᱛᱟᱠᱚ ᱢᱮ᱾',
         correct: 'ᱡᱚᱦᱟᱨ',
         phonetic: 'Johār',
-        options: ['ᱡᱚᱦᱟᱨ', 'ᱫᱩᱲᱩᱵ', 'ᱦᱤᱡᱩᱜ'],
+        options: ['ᱫᱩᱲᱩᱵ', 'ᱦᱤᱡᱩᱜ', 'ᱡᱚᱦᱟᱨ'], // Answer is C (index 2)
       },
       {
         id: 'sq_g3_3',
@@ -359,7 +359,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ᱦᱮᱡ ᱟᱠᱟᱱᱟ᱾',
         correct: 'ᱜᱟᱛᱮ',
         phonetic: 'Gāte',
-        options: ['ᱜᱟᱛᱮ', 'ᱦᱟᱹᱛᱤ', 'ᱚᱲᱟᱜ'],
+        options: ['ᱜᱟᱛᱮ', 'ᱦᱟᱹᱛᱤ', 'ᱚᱲᱟᱜ'], // Answer is A (index 0)
       },
     ],
     ho: [
@@ -371,7 +371,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ओड़ोः तना।',
         correct: 'सिंगी',
         phonetic: 'Singi',
-        options: ['सिंगी', 'दारु', 'गड़ा'],
+        options: ['दारु', 'सिंगी', 'गड़ा'], // Answer is B (index 1)
       },
       {
         id: 'sq_g3_2',
@@ -381,7 +381,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' मेनेपे।',
         correct: 'जोहार',
         phonetic: 'Johār',
-        options: ['जोहार', 'दूब', 'हिजु'],
+        options: ['दूब', 'हिजु', 'जोहार'], // Answer is C (index 2)
       },
       {
         id: 'sq_g3_3',
@@ -391,7 +391,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' हिजुअकना।',
         correct: 'संगी',
         phonetic: 'Sangi',
-        options: ['संगी', 'हाती', 'ओड़ाः'],
+        options: ['संगी', 'हाती', 'ओड़ाः'], // Answer is A (index 0)
       },
     ],
     mundari: [
@@ -403,7 +403,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' ओड़ोः तना।',
         correct: 'सिंगी',
         phonetic: 'Singi',
-        options: ['सिंगी', 'दारु', 'गड़ा'],
+        options: ['दारु', 'सिंगी', 'गड़ा'], // Answer is B (index 1)
       },
       {
         id: 'sq_g3_2',
@@ -413,7 +413,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' मेताकोपे।',
         correct: 'जोहार',
         phonetic: 'Johār',
-        options: ['जोहार', 'दुब', 'हिजु'],
+        options: ['दुब', 'हिजु', 'जोहार'], // Answer is C (index 2)
       },
       {
         id: 'sq_g3_3',
@@ -423,7 +423,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' हिजुअकना।',
         correct: 'गाते',
         phonetic: 'Gāte',
-        options: ['गाते', 'हाती', 'ओड़ाः'],
+        options: ['गाते', 'हाती', 'ओड़ाः'], // Answer is A (index 0)
       },
     ],
     sadri: [
@@ -435,7 +435,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' निकलेल।',
         correct: 'सुरुज',
         phonetic: 'Suruj',
-        options: ['सुरुज', 'गाछ', 'नदी'],
+        options: ['गाछ', 'सुरुज', 'नदी'], // Answer is B (index 1)
       },
       {
         id: 'sq_g3_2',
@@ -445,7 +445,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' कहा।',
         correct: 'जोहार',
         phonetic: 'Johar',
-        options: ['जोहार', 'बैठा', 'आवा'],
+        options: ['बैठा', 'आवा', 'जोहार'], // Answer is C (index 2)
       },
       {
         id: 'sq_g3_3',
@@ -455,7 +455,7 @@ const GRADE_SENTENCE_QUESTIONS = {
         sentencePost: ' आवेला।',
         correct: 'संगी',
         phonetic: 'Sangi',
-        options: ['संगी', 'हाथी', 'घर'],
+        options: ['संगी', 'हाथी', 'घर'], // Answer is A (index 0)
       },
     ],
   },
@@ -531,8 +531,17 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
   // 3. Sentence Practice contextual questions (Dynamically targeted by Class & Tribal Language)
   const sentenceQuestions = useMemo(() => {
     const gradeSet = GRADE_SENTENCE_QUESTIONS[gradeLevel] || GRADE_SENTENCE_QUESTIONS.grade1;
-    return gradeSet[selectedLang] || gradeSet.santhali;
-  }, [gradeLevel, selectedLang]);
+    const rawList = gradeSet[selectedLang] || gradeSet.santhali;
+    return rawList.map((q, idx) => {
+      // Dynamic shift based on seed so each shuffle randomizes option positions
+      const shift = ((seed - 1) * 2 + idx) % q.options.length;
+      const shuffledOptions = q.options.map((_, i) => q.options[(i + shift) % q.options.length]);
+      return {
+        ...q,
+        options: shuffledOptions,
+      };
+    });
+  }, [gradeLevel, selectedLang, seed]);
 
   // ==========================================================================
   // ACTIONS & HANDLERS
