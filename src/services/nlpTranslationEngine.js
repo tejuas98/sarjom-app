@@ -263,17 +263,22 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     }
   }
 
-  // 0. Dynamic Self-Introduction Pattern (e.g., "मेरा नाम रुद्र है" / "My name is Rudra" / "mera name rudra hai")
+  // 0. Dynamic Self-Introduction Pattern (e.g. "मेरा नाम रुद्र और प्रणब और आयुष है" / "my name is rudra and pranab and ayaush")
   const introMatch = normalized.match(
-    /(?:(?:मेरा|हमार|मोर|mera|hamar|mor)\s+(?:नाम|name|naam)|(?:my\s+name(?:\s+is)?))\s+(?:है\s+|hai\s+|is\s+)?([^\s,।.]+)/i
+    /(?:(?:मेरा|हमार|मोर|हमर|mera|hamar|mor)\s+(?:नाम|name|naam)|(?:my\s+name(?:\s+is)?))\s+(?:है\s+|hai\s+|is\s+)?(.+)/i
   );
-  const extractedName = introMatch && introMatch[1];
+  let rawNameStr = introMatch ? introMatch[1].trim() : null;
+  if (rawNameStr) {
+    rawNameStr = rawNameStr.replace(/\s+(?:है|हेके|तना|काना|hai|heke|tana|kana)$/i, '').trim();
+  }
 
-  if (!result && extractedName) {
-    const isRudra = extractedName.toLowerCase().includes('rudra') || extractedName.includes('रुद्र') || extractedName.includes('ᱨᱩᱫᱽᱨᱚ');
-    const latinName = isRudra ? 'Rudra' : (extractedName.charAt(0).toUpperCase() + extractedName.slice(1));
-    const devaName = isRudra ? 'रुद्र' : extractedName;
-    const santhaliScript = isRudra ? 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ' : `ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ${devaName} ᱠᱟᱱᱟ`;
+  if (!result && rawNameStr) {
+    const formattedLatinName = rawNameStr
+      .split(/\s+/)
+      .map((w) => (['and', 'aur', 'और', 'या'].includes(w.toLowerCase()) ? w : (w.charAt(0).toUpperCase() + w.slice(1))))
+      .join(' ');
+    const devaName = rawNameStr;
+    const santhaliScript = `ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ${rawNameStr} ᱠᱟᱱᱟ`;
 
     if (targetLang === 'santhali') {
       result = {
@@ -281,8 +286,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'santhali',
         nativeScript: santhaliScript,
         phoneticDeva: `इञाग ञुतुम दो ${devaName} काना`,
-        phoneticLatin: `Iñag ñutum do ${latinName} kana`,
-        audioText: `Inyaag nyutum do ${latinName} kana`,
+        phoneticLatin: `Iñag ñutum do ${formattedLatinName} kana`,
+        audioText: `Inyaag nyutum do ${formattedLatinName} kana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -292,8 +297,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'mundari',
         nativeScript: `आइङ-आह नुतुम ${devaName} तना`,
         phoneticDeva: `आइंगाः नुतुम ${devaName} तना`,
-        phoneticLatin: `Ainga' nutum ${latinName} tana`,
-        audioText: `Ainga nutum ${latinName} tana`,
+        phoneticLatin: `Ainga' nutum ${formattedLatinName} tana`,
+        audioText: `Ainga nutum ${formattedLatinName} tana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -303,8 +308,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'ho',
         nativeScript: `अयिङ-आ नुतुम ${devaName} तना`,
         phoneticDeva: `अयिंगा नुतुम ${devaName} तना`,
-        phoneticLatin: `Aying-a nutum ${latinName} tana`,
-        audioText: `Ayinga nutum ${latinName} tana`,
+        phoneticLatin: `Aying-a nutum ${formattedLatinName} tana`,
+        audioText: `Ayinga nutum ${formattedLatinName} tana`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -314,8 +319,8 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         targetLang: 'sadri',
         nativeScript: `मोर नाम ${devaName} हेके`,
         phoneticDeva: `मोर नाम ${devaName} हेके`,
-        phoneticLatin: `Mor naam ${latinName} heke`,
-        audioText: `Mor naam ${latinName} heke`,
+        phoneticLatin: `Mor naam ${formattedLatinName} heke`,
+        audioText: `Mor naam ${formattedLatinName} heke`,
         confidence: 0.99,
         matchType: 'Self-Introduction NIPUN Oral Language Template',
       };
@@ -562,35 +567,17 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     'बडा': { ho: 'मारांग', mundari: 'मारांग', santhali: 'ᱢᱟᱨᱟᱝ', sadri: 'बड़', audio: 'Marang' },
     'bada': { ho: 'मारांग', mundari: 'मारांग', santhali: 'ᱢᱟᱨᱟᱝ', sadri: 'बड़', audio: 'Marang' },
     'छोटा': { ho: 'हुडिंग', mundari: 'हुडिंग', santhali: 'ᱦᱩᱰᱤᱧ', sadri: 'छोट', audio: 'Huding' },
-    // English words
-    'book': { ho: 'पोथी', mundari: 'पुथी', santhali: 'ᱯᱩᱛᱷᱤ', sadri: 'किताब', audio: 'Puthi' },
-    'books': { ho: 'पोथीको', mundari: 'पुथीको', santhali: 'ᱯᱩᱛᱷᱤ ᱠᱚ', sadri: 'किताब मन', audio: 'Puthi ko' },
-    'water': { ho: 'दाः', mundari: 'दाः', santhali: 'ᱫᱟᱜ', sadri: 'पानी', audio: 'Daag' },
-    'tree': { ho: 'दारे', mundari: 'दारे', santhali: 'ᱫᱟᱨᱮ', sadri: 'गाछ', audio: 'Dare' },
-    'trees': { ho: 'दारेको', mundari: 'दारेको', santhali: 'ᱫᱟᱨᱮ ᱠᱚ', sadri: 'गाछ मन', audio: 'Dare ko' },
-    'read': { ho: 'पढ़ाओ', mundari: 'पढ़ाव', santhali: 'ᱯᱟᱲᱦᱟᱣ', sadri: 'पढ़ा', audio: 'Padhaw' },
-    'reading': { ho: 'पढ़ाओ', mundari: 'पढ़ाव', santhali: 'ᱯᱟᱲᱦᱟᱣ', sadri: 'पढ़े', audio: 'Padhaw' },
-    'write': { ho: 'ओल', mundari: 'ओल', santhali: 'ᱚᱞ', sadri: 'लिखा', audio: 'Ol' },
-    'writing': { ho: 'ओल', mundari: 'ओल', santhali: 'ᱚᱞ', sadri: 'लिखे', audio: 'Ol' },
-    'listen': { ho: 'आजोम', mundari: 'आयूम', santhali: 'ᱟᱧᱡᱚᱢ', sadri: 'सुना', audio: 'Anjom' },
-    'sit': { ho: 'दूब', mundari: 'दुब', santhali: 'ᱫᱩᱲᱩᱵ', sadri: 'बैठ', audio: 'Durup' },
-    'stand': { ho: 'तिंगुन', mundari: 'तिंगु', santhali: 'ᱛᱤᱸᱜᱩᱱ', sadri: 'ठाढ़', audio: 'Tingun' },
-    'come': { ho: 'हिजुः', mundari: 'हिजुः', santhali: 'ᱦᱤᱡᱩᱜ', sadri: 'आवा', audio: 'Hijuk' },
-    'go': { ho: 'सेन', mundari: 'सेन', santhali: 'ᱥᱮᱱᱚᱜ', sadri: 'जावा', audio: 'Senok' },
-    'good': { ho: 'बेश', mundari: 'बेश', santhali: 'ᱱᱟᱯᱟᱭ', sadri: 'बेस', audio: 'Naapay' },
-    'great': { ho: 'बेश', mundari: 'बेश', santhali: 'ᱱᱟᱯᱟᱭ', sadri: 'बेस', audio: 'Naapay' },
-    'morning': { ho: 'सेताः', mundari: 'सेताः', santhali: 'ᱥᱮᱛᱟᱜ', sadri: 'बिहान', audio: 'Setag' },
-    'hello': { ho: 'जोहार', mundari: 'जोहार', santhali: 'ᱡᱚᱦᱟᱨ', sadri: 'जोहार', audio: 'Johar' },
-    'hi': { ho: 'जोहार', mundari: 'जोहार', santhali: 'ᱡᱚᱦᱟᱨ', sadri: 'जोहार', audio: 'Johar' },
-    'children': { ho: 'होनको', mundari: 'होनाको', santhali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ', sadri: 'छौवा मन', audio: 'Gidra ko' },
-    'students': { ho: 'होनको', mundari: 'होनाको', santhali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ', sadri: 'छौवा मन', audio: 'Gidra ko' },
-    'teacher': { ho: 'माचेत', mundari: 'माचेत', santhali: 'ᱢᱟᱪᱮᱛ', sadri: 'मास्टर', audio: 'Machet' },
-    'school': { ho: 'इतुन आसड़ा', mundari: 'इतुन आसड़ा', santhali: 'ᱤᱛᱩᱱ ᱟᱥᱲᱟ', sadri: 'इस्कूल', audio: 'Itun Asra' },
-    'food': { ho: 'मांडी', mundari: 'मांडी', santhali: 'ᱫᱟᱠᱟ', sadri: 'भात', audio: 'Daka' },
-    'quiet': { ho: 'थिर', mundari: 'थिर', santhali: 'ᱛᱷᱤᱨ', sadri: 'शान्त', audio: 'Thir' },
-    'board': { ho: 'बोर्ड', mundari: 'बोर्ड', santhali: 'ᱵᱳᱨᱰ', sadri: 'बोर्ड', audio: 'Board' },
-    'yes': { ho: 'हे', mundari: 'हे', santhali: 'ᱦᱮᱸ', sadri: 'हाँ', audio: 'Hẽ' },
-    'no': { ho: 'का', mundari: 'का', santhali: 'ᱵᱟᱝ', sadri: 'ना', audio: 'Bang' },
+    'मेरा': { ho: 'अयिङ-आ', mundari: 'आइङ-आह', santhali: 'ᱤᱧᱟᱜ', sadri: 'मोर', audio: 'Inyag' },
+    'मेरी': { ho: 'अयिङ-आ', mundari: 'आइङ-आह', santhali: 'ᱤᱧᱟᱜ', sadri: 'मोर', audio: 'Inyag' },
+    'मेरे': { ho: 'अयिङ-आ', mundari: 'आइङ-आह', santhali: 'ᱤᱧᱟᱜ', sadri: 'मोर', audio: 'Inyag' },
+    'मैं': { ho: 'अयिङ', mundari: 'आइङ', santhali: 'ᱤᱧ', sadri: 'हम', audio: 'Inj' },
+    'मुझे': { ho: 'अयिङ', mundari: 'आइङ', santhali: 'ᱤᱧ', sadri: 'मोके', audio: 'Inj' },
+    'तुम': { ho: 'आम', mundari: 'आम', santhali: 'ᱟᱢ', sadri: 'तोहरे', audio: 'Aam' },
+    'तुम्हारा': { ho: 'आमा', mundari: 'आमाः', santhali: 'ᱟᱢᱟᱜ', sadri: 'तोहर', audio: 'Aamag' },
+    'आप': { ho: 'आम', mundari: 'आम', santhali: 'ᱟᱢ', sadri: 'रउरे', audio: 'Aam' },
+    'आपका': { ho: 'आमा', mundari: 'आमाः', santhali: 'ᱟᱢᱟᱜ', sadri: 'तोहर', audio: 'Aamag' },
+    'हम': { ho: 'आबु', mundari: 'आबु', santhali: 'ᱟᱵᱚ', sadri: 'हमरे', audio: 'Aabo' },
+    'हमारा': { ho: 'आबुवाः', mundari: 'आबुवाः', santhali: 'ᱟᱵᱚᱣᱟᱜ', sadri: 'हमर', audio: 'Aabowag' },
   };
 
   // 4. Token-level composition & Morphological transducer fallback
@@ -604,8 +591,18 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     for (const token of tokens) {
       let matched = false;
 
-      // 4a0. Check Conversational Tokens
+      // User rule: "for now remove english just do hindi if any case english word come dont translate it"
       const cleanToken = token.replace(/^[^\w\u0900-\u097F]+|[^\w\u0900-\u097F]+$/g, '').toLowerCase();
+      const isEnglishWord = /^[a-zA-Z]+$/.test(cleanToken);
+      if (isEnglishWord) {
+        translatedTokens.push(token);
+        phoneticDevaTokens.push(token);
+        phoneticLatinTokens.push(token);
+        audioTokens.push(token);
+        continue;
+      }
+
+      // 4a0. Check Conversational Tokens
       if (CONVERSATIONAL_TOKENS[token] || CONVERSATIONAL_TOKENS[cleanToken]) {
         const cTok = CONVERSATIONAL_TOKENS[token] || CONVERSATIONAL_TOKENS[cleanToken];
         const tokData = cTok[targetLang] || cTok.santhali || cTok.ho || cTok.mundari || cTok.sadri;
@@ -648,18 +645,10 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         for (const item of TRIBAL_LEXICON) {
           const hNorm = normalizeHindi(item.hindi);
           const hWords = hNorm.split(/\s+/);
-          const eNorm = item.english ? normalizeHindi(item.english) : '';
-          const eWords = eNorm ? eNorm.split(/\s+/) : [];
           const hParts = (item.hindi || '').split(/[\/\;,]/).map((p) => normalizeHindi(p)).filter(Boolean);
-          const eParts = (item.english || '').split(/[\/\;,]/).map((p) => normalizeHindi(p)).filter(Boolean);
 
-          const isWordMatch =
-            hParts.includes(token) ||
-            eParts.includes(token) ||
-            (hWords.length === 1 && hWords[0] === token) ||
-            (eWords.length === 1 && eWords[0] === token) ||
-            hParts.some((p) => p.split(/\s+/).includes(token)) ||
-            eParts.some((p) => p.split(/\s+/).includes(token));
+          // Only match if the lexicon entry itself represents a single word or direct synonym (not a full sentence)
+          const isWordMatch = hWords.length <= 2 && (hNorm === token || hParts.includes(token));
 
           if (isWordMatch) {
             const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
@@ -691,7 +680,10 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     let finalLatin = phoneticLatinTokens.join(' ');
     let finalAudio = audioTokens.join(' ');
 
-    if (finalNative === normalized || finalNative === hindiText || normalizeHindi(finalNative) === normalized) {
+    const hasHindiChars = /[\u0900-\u097F]/.test(hindiText);
+    const isPureEnglish = /^[a-zA-Z\s.,!?'"-]+$/.test(hindiText.trim());
+
+    if (!isPureEnglish && hasHindiChars && (finalNative === normalized || finalNative === hindiText || normalizeHindi(finalNative) === normalized)) {
       if (targetLang === 'santhali') {
         finalNative = 'ᱱᱚᱣᱟ ᱠᱟᱛᱷᱟ ᱫᱚ ᱵᱮᱥ ᱛᱮ ᱟᱧᱡᱚᱢ ᱯᱮ';
         finalDeva = 'नोवा कथा दो बेस ते आजोम पे';

@@ -225,28 +225,41 @@ class VoiceTranslationService {
     const clean = text.trim();
     const lower = clean.toLowerCase();
 
-    // Ho self-introduction
-    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-        (clean.includes('अयिङ') || lower.includes('aying') || clean.includes('अयिंगा'))) {
-      return '/audio/rudra_ho.wav';
-    }
+    // If text contains multiple names, conjunctions, or compound phrases, let TTS speak the full compound text
+    const hasMultipleNamesOrConjunction =
+      lower.includes('pranab') ||
+      lower.includes('ayaush') ||
+      lower.includes('ayush') ||
+      lower.includes(' and ') ||
+      lower.includes(' aur ') ||
+      clean.includes('और') ||
+      clean.includes('प्रणब') ||
+      clean.includes('आयुष');
 
-    // Mundari self-introduction
-    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-        (clean.includes('आइङ') || lower.includes('ainga') || clean.includes('आइंगा'))) {
-      return '/audio/rudra_mundari.wav';
-    }
+    if (!hasMultipleNamesOrConjunction) {
+      // Ho self-introduction
+      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+          (clean.includes('अयिङ') || lower.includes('aying') || clean.includes('अयिंगा'))) {
+        return '/audio/rudra_ho.wav';
+      }
 
-    // Santhali self-introduction (Ol Chiki, Devanagari, or Latin phonetics)
-    if ((lower.includes('rudra') || clean.includes('रुद्र') || clean.includes('ᱨᱩᱫᱽᱨᱚ')) &&
-        (clean.includes('ᱧᱩᱛᱩᱢ') || clean.includes('इञाग') || lower.includes('inyaag') || lower.includes('iñag') || lower.includes('nyutum'))) {
-      return '/audio/rudra_santhali.wav';
-    }
+      // Mundari self-introduction
+      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+          (clean.includes('आइङ') || lower.includes('ainga') || clean.includes('आइंगा'))) {
+        return '/audio/rudra_mundari.wav';
+      }
 
-    // Sadri self-introduction
-    if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-        (clean.includes('मोर नाम') || lower.includes('mor naam'))) {
-      return '/audio/rudra_sadri.wav';
+      // Santhali self-introduction (Ol Chiki, Devanagari, or Latin phonetics)
+      if ((lower.includes('rudra') || clean.includes('रुद्र') || clean.includes('ᱨᱩᱫᱽᱨᱚ')) &&
+          (clean.includes('ᱧᱩᱛᱩᱢ') || clean.includes('इञाग') || lower.includes('inyaag') || lower.includes('iñag') || lower.includes('nyutum'))) {
+        return '/audio/rudra_santhali.wav';
+      }
+
+      // Sadri self-introduction
+      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
+          (clean.includes('मोर नाम') || lower.includes('mor naam'))) {
+        return '/audio/rudra_sadri.wav';
+      }
     }
 
     // Universal Tribal Johar Greeting (Authentic tribal audio)
