@@ -760,7 +760,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
         {/* Right: Audio Session Controls (Hindi/English, Speaker, HD Voice) */}
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-          {isTeacherMode && (
+          {isTeacherMode ? (
             <div
               style={{
                 display: 'inline-flex',
@@ -778,6 +778,25 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             >
               <span>🎙️</span>
               <span>{isEn ? 'Speech: Hindi' : 'वाक इनपुट: हिंदी'}</span>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                backgroundColor: 'var(--color-surface-tint)',
+                border: '1px solid var(--color-border)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                color: 'var(--color-palash)',
+              }}
+              title={isEn ? `Student Speech Input: ${langMeta.name}` : `छात्र इनपुट: ${langMeta.name}`}
+            >
+              <span>🎙️</span>
+              <span>{isEn ? `Speech: ${langMeta.name}` : `वाक इनपुट: ${langMeta.name}`}</span>
             </div>
           )}
 

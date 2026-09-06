@@ -578,6 +578,17 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     'आपका': { ho: 'आमा', mundari: 'आमाः', santhali: 'ᱟᱢᱟᱜ', sadri: 'तोहर', audio: 'Aamag' },
     'हम': { ho: 'आबु', mundari: 'आबु', santhali: 'ᱟᱵᱚ', sadri: 'हमरे', audio: 'Aabo' },
     'हमारा': { ho: 'आबुवाः', mundari: 'आबुवाः', santhali: 'ᱟᱵᱚᱣᱟᱜ', sadri: 'हमर', audio: 'Aabowag' },
+    'तुम्हारे': { ho: 'आमा', mundari: 'आमाः', santhali: 'ᱟᱢᱟᱜ', sadri: 'तोर', audio: 'Aamag' },
+    'आपके': { ho: 'आमा', mundari: 'आमाः', santhali: 'ᱟᱢᱟᱜ', sadri: 'राउर', audio: 'Aamag' },
+    'हमेशा': { ho: 'जावगे', mundari: 'जावगे', santhali: 'ᱡᱟᱣᱜᱮ', sadri: 'हमेशा', audio: 'Jawge' },
+    'बीमार': { ho: 'रुवा', mundari: 'रुआ', santhali: 'ᱨᱩᱣᱟᱹ', sadri: 'बेमार', audio: 'Rua' },
+    'बेमार': { ho: 'रुवा', mundari: 'रुआ', santhali: 'ᱨᱩᱣᱟᱹ', sadri: 'बेमार', audio: 'Rua' },
+    'काम': { ho: 'कामी', mundari: 'कामी', santhali: 'ᱠᱟᱹᱢᱤ', sadri: 'काम', audio: 'Kami' },
+    'सहयोग': { ho: 'मिद ते कामी', mundari: 'मिद ते कामी', santhali: 'ᱢᱤᱫ ᱛᱮ ᱠᱟᱹᱢᱤ', sadri: 'संगे काम', audio: 'Mid te kami' },
+    'साथ': { ho: 'लोः', mundari: 'लोः', santhali: 'ᱥᱟᱶ', sadri: 'संगे', audio: 'Saon' },
+    'कैसे': { ho: 'चिलकेते', mundari: 'चिलकेते', santhali: 'ᱪᱮᱞᱠᱟᱛᱮ', sadri: 'कईसे', audio: 'Chelkate' },
+    'सकते': { ho: 'दड़ि', mundari: 'दड़ि', santhali: 'ᱫᱟᱲᱮ', sadri: 'सकिला', audio: 'Dare' },
+    'रहते': { ho: 'तायेन', mundari: 'ताएन', santhali: 'ᱛᱟᱦᱮᱸᱱ', sadri: 'रहेला', audio: 'Tahen' },
   };
 
   // 4. Token-level composition & Morphological transducer fallback
