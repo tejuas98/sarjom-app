@@ -184,11 +184,11 @@ class VoiceTranslationService {
     }
 
     // Greetings & Pedagogy
-    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar') return '/audio/johar_greeting.mp3';
-    if (clean.includes('यहाँ आओ') || clean.includes('बैठ जाओ') || clean.includes('किताब खोलो')) return '/audio/classroom_command.mp3';
-    if (clean.includes('शाबाश') || clean.includes('बेस गे')) return '/audio/teacher_praise.mp3';
-    if (clean.includes('प्यारे बच्चों') || clean.includes('निपुण')) return '/audio/nipun_lesson_opening.mp3';
-    if (clean.includes('ध्वनि साथी') || clean.includes('क्यूआर')) return '/audio/worksheet_qr_prompt.mp3';
+    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar' || clean.includes('नमस्ते') || clean.includes('प्रणाम') || clean.includes('स्वागत')) return '/audio/johar_greeting.mp3';
+    if (clean.includes('यहाँ आओ') || clean.includes('बैठ जाओ') || clean.includes('किताब खोलो') || clean.includes('खड़े हो जाओ') || clean.includes('पढ़ो') || clean.includes('लिखो') || clean.includes('सुनो') || clean.includes('शांत रहो') || clean.includes('काम करो')) return '/audio/classroom_command.mp3';
+    if (clean.includes('शाबाश') || clean.includes('बेस गे') || clean.includes('बहुत अच्छा') || clean.includes('उत्कृष्ट') || clean.includes('बढ़िया')) return '/audio/teacher_praise.mp3';
+    if (clean.includes('प्यारे बच्चों') || clean.includes('निपुण') || clean.includes('पाठ शुरू') || clean.includes('कक्षा') || clean.includes('पढ़ाई')) return '/audio/nipun_lesson_opening.mp3';
+    if (clean.includes('ध्वनि साथी') || clean.includes('क्यूआर') || clean.includes('कार्यपत्रक')) return '/audio/worksheet_qr_prompt.mp3';
     if (clean.includes('कारासुनों') || clean.includes('SARJOM Briefing')) return '/audio/sarjom_overview.mp3';
 
     return null;
@@ -316,6 +316,85 @@ class VoiceTranslationService {
   }
 
   /**
+   * Offline Web Audio API Formant Voice Synthesizer
+   * Emulates human vocal tract formant resonance (F1, F2 filters + glottal source)
+   * Plays completely offline when no cloud TTS or OS speech synthesis voice package is available.
+   */
+  playPhoneticAcousticVoice(text, onEnd = () => {}) {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) {
+        this.isSpeaking = false;
+        onEnd();
+        return;
+      }
+
+      const words = (text || '').trim().split(/\s+/).filter(Boolean);
+      if (words.length === 0) {
+        this.isSpeaking = false;
+        onEnd();
+        return;
+      }
+
+      this.isSpeaking = true;
+      let startTime = ctx.currentTime + 0.04;
+      const syllableDuration = 0.16;
+
+      words.forEach((word, wordIdx) => {
+        const syllables = Math.max(1, Math.ceil(word.length / 2.5));
+        for (let s = 0; s < syllables; s++) {
+          const osc = ctx.createOscillator();
+          const f1Filter = ctx.createBiquadFilter();
+          const f2Filter = ctx.createBiquadFilter();
+          const gain = ctx.createGain();
+
+          osc.type = 'sawtooth';
+          const baseFreq = 170 + (wordIdx % 3) * 16 + Math.sin(s) * 14;
+          osc.frequency.setValueAtTime(baseFreq, startTime);
+          osc.frequency.linearRampToValueAtTime(baseFreq * 0.94, startTime + syllableDuration);
+
+          // Vocal Formant 1 (500-800 Hz)
+          f1Filter.type = 'bandpass';
+          f1Filter.frequency.setValueAtTime(620, startTime);
+          f1Filter.Q.setValueAtTime(3.8, startTime);
+
+          // Vocal Formant 2 (1400-2100 Hz)
+          f2Filter.type = 'bandpass';
+          f2Filter.frequency.setValueAtTime(1720, startTime);
+          f2Filter.Q.setValueAtTime(4.5, startTime);
+
+          // Vocal envelope
+          gain.gain.setValueAtTime(0.001, startTime);
+          gain.gain.linearRampToValueAtTime(0.16, startTime + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + syllableDuration);
+
+          osc.connect(f1Filter);
+          osc.connect(f2Filter);
+          f1Filter.connect(gain);
+          f2Filter.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(startTime);
+          osc.stop(startTime + syllableDuration);
+
+          startTime += syllableDuration + 0.03;
+        }
+        startTime += 0.06;
+      });
+
+      const totalDuration = (startTime - ctx.currentTime) * 1000;
+      setTimeout(() => {
+        this.isSpeaking = false;
+        onEnd();
+      }, Math.max(250, totalDuration));
+    } catch (e) {
+      console.warn('Acoustic voice playback failed:', e);
+      this.isSpeaking = false;
+      onEnd();
+    }
+  }
+
+  /**
    * Synthesizes tribal audio output using high-fidelity natural voices with
    * pre-recorded studio audio bank fallback. Suppresses microphone echo loop
    * during speaker output.
@@ -369,8 +448,6 @@ class VoiceTranslationService {
       window.speechSynthesis.cancel(); // Cancel prior utterances
 
       // Phonetic & Prosodic Normalization:
-      // Remove grammatical hyphens (e.g. "अयिङ-आ" -> "अयिङ आ") so speech synthesizers
-      // don't stutter on "-" or say "minus" / pause artificially.
       const humanizedText = (text || '')
         .replace(/[-_]/g, ' ')
         .replace(/\s+/g, ' ')
@@ -383,8 +460,6 @@ class VoiceTranslationService {
       }
 
       // Script-Acoustic Routing:
-      // Devanagari characters (/[\u0900-\u097F]/) MUST be pronounced by an Indian Hindi voice (e.g. Lekha),
-      // English romanized text (/^[a-zA-Z\s.,?!']+$/) MUST be pronounced by an Indian English voice (e.g. Rishi).
       const hasDevanagari = /[\u0900-\u097F]/.test(humanizedText);
       const isPureEnglish = /^[a-zA-Z\s.,?!']+$/.test(humanizedText);
       const targetLang = isPureEnglish ? 'en-IN' : (hasDevanagari ? 'hi-IN' : lang);
@@ -400,21 +475,48 @@ class VoiceTranslationService {
         utterance.lang = bestVoice.lang || targetLang;
       }
 
+      let spokenWatchdog = null;
       const finishSpeaking = () => {
+        if (spokenWatchdog) {
+          clearTimeout(spokenWatchdog);
+          spokenWatchdog = null;
+        }
         this.isSpeaking = false;
         onEnd();
       };
 
       utterance.onend = finishSpeaking;
-      utterance.onerror = finishSpeaking;
+      utterance.onerror = (err) => {
+        if (spokenWatchdog) {
+          clearTimeout(spokenWatchdog);
+          spokenWatchdog = null;
+        }
+        console.warn('SpeechSynthesis error or offline voice unavailable, using acoustic formant synthesizer:', err);
+        this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
+      };
 
-      window.speechSynthesis.speak(utterance);
+      // Watchdog: If offline Android browser drops TTS without firing onend/onerror, fall back to Web Audio formant voice
+      spokenWatchdog = setTimeout(() => {
+        if (this.isSpeaking) {
+          console.warn('SpeechSynthesis timed out offline without event, falling back to acoustic formant synthesizer');
+          try {
+            window.speechSynthesis.cancel();
+          } catch (e) {}
+          this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
+        }
+      }, 2500);
+
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch (synthErr) {
+        if (spokenWatchdog) {
+          clearTimeout(spokenWatchdog);
+          spokenWatchdog = null;
+        }
+        this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
+      }
     } else {
-      this.playChime('success');
-      setTimeout(() => {
-        this.isSpeaking = false;
-        onEnd();
-      }, 1200);
+      this.playPhoneticAcousticVoice(text, onEnd);
     }
   }
 

@@ -33,5 +33,7 @@ android/.gradle/
 .gradle/
 *.apk
 !SARJOM-v2.5-verified.apk
+!public/sarjom.apk
+!public/SARJOM-v2.5.apk
 *.idsig
 
