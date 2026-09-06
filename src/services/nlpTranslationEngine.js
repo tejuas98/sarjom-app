@@ -464,16 +464,16 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
   if (!result) {
     for (const item of TRIBAL_LEXICON) {
       const hNormalized = normalizeHindi(item.hindi);
-      const hWords = hNormalized.split(/\s+/);
-      const eNormalized = item.english ? normalizeHindi(item.english) : '';
-      const eWords = eNormalized ? eNormalized.split(/\s+/) : [];
-      if (
+      const hParts = (item.hindi || '').split(/[\/\;,]/).map((p) => normalizeHindi(p)).filter(Boolean);
+      const eParts = (item.english || '').split(/[\/\;,]/).map((p) => normalizeHindi(p)).filter(Boolean);
+
+      const isExactMatch =
         hNormalized === normalized ||
-        hWords.includes(normalized) ||
-        eNormalized === normalized ||
-        eWords.includes(normalized) ||
-        normalized.includes(hNormalized)
-      ) {
+        hParts.includes(normalized) ||
+        eParts.includes(normalized) ||
+        hParts.some((p) => p === normalized || (p.length > 3 && normalized.includes(p)));
+
+      if (isExactMatch) {
         const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
         if (data) {
           result = {
@@ -483,7 +483,7 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
             phoneticDeva: data.phoneticDeva || hindiText,
             phoneticLatin: data.phoneticLatin || '',
             audioText: data.audioText || data.phoneticDeva || hindiText,
-            confidence: 0.94,
+            confidence: 0.96,
             matchType: 'FLN Lexicon Direct Match',
           };
           break;
@@ -536,7 +536,12 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
           const hWords = hNorm.split(/\s+/);
           const eNorm = item.english ? normalizeHindi(item.english) : '';
           const eWords = eNorm ? eNorm.split(/\s+/) : [];
-          if (hNorm === token || hWords.includes(token) || eNorm === token || eWords.includes(token)) {
+          // Only match if the lexicon entry is a single word or an exact match
+          const isWordMatch =
+            (hWords.length === 1 && hNorm === token) ||
+            (eWords.length === 1 && eNorm === token) ||
+            (hWords.length <= 2 && hNorm === token);
+          if (isWordMatch) {
             const data = item[targetLang] || item.sadri || item.santhali || item.mundari || item.ho;
             if (data) {
               translatedTokens.push(data.nativeOlChiki || data.native || token);

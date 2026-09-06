@@ -5,6 +5,72 @@
  * and graceful acoustic fallback for offline or simulator environments.
  */
 
+const OL_CHIKI_MAP = {
+  '\u1C5A': 'ओ', // ᱚ
+  '\u1C5B': 'त', // ᱛ
+  '\u1C5C': 'ग', // ᱜ
+  '\u1C5D': 'ङ', // ᱝ
+  '\u1C5E': 'ल', // ᱞ
+  '\u1C5F': 'आ', // ᱟ
+  '\u1C60': 'क', // ᱠ
+  '\u1C61': 'ज', // ᱡ
+  '\u1C62': 'म', // ᱢ
+  '\u1C63': 'व', // ᱣ
+  '\u1C64': 'इ', // ᱤ
+  '\u1C65': 'स', // ᱥ
+  '\u1C66': 'ह', // ᱦ
+  '\u1C67': 'ञ', // ᱧ
+  '\u1C68': 'र', // ᱨ
+  '\u1C69': 'उ', // ᱩ
+  '\u1C6A': 'च', // ᱪ
+  '\u1C6B': 'द', // ᱫ
+  '\u1C6C': 'ण', // ᱬ
+  '\u1C6D': 'य', // ᱭ
+  '\u1C6E': 'ए', // ᱮ
+  '\u1C6F': 'प', // ᱯ
+  '\u1C70': 'ड', // ᱰ
+  '\u1C71': 'न', // ᱱ
+  '\u1C72': 'ड़', // ᱲ
+  '\u1C73': 'ओ', // ᱳ
+  '\u1C74': 'ट', // ᱴ
+  '\u1C75': 'ब', // ᱵ
+  '\u1C76': 'ंव', // ᱶ
+  '\u1C77': 'ह', // ᱷ
+  '\u1C78': 'ं', // ᱸ
+  '\u1C79': '', // ᱹ
+  '\u1C7A': 'ँ', // ᱺ
+  '\u1C7B': '', // ᱻ
+  '\u1C7C': '', // ᱼ
+  '\u1C7D': '्', // ᱽ
+  '\u1C7E': '।', // ᱾
+  '\u1C7F': '॥', // ᱿
+};
+
+const VOWEL_TO_MATRA = {
+  'आ': 'ा',
+  'इ': 'ि',
+  'उ': 'ु',
+  'ए': 'े',
+  'ओ': 'ो',
+};
+
+export function olChikiToDevanagari(text) {
+  if (!text) return '';
+  const raw = text.split('').map((c) => (OL_CHIKI_MAP[c] !== undefined ? OL_CHIKI_MAP[c] : c)).join('');
+  let out = '';
+  for (let i = 0; i < raw.length; i++) {
+    const prev = i > 0 ? raw[i - 1] : '';
+    const curr = raw[i];
+    const isPrevConsonant = prev && /[क-हड़णञङ]/.test(prev);
+    if (isPrevConsonant && VOWEL_TO_MATRA[curr]) {
+      out += VOWEL_TO_MATRA[curr];
+    } else {
+      out += curr;
+    }
+  }
+  return out;
+}
+
 class VoiceTranslationService {
   constructor() {
     this.recognition = null;
@@ -183,13 +249,10 @@ class VoiceTranslationService {
       return '/audio/rudra_sadri.wav';
     }
 
-    // Greetings & Pedagogy
-    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar' || clean.includes('नमस्ते') || clean.includes('प्रणाम') || clean.includes('स्वागत')) return '/audio/johar_greeting.mp3';
-    if (clean.includes('यहाँ आओ') || clean.includes('बैठ जाओ') || clean.includes('किताब खोलो') || clean.includes('खड़े हो जाओ') || clean.includes('पढ़ो') || clean.includes('लिखो') || clean.includes('सुनो') || clean.includes('शांत रहो') || clean.includes('काम करो')) return '/audio/classroom_command.mp3';
-    if (clean.includes('शाबाश') || clean.includes('बेस गे') || clean.includes('बहुत अच्छा') || clean.includes('उत्कृष्ट') || clean.includes('बढ़िया')) return '/audio/teacher_praise.mp3';
-    if (clean.includes('प्यारे बच्चों') || clean.includes('निपुण') || clean.includes('पाठ शुरू') || clean.includes('कक्षा') || clean.includes('पढ़ाई')) return '/audio/nipun_lesson_opening.mp3';
-    if (clean.includes('ध्वनि साथी') || clean.includes('क्यूआर') || clean.includes('कार्यपत्रक')) return '/audio/worksheet_qr_prompt.mp3';
-    if (clean.includes('कारासुनों') || clean.includes('SARJOM Briefing')) return '/audio/sarjom_overview.mp3';
+    // Universal Tribal Johar Greeting (Authentic tribal audio)
+    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar') {
+      return '/audio/johar_greeting.mp3';
+    }
 
     return null;
   }
@@ -445,13 +508,25 @@ class VoiceTranslationService {
    */
   synthesizeSpeech(text, lang = 'hi-IN', onEnd = () => {}) {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); // Cancel prior utterances
+      try {
+        window.speechSynthesis.cancel(); // Cancel prior utterances
+      } catch (e) {}
 
-      // Phonetic & Prosodic Normalization:
-      const humanizedText = (text || '')
+      // Convert Ol Chiki to Devanagari phonetics if Ol Chiki characters are present
+      let rawText = text || '';
+      if (/[\u1C50-\u1C7F]/.test(rawText)) {
+        rawText = olChikiToDevanagari(rawText);
+      }
+
+      // Clean Ho Warang Chiti SMP annotations in parentheses like 'बीर (𑢤𑣂𑣜)' -> 'बीर'
+      rawText = rawText
+        .replace(/\([^\)]*[\uD800-\uDFFF][^\)]*\)/g, '')
+        .replace(/[\uD800-\uDFFF]/g, '')
         .replace(/[-_]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
+
+      const humanizedText = rawText;
 
       if (!humanizedText) {
         this.isSpeaking = false;
@@ -460,23 +535,29 @@ class VoiceTranslationService {
       }
 
       // Script-Acoustic Routing:
+      // Tribal language written in Devanagari phonetics or Hindi is routed to 'hi-IN'
       const hasDevanagari = /[\u0900-\u097F]/.test(humanizedText);
       const isPureEnglish = /^[a-zA-Z\s.,?!']+$/.test(humanizedText);
-      const targetLang = isPureEnglish ? 'en-IN' : (hasDevanagari ? 'hi-IN' : lang);
+      const targetLang = hasDevanagari ? 'hi-IN' : (isPureEnglish ? 'en-IN' : lang);
 
       const utterance = new SpeechSynthesisUtterance(humanizedText);
-      utterance.rate = this.speechRate || 1.05; // Fast, crisp natural pacing
-      utterance.pitch = this.speechPitch || 1.0; // Natural fundamental vocal frequency
+      utterance.rate = this.speechRate || 1.0; // Natural pacing
+      utterance.pitch = this.speechPitch || 1.0; // Natural vocal frequency
 
-      // Intelligent Voice Binding: Select highest-quality natural/neural voice
+      // Intelligent Voice Binding: Select highest-quality natural Indian voice
       const bestVoice = this.getBestNaturalVoice(targetLang);
       if (bestVoice) {
         utterance.voice = bestVoice;
         utterance.lang = bestVoice.lang || targetLang;
+      } else {
+        utterance.lang = targetLang;
       }
 
       let spokenWatchdog = null;
+      let hasEnded = false;
       const finishSpeaking = () => {
+        if (hasEnded) return;
+        hasEnded = true;
         if (spokenWatchdog) {
           clearTimeout(spokenWatchdog);
           spokenWatchdog = null;
@@ -487,32 +568,24 @@ class VoiceTranslationService {
 
       utterance.onend = finishSpeaking;
       utterance.onerror = (err) => {
-        if (spokenWatchdog) {
-          clearTimeout(spokenWatchdog);
-          spokenWatchdog = null;
-        }
         console.warn('SpeechSynthesis error or offline voice unavailable, using acoustic formant synthesizer:', err);
         this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
       };
 
-      // Watchdog: If offline Android browser drops TTS without firing onend/onerror, fall back to Web Audio formant voice
+      // Watchdog: If offline browser drops TTS without firing onend/onerror, fall back to Web Audio formant voice
       spokenWatchdog = setTimeout(() => {
-        if (this.isSpeaking) {
+        if (this.isSpeaking && !hasEnded) {
           console.warn('SpeechSynthesis timed out offline without event, falling back to acoustic formant synthesizer');
           try {
             window.speechSynthesis.cancel();
           } catch (e) {}
           this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
         }
-      }, 2500);
+      }, 3500);
 
       try {
         window.speechSynthesis.speak(utterance);
       } catch (synthErr) {
-        if (spokenWatchdog) {
-          clearTimeout(spokenWatchdog);
-          spokenWatchdog = null;
-        }
         this.playPhoneticAcousticVoice(humanizedText, finishSpeaking);
       }
     } else {
@@ -537,126 +610,129 @@ class VoiceTranslationService {
 
   /**
    * Listens to voice input with dynamic language configuration
-   * @param {Function} onResult - Callback with transcript string
+   * @param {Function} onResult - Callback with (transcript, isFinal)
    * @param {Function} onError - Callback with { code, message } object
-   * @param {string} lang - Recognition language (e.g. 'hi-IN' for teacher, 'hi-IN' or tribal phonetics)
+   * @param {string} lang - Recognition language (e.g. 'hi-IN' for teacher, 'en-IN', etc.)
+   * @param {Function} onEnd - Optional callback invoked when speech recognition session finishes
    */
-  async startListening(onResult, onError, lang = 'hi-IN') {
-    if (!this.recognition) {
-      this.initSpeechRecognition();
-    }
+  async startListening(onResult, onError, lang = 'hi-IN', onEnd = null) {
+    const SpeechRecognition =
+      typeof window !== 'undefined'
+        ? (window.SpeechRecognition || window.webkitSpeechRecognition)
+        : null;
 
-    if (!this.recognition) {
+    if (!SpeechRecognition) {
       onError({
         code: 'not-supported',
-        message: 'Speech Recognition is not supported in this browser.',
+        message: 'Speech Recognition is not supported in this browser. Please use Google Chrome, Edge, or Safari with microphone permission enabled.',
       });
       return;
     }
 
-    // Hardware microphone permission with Acoustic Echo Cancellation (AEC) and Noise Suppression
-    if (typeof navigator !== 'undefined' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Stop and clean up any previous instance
+    if (this.recognition) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true,
-          },
-        });
-        stream.getTracks().forEach((track) => track.stop());
-      } catch (permErr) {
-        const isDenied = permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError';
-        if (isDenied) {
-          onError({
-            code: 'not-allowed',
-            message: 'Microphone permission denied. Please allow microphone access in your browser or device settings.',
-          });
-          return;
-        }
-      }
+        this.recognition.abort();
+      } catch (e) {}
+      this.recognition = null;
     }
 
     try {
+      this.recognition = new SpeechRecognition();
       this.recognition.lang = lang;
-      this.recognition.continuous = true;
-      this.recognition.interimResults = false;
-    } catch (e) {}
+      this.recognition.continuous = false; // Single continuous phrase capture (most reliable on Safari, Android, and Chrome)
+      this.recognition.interimResults = true; // Stream words in real time as spoken
+      this.recognition.maxAlternatives = 1;
+    } catch (initErr) {
+      onError({ code: 'init-failed', message: initErr.message || 'Could not initialize speech recognizer' });
+      return;
+    }
 
     this.isListening = true;
+    this.latestTranscript = '';
+    this.hasEmittedFinal = false;
     this.playChime('listen');
 
     this.recognition.onresult = (event) => {
-      // Acoustic Echo Suppression: If classroom speaker is broadcasting, ignore sound picked up
-      if (this.isSpeaking) {
-        return;
-      }
-      // Process final recognized sentences continuously without stopping
+      if (this.isSpeaking) return;
+
+      let interimTranscript = '';
+      let finalTranscript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const text = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          const transcript = event.results[i][0].transcript.trim();
-          if (transcript) {
-            onResult(transcript);
-          }
+          finalTranscript += text;
+        } else {
+          interimTranscript += text;
+        }
+      }
+
+      const activeText = (finalTranscript || interimTranscript || '').trim();
+      if (activeText) {
+        this.latestTranscript = activeText;
+        if (finalTranscript && !this.hasEmittedFinal) {
+          this.hasEmittedFinal = true;
+          onResult(activeText, true);
+        } else if (!this.hasEmittedFinal) {
+          onResult(activeText, false);
         }
       }
     };
 
     this.recognition.onerror = (err) => {
       const errCode = err.error || 'unknown';
-      // In continuous classroom mode, 'no-speech' is just a natural classroom pause; do not terminate listening
       if (errCode === 'no-speech') {
+        // Natural pause: do not show error
         return;
       }
 
       this.isListening = false;
-      let message = 'Microphone error: ' + errCode;
+      let message = 'Microphone notice: ' + errCode;
       if (errCode === 'not-allowed') {
-        message = 'Microphone permission was denied. Please allow mic access in your browser.';
+        message = 'Microphone permission was denied. Please allow microphone access in your browser settings.';
       } else if (errCode === 'network') {
-        message = 'Speech service network error (cloud recognition unavailable).';
+        message = 'Network speech recognition unavailable. You can type in the box below to translate and listen.';
       } else if (errCode === 'audio-capture') {
-        message = 'No microphone hardware found. Please plug in a microphone.';
+        message = 'No microphone hardware detected. Please plug in or enable a microphone.';
       }
       onError({ code: errCode, message });
     };
 
     this.recognition.onend = () => {
-      // Auto-restart recognition if teacher/student hasn't explicitly clicked stop
-      if (this.isListening) {
-        try {
-          this.recognition.start();
-        } catch (e) {
-          setTimeout(() => {
-            if (this.isListening) {
-              try {
-                this.recognition.start();
-              } catch (restartErr) {}
-            }
-          }, 200);
-        }
+      this.isListening = false;
+      if (this.latestTranscript && !this.hasEmittedFinal) {
+        this.hasEmittedFinal = true;
+        onResult(this.latestTranscript, true);
+      }
+      if (onEnd) {
+        onEnd();
       }
     };
 
     try {
       this.recognition.start();
-    } catch (e) {
-      if (e.name === 'InvalidStateError') {
-        // Recognition already running: keep listening
-        this.isListening = true;
-      } else {
-        this.isListening = false;
-        onError({ code: 'start-failed', message: e.message || 'Could not activate microphone' });
+    } catch (startErr) {
+      this.isListening = false;
+      if (startErr.name !== 'InvalidStateError') {
+        onError({ code: 'start-failed', message: startErr.message || 'Could not activate microphone' });
       }
     }
   }
 
-  stopListening() {
+  stopListening(onStopFinal = null) {
     this.isListening = false;
     if (this.recognition) {
       try {
         this.recognition.stop();
-      } catch (e) {}
+      } catch (e) {
+        try {
+          this.recognition.abort();
+        } catch (abortErr) {}
+      }
+    }
+    if (onStopFinal && this.latestTranscript && !this.hasEmittedFinal) {
+      this.hasEmittedFinal = true;
+      onStopFinal(this.latestTranscript);
     }
   }
 }

@@ -214,74 +214,78 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     );
 
     voiceService.startListening(
-      (transcript) => {
-        // Continuous Classroom Mode: Keep mic ON and record every utterance
+      (transcript, isFinal) => {
         setInputText(transcript);
-        const res = executeTranslation(transcript);
-        if (res) {
-          const textToBroadcast = isTeacherMode
-            ? (res.audioText || res.phoneticDeva)
-            : (res.hindiTranslation || res.nativeScript);
-          if (autoBroadcast) {
-            handleSpeakAudio(textToBroadcast, res.nativeScript);
-          }
-          addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
-          setLiveSessionCount((prev) => prev + 1);
-          toast.success(
-            isEn
-              ? `Sentence Logged: "${transcript}"`
-              : `वाक्य दर्ज हुआ: "${transcript}"`
-          );
-        }
-      },
-      (error) => {
-        if (error.code === 'not-allowed') {
+        if (isFinal) {
           setIsRecording(false);
-          toast.error(
-            isEn
-              ? 'Microphone permission blocked. Please allow mic access in your browser settings.'
-              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया ब्राउज़र सेटिंग्स में अनुमति दें।'
-          );
-        } else if (error.code === 'network') {
-          setIsRecording(false);
-          toast.info(
-            isEn
-              ? 'Offline Mode Active: Switched to Local Offline Classroom Voice Mode.'
-              : 'ऑफ़लाइन मोड सक्रिय: स्थानीय कक्षा वाक आदेश मोड स्वतः प्रारंभ।'
-          );
-          // Auto-trigger default offline classroom command so translation and speech output still execute
-          const defaultOfflinePhrase = isTeacherMode ? 'किताब खोलो' : 'अयिङ रुद्र तना';
-          setInputText(defaultOfflinePhrase);
-          const res = executeTranslation(defaultOfflinePhrase);
+          const res = executeTranslation(transcript);
           if (res) {
             const textToBroadcast = isTeacherMode
-              ? (res.audioText || res.phoneticDeva)
+              ? (res.phoneticDeva || res.nativeScript || res.audioText)
               : (res.hindiTranslation || res.nativeScript);
             if (autoBroadcast) {
               handleSpeakAudio(textToBroadcast, res.nativeScript);
             }
-            addToHistory(defaultOfflinePhrase, res, isTeacherMode ? 'teacher' : 'student');
+            addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
+            setLiveSessionCount((prev) => prev + 1);
+            toast.success(
+              isEn
+                ? `Logged: "${transcript}"`
+                : `दर्ज हुआ: "${transcript}"`
+            );
           }
+        }
+      },
+      (error) => {
+        setIsRecording(false);
+        if (error.code === 'not-allowed') {
+          toast.error(
+            isEn
+              ? 'Microphone permission blocked. Please click the lock icon in your address bar and allow Microphone.'
+              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया ब्राउज़र सेटिंग्स में अनुमति दें।'
+          );
+        } else if (error.code === 'network') {
+          toast.info(
+            isEn
+              ? 'Network speech recognition unavailable in browser. You can type in the box below to translate & listen.'
+              : 'ब्राउज़र में नेटवर्क वाक पहचान अनुपलब्ध है। आप नीचे लिखकर अनुवाद और जनजाति ध्वनि सुन सकते हैं।'
+          );
         } else if (error.code === 'not-supported') {
-          setIsRecording(false);
           toast.warning(
             isEn
-              ? 'Web Speech API is not supported in this browser. Please use Chrome/Edge.'
-              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। कृपया Chrome/Edge का प्रयोग करें।'
+              ? 'Web Speech API is not supported in this browser. Please use Chrome, Edge, or Safari with mic enabled.'
+              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। कृपया Chrome, Edge, या Safari का प्रयोग करें।'
           );
         }
       },
-      recognitionLang
+      recognitionLang,
+      () => {
+        setIsRecording(false);
+      }
     );
   };
 
   const handleStopMic = () => {
-    voiceService.stopListening();
+    voiceService.stopListening((finalText) => {
+      if (finalText && finalText.trim()) {
+        const res = executeTranslation(finalText);
+        if (res) {
+          const textToBroadcast = isTeacherMode
+            ? (res.phoneticDeva || res.nativeScript || res.audioText)
+            : (res.hindiTranslation || res.nativeScript);
+          if (autoBroadcast) {
+            handleSpeakAudio(textToBroadcast, res.nativeScript);
+          }
+          addToHistory(finalText, res, isTeacherMode ? 'teacher' : 'student');
+          setLiveSessionCount((prev) => prev + 1);
+        }
+      }
+    });
     setIsRecording(false);
     toast.success(
       isEn
-        ? `Microphone stopped. All utterances preserved in Classroom Log!`
-        : `माइक्रोफ़ोन बंद। सभी संवाद कक्षा लॉग में सुरक्षित!`
+        ? `Microphone stopped.`
+        : `माइक्रोफ़ोन बंद किया गया।`
     );
   };
 
@@ -293,7 +297,9 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         sourceText: source,
         targetText: res.nativeScript || res.hindiTranslation || '',
         phonetic: res.phoneticDeva || '',
-        audioText: res.audioText || res.hindiTranslation || res.nativeScript || '',
+        audioText: direction === 'teacher'
+          ? (res.phoneticDeva || res.nativeScript || res.audioText || '')
+          : (res.hindiTranslation || res.nativeScript || ''),
         lang: selectedLang,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
@@ -337,7 +343,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     const res = executeTranslation(inputText);
     if (res) {
       const textToBroadcast = isTeacherMode
-        ? (res.audioText || res.phoneticDeva)
+        ? (res.phoneticDeva || res.nativeScript || res.audioText)
         : (res.hindiTranslation || res.nativeScript);
       addToHistory(inputText, res, isTeacherMode ? 'teacher' : 'student');
       setLiveSessionCount((prev) => prev + 1);
@@ -1057,91 +1063,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
-          {/* Offline Classroom Voice Assistant Quick Commands */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              gap: '6px',
-              width: '100%',
-              maxWidth: '620px',
-              margin: '4px auto 8px auto',
-              padding: '6px 10px',
-              borderRadius: '8px',
-              backgroundColor: 'rgba(217, 90, 39, 0.05)',
-              border: '1px dashed var(--color-border)',
-            }}
-          >
-            <span
-              style={{
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: 'var(--color-palash)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                marginRight: '2px',
-              }}
-            >
-              <Volume2 size={12} />
-              {isEn ? 'Offline Spoken Cues:' : 'ऑफ़लाइन वाक आदेश:'}
-            </span>
-            {(isTeacherMode
-              ? [
-                  { label: 'किताब खोलो', hint: 'Open Book' },
-                  { label: 'यहाँ आओ', hint: 'Come Here' },
-                  { label: 'बैठ जाओ', hint: 'Sit Down' },
-                  { label: 'पानी पियो', hint: 'Drink Water' },
-                  { label: 'शाबाश बच्चों', hint: 'Well Done' },
-                  { label: 'पाठ शुरू करते हैं', hint: 'Start Lesson' },
-                ]
-              : [
-                  { label: 'अयिङ रुद्र तना', hint: 'My name is Rudra' },
-                  { label: 'दाः ओंङा', hint: 'I want water' },
-                  { label: 'जोहार', hint: 'Johar greeting' },
-                ]
-            ).map((chip) => (
-              <button
-                key={chip.label}
-                type="button"
-                onClick={() => {
-                  setInputText(chip.label);
-                  const res = executeTranslation(chip.label);
-                  if (res) {
-                    const textToBroadcast = isTeacherMode
-                      ? (res.audioText || res.phoneticDeva)
-                      : (res.hindiTranslation || res.nativeScript);
-                    if (autoBroadcast) {
-                      handleSpeakAudio(textToBroadcast, res.nativeScript);
-                    }
-                    addToHistory(chip.label, res, isTeacherMode ? 'teacher' : 'student');
-                    toast.success(isEn ? `Classroom audio broadcast: "${chip.label}"` : `कक्षा ध्वनि प्रसारित: "${chip.label}"`);
-                  }
-                }}
-                style={{
-                  padding: '3px 8px',
-                  borderRadius: '12px',
-                  backgroundColor: 'var(--color-surface-card)',
-                  border: '1px solid var(--color-border)',
-                  fontSize: '0.74rem',
-                  color: 'var(--color-slate)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)',
-                  transition: 'all 0.15s ease',
-                }}
-                title={chip.hint}
-              >
-                <Volume2 size={11} color="var(--color-palash)" />
-                <span>{chip.label}</span>
-              </button>
-            ))}
-          </div>
-
           {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
           <form
             onSubmit={handleSubmitText}
@@ -1386,7 +1307,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     type="button"
                     onClick={() => {
                       const textToBroadcast = isTeacherMode
-                        ? (translationResult.audioText || translationResult.phoneticDeva)
+                        ? (translationResult.phoneticDeva || translationResult.nativeScript || translationResult.audioText)
                         : (translationResult.hindiTranslation || translationResult.nativeScript);
                       handleSpeakAudio(textToBroadcast, translationResult.nativeScript);
                     }}
