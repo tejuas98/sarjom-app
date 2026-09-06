@@ -687,7 +687,7 @@ The following end-to-end flowchart details the exact runtime data pipeline durin
 │                      ▼                       │     │                      ▼                       │
 │ ┌──────────────────────────────────────────┐ │     │ ┌──────────────────────────────────────────┐ │
 │ │ ↔️ DIRECTION CHECK                        │ │     │ │ 📢 CLASSROOM AUDIO BROADCAST             │ │
-│ │ Hindi ➔ Tribal (L1) | Tribal ➔ Hindi     │ │     │ │ Total Roundtrip Latency: ~1.75 s         │ │
+│ │ Hindi ➔ Tribal Lang | Tribal ➔ Hindi     │ │     │ │ Total Roundtrip Latency: ~1.75 s         │ │
 │ └────────────────────┬─────────────────────┘ │     │ └────────────────────┬─────────────────────┘ │
 │                      │                       │     │                      │                       │
 │                      ▼                       │     │                      ▼                       │
