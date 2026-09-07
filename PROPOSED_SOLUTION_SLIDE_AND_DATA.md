@@ -72,20 +72,20 @@ Every metric, school count, teacher linguistic demographic, and learning outcome
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ [Team Logo]                               SARJOM (PALASH-Setu)                                    [SIH 2025/26] │
-│ PROPOSED SOLUTION: AI-Powered Vernacular Pedagogy & Real-Time Classroom Translation Suite                       │
+│ PROPOSED SOLUTION: AI-Powered Vernacular Pedagogy & Real-Time Translation Tool for MTB-MLE Primary Education    │
 ├─────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────┤
-│ 📋 CORE FUNCTIONAL MODULES              │ 📱 APPLICATION INTERFACE MODULES (Tablet / Mobile Form Factor)        │
-│                                         │ 1. Real-Time Classroom Dialogue Bridge (< 3s Latency, Hindi ⇄ Tribal) │
+│ [ CORE FUNCTIONAL MODULES ]             │ [ APPLICATION INTERFACE MODULES (Tablet / Mobile Form Factor) ]       │
+│                                         │ 1. Real-Time Classroom Dialogue Bridge (< 3s Latency, Hindi <-> Tribal│
 │ 1. Real-Time Classroom Dialogue Bridge  │ 2. NIPUN Bharat Bilingual Worksheet Generator                         │
-│    [Sub-3s acoustic latency]            │ 3. Dual-Script Illustrated Lexicon & Phonetic Deck                    │
+│    [Sub-3s latency: 1.82s benchmark]    │ 3. Dual-Script Illustrated Lexicon & Phonetic Deck                    │
 │ 2. FLN Curriculum Translation Engine    ├───────────────────────────────────┬───────────────────────────────────┤
-│    [Lesson scripts & assessment prompts]│ ⚙️ EDGE AI SYSTEMS ARCHITECTURE   │ ⚠️ STATUTORY RESOURCE DEFICIT     │
-│ 3. Automated Bilingual Worksheet Studio │    [16 GB LLM vs. 2 GB Edge AI]   │ ┌───────────────────────────────┐ │
-│    [NIPUN Bharat 80:20 scaffolding]     │   • Runtime: < 350 MB Working RAM │ │ 82.4% of primary teachers in   │ │
-│ 4. Dual-Script Illustrated Lexicon      │   • Storage: ~48 MB INT8 + FST    │ │ 5,280 ITDA schools lack native │ │
-│    [Ol Chiki + Devanagari phonetics]    │   • OS + Headroom: ~1,650 MB      │ │ fluency in local tribal mother  │ │
-│ 5. Optimized Edge Runtime Architecture  │   • Sub-3s Local Latency (1.82s)  │ │ tongues (Ho, Mundari, Santhali)│ │
-│    [≤ 2 GB RAM, Zero Cloud Dependency]  │   • 100% Fully Offline (Zero Cloud│ └───────────────────────────────┘ │
+│    [Lesson scripts & assessment prompts]│ [ EDGE AI SYSTEMS ARCHITECTURE ]  │ [ STATUTORY RESOURCE DEFICIT ]    │
+│ 3. Automated Bilingual Worksheet Studio │    (16 GB LLM vs. 2 GB Edge AI)   │ ┌───────────────────────────────┐ │
+│    [NIPUN Bharat 80:20 scaffolding]     │   * Runtime: < 350 MB Working RAM │ │ 82.4% of primary teachers in  │ │
+│ 4. Dual-Script Illustrated Lexicon      │   * Storage: ~48 MB INT8 + FST    │ │ 5,280 ITDA schools lack native│ │
+│    [Ol Chiki + Devanagari phonetics]    │   * OS + Headroom: ~1,650 MB      │ │ fluency in local tribal tongue│ │
+│ 5. Optimized Edge Runtime Architecture  │   * Sub-3s Local Latency (1.82s)  │ │ (Ho, Mundari, Santhali)       │ │
+│    [<= 2 GB RAM, Zero Cloud Dep.]       │   * 100% Fully Offline (Zero Cloud│ └───────────────────────────────┘ │
 └─────────────────────────────────────────┴───────────────────────────────────┴───────────────────────────────────┘
 ```
 
