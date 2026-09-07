@@ -121,7 +121,7 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 1. **True 100% Offline Edge Intelligence (Zero Server Cost):**
    - Unlike cloud-dependent translation APIs (Google Translate, Bhashini) that fail in remote forest zones, SARJOM runs all NLP translation, transliteration, and audio synthesis directly on the tablet CPU.
 2. **Pedagogical 80:20 Bilingual Scaffolding (Not Just Literal Translation):**
-   - Follows Jim Cummins’ *Common Underlying Proficiency (CUP)* framework: concepts are first anchored in the child’s mother tongue (Grade 1: 80% L1) before systematically transitioning to standard Hindi (Grade 3: 80% L2).
+   - Concepts are first anchored in the child’s tribal mother tongue (Grade 1: 80% tribal language) before systematically transitioning to standard Hindi (Grade 3: 80% Hindi).
 3. **Dual-Script Cultural Inclusivity (Ol Chiki + Devanagari):**
    - Preserves tribal orthography by rendering **Ol Chiki** (recognized under the 8th Schedule of the Constitution) while providing phonetic **Devanagari**, allowing Hindi teachers to read along effortlessly.
 4. **Bidirectional Classroom Dialogue (Sub-3s Response Loop):**
@@ -150,3 +150,50 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 │ deliver fluent mother-tongue instruction offline on existing tablets!  │
 └────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 8️⃣ Problem Statement Keyword Audit & Tracking Across All Slides
+
+Here is the exhaustive census of **35 Official Keywords & Phrases** extracted from the Problem Statement (Title, Background, Description, and Expected Solution), their status on the **Proposed Solution** slide, and where they will be reinforced in upcoming slides:
+
+| # | Official Keyword / Exact Phrase in Problem Statement | Present in Proposed Solution Slide? | Target Section / Upcoming Slide Mapping |
+| :---: | :--- | :---: | :--- |
+| **1** | **AI-Powered Vernacular Pedagogy** | ✅ YES | Slide Title, Feature 2, Technical Approach |
+| **2** | **Real-Time Translation Tool** | ✅ YES | Slide Title, Feature 1, Demo Video |
+| **3** | **Mother Tongue-Based Primary Education (MTB-MLE)** | ✅ YES | Subtitle, Pedagogical Section, Impact Slide |
+| **4** | **Jharkhand's PALASH MTB-MLE Programme** | ✅ YES | Slide Subtitle, Criterion 1, Background |
+| **5** | **Foundational Literacy (FLN) among tribal children** | ✅ YES | Feature 2, Criterion 2 (ASER data) |
+| **6** | **Shortage of teachers proficient in tribal languages** | ✅ YES | Resource Gap Box, Criterion 2 (82.4% gap) |
+| **7** | **Ho language** | ✅ YES | Feature 2, Screen 1, Lexicon Engine |
+| **8** | **Mundari language** | ✅ YES | Feature 2, Screen 1, Lexicon Engine |
+| **9** | **Santhali language** | ✅ YES | Feature 2, Screen 1 & 3, Ol Chiki Engine |
+| **10** | **Limited digital NLP resources** | ✅ YES | Technical Approach, Innovation Badge 3 |
+| **11** | **Hindi-medium trained teachers** | ✅ YES | Feature 7, Criterion 1, Transformation Box |
+| **12** | **Linguistic tools for mother-tongue instruction** | ✅ YES | Criterion 1, Solution Pillar 2 |
+| **13** | **Technology bridge** | ✅ YES | Slide Subtitle, Transformation Box |
+| **14** | **Over 5,000 tribal-area primary schools** | ✅ YES | Data Table (5,280 UDISE+ schools), Resource Gap |
+| **15** | **Children receive instruction in an alien language** | ✅ YES | Problem Mapping Table (38.4% attrition) |
+| **16** | **AI-assisted translation & curriculum-generation suite** | ✅ YES | Criterion 1, System Architecture Slide |
+| **17** | **Non-native speaking primary school teachers** | ✅ YES | Feature 7, Transformation Box |
+| **18** | **Without prior language training** | ✅ YES | Feature 7, Criterion 2 |
+| **19** | **NLP engine** | ✅ YES | Feature 2, Flowchart Step 3, Tech Slide |
+| **20** | **Translating standard Hindi FLN curriculum content** | ✅ YES | Feature 2, Criterion 1 |
+| **21** | **Lesson scripts** | ✅ YES | Feature 2, Criterion 1 |
+| **22** | **Activity instructions** | ✅ YES | Feature 2, Criterion 1 |
+| **23** | **Assessment prompts** | ✅ YES | Feature 2, Criterion 1 |
+| **24** | **Contextually accurate text** | ✅ YES | Criterion 1, CIIL/JCERT Validation |
+| **25** | **Synthesised audio in target tribal languages** | ✅ YES | Feature 4, Screen 1, Dual-Formant Audio |
+| **26** | **Real-time voice-to-voice translation feature** | ✅ YES | Feature 1, Screen 1, Flowchart Step 5 |
+| **27** | **Interactive classroom dialogue (Teacher ⇄ Student)** | ✅ YES | Feature 1, Transformation Diagram |
+| **28** | **Latency not exceeding three seconds (<3s latency)** | ✅ YES | Feature 1, Badge, Technical Benchmark |
+| **29** | **Auto-generate bilingual worksheets** | ✅ YES | Feature 3, Screen 2, Worksheet Studio |
+| **30** | **Visual flashcard sets** | ✅ YES | Feature 4, Screen 3, Flashcard Studio |
+| **31** | **NIPUN Bharat learning outcomes framework** | ✅ YES | Feature 3, Data Table, 80:20 Model |
+| **32** | **Target deployment areas lack reliable internet** | ✅ YES | Feature 5, Data Table (68.4% forest zones) |
+| **33** | **Function offline on low-cost tablets** | ✅ YES | Feature 5, Innovation Badge 1 |
+| **34** | **≤2 GB RAM (Gyanodaya hardware profile)** | ✅ YES | Feature 5, Data Table (34MB footprint) |
+| **35** | **Android 9+ (Mobile/Tablet runtime environment)** | ✅ YES | Feature 5, Deployment & Testing Slide |
+
+**Current Coverage on Proposed Solution Slide:** **35 / 35 Keywords (100% Full Coverage)**.
+Every single keyword has been embedded contextually, eliminating abstract terms (like L1/L2) and replacing them with explicit tribal mother tongue and Hindi terminology.
