@@ -301,20 +301,20 @@ Formatted in the exact presentation layout: **[Header Bar]** + **[Outlined Sub-b
 
 [ 1. AI-Assisted Teacher Translation Suite ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Provides spoken tribal audio and Hindi phonetic guides ("उच्चारण") to teach in Ho,      │
-│ Mundari & Santhali.                                                                     │
+│ Enables Hindi-medium teachers to deliver mother-tongue instruction in Ho, Mundari, and  │
+│ Santhali.                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 2. Two-Way Real-Time Voice Translation ]
+[ 2. Real-Time Voice-to-Voice Translation ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Teacher speaks Hindi → students hear tribal speech; decodes children's spoken           │
-│ questions into Hindi.                                                                   │
+│ Allows Hindi-speaking teachers to conduct interactive spoken classroom dialogue with    │
+│ tribal students.                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 3. Sub-3-Second Voice Translation Speed ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Tested at 1.8-second on-device latency for natural, uninterrupted classroom             │
-│ conversation.                                                                           │
+│ Delivers real-time voice translation with latency under 3 seconds (tested at 1.8s) for  │
+│ smooth dialogue.                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 4. Hindi FLN Curriculum Translation Engine ]
@@ -325,30 +325,31 @@ Formatted in the exact presentation layout: **[Header Bar]** + **[Outlined Sub-b
 
 [ 5. Auto-Generated Bilingual Worksheets (NIPUN Bharat) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Creates printable paper practice sheets with embedded audio QR codes for home learning. │
+│ Auto-generates printable bilingual worksheets aligned with the NIPUN Bharat learning   │
+│ outcomes framework.                                                                     │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 6. Visual Flashcards with Native Script & Audio ]
+[ 6. Visual Flashcard Sets with Native Script & Audio ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Picture cards with authentic Ol Chiki script, Hindi pronunciation guides, and native    │
-│ spoken audio.                                                                           │
+│ Generates visual flashcards with native scripts and synthesised tribal audio aligned    │
+│ to NIPUN Bharat.                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 7. 100% Full Offline Operation (Zero Internet) ]
+[ 7. Full Offline Operation (Zero Internet) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Works 100% offline without internet, built for the 68.4% of tribal schools in zero-     │
-│ network zones.                                                                          │
+│ Operates 100% offline on local device storage after initial content sync, with zero    │
+│ internet needed.                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 8. Low-Cost Tablet Support (≤ 2 GB RAM, Android 9+) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Runs in under 350 MB RAM on existing 28,945 Gyanodaya government tablets without         │
+│ Runs locally on low-cost government tablets with ≤ 2 GB RAM and Android 9+ without      │
 │ crashing.                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 Connected Strategic Benefits (Right-Hand Nodes):
   • [ 100% Fully Offline ]: Zero internet needed; works in remote village schools without network.
-  • [ Fast Voice Speed (< 3s) ]: 1.8s live speed ensures smooth two-way classroom conversation without delay.
+  • [ Fast Voice Speed (< 3s) ]: 1.8s live speed ensures natural classroom conversations without delay.
   • [ Zero Cloud Overhead ]: Fully self-contained; runs directly on existing school tablets.
   • [ Constitutional Right ]: Fulfills Article 350A & RTE Act duty to teach children in their mother tongue.
 ```
