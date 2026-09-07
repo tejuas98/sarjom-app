@@ -137,9 +137,9 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 - **Screen 3 (Right):** *Visual Flashcard Deck & Lexicon* — Category-based cards with Ol Chiki, Devanagari phonetics, and native sound replay.
 
 ### 🎨 Conceptual Visual Illustration (Bottom-Right of Slide):
-*(Matches the "Raahat - Decluttering mind with counsellor" visual metaphor: minimalist silhouette with simple soundwave bridge)*
+*(Matches the "Raahat - Decluttering mind with counsellor" visual metaphor, illustrating the pedagogical transformation)*
 
-![Classroom Language Bridge - Simple](classroom_bridge_simple.jpg)
+![Classroom Language Bridge](classroom_language_bridge.jpg)
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -149,9 +149,9 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 └────────────────────────────────────────────────────────────────────────┘
 ```
 - **Visual Breakdown:**
-  - **Left (Teacher):** Non-native Hindi-medium teacher delivering primary curriculum instruction.
-  - **Center (Simple Waveform):** Real-time voice-to-voice bridge delivering instant mother-tongue translation (< 3s).
-  - **Right (Tribal Child):** 5-year-old tribal student smiling with an illuminated, comprehending mind!
+  - **Left (Teacher):** Non-native Hindi-medium teacher delivering standard primary curriculum instruction.
+  - **Center (SARJOM Edge Bridge):** Real-time on-device NLP & acoustic synthesis converting speech into indigenous tribal scripts in < 3s.
+  - **Right (Tribal Child):** 5-year-old tribal learner whose mind lights up with instant understanding, joy, and active classroom participation!
 
 ### Resource Gap Callout Box (Bottom-Right of Slide):
 ```
