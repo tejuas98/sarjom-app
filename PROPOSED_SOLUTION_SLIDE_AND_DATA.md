@@ -299,59 +299,59 @@ Formatted in the exact presentation layout: **[Header Bar]** + **[Outlined Sub-b
 ❖ Proposed Solution
 ───────────────────────────────────────────────────────────────────────────────────────────
 
-[ 1. AI-Assisted Vernacular Pedagogy Suite ]
+[ 1. AI-Assisted Translation & Curriculum Suite ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Enables Hindi-medium trained primary teachers to deliver mother-tongue instruction     │
-│ without prior language training across 5,280 ITDA schools.                              │
+│ Helps Hindi-medium teachers easily teach tribal children in Ho, Mundari, and Santhali   │
+│ without needing any language training.                                                  │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 2. Real-Time Classroom Dialogue Bridge (< 3s Latency) ]
+[ 2. Real-Time Voice-to-Voice Translation ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Interactive voice-to-voice translation between teacher and tribal students             │
-│ benchmarked at 1.82 seconds to maintain oral pedagogical continuity.                    │
+│ The teacher speaks in Hindi, and students hear it in their own mother tongue, so they   │
+│ can talk to each other easily in class.                                                 │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 3. Spoken FLN Curriculum Translation Engine ]
+[ 3. Real-Time Voice Translation (Under 3 Seconds) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Translates foundational lesson scripts, activity instructions, and assessment prompts   │
-│ into contextually accurate Ho, Mundari, Santhali, and Sadri text and speech.            │
+│ Translates speech in under 2 seconds (tested at 1.8s) so classroom talk flows naturally │
+│ without any waiting or delays.                                                          │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 4. Indigenous Austroasiatic NLP Core ]
+[ 4. Hindi FLN Curriculum Translation Engine ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Resolves agglutinative morphology, complex dual-number pronouns, and low-resource       │
-│ tribal grammar using deterministic finite-state transducers (FST, O(1)).                │
+│ Turns Hindi lesson plans, fun class activities, and test questions into tribal speech   │
+│ and text for daily teaching.                                                            │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 5. NIPUN Bharat Bilingual Worksheet Studio ]
+[ 5. Auto-Generated Bilingual Worksheets (NIPUN Bharat) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Auto-generates printable 80:20 scaffolding worksheets with randomized Cloze exercises, │
-│ word-picture matching pairs, and early mathematical reasoning drills.                   │
+│ Creates printable paper practice sheets in both Hindi and tribal languages so every     │
+│ child can practice writing and math.                                                    │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 6. Dual-Script Illustrated Lexicon & Acoustic Deck ]
+[ 6. Visual Flashcard Sets with Tribal Audio ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Displays indigenous Ol Chiki script alongside phonetic Devanagari with on-device        │
-│ native audio pronunciation to safeguard tribal orthographic identity.                   │
+│ Colorful picture cards showing native words, Hindi meanings, and clear spoken           │
+│ pronunciation to help kids learn.                                                       │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 7. Bidirectional Student Oral Response Channel ]
+[ 7. Full Offline Operation (No Internet Needed) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Captures oral student responses in tribal mother tongues and transcribes them into      │
-│ standard Hindi, enabling real-time comprehension monitoring by the educator.             │
+│ Works 100% without internet in remote forest schools where there is no mobile network   │
+│ or Wi-Fi.                                                                               │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 8. Edge-Optimized Local Runtime (≤ 2 GB RAM, Android 9+) ]
+[ 8. Low-Cost Tablet Support (≤ 2 GB RAM, Android 9+) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Operates inside < 350 MB active working RAM (~48 MB INT8 model storage) with 100%       │
-│ offline execution and zero risk of Linux Low Memory Killer (LMK) terminations.          │
+│ Built specifically for cheap government school tablets with only 2 GB RAM, running      │
+│ smoothly without freezing or crashing.                                                  │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 Connected Strategic Benefits (Right-Hand Nodes):
-  • [ 100% Fully Offline ]: 0 KB cellular requirement; operates seamlessly in 68.4% off-grid schools.
-  • [ Sub-3s SLA Compliance ]: 1.82s local processing ensures zero conversational dead-air in classrooms.
-  • [ Zero Operational Cost ]: ₹0 recurring cloud API bills for the Department of School Education.
-  • [ Constitutional Mandate ]: Satisfies Article 350A and RTE Act 2009 mother-tongue instruction rights.
+  • [ 100% Fully Offline ]: Zero internet needed; works in remote village schools without network.
+  • [ Fast Voice Speed (< 3s) ]: 1.8s live speed ensures natural classroom conversations without delay.
+  • [ ₹0 Running Cost ]: Zero cloud server bills; runs directly on existing school tablets.
+  • [ Constitutional Right ]: Fulfills Article 350A & RTE Act duty to teach children in their mother tongue.
 ```
 
 ---

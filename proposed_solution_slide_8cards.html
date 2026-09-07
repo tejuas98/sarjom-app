@@ -6,7 +6,7 @@
   <title>Proposed Solution - SIH 2026 Presentation Slide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -21,28 +21,28 @@
       color: #0F172A;
       display: flex;
       flex-direction: column;
-      padding: 48px 64px;
+      padding: 44px 60px;
       overflow: hidden;
     }
     .slide-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       border-bottom: 3px solid #1E40AF;
-      padding-bottom: 16px;
+      padding-bottom: 14px;
     }
     .slide-title-wrap {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
     .title-icon {
-      font-size: 38px;
+      font-size: 36px;
       color: #1E40AF;
     }
     .slide-title {
-      font-size: 42px;
+      font-size: 40px;
       font-weight: 800;
       color: #1E40AF;
       text-decoration: underline;
@@ -51,10 +51,10 @@
       letter-spacing: -0.5px;
     }
     .slide-subtitle {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 600;
       color: #475569;
-      margin-top: 4px;
+      margin-top: 5px;
     }
     .header-badges {
       display: flex;
@@ -77,52 +77,52 @@
     .slide-body {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
-      gap: 40px;
+      gap: 36px;
       flex: 1;
-      height: calc(1080px - 160px);
+      height: calc(1080px - 150px);
     }
 
     /* Left Column: 8 Paired Cards */
     .cards-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       justify-content: space-between;
     }
     .feature-card {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
     .feature-header-bar {
       background: #F59E0B;
       color: #000000;
       font-size: 16px;
       font-weight: 800;
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 4px;
       display: inline-block;
       align-self: flex-start;
       letter-spacing: -0.2px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
     }
     .feature-sub-box {
       background: #FFFFFF;
       border: 2px solid #10B981;
       border-radius: 6px;
-      padding: 8px 16px;
-      font-size: 14.5px;
+      padding: 7px 14px;
+      font-size: 15px;
       font-weight: 500;
       color: #1E293B;
       line-height: 1.35;
       box-shadow: 0 1px 2px rgba(16, 185, 129, 0.08);
     }
 
-    /* Right Column: Strategic Nodes & Visual Metaphor */
+    /* Right Column */
     .right-column {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       height: 100%;
     }
 
@@ -130,14 +130,14 @@
     .nodes-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
     .benefit-node {
       border-radius: 10px;
-      padding: 14px 18px;
+      padding: 12px 16px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
       color: #FFFFFF;
     }
     .node-green {
@@ -146,18 +146,18 @@
     .node-blue {
       background: linear-gradient(135deg, #1E40AF 0%, #2563EB 100%);
     }
-    .node-navy {
-      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-    }
     .node-teal {
       background: linear-gradient(135deg, #0D9488 0%, #14B8A6 100%);
     }
+    .node-navy {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    }
     .node-title {
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .node-desc {
       font-size: 13px;
@@ -171,7 +171,7 @@
       background: #FFFFFF;
       border: 1px solid #CBD5E1;
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -180,7 +180,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     }
     .visual-card img {
-      max-height: 280px;
+      max-height: 290px;
       width: auto;
       border-radius: 8px;
       object-fit: contain;
@@ -197,21 +197,19 @@
       border: 1px solid #BFDBFE;
     }
 
-    /* Statutory Callout Footer */
+    /* Statutory Deficit Footer */
     .statutory-footer {
       background: #FEF2F2;
       border: 1px solid #FECACA;
       border-left: 5px solid #EF4444;
       border-radius: 6px;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 9px 14px;
     }
     .statutory-text {
       font-size: 13.5px;
       font-weight: 600;
       color: #991B1B;
+      line-height: 1.35;
     }
     .statutory-highlight {
       font-weight: 800;
@@ -246,65 +244,65 @@
 
       <!-- Card 1 -->
       <div class="feature-card">
-        <div class="feature-header-bar">1. AI-Assisted Vernacular Pedagogy Suite</div>
+        <div class="feature-header-bar">1. AI-Assisted Translation &amp; Curriculum Suite</div>
         <div class="feature-sub-box">
-          Enables Hindi-medium trained primary teachers to deliver mother-tongue instruction without prior language training across 5,280 ITDA schools.
+          Helps Hindi-medium teachers easily teach tribal children in Ho, Mundari, and Santhali without needing any language training.
         </div>
       </div>
 
       <!-- Card 2 -->
       <div class="feature-card">
-        <div class="feature-header-bar">2. Real-Time Classroom Dialogue Bridge (&lt; 3s Latency)</div>
+        <div class="feature-header-bar">2. Real-Time Voice-to-Voice Translation</div>
         <div class="feature-sub-box">
-          Interactive voice-to-voice translation between teacher and tribal students benchmarked at 1.82 seconds to maintain oral pedagogical continuity.
+          The teacher speaks in Hindi, and students hear it in their own mother tongue, so they can talk to each other easily in class.
         </div>
       </div>
 
       <!-- Card 3 -->
       <div class="feature-card">
-        <div class="feature-header-bar">3. Spoken FLN Curriculum Translation Engine</div>
+        <div class="feature-header-bar">3. Real-Time Voice Translation (Under 3 Seconds)</div>
         <div class="feature-sub-box">
-          Translates foundational lesson scripts, activity instructions, and assessment prompts into contextually accurate Ho, Mundari, Santhali, and Sadri.
+          Translates speech in under 2 seconds (tested at 1.8s) so classroom talk flows naturally without any waiting or delays.
         </div>
       </div>
 
       <!-- Card 4 -->
       <div class="feature-card">
-        <div class="feature-header-bar">4. Indigenous Austroasiatic NLP Core</div>
+        <div class="feature-header-bar">4. Hindi FLN Curriculum Translation Engine</div>
         <div class="feature-sub-box">
-          Resolves agglutinative morphology, complex dual-number pronouns, and low-resource tribal grammar using deterministic finite-state transducers (FST, O(1)).
+          Turns Hindi lesson plans, fun class activities, and test questions into tribal speech and text for daily teaching.
         </div>
       </div>
 
       <!-- Card 5 -->
       <div class="feature-card">
-        <div class="feature-header-bar">5. NIPUN Bharat Bilingual Worksheet Studio</div>
+        <div class="feature-header-bar">5. Auto-Generated Bilingual Worksheets (NIPUN Bharat)</div>
         <div class="feature-sub-box">
-          Auto-generates printable 80:20 scaffolding worksheets with randomized Cloze exercises, word-picture matching pairs, and early math reasoning.
+          Creates printable paper practice sheets in both Hindi and tribal languages so every child can practice writing and math.
         </div>
       </div>
 
       <!-- Card 6 -->
       <div class="feature-card">
-        <div class="feature-header-bar">6. Dual-Script Illustrated Lexicon & Acoustic Deck</div>
+        <div class="feature-header-bar">6. Visual Flashcard Sets with Tribal Audio</div>
         <div class="feature-sub-box">
-          Displays indigenous Ol Chiki script alongside phonetic Devanagari with on-device native audio pronunciation to safeguard tribal orthographic identity.
+          Colorful picture cards showing native words, Hindi meanings, and clear spoken pronunciation to help kids learn.
         </div>
       </div>
 
       <!-- Card 7 -->
       <div class="feature-card">
-        <div class="feature-header-bar">7. Bidirectional Student Oral Response Channel</div>
+        <div class="feature-header-bar">7. Full Offline Operation (No Internet Needed)</div>
         <div class="feature-sub-box">
-          Captures oral answers from tribal students and transcribes them into standard Hindi, enabling real-time comprehension monitoring by the educator.
+          Works 100% without internet in remote forest schools where there is no mobile network or Wi-Fi.
         </div>
       </div>
 
       <!-- Card 8 -->
       <div class="feature-card">
-        <div class="feature-header-bar">8. Edge-Optimized Local Runtime (≤ 2 GB RAM, Android 9+)</div>
+        <div class="feature-header-bar">8. Low-Cost Tablet Support (≤ 2 GB RAM, Android 9+)</div>
         <div class="feature-sub-box">
-          Operates inside &lt; 350 MB active working RAM (~48 MB INT8 model storage) with 100% offline execution and zero risk of Linux Low Memory Killer (LMK) exits.
+          Built specifically for cheap government school tablets with only 2 GB RAM, running smoothly without freezing or crashing.
         </div>
       </div>
 
@@ -317,22 +315,22 @@
       <div class="nodes-grid">
         <div class="benefit-node node-green">
           <div class="node-title">✓ 100% Fully Offline</div>
-          <div class="node-desc">0 KB cellular requirement; operates seamlessly in 68.4% forest-belt off-grid schools.</div>
+          <div class="node-desc">Zero internet needed; works in remote village schools without network.</div>
         </div>
 
         <div class="benefit-node node-blue">
-          <div class="node-title">⚡ Sub-3s SLA Compliance</div>
-          <div class="node-desc">1.82s local CPU inference preserves live classroom instructional flow.</div>
+          <div class="node-title">⚡ Fast Voice Speed (< 3s)</div>
+          <div class="node-desc">1.8s live speed ensures natural classroom conversations without delay.</div>
         </div>
 
         <div class="benefit-node node-teal">
-          <div class="node-title">₹0 Operational Cost</div>
-          <div class="node-desc">Zero recurring cloud API bills; runs locally on existing 28,945 Gyanodaya tablets.</div>
+          <div class="node-title">₹0 Running Cost</div>
+          <div class="node-desc">Zero cloud server bills; runs directly on existing school tablets.</div>
         </div>
 
         <div class="benefit-node node-navy">
-          <div class="node-title">⚖️ Constitutional Mandate</div>
-          <div class="node-desc">Fulfills Article 350A & RTE Act 2009 duty to instruct primary children in mother tongue.</div>
+          <div class="node-title">⚖️ Constitutional Right</div>
+          <div class="node-desc">Fulfills Article 350A &amp; RTE Act duty to teach children in their mother tongue.</div>
         </div>
       </div>
 
@@ -345,7 +343,7 @@
       <!-- Statutory Deficit Callout -->
       <div class="statutory-footer">
         <div class="statutory-text">
-          ⚠️ <span class="statutory-highlight">Statutory Baseline (UDISE+ & JEPC):</span> 82.4% of primary teachers in 5,280 ITDA schools lack tribal fluency; SARJOM bridges this gap instantly with zero prior training.
+          ⚠️ <span class="statutory-highlight">Government Ground Reality (UDISE+ &amp; JEPC):</span> Over 80% of primary teachers in 5,000+ tribal schools do not know local languages; SARJOM solves this immediately.
         </div>
       </div>
 

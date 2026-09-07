@@ -67,6 +67,8 @@ export default function App() {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
       {/* 1. Top Header & Navigation Bar (Dynamic SARJOM title, 4 Core Tabs, Fullscreen Toggle) */}
