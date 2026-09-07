@@ -143,9 +143,8 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 🔄 CONCEPTUAL METAPHOR CAPTION:                                        │
-│ "Bridging the Classroom Gap: Transforming Alien Instructions into      │
-│  Joyful Mother-Tongue Comprehension"                                   │
+│ 🔄 VISUAL METAPHOR CAPTION:                                            │
+│ "Real-Time Classroom Pedagogy Bridge"                                  │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 - **Visual Breakdown:**
