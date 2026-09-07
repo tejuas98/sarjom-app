@@ -303,8 +303,8 @@ Under India's **NIPUN Bharat Mission**, schools must track whether children achi
 │ **7. Visual Flashcards**                     │ Interactive high-contrast bilingual visual flashcards   │
 │                                              │ with native script and spoken audio triggers.          │
 ├──────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
-│ **8. 100% Offline Operation on Budget Tabs** │ Operates entirely in browser memory (~34 MB RAM) with  │
-│                                              │ zero cellular connectivity required in remote schools. │
+│ **8. 100% Offline Operation on Budget Tabs** │ Operates entirely in local edge memory (< 350 MB Active RAM, ~48 MB INT8 model) with   │
+│                                              │ zero network traffic, ensuring full compliance on 2 GB Android 9+ hardware.            │
 ├──────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **9. State Administrative Integration**      │ Connects to official **e-Vidyavahini 2.0 (EVV)** UDISE+│
 │                                              │ school codes and supports MicroSD sneakernet export.  │
