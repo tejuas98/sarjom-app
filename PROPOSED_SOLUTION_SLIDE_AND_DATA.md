@@ -136,6 +136,23 @@ Every metric, school count, teacher deficit percentage, and student learning sta
 - **Screen 2 (Middle):** *NIPUN Bharat Worksheet Studio* — Grade 1–3 bilingual fill-in-the-blanks, matching pairs, offline PDF print.
 - **Screen 3 (Right):** *Visual Flashcard Deck & Lexicon* — Category-based cards with Ol Chiki, Devanagari phonetics, and native sound replay.
 
+### 🎨 Conceptual Visual Illustration (Bottom-Right of Slide):
+*(Matches the "Raahat - Decluttering mind with counsellor" visual metaphor, illustrating the pedagogical transformation)*
+
+![Classroom Language Bridge](classroom_language_bridge.jpg)
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ 🔄 CONCEPTUAL METAPHOR CAPTION:                                        │
+│ "Bridging the Classroom Gap: Transforming Alien Instructions into      │
+│  Joyful Mother-Tongue Comprehension"                                   │
+└────────────────────────────────────────────────────────────────────────┘
+```
+- **Visual Breakdown:**
+  - **Left (Teacher):** Non-native Hindi-medium teacher delivering standard primary curriculum instruction.
+  - **Center (SARJOM Edge Bridge):** Real-time on-device NLP & acoustic synthesis converting speech into indigenous tribal scripts in <3s.
+  - **Right (Tribal Child):** 5-year-old tribal learner whose mind lights up with instant understanding, joy, and active classroom participation!
+
 ### Resource Gap Callout Box (Bottom-Right of Slide):
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
