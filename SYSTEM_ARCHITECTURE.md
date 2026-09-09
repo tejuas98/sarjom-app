@@ -431,7 +431,7 @@ graph TD
 
 ### 3.2 Zone B: Low-Cost Tablet Hardware & OS Runtime ($\le$ 2GB RAM, Android 9+)
 * **Linux Kernel & Audio HAL**: Captures 16-bit PCM audio at 44.1 kHz via the device microphone.
-* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. SARJOM’s total heap usage is **~34.2 MB**, ensuring zero danger of kernel `SIGKILL` (Exit Code 137).
+* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. SARJOM’s measured engine heap is **5.8 MB** — about 1% of the ≈500 MB a 2 GB tablet leaves after OS and background apps — so kernel `SIGKILL` (Exit Code 137) is not a plausible failure mode.
 * **Chromium V8 Engine**: High-performance JIT execution utilizing pre-allocated flat `Float32Array` buffers. Inner tensor loops avoid dynamic object instantiation, bounding garbage collection pause times to $< 1.5$ ms.
 
 ### 3.3 Zone C: PWA Offline Container & Zero-Loss Storage Engine

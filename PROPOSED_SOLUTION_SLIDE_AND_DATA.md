@@ -205,7 +205,7 @@ The software suite directly fulfills the pedagogical intent of Jharkhand's **PAL
 | **82.8% ST Grade 3 Reading Deficit** | **ASER 2022 Rural Findings** | **Comprehension Scaffolding:** Foundational concepts taught in the mother tongue during the critical early years, meeting NIPUN Bharat benchmarks. |
 | **38.4% Cumulative ST Student Dropout Rate** | **UDISE+ State Report (MoE)** | **Linguistic Alienation Reversal:** Children receive instruction in a language they comprehend at home, maintaining school engagement. |
 | **68.4% Schools in Zero-Connectivity Forest Belts** | **National Telecom & JEPC Audit** | **Local Edge Architecture:** 100% offline execution on device storage with zero reliance on cellular networks or cloud APIs. |
-| **28,945 Deployed Tablets with ≤ 2 GB RAM** | **JEPC Hardware Registry** | **Optimized Edge Memory Profile:** Peak RAM usage of ~340 MB ensures stable operation on Android 9+ hardware without OOM crashes. |
+| **28,945 Deployed Tablets with ≤ 2 GB RAM** | **JEPC Hardware Registry** | **Optimized Edge Memory Profile:** Measured engine heap of 5.8 MB (≈1% of the ~500 MB free after OS+background on a 2 GB tablet) ensures stable operation on Android 9+ hardware without OOM crashes. |
 
 ---
 

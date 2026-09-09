@@ -7,7 +7,7 @@
 [![Prototype Walkthrough](https://img.shields.io/badge/Prototype%20Walkthrough-Screenshots%20%26%20Analysis-purple.svg)](./PROTOTYPE_README.md)
 [![Test Suite Status](https://img.shields.io/badge/Automated%20Tests-12%2F12%20Passed%20(100%25)-brightgreen.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![Latency Benchmark](https://img.shields.io/badge/Voice%20Latency-0.6%20ms%20avg%20(SLA%20%3C%203.0s)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
-[![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-~34%20MB%20(Budget%20%E2%89%A42GB)-blue.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
+[![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-5.8%20MB%20heap%20(Budget%20%E2%89%A42GB)-blue.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 [![Deep Math & Architecture Spec](https://img.shields.io/badge/Technical%20Spec-Mathematics%20%26%20Engineering%20Deep%20Dive-purple.svg)](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)
 [![Full Tech Stack & Logic Guide](https://img.shields.io/badge/Tech%20Stack%20%26%20Logic-Non--Tech%20Intuition%20to%20Matrix%20Math-teal.svg)](./TECH_STACK_AND_LOGIC_EXPLAINED.md)
