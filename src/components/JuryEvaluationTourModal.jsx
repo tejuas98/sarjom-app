@@ -33,7 +33,7 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
     },
     {
       badge: 'स्लाइड 2/4 • तकनीकी श्रेष्ठता (Technical Benchmarks)',
-      title: '0.022 ms लेटेंसी एवं 5 MB रैम प्रोफ़ाइल (100% ऑफ़लाइन)',
+      title: '0.6 ms लेटेंसी एवं 5.8 MB रैम प्रोफ़ाइल (100% ऑफ़लाइन)',
       icon: <Zap size={28} color="#0E5B37" />,
       content: (
         <div>
@@ -52,12 +52,12 @@ export function JuryEvaluationTourModal({ isOpen, onClose, onNavigateTab }) {
               <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                 <td style={{ padding: '6px' }}><strong>अनुवाद लेटेंसी</strong></td>
                 <td style={{ padding: '6px', color: '#64748B' }}>$\le$ 3.0 सेकंड (3000 ms)</td>
-                <td style={{ padding: '6px', color: '#0E5B37', fontWeight: 700 }}>0.022 ms (135,901x तीव्र)</td>
+                <td style={{ padding: '6px', color: '#0E5B37', fontWeight: 700 }}>0.6 ms avg (≈4,900x तीव्र)</td>
               </tr>
               <tr style={{ borderBottom: '1px solid #E2E8F0' }}>
                 <td style={{ padding: '6px' }}><strong>रैम मेमोरी उपयोग</strong></td>
                 <td style={{ padding: '6px', color: '#64748B' }}>$\le$ 2048 MB टैबलेट</td>
-                <td style={{ padding: '6px', color: '#0E5B37', fontWeight: 700 }}>5.08 MB (बजट का &lt; 2%)</td>
+                <td style={{ padding: '6px', color: '#0E5B37', fontWeight: 700 }}>5.8 MB (free बजट का ~1%)</td>
               </tr>
               <tr>
                 <td style={{ padding: '6px' }}><strong>नेटवर्क निर्भरता</strong></td>

@@ -5,7 +5,7 @@
 [![Architecture Status](https://img.shields.io/badge/System%20Architecture-Connected%20Pipeline-brightgreen.svg)](#1-the-grand-unified-system-architecture-diagram-ascii)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 
-> **"An architectural blueprint mapping the complete lifecycle of data across the Physical Classroom, Low-End Tablet Hardware, Web Audio DSP, On-Device Neural Transformer, React Presentation Layer, Offline Storage, and the State-Level e-Vidyavahini 2.0 Sneakernet."**
+> **"An architectural blueprint mapping the complete lifecycle of data across the Physical Classroom, Low-End Tablet Hardware, Web Audio DSP, On-Device Neural Transformer, React Presentation Layer, Offline Storage, and an optional teacher-carried CSV export — with ZERO CLOUD at runtime."**
 
 ---
 
@@ -21,13 +21,13 @@
    * 3.4 Zone D: Browser-Native Web Audio DSP & Acoustic Filtering Pipeline
    * 3.5 Zone E: Core AI/ML Computational Linguistics & PALASH-MundaLLM Engine
    * 3.6 Zone F: Modern React 19 Pedagogical Presentation Suite
-   * 3.7 Zone G: Rural Sneakernet, BRC Node & State Governance Cloud
+   * 3.7 Zone G: Optional Teacher-Carried File Export (Zero Cloud at Runtime)
 4. [Wire-by-Wire Data Path Walkthroughs](#4-wire-by-wire-data-path-walkthroughs)
    * 4.1 Data Path 1: Teacher Hindi Speech ➔ Sub-50ms Spoken Tribal Output
    * 4.2 Data Path 2: Child Mother Tongue Distress ➔ Teacher Counter-Response Loop
    * 4.3 Data Path 3: Child Oral Reading ➔ Formant DSP Accuracy Scoring
    * 4.4 Data Path 4: Digital Slate Writing ➔ Bézier Curve Damping & Chalk Particles
-   * 4.5 Data Path 5: Classroom FLN Log ➔ MicroSD Sneakernet ➔ e-Vidyavahini 2.0 State Cloud
+   * 4.5 Data Path 5: Classroom FLN Log ➔ Optional MicroSD File Export (Zero Cloud)
 5. [Timing, Latency & Memory Profiling Along the Critical Path](#5-timing-latency--memory-profiling-along-the-critical-path)
 
 ---
@@ -120,7 +120,7 @@
    │ High-contrast decks   │  │ Tri-lingual search    │  │ Live Attention Heatmap │  │ Acoustic Formant Match │
    └───────────────────────┘  └───────────────────────┘  └────────────────────────┘  └────────────────────────┘
    ┌──────────────────────────────────────────────────┐  ┌────────────────────────────────────────────────────┐
-   │ 9. 60-Sec Teacher Onboarding Wizard (`Teacher`)  │  │ 10. Tablet Diagnostics & EVV Status Header         │
+   │ 9. 60-Sec Teacher Onboarding Wizard (`Teacher`)  │  │ 10. Tablet Diagnostics & Export Status Header      │
    └──────────────────────────────────────────────────┘  └──────────────────────────┬─────────────────────────┘
                                                                                     │
                                                                                     │ Trigger One-Click Export
@@ -132,13 +132,12 @@
             │
             ▼ Physical Handover by Teacher at Monthly Review Meeting
    [Block Resource Centre (BRC) / Cluster Resource Centre (CRC)]
-   • BRC Ingestion Computer connected to NIC / State Broadband Network
-   • Dispatches REST API Payload: `POST https://evidyavahini.jharkhand.gov.in/api/v2/fln/sync`
+   • BRC desktop reads the pen-drive file — OUTSIDE the app, no network call by SARJOM
+   • District staff may import the CSV into whatever spreadsheet they already use
             │
             ▼
-   [Jharkhand e-Vidyavahini 2.0 (EVV) Central Cloud Infrastructure]
-   • Central Oracle / PostgreSQL State Academic Monitoring Database
-   • Real-Time MTB-MLE Analytics Dashboard at Jharkhand Education Project Council (JEPC Ranchi)
+   [Optional District Reporting — a file handoff, never a live sync]
+   • SARJOM ships no REST client, no endpoint, no cloud tenant: ZERO CLOUD at runtime
 ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
@@ -159,14 +158,14 @@ For intuitive comprehension during hackathon jury evaluation and technical archi
 </div>
 
 * **Stage 1 (INPUT)**: Captures teacher microphone audio (75–82 dB noise), two-way student tribal speech, capacitive touch slate strokes, and rural parent phone QR scans.
-* **Stage 2 (PROCESS)**: Applies Web Audio DSP 300Hz–3.4kHz noise gate $\to$ Vectorized TF-IDF Cosine Similarity engine (**0.022 ms latency**) $\to$ Agglutinative Munda morphology transducer with 80:20 NIPUN transition rules.
-* **Stage 3 (OUTPUT)**: Renders native Ol Chiki (`ᱡᱚᱦᱟᱨ`) / Warang Chiti orthography, synthesizes dual-channel audio speech (TTS), renders 300 DPI printable Audio QR worksheets, and dispatches encrypted offline JSON records to e-Vidyavahini 2.0.
+* **Stage 2 (PROCESS)**: Applies Web Audio DSP 300Hz–3.4kHz noise gate $\to$ Vectorized TF-IDF Cosine Similarity engine (**0.6 ms average measured latency**) $\to$ Agglutinative Munda morphology transducer with 80:20 NIPUN transition rules.
+* **Stage 3 (OUTPUT)**: Renders native Ol Chiki (`ᱡᱚᱦᱟᱨ`) / Warang Chiti orthography, synthesizes dual-channel audio speech (TTS), renders 300 DPI printable Audio QR worksheets, and commits encrypted offline JSON records to the tablet's own storage — nothing uploads.
 
 ---
 
 ## 1.6 Exhaustive System Workflow & If-Else Decision Flowchart
 
-While high-level block diagrams summarize architectural components, mission-critical field operations require deterministic state machines. Below is the **Exhaustive System Workflow & If-Else Decision Flowchart**, detailing how SARJOM executes across hardware initialization, network volatility, acoustic noise gating, multilingual branching, and parent home-learning verification.
+While high-level block diagrams summarize architectural components, mission-critical field operations require deterministic state machines. Below is the **Exhaustive System Workflow & If-Else Decision Flowchart**, detailing how SARJOM executes across hardware initialization, zero-cloud boot, acoustic noise gating, multilingual branching, and parent home-learning verification.
 
 <div align="center" style="margin: 20px 0;">
   <a href="./public/sarjom_detailed_flowchart.png" title="Click to view full resolution flowchart">
@@ -182,9 +181,7 @@ While high-level block diagrams summarize architectural components, mission-crit
 
 1. **Level 1: Launch & Connectivity Verification**:
    - **Trigger**: Teacher boots device and opens SARJOM PWA container.
-   - **Decision (`if (navigator.onLine)`):**
-     - **YES (Online)**: Dispatches non-blocking HTTP handshake to `https://evidyavahini.jharkhand.gov.in/api/v2/handshake`. Syncs latest state curriculum updates and flushes pending offline formative assessment queues.
-     - **NO (Offline)**: Locks immediately into **100% Offline Edge Mode**. Service Worker intercepts all requests, serving precached WebAssembly, SVG fonts, and in-memory Munda lexical dictionaries. Zero network error dialogs are shown.
+   - **Decision: there is no connectivity decision.** SARJOM is a zero-cloud build: the Service Worker serves the app shell, the lexicons, the audio bank, the fonts and every engine from this tablet's own CacheStorage. `navigator.onLine` is never consulted, no handshake is ever dispatched, and no cloud twin of the app exists. New lessons, voices and lexicon updates arrive as a new app build (USB install or demo-link update).
    - **Convergence**: Loads District & School UDISE Profile (e.g. *Rajkiya Primary School, Tantnagar, West Singhbhum*, UDISE: 20240301102). Dialect engine auto-tunes to Santhali, Ho, or Mundari.
 
 2. **Level 2: 4-Way Pedagogical Mode Selection**:
@@ -194,7 +191,7 @@ While high-level block diagrams summarize architectural components, mission-crit
        - Passes signal into **Web Audio DSP 300Hz–3.4kHz Bandpass Noise Gate**.
        - **Decision (`if (SNR > 12 dB)`):**
          - **NO (Heavy Rain on Tin Roof / Screaming Noise)**: Seamlessly triggers **Noise Fallback**, rendering high-contrast 1-tap visual prompt chips so teaching is never interrupted.
-         - **YES (Clear Speech Detected)**: Runs **Sparse TF-IDF N-Gram Vectorizer**. Matches query against 1,240+ FLN terms using Cosine Similarity space (**0.022 ms measured latency**).
+         - **YES (Clear Speech Detected)**: Runs **Sparse TF-IDF N-Gram Vectorizer**. Matches query against 1,240+ FLN terms using Cosine Similarity space (**0.6 ms average measured latency**).
        - Passes match vector to **Munda Morphology Transducer** (assembling agglutinative affixes and generating Ol Chiki / Warang Chiti Unicode + Devanagari/Roman phonetics).
      - **Branch B: NIPUN Bharat FLN Curriculum Studio**:
        - Loads Day-by-Day 8-Week competency plan for Balvatika, Class 1, or Class 2.
@@ -218,7 +215,7 @@ While high-level block diagrams summarize architectural components, mission-crit
 
 3. **Level 3: Unified Local Commitment & Governance Audit**:
    - All 4 branches converge into an **Encrypted Offline IndexedDB Transactional Commit**.
-   - Audit trail is timestamped with UDISE code, teacher ID, and timestamp, queued for background sync or MicroSD card sneakernet upload to e-Vidyavahini 2.0.
+   - Audit trail is timestamped with UDISE code, teacher ID, and timestamp, optionally exported by the teacher as a plain file over USB, MicroSD or print if the district asks for it — the app itself never uploads.
    - System terminates transaction with **`✅ PROCESS COMPLETE`**.
 
 ---
@@ -229,7 +226,7 @@ For non-technical evaluators, teachers, and jury members, the core classroom int
 
 ```mermaid
 flowchart LR
-    Step1["👨‍🏫 1. Teacher Speaks Hindi\n'किताब खोलो और पाठ एक पढ़ो'"] --> Step2["⚡ 2. SARJOM 34MB Engine\nTranslates 100% Offline (<50ms)"]
+    Step1["👨‍🏫 1. Teacher Speaks Hindi\n'किताब खोलो और पाठ एक पढ़ो'"] --> Step2["⚡ 2. SARJOM On-Device Engine\n5.8 MB heap · 0.6 ms avg · 100% Offline"]
     Step2 --> Step3["🔊 3. Classroom Speaker\nPlays Native Audio (Santhali/Ho)"]
     Step3 --> Step4["🧒 4. Tribal Children Listen\nSee Big Ol Chiki/Warang Chiti Script"]
     Step4 --> Step5["🔄 5. Child Asks in Mother Tongue\nTablet decodes to Hindi for Teacher!"]
@@ -247,14 +244,12 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    Start(["🚀 Teacher Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available in School?"}
+    Start(["🚀 Teacher Opens SARJOM App"]) --> Boot{"📴 Zero-Cloud Boot:\nInternet available? IRRELEVANT"}
+    Boot --> BootSW
     
     %% Level 1: Connectivity
-    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync (e-Vidyavahini 2.0)\nSyncs state curriculum updates"]
-    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Mode\nOperates in 34MB RAM via Service Worker"]
-    
-    CloudSync --> LoadProfile["🏫 Load District & School Profile\n(Dumka, West Singhbhum, Khunti)"]
-    OfflineEdge --> LoadProfile
+    BootSW["📦 Service Worker serves app + every asset from CacheStorage\nNo network check, no online branch, no cloud twin"]
+    BootSW --> LoadProfile["🏫 Load District & School Profile (stored on device)\n(Dumka, West Singhbhum, Khunti)"]
     
     %% Level 2: Mode Selection
     LoadProfile --> ModeSelect{"📚 What does the teacher want to do?"}
@@ -263,7 +258,7 @@ flowchart TD
     ModeSelect -->|Track 1: Teach & Speak| CheckNoise{"🌧️ Is Classroom Noisy?\n(Rain on Tin Roof / Chatter)"}
     CheckNoise -->|YES / Very Noisy| TapChips["⚡ Tap 1-Click Common Action Tiles\n('किताब खोलो', 'बैठ जाओ', 'शाबाश')"]
     CheckNoise -->|NO / Clear Voice| MicSpeak["🎙️ Tap Mic & Speak in Hindi\nTeacher speaks natural instruction"]
-    TapChips --> OfflineNLP["⚡ 34MB Offline Translation Engine\n(Sub-50ms Neural & Morphological FST)"]
+    TapChips --> OfflineNLP["⚡ On-Device Cascade NLP Engine\n(0.6 ms avg measured · 5.8 MB heap)"]
     MicSpeak --> OfflineNLP
     OfflineNLP --> BroadcastAudio["🔊 Broadcast Audio on Classroom Speaker\n+ Displays Big Ol Chiki / Warang Chiti Script"]
     
@@ -287,8 +282,21 @@ flowchart TD
     CheckORF -->|YES| FluencyPass["🌟 Fluency Mastery Badge\nChild earns gold star in digital portfolio"]
     CheckORF -->|NO| PhoneGuide["👂 Slow Native Audio Modeling\nPlays slowed authentic speech to guide child"]
     
+
+    %% Branch 5: Flashcards & Dictionary
+    ModeSelect -->|Track 5: Flashcards & Dictionary| Flash["🃏 Picture-Word Flashcard Deck\n+ 4-language dictionary search, all local"]
+    Flash --> CheckRecall{"Recall correct?"}
+    CheckRecall -->|YES| DeckUp["⏭️ Deck levels up\nNew word family unlocked"]
+    CheckRecall -->|NO| CardRepeat["🔁 Card repeats with audio + picture"]
+
+    %% Branch 6: Slate, Folklore & Teacher Tools
+    ModeSelect -->|Track 6: Slate & Folklore| Slate["✍️ Touch-Slate Stroke-Match Practice\n+ folklore story audio in mother tongue"]
+    Slate --> DBCommit
+    DeckUp --> DBCommit
+    CardRepeat --> DBCommit
+    
     %% Convergence to Persistence
-    BroadcastAudio --> DBCommit["💾 Save Encrypted Record to Tablet Storage\n(Zero data loss; ready for MicroSD sync)"]
+    BroadcastAudio --> DBCommit["💾 Save Encrypted Record to Tablet Storage\n(Zero data loss; zero upload — local only)"]
     Praise --> DBCommit
     Remedial --> DBCommit
     AudioComp --> DBCommit
@@ -298,7 +306,11 @@ flowchart TD
     DBCommit --> Done(["✅ READY FOR NEXT LESSON"])
 
     style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
-    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style Boot fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
+    style BootSW fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckRecall fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style Flash fill:#134E4A,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
+    style Slate fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
     style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
     style CheckNoise fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
     style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
@@ -363,14 +375,14 @@ graph TD
         SheetComp["Worksheet Studio & SVG QR"]
         SlateComp["Digital Slate (Bézier Smoothing)"]
         ORFComp["Oral Reading Fluency Coach"]
-        EVVBar["Tablet Diagnostics & EVV Status"]
+        EVVBar["Tablet Diagnostics & Export Status"]
     end
 
-    %% Zone G: Sneakernet & State Cloud
-    subgraph ZoneG["Zone G: Rural Sneakernet & State Cloud"]
-        USB["MicroSD / USB OTG Pen-Drive (CSV Export)"]
-        BRC["Block Resource Centre (BRC) Ingestion Node"]
-        EVV["e-Vidyavahini 2.0 State Cloud (JEPC Ranchi)"]
+    %% Zone G: optional teacher-carried file export — outside the app, zero runtime cloud
+    subgraph ZoneG["Zone G: Optional File Export — OFFLINE, teacher-carried, NOT app runtime"]
+        USB["MicroSD / USB OTG Pen-Drive (CSV file export)"]
+        BRC["Block Resource Centre desktop (reads the pen-drive)"]
+        EVV["District analytics spreadsheet (no API, no cloud tenant)"]
     end
 
     %% Connections
@@ -404,7 +416,7 @@ graph TD
     IDB --> EVVBar
     EVVBar -->|Export Log| USB
     USB -->|Teacher Travel| BRC
-    BRC -->|Broadband Sync| EVV
+    BRC -->|Offline file import by district staff| EVV
 ```
 
 ---
@@ -419,7 +431,7 @@ graph TD
 
 ### 3.2 Zone B: Low-Cost Tablet Hardware & OS Runtime ($\le$ 2GB RAM, Android 9+)
 * **Linux Kernel & Audio HAL**: Captures 16-bit PCM audio at 44.1 kHz via the device microphone.
-* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. SARJOM’s total heap usage is **~34.2 MB**, ensuring zero danger of kernel `SIGKILL` (Exit Code 137).
+* **Dalvik / ART Runtime**: Constrained by `dalvik.vm.heapgrowthlimit` to 192 MB–256 MB. SARJOM’s measured engine heap is **5.8 MB** — about 1% of the ≈500 MB a 2 GB tablet leaves after OS and background apps — so kernel `SIGKILL` (Exit Code 137) is not a plausible failure mode.
 * **Chromium V8 Engine**: High-performance JIT execution utilizing pre-allocated flat `Float32Array` buffers. Inner tensor loops avoid dynamic object instantiation, bounding garbage collection pause times to $< 1.5$ ms.
 
 ### 3.3 Zone C: PWA Offline Container & Zero-Loss Storage Engine
@@ -455,10 +467,10 @@ graph TD
 * **`AcousticPronunciationCoach.jsx`**: Real-time oral reading fluency tester with live frequency visualizer and native script praise.
 * **`NeuralModelInspector.jsx`**: Interactive attention matrix heatmap visualizer displaying query-key dot products.
 
-### 3.7 Zone G: Rural Sneakernet, BRC Node & State Governance Cloud
+### 3.7 Zone G: Optional Teacher-Carried File Export (Zero Cloud at Runtime)
 * **MicroSD / USB OTG Pen-Drive**: Physical hardware bridge carrying RFC 4180 compliant CSV logs (`झारखंड_कक्षा_संवाद_लॉग.csv`) from forest schools without internet.
-* **Block Resource Centre (BRC) Ingestion Node**: Desktop computer at the block headquarters running broadband sync scripts that ingest school CSV files during monthly review meetings.
-* **Jharkhand e-Vidyavahini 2.0 (EVV) Cloud Infrastructure**: State-level servers at the Jharkhand Education Project Council (JEPC Ranchi) aggregating district-wide foundational literacy analytics.
+* **Block Resource Centre (BRC) Desktop**: A computer at the block headquarters that READS the pen-drive CSV during monthly review meetings. It sits entirely outside SARJOM — the app itself never opens a socket.
+* **District Analytics (optional, offline)**: The CSV is a plain file the district may import into any spreadsheet or reporting system it already runs. SARJOM ships no API client, no endpoint and no cloud dependency — zero-cloud is a hard architectural constraint, not a fallback mode.
 
 ---
 
@@ -503,15 +515,14 @@ graph TD
 4. **Velocity Damping**: Dynamically adjusts stroke width based on drawing speed $v = \frac{\Delta d}{\Delta t}$.
 5. **Chalk Shader**: Injects Gaussian coordinate jitter ($\sigma = 0.4\text{px}$) along stroke edges, visually mimicking soft limestone chalk on dark green slate rock (`#1B2421`).
 
-### 4.5 Data Path 5: Classroom FLN Log ➔ MicroSD Sneakernet ➔ e-Vidyavahini 2.0 State Cloud
+### 4.5 Data Path 5: Classroom FLN Log ➔ Optional MicroSD File Export (Zero Cloud)
 1. **Offline Logging**: Every classroom interaction and FLN score is saved locally in IndexedDB on the tablet.
 2. **Sneakernet Export**: At month-end, the teacher plugs a USB OTG pen-drive into the tablet and taps **"MicroSD / पेन-ड्राइव CSV एक्सपोर्ट"**.
 3. **CSV Serialization**: App serializes all rows into RFC 4180 compliant CSV: `झारखंड_कक्षा_संवाद_लॉग.csv`.
 4. **Physical Travel**: Teacher carries the pen-drive to the monthly Cluster/Block Resource Centre (BRC) meeting.
-5. **BRC Ingestion**: BRC operator plugs the pen-drive into a desktop computer connected to the internet.
-6. **State API Dispatch**: Ingestion script sends an authenticated REST payload:
-   `POST https://evidyavahini.jharkhand.gov.in/api/v2/fln/sync`
-7. **Directorate Dashboard**: The Jharkhand Education Project Council (JEPC Ranchi) dashboard updates live, displaying foundational literacy metrics across all 24 districts!
+5. **BRC Read (outside the app)**: The BRC operator plugs the pen-drive into a desktop and opens the CSV with whatever spreadsheet the district already uses.
+6. **No API Dispatch From SARJOM**: The app contains no REST client and no endpoint. Whatever happens to the file afterwards happens outside SARJOM, on machines the education department already runs.
+7. **Directorate Reporting (optional)**: District staff may fold the numbers into existing state reporting workflows — always as a physical file handoff, never as a live sync from the classroom.
 
 ---
 
@@ -530,7 +541,7 @@ graph TD
 │ 7. Web Audio Speech Buffer Trigger (A2DP Output)  │ 2.5 ms        │ **34.6 - 48.6 ms Total Latency ✅**│
 ├───────────────────────────────────────────────────┼───────────────┼────────────────────────────────────┤
 │ **TOTAL END-TO-END SLA PERFORMANCE**              │ **< 50 ms**   │ **60x FASTER than 3,000 ms SLA!**  │
-│ **PEAK TOTAL ACTIVE CLIENT HEAP FOOTPRINT**       │ **~34.2 MB**  │ **< 15% of 256MB Tablet Budget!**  │
+│ **PEAK TOTAL ACTIVE CLIENT HEAP FOOTPRINT**       │ **5.8 MB**    │ **~1% of ~500MB free budget!**     │
 └───────────────────────────────────────────────────┴───────────────┴────────────────────────────────────┘
 ```
 

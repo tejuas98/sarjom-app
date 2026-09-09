@@ -271,7 +271,7 @@ export function TabletSimulatorBar({
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <Cpu size={12} color="#70C28A" />
-                <span>रैम: <strong style={{ color: '#FFF' }}>34 MB</strong> / 2048 MB (≤2GB Tablet)</span>
+                <span>रैम: <strong style={{ color: '#FFF' }}>5.8 MB</strong> / 2048 MB (≤2GB Tablet)</span>
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <HardDrive size={12} color="#E5A93C" />

@@ -202,7 +202,7 @@ export function NeuralModelInspector({ selectedLang }) {
               </p>
               <ul style={{ paddingLeft: '18px', fontSize: '0.82rem', color: 'var(--color-slate)', lineHeight: 1.6, margin: 0 }}>
                 <li><strong>Web Audio DSP:</strong> 300Hz-3.4kHz बैंडपास नॉइज़ गेट।</li>
-                <li><strong>वेक्टर स्पेस कोसाइन:</strong> 0.022 ms अति-तीव्र अर्थगत मिलान।</li>
+                <li><strong>वेक्टर स्पेस कोसाइन:</strong> 0.6 ms avg अति-तीव्र अर्थगत मिलान।</li>
                 <li><strong>मुण्डा रूप-संरचना:</strong> ऑस्ट्रो-एशियाटिक प्रत्यय संयोजन।</li>
                 <li><strong>80:20 निपुण भारत:</strong> मातृभाषा से हिंदी क्रमिक संक्रमण।</li>
               </ul>

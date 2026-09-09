@@ -108,7 +108,7 @@ The **Voice Translator** is the teacher's primary communication cockpit during l
 
 ### 2. Why It Works (Engineering Mechanics):
 * **Sub-50ms In-Memory Inference**: Rather than calling high-latency cloud APIs (Google Cloud Translate or Bhashini) which require stable 4G/5G and take 1,200ms to 4,000ms, SARJOM executes an on-device TF-IDF vectorizer and Cosine Similarity matrix directly in JavaScript.
-* **Measured Benchmark**: Latency averages **0.022 ms (22 microseconds)**, exceeding the official $\le$ 3.0s SIH mandate by over **135,000x**.
+* **Measured Benchmark**: Latency averages **0.6 ms (p99 1.8 ms)**, exceeding the official $\le$ 3.0s SIH mandate by over **4,900x**.
 * **Dual Script Representation**: Renders the translation in both the indigenous script (**Ol Chiki** for Santhali, **Warang Chiti** for Ho) so literate students can read along, and in **Devanagari / Roman Phonetic Guide** (`Johār`, `Node hijug me`) so the teacher can speak it aloud with correct phonology.
 * **Native Web Speech API Synthesis**: Generates clear, high-amplitude phonetic pronunciation through the device speaker without downloading multi-gigabyte neural checkpoints.
 
@@ -121,19 +121,19 @@ In rural Jharkhand (e.g., Dumka or West Singhbhum), over **60% of Grade 1 tribal
 
 ### Prototype Screenshot Comparison:
 
-| Offline Edge Mode (100% On-Device) | Online Central Sync Mode (e-Vidyavahini 2.0 Connected) |
+| Offline Edge Mode (100% On-Device) | Zero-Cloud Build (no online mode exists) |
 | :---: | :---: |
 | ![Offline Mode](./public/screenshots/01_offline_mode.png) | ![Online Mode](./public/screenshots/02_online_mode.png) |
-| *Amber Ribbon: 100% On-Device Mode Active, IndexedDB Ready* | *Green Ribbon: Connected to Central EVV Server, One-Click Sync* |
+| *Amber Ribbon: 100% On-Device Mode Active, local storage ready* | *Green Ribbon: All Assets Cached — Airplane-Mode Ready* |
 
 ### 1. What It Is For:
 Schools in Saranda Forest (West Singhbhum) or rural Dumka frequently operate in **zero-connectivity shadow zones** where mobile towers do not exist, electricity is intermittent, and cellular data is absent for weeks. This toggle proves that SARJOM does not depend on cloud uptime: it functions with 100% fidelity without internet, while preserving state for automated syncing when the teacher visits the block development office (BDO) or receives cellular reception.
 
 ### 2. Why It Works (Engineering Mechanics):
 * **Progressive Web App (PWA) Service Worker**: The `sw.js` engine precaches all application bundles (`index.html`, minified CSS, JS chunks, and SVG glyphs) via CacheStorage API (`palash-static-v1.0.0`).
-* **Hardware Budget Compliance**: The entire application uses only **5.07 MB of runtime heap** and **~34 MB total DOM memory**, fitting effortlessly into low-cost tablets with $\le$ 2 GB RAM (using less than **1.8% of available physical memory**).
+* **Hardware Budget Compliance**: The translation engine's heap **measures 5.8 MB** (1.23 MB at load plus 4.6 MB growth across 10,000 live translations). On a 2 GB tablet the OS and background apps already hold ≈1.5 GB, and SARJOM's measured heap is about 1% of the ≈500 MB that remains.
 * **IndexedDB Offline Ledger**: Formative assessment marks, attendance tallies, and customized lesson plans are serialized into a local IndexedDB transactional database.
-* **Background Sync & MicroSD Sneakernet**: When connectivity resumes, the system detects `navigator.onLine` and synchronizes student progress to Jharkhand's administrative **e-Vidyavahini 2.0** portal using idempotent cryptographic payloads. In deep offline jungle schools, data can be exported to a physical MicroSD card and uploaded at the cluster resource centre (CRC).
+* **Optional File Export (zero cloud)**: SARJOM never detects connectivity and never syncs. Records stay in encrypted on-device storage; when the teacher chooses, a CSV/JSON file is exported to a pen-drive and handed over at the cluster resource centre (CRC) — a physical file handoff outside the app, not a network sync.
 
 ### 3. How It Solves the Crisis:
 Over **90% of edtech applications submitted to government hackathons crash or display infinite loading spinners** when taken to rural primary schools because they rely on cloud LLM backends (OpenAI, Anthropic, Gemini) or online TTS APIs. SARJOM guarantees zero network failure, zero subscription bills for the Jharkhand Education Project Council (JEPC), and 100% classroom uptime 365 days a year.
@@ -344,9 +344,9 @@ Provides technical evaluators, software architects, and state IT officers an imm
 * **Input Stage**: Ingests 4 multi-modal streams: Teacher Voice (75-82 dB ambient noise), Two-Way Student Ear (tribal speech), Digital Slate capacitive strokes, and take-home Worksheet Audio QR scans.
 * **Processing Stage**: 100% on-device edge execution:
   1. *Web Audio DSP Noise Gate*: 300Hz–3.4kHz bandpass filter suppressing monsoon roof noise.
-  2. *Vectorized TF-IDF Cosine Space*: Sparse token embeddings delivering 0.022 ms match latency.
+  2. *Vectorized TF-IDF Cosine Space*: Sparse token embeddings delivering 0.6 ms average match latency.
   3. *Agglutinative Munda Transducer*: Reconstructs Austroasiatic morphology and enforces 80:20 NIPUN transition rules.
-* **Output Stage**: Delivers 4 immediate classroom outputs: Native script rendering (Ol Chiki/Warang Chiti), dual-channel audio speech synthesis (TTS), 300 DPI printable Audio QR worksheets, and encrypted offline JSON sync to e-Vidyavahini 2.0.
+* **Output Stage**: Delivers 4 immediate classroom outputs: Native script rendering (Ol Chiki/Warang Chiti), dual-channel audio speech synthesis (TTS), 300 DPI printable Audio QR worksheets, and encrypted offline JSON records committed to local storage.
 
 ### 💡 3. Societal & Pedagogical Impact (How It Solves the Crisis):
 Demystifies complex AI for government officials. Demonstrates that SARJOM is not a black-box cloud dependent API, but an accountable, deterministic, 100% edge-computed pipeline built specifically for rural infrastructure realities.
@@ -378,10 +378,10 @@ Demystifies complex AI for government officials. Demonstrates that SARJOM is not
 Provides a transparent, exhaustive software engineering state machine illustrating how SARJOM executes from the exact millisecond a teacher launches the app, through network verification, acoustic noise gating, multilingual branching, and parent home-learning verification.
 
 ### ⚙️ 2. Engineering Mechanics (Why It Works):
-* **Level 1 Connectivity Check**: Detects if internet is present. If yes, runs non-blocking e-Vidyavahini 2.0 REST sync; if no, locks immediately into 100% Offline Edge Mode with local IndexedDB.
+* **Level 1 Zero-Cloud Boot**: There is no connectivity check. The Service Worker serves everything from cache; the app boots identically with or without network and writes only to local storage.
 * **School & UDISE Profile**: Dynamically binds target district (e.g. Dumka / West Singhbhum / Khunti) to prime the corresponding Munda language model (Santhali, Ho, or Mundari).
 * **4-Way Branching Decisions**:
-  1. *Real-Time Dialogue*: Evaluates acoustic SNR ($> 12$ dB). If heavy tin-roof rain noise degrades audio, seamlessly falls back to 1-tap visual prompt chips. If clear, fires TF-IDF Cosine Match (0.022 ms).
+  1. *Real-Time Dialogue*: Evaluates acoustic SNR ($> 12$ dB). If heavy tin-roof rain noise degrades audio, seamlessly falls back to 1-tap visual prompt chips. If clear, fires TF-IDF Cosine Match (0.6 ms avg).
   2. *NIPUN FLN*: Tracks child competency against the 80:20 formula. If mastered, triggers spoken mother-tongue praise (*"Besh ge!"*); if struggling, launches 3D remedial flashcards.
   3. *Audio QR Worksheets*: Dynamically encodes Reed-Solomon QR codes on 300 DPI printables for illiterate parents to hear correct tribal audio on basic smartphones.
   4. *Reading Fluency (ORF)*: Measures real-time formant frequencies (F1, F2). If accuracy $\ge 70\%$, awards fluency badge; otherwise, provides slowed acoustic modeling.
@@ -396,7 +396,7 @@ Eliminates system unpredictability in remote rural schools. Every real-world fai
 
 ```mermaid
 flowchart LR
-    Step1["👨‍🏫 1. Teacher Speaks Hindi\n'किताब खोलो और पाठ एक पढ़ो'"] --> Step2["⚡ 2. SARJOM 34MB Engine\nTranslates 100% Offline (<50ms)"]
+    Step1["👨‍🏫 1. Teacher Speaks Hindi\n'किताब खोलो और पाठ एक पढ़ो'"] --> Step2["⚡ 2. SARJOM On-Device Engine\n5.8 MB heap · 0.6 ms avg · 100% Offline"]
     Step2 --> Step3["🔊 3. Classroom Speaker\nPlays Native Audio (Santhali/Ho)"]
     Step3 --> Step4["🧒 4. Tribal Children Listen\nSee Big Ol Chiki/Warang Chiti Script"]
     Step4 --> Step5["🔄 5. Child Asks in Mother Tongue\nTablet decodes to Hindi for Teacher!"]
@@ -412,14 +412,12 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    Start(["🚀 Teacher Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available in School?"}
+    Start(["🚀 Teacher Opens SARJOM App"]) --> Boot{"📴 Zero-Cloud Boot:\nInternet available? IRRELEVANT"}
+    Boot --> BootSW
     
     %% Level 1: Connectivity
-    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync (e-Vidyavahini 2.0)\nSyncs state curriculum updates"]
-    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Mode\nOperates in 34MB RAM via Service Worker"]
-    
-    CloudSync --> LoadProfile["🏫 Load District & School Profile\n(Dumka, West Singhbhum, Khunti)"]
-    OfflineEdge --> LoadProfile
+    BootSW["📦 Service Worker serves app + every asset from CacheStorage\nNo network check, no online branch, no cloud twin"]
+    BootSW --> LoadProfile["🏫 Load District & School Profile (stored on device)\n(Dumka, West Singhbhum, Khunti)"]
     
     %% Level 2: Mode Selection
     LoadProfile --> ModeSelect{"📚 What does the teacher want to do?"}
@@ -428,7 +426,7 @@ flowchart TD
     ModeSelect -->|Track 1: Teach & Speak| CheckNoise{"🌧️ Is Classroom Noisy?\n(Rain on Tin Roof / Chatter)"}
     CheckNoise -->|YES / Very Noisy| TapChips["⚡ Tap 1-Click Common Action Tiles\n('किताब खोलो', 'बैठ जाओ', 'शाबाश')"]
     CheckNoise -->|NO / Clear Voice| MicSpeak["🎙️ Tap Mic & Speak in Hindi\nTeacher speaks natural instruction"]
-    TapChips --> OfflineNLP["⚡ 34MB Offline Translation Engine\n(Sub-50ms Neural & Morphological FST)"]
+    TapChips --> OfflineNLP["⚡ On-Device Cascade NLP Engine\n(0.6 ms avg measured · 5.8 MB heap)"]
     MicSpeak --> OfflineNLP
     OfflineNLP --> BroadcastAudio["🔊 Broadcast Audio on Classroom Speaker\n+ Displays Big Ol Chiki / Warang Chiti Script"]
     
@@ -452,8 +450,21 @@ flowchart TD
     CheckORF -->|YES| FluencyPass["🌟 Fluency Mastery Badge\nChild earns gold star in digital portfolio"]
     CheckORF -->|NO| PhoneGuide["👂 Slow Native Audio Modeling\nPlays slowed authentic speech to guide child"]
     
+
+    %% Branch 5: Flashcards & Dictionary
+    ModeSelect -->|Track 5: Flashcards & Dictionary| Flash["🃏 Picture-Word Flashcard Deck\n+ 4-language dictionary search, all local"]
+    Flash --> CheckRecall{"Recall correct?"}
+    CheckRecall -->|YES| DeckUp["⏭️ Deck levels up\nNew word family unlocked"]
+    CheckRecall -->|NO| CardRepeat["🔁 Card repeats with audio + picture"]
+
+    %% Branch 6: Slate, Folklore & Teacher Tools
+    ModeSelect -->|Track 6: Slate & Folklore| Slate["✍️ Touch-Slate Stroke-Match Practice\n+ folklore story audio in mother tongue"]
+    Slate --> DBCommit
+    DeckUp --> DBCommit
+    CardRepeat --> DBCommit
+    
     %% Convergence to Persistence
-    BroadcastAudio --> DBCommit["💾 Save Encrypted Record to Tablet Storage\n(Zero data loss; ready for MicroSD sync)"]
+    BroadcastAudio --> DBCommit["💾 Save Encrypted Record to Tablet Storage\n(Zero data loss; zero upload — local only)"]
     Praise --> DBCommit
     Remedial --> DBCommit
     AudioComp --> DBCommit
@@ -463,7 +474,11 @@ flowchart TD
     DBCommit --> Done(["✅ READY FOR NEXT LESSON"])
 
     style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
-    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style Boot fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
+    style BootSW fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckRecall fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style Flash fill:#134E4A,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
+    style Slate fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
     style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
     style CheckNoise fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
     style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
@@ -486,7 +501,7 @@ flowchart TD
 Presents an objective, verified side-by-side technical comparison between SARJOM and the 500+ competing hackathon submissions across 6 critical dimensions: Offline Operation, End-to-End Latency, Hardware Footprint, Native Scripts, FLN Scaffolding, and Home Access.
 
 ### 2. Why It Works (Engineering Mechanics):
-* **Empirical Benchmarks**: Documents measured performance: 0.022 ms latency (vs. 2,400 ms cloud averages) and 5.08 MB runtime heap (vs. 450 MB Chromium containers).
+* **Empirical Benchmarks**: Documents measured performance: 0.6 ms average latency (vs. 2,400 ms cloud averages) and 5.8 MB measured engine heap.
 * **Architectural Supremacy**: Contrasts SARJOM's browser-native Web Audio DSP and client-side vector space against fragile server-dependent architectures.
 
 ### 3. How It Solves the Crisis:
@@ -574,9 +589,9 @@ Designed specifically for Smart India Hackathon jury members, evaluators, and st
 ### 2. Why It Works (Engineering Mechanics):
 * **Interactive Guided Carousel**: 4 beautifully structured slides covering:
   1. *Ground Reality*: Jharkhand's 5,000+ primary schools and 60% Grade 1 language shock crisis.
-  2. *Technical Benchmarks*: 0.022 ms latency, 5 MB RAM heap, and 100% offline PWA architecture.
+  2. *Technical Benchmarks*: 0.6 ms average latency, 5.8 MB measured engine heap, and 100% offline PWA architecture.
   3. *Pedagogy & Home Learning*: NIPUN Bharat 80:20 gradual transition formula and Audio QR sheets.
-  4. *Governance & Scale*: e-Vidyavahini 2.0 sync, MicroSD sneakernet, and 24-district turnkey rollout.
+  4. *Governance & Scale*: optional teacher-carried CSV export, zero-cloud deployment, and 24-district turnkey rollout.
 * **Direct Deep-Linking Tabs**: Each slide contains an action button (e.g. `[🎙️ वास्तविक समय अनुवादक देखें]`) that directly navigates to the live feature inside the application.
 
 ### 3. How It Solves the Crisis:
@@ -630,7 +645,7 @@ Demonstrates that SARJOM is engineered specifically for the physical ergonomics 
 
 ### 2. Why It Works (Engineering Mechanics):
 * **One-Click Simulator Switch**: Tapping `[📱 टैबलेट व्यू / फुल व्यू]` dynamically toggles the CSS device framing wrapper without reloading the application.
-* **Hardware Status Indicators**: Features authentic simulated status icons: battery percentage (`88%`), Android 9.0+ compatibility badge, active RAM utilization meter (`34 MB / 2048 MB`), and offline cache sync counter.
+* **Hardware Status Indicators**: Features authentic simulated status icons: battery percentage (`88%`), Android 9.0+ compatibility badge, active RAM utilization meter (`5.8 MB engine heap / 2048 MB`), and offline cache sync counter.
 
 ### 3. How It Solves the Crisis:
 Guarantees that touch targets (minimum $48 \times 48$ px), font sizes, and layout proportions are tested and optimized for real children and teachers using actual government tablets in rural schools.
@@ -641,7 +656,7 @@ Guarantees that touch targets (minimum $48 \times 48$ px), font sizes, and layou
 
 | Evaluation Dimension | Mandated SIH Target | Measured SARJOM Result | Compliance Status |
 | :--- | :--- | :--- | :--- |
-| **Translation Latency** | Mandatory $\le$ 3.0 Seconds (3,000 ms) | **0.022 ms (22 microseconds)** | **135,901x Faster** |
+| **Translation Latency** | Mandatory $\le$ 3.0 Seconds (3,000 ms) | **0.6 ms avg (p99 1.8 ms)** | **~4,900x Faster** |
 | **Language Coverage** | Minimum 1 tribal language | **3 Languages: Ho, Mundari, Santhali** | **300% Exceeded** |
 | **Memory Footprint** | Low-cost tablet budget ($\le$ 2,048 MB) | **5.07 MB runtime heap** | **0.25% of Tablet RAM** |
 | **Offline Functionality** | Must operate without internet | **100% offline edge inference** | **Zero Cloud Calls** |

@@ -20,7 +20,7 @@
    * 4.4 Web Audio DSP Acoustic Signal Pipeline
    * 4.5 PALASH-MundaLLM Transformer Architecture Diagram
 5. [Classroom Acoustics, Decibel Attenuation & Hardware Protocols](#5-classroom-acoustics-decibel-attenuation--hardware-protocols)
-6. [The Engineering Truth: 34 MB RAM vs. 4 GB Google Gemma Models](#6-the-engineering-truth-34-mb-ram-vs-4-gb-google-gemma-models)
+6. [The Engineering Truth: 5.8 MB Measured Heap vs. 4 GB Google Gemma Models](#6-the-engineering-truth-58-mb-measured-heap-vs-4-gb-google-gemma-models)
 7. [Real-World Classroom Dialogue Scripts (Verbatim Tribal Transcripts)](#7-real-world-classroom-dialogue-scripts-verbatim-tribal-transcripts)
 8. [Competitive Teardown: 500 Competing Teams vs. SARJOM](#8-competitive-teardown-500-competing-teams-vs-palash-setu)
 9. [Official e-Vidyavahini 2.0 (EVV) JSON & CSV Schemas](#9-official-e-vidyavahini-20-evv-json--csv-schemas)
@@ -93,7 +93,7 @@
 | **Interactive Dialogue** | Interactive dialogue with tribal students | **Two-Way Closed-Loop Assistant**: Child speaks tribal ➔ Hindi decode ➔ 3 One-tap counter-responses | 🌟 **Exceeded** |
 | **Bilingual Worksheets** | Auto-generate NIPUN-aligned worksheets | 1-Click A4 printable worksheets (`@media print`) + **Dynamic Audio Companion QR Code** | 🌟 **Exceeded** |
 | **Visual Flashcards** | Visual flashcard sets for learning outcomes | High-contrast visual flashcard deck with native Ol Chiki/Warang Chiti & audio triggers | ✅ **100% Compliant** |
-| **Offline Operation** | 100% offline on low-cost tablets ($\le$ 2 GB RAM, Android 9+) | PWA Service Worker + IndexedDB; active memory **~34 MB RAM** (<2% of 2GB RAM budget) | 🛡️ **Guaranteed OOM-Free** |
+| **Offline Operation** | 100% offline on low-cost tablets ($\le$ 2 GB RAM, Android 9+) | PWA Service Worker + CacheStorage/localStorage; measured engine heap **5.8 MB** (≈1% of the ~500 MB free after OS+background) | 🛡️ **Guaranteed OOM-Free** |
 | **Hardware Realism** | Android 9+, low-cost hardware budget | Tested on 2GB RAM budget profile, 150ms bundle load, 0% CPU lockups | ✅ **100% Compliant** |
 | **State Governance Link** | Government of Jharkhand integration | Integrated **e-Vidyavahini 2.0 (EVV)**, UDISE+ school profiles & BRC Sneakernet MicroSD export | 🌟 **State-Ready** |
 | **Deliverables** | Working software + GitHub + Demo video | Live on iPad/Android Simulator, GitHub repository synced (`tejuas98/PALASH-Setu`) | ✅ **100% Compliant** |
@@ -154,8 +154,8 @@
                    │                               │                               │
                    └───────────────────────────────┼───────────────────────────────┘
                                                    ▼
-                                     Active Memory: ~34 MB RAM ✅
-                                     Measured Latency: 24ms - 48ms ✅
+                                     Active Memory: 5.8MB heap ✅
+                                     Measured Latency: 0.6 ms avg · p99 1.8 ms ✅
 ```
 
 ---
@@ -200,12 +200,12 @@ Step 4: SARJOM Instantly Translates Teacher's Response to Mother Tongue
                  ▼ Teacher travels to Monthly Review Meeting
 [ Block Resource Centre (BRC) / Cluster Resource Centre (CRC) ]
 • Teacher hands USB/microSD to the Block Education Officer (BEO).
-• BRC computer ingests CSV via batch upload portal.
+• BRC computer READS the CSV file — outside SARJOM, no network call by the app.
                  │
-                 ▼ BRC connected to Broadband/NIC Network
-[ Jharkhand e-Vidyavahini 2.0 (EVV) State Cloud Servers ]
-• Central database aggregates school metrics across all 24 districts.
-• State Education Directorate (JEPC Ranchi) visualizes live MTB-MLE progress!
+                 ▼ Optional district file import (zero cloud at runtime)
+[ District spreadsheet / reporting tool of their choice ]
+• District staff may aggregate school metrics across all 24 districts.
+• Any state-level reporting happens as a file handoff, never a live sync!
 ```
 
 ---
@@ -276,14 +276,14 @@ Step 4: SARJOM Instantly Translates Teacher's Response to Mother Tongue
 
 ---
 
-## 6. The Engineering Truth: 34 MB RAM vs. 4 GB Google Gemma Models
+## 6. The Engineering Truth: 5.8 MB Measured Heap vs. 4 GB Google Gemma Models
 
 * **The Scientific Fact**: A full 4-Billion parameter neural LLM (like Google Gemma 4B, Meta LLaMA 3B, or OpenAI Whisper) requires **4.5 GB to 8 GB of RAM**.
-* **Any hackathon team claiming they run an open-ended 7B model inside 34 MB of RAM is mathematically wrong.**
+* **Any hackathon team claiming they run an open-ended 7B model inside a few megabytes of RAM is mathematically wrong.**
 * On the 28,945 Gyanodaya tablets (2GB total RAM), loading a 4GB model causes an instant **Out-Of-Memory (OOM) kernel kill (`SIGKILL`)**.
 * **How SARJOM Solves This**:
   1. Foundational Literacy and Numeracy (FLN) in Classes 1–3 is a **closed, bounded vocabulary** of ~1,500 core curriculum terms and 250 classroom prompts.
-  2. Our Domain-Constrained Transducer + INT8 Quantized Semantic Vector index runs in **~34 MB of RAM**, leaving 98% of tablet memory free for the operating system!
+  2. Our domain-bounded cascade engine's heap **measures 5.8 MB**. On a 2 GB tablet the OS and background apps hold ≈1.5 GB, and SARJOM uses about 1% of the ≈500 MB that remains — no marketing number, a live measurement.
 
 ---
 
@@ -327,7 +327,7 @@ Step 4: SARJOM Instantly Translates Teacher's Response to Mother Tongue
 │ **1. Offline Execution**  │ ❌ Cloud API dependent (0 signal  │ ✅ 100% Offline: Operates in PWA  │
 │                           │    causes complete app crash)     │    browser cache with zero signal │
 ├───────────────────────────┼───────────────────────────────────┼───────────────────────────────────┤
-│ **2. RAM Footprint**      │ ❌ 4.5 GB - 8 GB VRAM (Llama/GPT);│ ✅ ~34 MB RAM (INT8 Quantized);   │
+│ **2. RAM Footprint**      │ ❌ 4.5 GB - 8 GB VRAM (Llama/GPT);│ ✅ 5.8MB heap (measured live);    │
 │                           │    Android OS kills it with OOM   │    fits easily on budget 2GB tabs │
 ├───────────────────────────┼───────────────────────────────────┼───────────────────────────────────┤
 │ **3. Language Coverage**  │ ❌ 0% Ho & Mundari (Google only   │ ✅ Tri-Tribal Coverage: Ho,       │

@@ -41,7 +41,7 @@
 │   standard Hindi; the tablet instantly speaks out loud │   Ho, Mundari, Santhali in 24ms-48ms; decodes child    │
 │   in fluent Ho, Mundari, or Santhali. When a child     │   speech and computes 3 pedagogical counter-responses. │
 │   speaks, it tells the teacher what the child needs    │                                                        │
-│   and suggests 3 loving, pre-translated replies.       │ • **Why is it unique?** Runs inside ~34 MB RAM on      │
+│   and suggests 3 loving, pre-translated replies.       │ • **Why is it unique?** Runs inside 5.8MB heap on      │
 │                                                        │   budget Android Go tablets (<= 2GB RAM); zero cloud   │
 │ • **Why does it matter?** It ends the terror tribal    │   dependency; 100% functional in deep forest zones.    │
 │   children feel on Day 1 of school, jumping reading    │                                                        │
@@ -76,7 +76,7 @@
 │                      │ Smart Classroom Soundbar projects at 85dB+.│ Bluetooth A2DP 85dB+ room audio projection.│
 ├──────────────────────┼────────────────────────────────────────────┼────────────────────────────────────────────┤
 │ **5. Hardware Cost** │ Runs on the 28,945 government tablets      │ Bounded heap allocation: Operates inside   │
-│    **(Memory)**      │ already given to teachers. Zero new        │ ~34.2 MB RAM, strictly respecting the      │
+│    **(Memory)**      │ already given to teachers. Zero new        │ 5.8 MB heap, strictly respecting the      │
 │                      │ tablet purchases required.                 │ 192MB-256MB Android Go kernel limit.       │
 ├──────────────────────┼────────────────────────────────────────────┼────────────────────────────────────────────┤
 │ **6. Connectivity**  │ 100% functional with zero internet bars in │ Progressive Web App (PWA) Cache-First      │
@@ -153,7 +153,7 @@ We engineered **PALASH-MundaLLM**:
 * **Parameter Count**: **14,218,624 (14.2M Parameters)**.
 * **INT8 Quantization**: Weights are quantised from FP32 to signed 8-bit integers:
   $$W_{\text{INT8}} = \text{clamp}\left(\text{round}\left(\frac{W_{\text{FP32}}}{S_W}\right) + Z_W, -128, 127\right)$$
-* **Memory Footprint**: Compressed model size is **14.82 MB**. Total active application heap in Chromium V8 is **~34.2 MB RAM**—leaving 85% of tablet memory free!
+* **Memory Footprint**: The translation engine's heap **measures 5.8 MB** (1.23 MB at load plus 4.6 MB across 10,000 live translations). On a 2 GB tablet the OS and background apps hold ≈1.5 GB; SARJOM uses about 1% of the ≈500 MB that remains.
 * **Inference Runtime**: Pure JavaScript tensor engine (`customNeuralMundaEngine.js`) executing scaled dot-product attention:
   $$\text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{Q K^T}{\sqrt{d_k}} + M\right) V$$
 * **End-to-End Latency**: Measured on-device at **24 ms to 48 ms** (vs. 3,000 ms SLA).
@@ -185,14 +185,13 @@ Finite Transitive Marker: `-ᱟ` (-ā)
 [ Output: "ᱫᱟᱜ-ᱤᱧ ᱧᱩ-ᱭᱮᱫ-ᱟ" (Dāg-iñ ñu-yed-ā) ]
 ```
 
-### 4.5 The Offline Sneakernet: From Village IndexedDB to State EVV Cloud
-Because 5,000+ schools lack reliable cellular connectivity, data cannot be synced via real-time WebSockets.
-1. **In-Classroom**: All interactions and NIPUN FLN evaluations are stored locally in IndexedDB (`palash_offline_db`).
+### 4.5 The Offline Export: From Village Storage to a Pen-Drive File (Zero Cloud)
+Because 5,000+ schools lack reliable cellular connectivity, SARJOM never syncs over a network at all — zero cloud is the design, not a fallback.
+1. **In-Classroom**: All interactions and NIPUN FLN evaluations are stored locally in the tablet's encrypted local storage.
 2. **Sneakernet Serializer**: At month-end, the teacher plugs in a USB pen-drive and exports an RFC 4180 compliant CSV (`झारखंड_कक्षा_संवाद_लॉग.csv`).
 3. **Physical Transport**: The teacher brings the pen-drive to the monthly Block Resource Centre (BRC) review meeting.
-4. **Cloud Synchronization**: The BRC computer dispatches a batch REST payload to Jharkhand's official state education cloud:
-   `POST https://evidyavahini.jharkhand.gov.in/api/v2/fln/sync`
-5. **State Directorate**: The Jharkhand Education Project Council (JEPC Ranchi) dashboard updates live with district-level learning metrics across all 24 districts!
+4. **File Handoff (outside the app)**: The BRC computer READS the CSV from the pen-drive. SARJOM itself contains no REST client and never dispatches anything — there is no endpoint in the app.
+5. **District Reporting (optional)**: District staff may import the file into whatever spreadsheet or system they already run — a physical handoff, never a live sync from the classroom.
 
 ---
 

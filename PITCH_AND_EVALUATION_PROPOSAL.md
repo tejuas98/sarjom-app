@@ -97,8 +97,8 @@ SARJOM is an **all-in-one AI vernacular pedagogy and real-time translation softw
 ## 3. Innovation, Uniqueness & Core USP
 
 ### 3.1 What Makes SARJOM Truly Unique (The "Unfair Advantages")
-1. **Ultra-Low Memory Footprint (~34 MB RAM)**:
-   While commercial LLMs (Gemma, Llama, Whisper) require **4.5 GB to 8 GB of RAM** and immediately crash low-cost government tablets with Out-Of-Memory (`SIGKILL`), SARJOM's domain-bounded INT8 quantization runs in **~34 MB RAM**, using less than 2% of device memory.
+1. **Ultra-Low Memory Footprint (5.8 MB measured heap)**:
+   While commercial LLMs (Gemma, Llama, Whisper) require **4.5 GB to 8 GB of RAM** and immediately crash low-cost government tablets with Out-Of-Memory (`SIGKILL`), SARJOM's domain-bounded cascade engine measures **5.8 MB of heap** — about 1% of the ≈500 MB a 2 GB tablet leaves after OS and background apps (≈1.5 GB).
 2. **Proprietary Custom Transformer (PALASH-MundaLLM)**:
    Not a third-party API wrapper. A full 14.2M-parameter Transformer architecture implemented from mathematical first principles in PyTorch (`ml/palash_munda_transformer.py`) and executed directly in the browser via a pure JavaScript tensor forward-pass runtime with a live self-attention heatmap.
 3. **Closed-Loop Two-Way Student Q&A Assistant**:
@@ -228,7 +228,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 │   with OOM on 2GB RAM.  │ • Auto-worksheets + QR. ├─────────────────────────┼─────────────────────────┤   children (Classes 1-3)│
 ├─────────────────────────┼─────────────────────────┤ HIGH-LEVEL CONCEPT      │ CHANNELS                │                         │
 │ EXISTING ALTERNATIVES   │ KEY METRICS             │ "A real-time AI Mother- │ • Pre-installed APK on  │                         │
-│ • J-Guruji (1-way video)│ • Active memory: ~34 MB │  Tongue Co-Teacher in   │   28,945 Gyanodaya tabs.│                         │
+│ • J-Guruji (1-way video)│ • Active memory: 5.8 MB │  Tongue Co-Teacher in   │   28,945 Gyanodaya tabs.│                         │
 │ • Adi Vaani (Cloud dict)│ • Latency: < 48 ms      │  every tribal school    │ • DIET Teacher Training │                         │
 │ • IndicTrans2 (4.5GB OOM│ • School coverage: 100% │  classroom."            │   Workshops.            │                         │
 │   and no Ho/Mundari)    │ • ORF Accuracy: > 92%   │                         │ • BRC Monthly Meetings. │                         │
@@ -241,7 +241,7 @@ Teacher Tap / Mic Decode ➔ Shows Meaning in Hindi ➔ 3 One-Tap Counter-Respon
 
 ### 8.1 Technical Feasibility
 * **Zero Cloud Dependency**: Pure PWA Service Worker caching and local IndexedDB ensure 100% operational uptime in zero-connectivity shadow zones.
-* **Hardware Budget Compliance**: Active RAM consumption is **~34 MB** (well below the 512 MB Android Go process threshold).
+* **Hardware Budget Compliance**: Measured engine heap is **5.8 MB** — about 1% of the ≈500 MB a 2 GB tablet leaves after OS and background apps.
 * **Latency Guarantee**: Measured on-device inference latency is **24 ms to 48 ms**, beating the 3.0-second SLA by a factor of 60.
 
 ### 8.2 Operational Feasibility
