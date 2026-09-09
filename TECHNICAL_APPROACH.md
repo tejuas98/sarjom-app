@@ -53,7 +53,7 @@
 ### 1.1 Technical Paradigm
 SARJOM implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Architecture**:
 * **Tier 1 (Cloud / Block Resource Centre)**: Executes high-capacity parameter-efficient fine-tuning (PEFT / LoRA) using PyTorch on rare Munda stems and compiles dynamic INT8 quantized weights.
-* **Tier 2 (On-Device Edge Tablet)**: Operates 100% offline inside the client tablet browser, executing a pure JavaScript tensor forward-pass runtime with sub-50ms latency in **~34 MB of RAM**.
+* **Tier 2 (On-Device Edge Tablet)**: Operates 100% offline inside the client tablet browser, executing a pure JavaScript cascade runtime with sub-50ms latency inside the ~500 MB a 2 GB tablet leaves after OS + background (≈1.5 GB).
 
 ```
 ┌───────────────────────────────────────────────┬────────────────────────────────────────────────────────┐
@@ -62,7 +62,7 @@ SARJOM implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Archi
 │ **Supported Platforms**                       │ Low-Cost Android Tablets ($\le$ 2 GB RAM, Android 9+),  │
 │                                               │ iPads (iOS 15+), Linux/Windows Chromium Browsers       │
 ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
-│ **Active Client Heap Allocation**             │ **~34.2 MB RAM** (Less than 15% of 256MB Go heap limit)│
+│ **Active Client Heap Allocation**             │ **5.8 MB measured** (OS + background ≈1.5 GB of the 2 GB)        │
 ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **End-to-End Voice Translation Latency**      │ **24 ms – 48 ms** (Government SLA threshold: < 3,000ms)│
 ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
@@ -420,7 +420,7 @@ Low-cost government tablets (Gyanodaya Scheme: 2GB RAM, Android 9/10 Go Edition)
 ├──────────────────────────────────────┼───────────────────────────────────┼───────────────────────┤
 │ Android OS Core & Services           │ 900 MB                            │ 900 MB                │
 │ System UI & SurfaceFlinger           │ 250 MB                            │ 250 MB                │
-│ Active App Dalvik/V8 Heap Budget     │ **4,500 MB (Requires Swap/OOM)**  │ **34.2 MB ✅**        │
+│ Active App Dalvik/V8 Heap Budget     │ **4,500 MB (Requires Swap/OOM)**  │ **5.8 MB ✅**   │
 │ Available Free Buffer for Kernel     │ **-3,650 MB (Instant Crash!)**    │ **815.8 MB (Safety)** │
 ├──────────────────────────────────────┼───────────────────────────────────┼───────────────────────┤
 │ **Kernel Process Outcome**           │ **SIGKILL (Exit Code 137)** 💥    │ **0% Crashes (STABLE)**│
@@ -433,15 +433,15 @@ To guarantee that the app never suffers from V8 garbage collection (GC) pauses d
 * No temporary object allocations are made within the inner audio/attention loops.
 * GC pause time is measured at **$< 1.5\text{ ms}$**, eliminating audio stuttering during classroom instruction.
 
-### 6.3 Rigorous Technical Defense: Why Prior Solutions Failed vs. How SARJOM Runs in 34 MB
+### 6.3 Rigorous Technical Defense: Why Prior Solutions Failed vs. How SARJOM Fits the ~500 MB a 2 GB Tablet Leaves
 
-A common technical skepticism raised by evaluators is: *"If global AI giants (Google, Meta) require 4GB–14GB models and government portals failed to deliver offline tribal translation, how can SARJOM run in 34 MB RAM on a ₹7,000 tablet without crashing?"*
+A common technical skepticism raised by evaluators is: *"If global AI giants (Google, Meta) require 4GB–14GB models and government portals failed to deliver offline tribal translation, how can SARJOM run on a ₹7,000 2 GB tablet without crashing, when the OS alone eats ≈1.5 GB?"*
 
 The failure of previous state and commercial attempts stems from **three fundamental architectural fallacies**, which SARJOM specifically overcomes:
 
 ```
 ┌──────────────────────────────────────┬─────────────────────────────────────────────────┬────────────────────────────────────────────────────────┐
-│ SYSTEM ARCHITECTURE ATTEMPTED        │ WHY IT FAILED IN RURAL JHARKHAND                │ HOW SARJOM SOLVES IT IN 34 MB                          │
+│ SYSTEM ARCHITECTURE ATTEMPTED        │ WHY IT FAILED IN RURAL JHARKHAND                │ HOW SARJOM SOLVES IT IN THE ~500 MB LEFT                          │
 ├──────────────────────────────────────┼─────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **1. Cloud REST APIs**               │ **82% of tribal schools have ZERO cellular/4G   │ **100% Client-Side On-Device PWA**: Zero bytes of      │
 │ (Bhashini, DIKSHA, Google Cloud)     │ reception**. API requests fail or hang (>15s).  │ network traffic required in the classroom.             │
@@ -456,7 +456,7 @@ The failure of previous state and commercial attempts stems from **three fundame
 └──────────────────────────────────────┴─────────────────────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
-#### Detailed Mathematical Breakdown of the 34.0 MB Hardware Budget
+#### Detailed Device RAM Budget (measured engine heap vs typical OS state)
 
 SARJOM does not attempt to compress an open-domain encyclopedia of nuclear physics or global history into 34 MB. Instead, it applies **Pedagogical Domain Bounding** strictly aligned with the NIPUN Bharat Foundational Literacy and Numeracy (FLN) Grade 1–3 syllabus:
 

@@ -86,7 +86,8 @@ The Government of Jharkhand mandates that educational software run on **low-cost
 | Resource Category | Physical Tablet Limit | SARJOM Consumption | % of Hardware Budget Utilized |
 | :--- | :--- | :--- | :--- |
 | **Active Runtime Heap** | 2,048 MB | **5.07 MB** | **0.25%** |
-| **Total Memory with DOM (Chrome)** | 2,048 MB | **34.20 MB** | **1.67%** |
+| **OS + background (typical Android 9 state)** | 2,048 MB | **≈1,500 MB** | **~73%** |
+| **Left free for SARJOM** | 2,048 MB | **≈500 MB** | engine heap 5.8 MB measured = ~1% of it |
 | **Production Bundle Size (JS)** | $\le$ 25 MB | **502 KB (142 KB gzipped)** | **2.01%** |
 | **Production Stylesheet (CSS)** | $\le$ 5 MB | **4.91 KB (1.65 KB gzipped)** | **0.09%** |
 | **Persistent Storage (IndexedDB)** | $\le$ 500 MB | **2.40 MB** | **0.48%** |

@@ -1,141 +1,91 @@
 /**
- * SARJOM (सरजोम) — 34MB Offline Engine Benchmark & Memory Audit
- * Proves that SARJOM runs inside 34MB RAM on low-cost (≤2GB) Jharkhand school tablets.
+ * SARJOM (सरजोम) — Honest Device RAM Budget & Live Engine Benchmark
+ * Replaces the old "34 MB proof" (which summed hardcoded constants).
+ * Now: [TYPICAL] device-state figures are labelled, everything else is MEASURED live.
  */
 
-const v8 = require('v8');
-const os = require('os');
+const fs = require('fs');
+const path = require('path');
 
-console.log('='.repeat(80));
-console.log('SARJOM (सरजोम) — 34MB OFFLINE MODEL BENCHMARK & HARDWARE AUDIT');
-console.log('Smart India Hackathon 2026 | Problem: SIH26042 | Govt of Jharkhand');
-console.log('='.repeat(80));
+async function main() {
+  console.log('='.repeat(80));
+  console.log('SARJOM (सरजोम) — DEVICE RAM BUDGET & LIVE ENGINE BENCHMARK');
+  console.log('Smart India Hackathon 2026 | Problem: SIH26042 | Govt of Jharkhand');
+  console.log('='.repeat(80));
 
-// Step 1: Baseline Hardware & Heap Snapshot
-const initialMemory = process.memoryUsage();
-const heapStats = v8.getHeapStatistics();
+  // ---------------------------------------------------------------- STAGE 1
+  const initial = process.memoryUsage();
+  console.log('\n▶ [STAGE 1] Harness baseline (Node ' + process.version + ')');
+  console.log(`  • Initial RSS            : ${(initial.rss / 1048576).toFixed(2)} MB`);
+  console.log(`  • Initial heap used      : ${(initial.heapUsed / 1048576).toFixed(2)} MB`);
 
-console.log('\n▶ [STAGE 1] System Environment & Memory Snapshot');
-console.log(`  • Host Platform       : ${os.platform()} (${os.arch()})`);
-console.log(`  • Total System RAM    : ${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`);
-console.log(`  • Target Tablet Spec  : Android 9.0+, 2.0 GB RAM, Quad-Core 1.5 GHz`);
-console.log(`  • Android Heap Limit  : 192 MB (dalvik.vm.heapgrowthlimit)`);
-console.log(`  • Initial RSS Memory  : ${(initialMemory.rss / 1024 / 1024).toFixed(2)} MB`);
-console.log(`  • Initial Heap Used   : ${(initialMemory.heapUsed / 1024 / 1024).toFixed(2)} MB`);
+  // ---------------------------------------------------------------- STAGE 2
+  console.log('\n▶ [STAGE 2] The 2 GB tablet RAM budget (what jurors should picture)');
+  const BUDGET = [
+    ['Total physical RAM', '2048 MB', 'SPEC (government mandate)'],
+    ['Android 9 OS + system services + background apps', '~1500 MB', 'TYPICAL device state'],
+    ['RAM actually left for a foreground app', '~500 MB', 'DERIVED (2048 - 1500)'],
+    ['SARJOM engine + lexicon heap (measured below)', 'see stage 4', 'MEASURED'],
+    ['SARJOM on-disk APK (audio + bundle + WebView shell)', 'see stage 5', 'MEASURED'],
+  ];
+  BUDGET.forEach(([k, v, t]) => console.log(`  • ${k.padEnd(52)} : ${v.padEnd(12)} [${t}]`));
+  console.log('  ⇒ Claim to jury: SARJOM lives inside the ~500 MB a 2 GB tablet really leaves,');
+  console.log('    not inside a fantasy 34 MB box. No OOM risk at this footprint.');
 
-// Step 2: Simulate Loading the 34MB Domain-Bounded Vernacular Engine
-console.log('\n▶ [STAGE 2] Memory Allocation Budget Breakdown (The 34 MB Proof)');
+  // ---------------------------------------------------------------- STAGE 3
+  console.log('\n▶ [STAGE 3] Loading the real on-device engine (ESM import)');
+  const t0 = Date.now();
+  const eng = await import('./src/services/nlpTranslationEngine.js');
+  const afterLoad = process.memoryUsage();
+  const loadHeapMB = (afterLoad.heapUsed - initial.heapUsed) / 1048576;
+  console.log(`  • Import time            : ${Date.now() - t0} ms`);
+  console.log(`  • Heap cost of lexicon + engine [MEASURED] : ${loadHeapMB.toFixed(2)} MB`);
 
-const MODEL_SPECS = [
-  {
-    component: 'FLN Domain Lexicon & Morphological Affix FST',
-    sizeMB: 2.1,
-    desc: '3,200 Class 1-3 root sememes + finite-state agglutinative inflections (Santhali, Ho, Mundari)',
-  },
-  {
-    component: 'INT8 Quantized Student Transduction Matrix',
-    sizeMB: 14.2,
-    desc: '14.2M parameter distilled transformer encoder-decoder (8-bit integer weights)',
-  },
-  {
-    component: 'Acoustic Phoneme Synthesizer & Speech Models',
-    sizeMB: 16.0,
-    desc: 'Vosk/PocketSphinx acoustic model pruned for Munda phoneme inventory + eSpeak-NG',
-  },
-  {
-    component: 'Runtime Context & Speech Waveform Buffer',
-    sizeMB: 1.7,
-    desc: 'Classroom audio ring buffer, spectral noise gate state, and dialogue session cache',
-  },
-];
+  // ---------------------------------------------------------------- STAGE 4
+  console.log('\n▶ [STAGE 4] Live stress: 10,000 real translations through the cascade engine');
+  const phrases = [
+    'किताब खोलो और पाठ एक पढ़ो।',
+    'अपनी जगह पर बैठ जाओ।',
+    'आज हम गणित में गिनती सीखेंगे।',
+    'शान्त रहो और सुनो।',
+    'हाथ धोकर मध्याह्न भोजन करो।',
+    'शाबाश, तुमने बहुत अच्छा उत्तर दिया।',
+    'तुम्हारा नाम क्या है?',
+    'पानी / जल',
+  ];
+  const langs = ['santhali', 'ho', 'mundari', 'sadri'];
+  const s0 = process.hrtime.bigint();
+  const latencies = [];
+  for (let i = 0; i < 10000; i++) {
+    const p0 = process.hrtime.bigint();
+    eng.translateHindiToTribal(phrases[i % phrases.length], langs[i % langs.length]);
+    latencies.push(Number(process.hrtime.bigint() - p0) / 1e6);
+  }
+  const elapsedMs = Number(process.hrtime.bigint() - s0) / 1e6;
+  latencies.sort((a, b) => a - b);
+  const afterStress = process.memoryUsage();
+  const stressHeapMB = (afterStress.heapUsed - afterLoad.heapUsed) / 1048576;
+  console.log(`  • Total time             : ${elapsedMs.toFixed(2)} ms`);
+  console.log(`  • Average latency        : ${(elapsedMs / 10000).toFixed(4)} ms  (SLA 3000 ms)`);
+  console.log(`  • p95 / p99              : ${latencies[9499].toFixed(3)} / ${latencies[9899].toFixed(3)} ms`);
+  console.log(`  • Heap growth during stress [MEASURED]     : ${stressHeapMB.toFixed(2)} MB`);
+  console.log(`  • Engine heap total [MEASURED]             : ${(loadHeapMB + Math.max(stressHeapMB, 0)).toFixed(2)} MB`);
 
-let totalBudgetMB = 0;
-MODEL_SPECS.forEach((spec, idx) => {
-  totalBudgetMB += spec.sizeMB;
-  console.log(`  [${idx + 1}/4] ${spec.component.padEnd(45)} : ${spec.sizeMB.toFixed(1)} MB`);
-  console.log(`        ↳ ${spec.desc}`);
-});
+  // ---------------------------------------------------------------- STAGE 5
+  console.log('\n▶ [STAGE 5] On-disk footprint [MEASURED from repo files]');
+  const apk = path.join(__dirname, 'SARJOM-v2.5-verified.apk');
+  if (fs.existsSync(apk)) console.log(`  • Signed APK             : ${(fs.statSync(apk).size / 1048576).toFixed(1)} MB`);
+  const audioDir = path.join(__dirname, 'public', 'audio');
+  if (fs.existsSync(audioDir)) {
+    const bytes = fs.readdirSync(audioDir).reduce((s, f) => s + fs.statSync(path.join(audioDir, f)).size, 0);
+    console.log(`  • Studio audio bank      : ${(bytes / 1048576).toFixed(2)} MB (inside the APK)`);
+  }
+  console.log('  • JS bundle              : 659 kB raw / 166 kB gzip (vite build, 2026-09-08)');
 
-console.log('-'.repeat(80));
-console.log(`  TOTAL STATIC + RUNTIME MEMORY FOOTPRINT : ${totalBudgetMB.toFixed(1)} MB`);
-console.log(`  MAX BUDGET ALLOWED ON 2GB TABLET (HEAP) : 192.0 MB`);
-console.log(`  PERCENTAGE OF TABLET HEAP UTILIZED      : ${((totalBudgetMB / 192) * 100).toFixed(1)}% (SAFE ✅)`);
-console.log(`  PERCENTAGE OF 2GB PHYSICAL RAM          : ${((totalBudgetMB / 2048) * 100).toFixed(2)}% (FITS EASILY ✅)`);
-
-// Step 3: Comparative Analysis: Why Previous Solutions Failed
-console.log('\n▶ [STAGE 3] Failure Analysis: Why Previous & State Systems Failed');
-const COMPARISONS = [
-  {
-    system: 'Cloud APIs (Bhashini / DIKSHA)',
-    ramReq: 'Low (Cloud)',
-    offline: 'FAIL (0%)',
-    verdict: 'FAILED: 82% of Jharkhand tribal schools have ZERO cellular/internet data.',
-  },
-  {
-    system: 'General LLMs (Llama-2 / Gemma 2B)',
-    ramReq: '4,500 MB',
-    offline: 'YES',
-    verdict: 'FAILED: Exceeds 192MB heap limit by 23x. Android triggers SIGKILL instantly.',
-  },
-  {
-    system: 'Whisper-Base Speech Model',
-    ramReq: '1,100 MB',
-    offline: 'YES',
-    verdict: 'FAILED: Out of Memory on 2GB tablets. High latency (> 8.5 seconds).',
-  },
-  {
-    system: 'Static Word Dictionaries',
-    ramReq: '10 MB',
-    offline: 'YES',
-    verdict: 'FAILED: Cannot handle agglutinative morphology (misses 90% of inflected verbs).',
-  },
-  {
-    system: 'SARJOM Domain-Bounded Engine',
-    ramReq: '34 MB',
-    offline: 'YES (100%)',
-    verdict: 'SUCCESS: Runs in 34 MB RAM, sub-50ms latency, zero internet required.',
-  },
-];
-
-console.table(COMPARISONS);
-
-// Step 4: Stress-Testing Active Heap Allocation & Translation Throughput
-console.log('\n▶ [STAGE 4] Live Stress-Testing Throughput (10,000 Sequential Inferences)');
-const testPhrases = [
-  'किताब खोलो और पाठ एक पढ़ो।',
-  'अपनी जगह पर बैठ जाओ।',
-  'आज हम गणित में गिनती सीखेंगे।',
-  'शान्त रहो और सुनो।',
-  'हाथ धोकर मध्याह्न भोजन करो।',
-  'शाबाश, तुमने बहुत अच्छा उत्तर दिया।',
-];
-
-const startBench = performance.now();
-let operations = 0;
-for (let i = 0; i < 10000; i++) {
-  const phrase = testPhrases[i % testPhrases.length];
-  // Simulate tokenization, morphological lookup, and script projection
-  const tokens = phrase.split(' ');
-  const transformed = tokens.map((t) => t + '_parsed').join(' ');
-  operations++;
+  console.log('\n' + '='.repeat(80));
+  console.log('VERDICT: engine heap is single-digit MB inside the ~500 MB a 2 GB tablet leaves.');
+  console.log('Say THAT to the jury — it is measured, and it is believable.');
+  console.log('='.repeat(80) + '\n');
 }
-const endBench = performance.now();
-const elapsedMs = endBench - startBench;
-const throughputPerSec = Math.round((operations / elapsedMs) * 1000);
 
-console.log(`  • Total Inferences Executed : ${operations.toLocaleString()} sentences`);
-console.log(`  • Total Execution Time      : ${elapsedMs.toFixed(2)} ms`);
-console.log(`  • Average Time Per Sentence : ${(elapsedMs / operations).toFixed(4)} ms`);
-console.log(`  • Throughput                : ${throughputPerSec.toLocaleString()} translations / second`);
-console.log(`  • SLA Compliance            : 140,000x faster than official 3.0s requirement`);
-
-// Step 5: Final Memory Snapshot
-const finalMemory = process.memoryUsage();
-console.log('\n▶ [STAGE 5] Post-Execution Memory Audit');
-console.log(`  • Peak RSS Memory           : ${(finalMemory.rss / 1024 / 1024).toFixed(2)} MB`);
-console.log(`  • Peak Heap Used            : ${(finalMemory.heapUsed / 1024 / 1024).toFixed(2)} MB`);
-console.log(`  • Heap Growth Delta         : ${((finalMemory.heapUsed - initialMemory.heapUsed) / 1024 / 1024).toFixed(2)} MB`);
-
-console.log('\n' + '='.repeat(80));
-console.log('VERDICT: 34 MB OFFLINE EXECUTION IS MATHEMATICALLY & TECHNICALLY PROVEN ✅');
-console.log('='.repeat(80) + '\n');
+main().catch((e) => { console.error(e); process.exit(1); });
