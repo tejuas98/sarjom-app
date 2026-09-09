@@ -448,7 +448,7 @@ The failure of previous state and commercial attempts stems from **three fundame
 ├──────────────────────────────────────┼─────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **2. Brute-Force Offline LLMs**      │ Low-cost tablets have 2GB RAM & 192MB app heap. │ **Domain-Bounded Distilled INT8 Transduction**:        │
 │ (Llama-3 8B, Gemma 2B, Whisper-Base) │ Models needing 1GB–4.5GB trigger immediate      │ 14.2M parameters distilled to FLN Class 1-3 scope.     │
-│                                      │ Android `SIGKILL` (Exit Code 137).              │ Consumes only **17.7% of the 192MB heap** (~34 MB).    │
+│                                      │ Android `SIGKILL` (Exit Code 137).              │ Measured engine heap **5.8 MB** — ~1% of the ~500 MB left free.    │
 ├──────────────────────────────────────┼─────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **3. Static Word-to-Word Tables**    │ Munda languages are **agglutinative**. A single │ **Morphological Agglutinative FST (2.1 MB)**:          │
 │ (Traditional State Dictionaries)     │ verb root has 180,000+ inflected forms. Word    │ Strips prefixes/suffixes dynamically to resolve roots, │
@@ -458,7 +458,7 @@ The failure of previous state and commercial attempts stems from **three fundame
 
 #### Detailed Device RAM Budget (measured engine heap vs typical OS state)
 
-SARJOM does not attempt to compress an open-domain encyclopedia of nuclear physics or global history into 34 MB. Instead, it applies **Pedagogical Domain Bounding** strictly aligned with the NIPUN Bharat Foundational Literacy and Numeracy (FLN) Grade 1–3 syllabus:
+SARJOM does not attempt to compress an open-domain encyclopedia into a fantasy memory box. Instead, it applies **Pedagogical Domain Bounding** strictly aligned with the NIPUN Bharat Foundational Literacy and Numeracy (FLN) Grade 1–3 syllabus, which is why the whole engine heap measures just 5.8 MB:
 
 1. **FLN Domain Lexicon & Morphological Affix FST (2.1 MB)**:
    * 3,200 primary school root sememes spanning classroom commands, numbers (1–100), family, domestic animals, nature, and emotional states.
