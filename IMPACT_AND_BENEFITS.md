@@ -122,7 +122,7 @@ When **850,000 tribal children** walk into primary classrooms across 5,000+ gove
 │   850,000 × ₹8,000 = **₹680 Crores Capex**.            │   worksheets with home audio QR codes: **< ₹25/mo**.   │
 │                                                        │                                                        │
 │ • Commercial Cloud GPU Translation API subscriptions:  │ • 100% On-Device INT8 quantized neural execution in    │
-│   5,000 schools × ₹3,000/month = **₹18 Cr / Year**.    │   browser memory (~34 MB RAM): **₹0.00 Opex**.         │
+│   5,000 schools × ₹3,000/month = **₹18 Cr / Year**.    │   browser memory (5.8MB heap): **₹0.00 Opex**.         │
 ├────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ **TOTAL ESTIMATED 5-YEAR STATE COST: ₹5,270+ CRORES**  │ **TOTAL ESTIMATED 5-YEAR STATE COST: < ₹15 CRORES**    │
 └────────────────────────────────────────────────────────┴────────────────────────────────────────────────────────┘

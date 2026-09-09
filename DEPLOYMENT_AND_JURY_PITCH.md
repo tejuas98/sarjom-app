@@ -3,7 +3,7 @@
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026%20Problem%20SIH26042-orange.svg)](https://sih.gov.in)
 [![Team Karasuno](https://img.shields.io/badge/Team-Karasuno-blue.svg)](https://github.com/tejuas98/PALASH-Setu)
 [![Client](https://img.shields.io/badge/Client-Govt.%20of%20Jharkhand%20(DHTE)-green.svg)](https://jharkhand.gov.in)
-[![Inference Latency](https://img.shields.io/badge/Inference%20Latency-0.022%20ms%20(SLA%20%3C%203000ms)-success.svg)](#2-top-10-anticipated-hard-jury-questions--tough-defense-answers)
+[![Inference Latency](https://img.shields.io/badge/Inference%20Latency-0.6%20ms%20avg%20(SLA%20%3C%203000ms)-success.svg)](#2-top-10-anticipated-hard-jury-questions--tough-defense-answers)
 [![RAM Heap](https://img.shields.io/badge/RAM%20Heap-5.08%20MB%20(%E2%89%A42GB%20Tablet)-blue.svg)](#2-top-10-anticipated-hard-jury-questions--tough-defense-answers)
 
 > **Official 3-Minute Elevator Pitch Script, Hard Jury Defense Matrix, and Statewide Deployment Roadmap for Team Karasuno.**
@@ -23,7 +23,7 @@ This is not a hypothetical scenario. In Jharkhand's 5,000+ tribal primary school
 
 SARJOM is an AI-powered, voice-first vernacular pedagogy platform engineered specifically for Jharkhand's Gyanodaya 10.1" classroom tablets. While 500 competing teams rely on cloud APIs like OpenAI or Bhashini that crash the moment internet connectivity drops in Saranda Forest, SARJOM runs 100% on-device.
 
-Our vectorized TF-IDF cosine similarity engine achieves an astonishing inference latency of 0.022 milliseconds—over 135,000 times faster than the official 3.0-second SIH SLA. The entire application uses just 5.08 MB of runtime heap, operating safely within less than 2% of budget 2GB tablet memory."
+Our vectorized TF-IDF cosine similarity engine measures an average inference latency of 0.6 milliseconds (p99 1.8 ms) — over 4,900 times faster than the official 3.0-second SIH SLA. The engine heap measures 5.8 MB, about 1% of the ≈500 MB a 2 GB tablet leaves after OS and background apps."
 
 [TIME: 1:45 - 2:30 | PEDAGOGY, AUDIO QR & ILLITERATE PARENTS]
 "SARJOM does not just translate words; it transforms classroom pedagogy. It implements Jharkhand Education Project Council's official 80:20 Mother-Tongue-to-Hindi Transition Formula across NIPUN Bharat FLN lessons. 
@@ -42,7 +42,7 @@ With SARJOM, no tribal child in Jharkhand will ever feel like a foreigner in the
 
 ### Q1: "Why didn't your team use Bhashini Cloud API or Google Cloud Translation?"
 * **Tough Defense**:
-  > *"Because real tribal classrooms in Jharkhand do not have internet. In districts like West Singhbhum, Dumka, and Simdega, cellular networks are nonexistent. Any application relying on cloud APIs displays an infinite loading spinner and fails completely. Furthermore, cloud APIs introduce roundtrip latencies between 1,500ms and 4,000ms, violating classroom dialogue fluidity. SARJOM executes in **0.022 ms (22 microseconds)** on-device with **100% offline availability** and **zero recurring API costs** for the state exchequer."*
+  > *"Because real tribal classrooms in Jharkhand do not have internet. In districts like West Singhbhum, Dumka, and Simdega, cellular networks are nonexistent. Any application relying on cloud APIs displays an infinite loading spinner and fails completely. Furthermore, cloud APIs introduce roundtrip latencies between 1,500ms and 4,000ms, violating classroom dialogue fluidity. SARJOM executes in **0.6 ms average (1.8 ms p99)** on-device with **100% offline availability** and **zero recurring API costs** for the state exchequer."*
 
 ---
 
@@ -60,7 +60,7 @@ With SARJOM, no tribal child in Jharkhand will ever feel like a foreigner in the
 
 ### Q4: "Low-cost government tablets have only 2 GB RAM. Will your app crash due to Out-Of-Memory (OOM)?"
 * **Tough Defense**:
-  > *"We conducted exhaustive profiling using Chrome Memory Inspector. SARJOM's active JavaScript heap is **5.08 MB**, and total memory with DOM overhead is **~34 MB**. This represents less than **1.8% of available tablet RAM**, leaving 98.2% headroom for system processes. It is architecturally impossible for SARJOM to cause an OOM crash on an Android 9.0+ 2GB tablet."*
+  > *"We profiled the live engine with Node heap measurement (benchmark_memory_and_latency.cjs): the translation engine's heap is **5.8 MB** — 1.23 MB at load plus 4.6 MB of growth across 10,000 real translations. On a 2 GB Android 9 tablet the OS and background apps already hold ≈1.5 GB; SARJOM lives inside the ≈500 MB that remains and uses about 1% of it. An OOM crash caused by SARJOM's engine is not a plausible failure mode."*
 
 ---
 

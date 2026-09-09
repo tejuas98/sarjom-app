@@ -6,7 +6,7 @@
 [![SIH Jury Pitch](https://img.shields.io/badge/SIH%20Jury%20Pitch-3--Min%20Pitch%20%26%20Q%26A%20Defense-orange.svg)](./DEPLOYMENT_AND_JURY_PITCH.md)
 [![Prototype Walkthrough](https://img.shields.io/badge/Prototype%20Walkthrough-Screenshots%20%26%20Analysis-purple.svg)](./PROTOTYPE_README.md)
 [![Test Suite Status](https://img.shields.io/badge/Automated%20Tests-12%2F12%20Passed%20(100%25)-brightgreen.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
-[![Latency Benchmark](https://img.shields.io/badge/Voice%20Latency-0.022%20ms%20(SLA%20%3C%203.0s)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
+[![Latency Benchmark](https://img.shields.io/badge/Voice%20Latency-0.6%20ms%20avg%20(SLA%20%3C%203.0s)-success.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![Hardware Budget](https://img.shields.io/badge/RAM%20Footprint-~34%20MB%20(Budget%20%E2%89%A42GB)-blue.svg)](./TEST_RESULTS_AND_BENCHMARKS.md)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-tejuas98%2FPALASH--Setu-blue?logo=github)](https://github.com/tejuas98/PALASH-Setu)
 [![Deep Math & Architecture Spec](https://img.shields.io/badge/Technical%20Spec-Mathematics%20%26%20Engineering%20Deep%20Dive-purple.svg)](./TECHNICAL_SPECIFICATION_AND_MATHEMATICS.md)
@@ -837,7 +837,7 @@ To give evaluators, jury members, and technical architects an immediate, intuiti
 | Stage | Subsystem Components | Key Operations & Latency |
 | :--- | :--- | :--- |
 | **1. INPUT STAGE** | • Teacher Hindi Voice (75-82 dB Noise)<br />• Two-Way Student Ear (Tribal Audio)<br />• Digital Slate Touch & Chips<br />• Worksheet Audio QR Scans | Microphone & touch capture; converts physical classroom signals into digital streams ($\le 100$ ms). |
-| **2. PROCESS STAGE** | • 1. Acoustic DSP Noise Gate (300Hz-3.4kHz)<br />• 2. Vectorized TF-IDF Cosine Space<br />• 3. Munda Morphology & Script Transducer | Filters acoustic rain noise; executes sub-0.05ms vector matching; applies 80:20 NIPUN transition rules (**0.022 ms measured latency**). |
+| **2. PROCESS STAGE** | • 1. Acoustic DSP Noise Gate (300Hz-3.4kHz)<br />• 2. Vectorized TF-IDF Cosine Space<br />• 3. Munda Morphology & Script Transducer | Filters acoustic rain noise; executes 0.6 ms average vector matching; applies 80:20 NIPUN transition rules (**0.6 ms average measured latency, p99 1.8 ms**). |
 | **3. OUTPUT STAGE** | • Native Ol Chiki & Warang Chiti Orthography<br />• Dual Voice Audio Speech Synthesis (TTS)<br />• Bilingual 300 DPI Worksheets with Audio QR<br />• e-Vidyavahini 2.0 Encrypted Offline Sync | Delivers visual scripts, clear audio pronunciation, print-ready home materials, and zero-loss governance records. |
 
 ### 4.0.1 Detailed If-Else Operational Workflow Flowchart
@@ -1304,7 +1304,7 @@ Below is a complete reference of every active interactive control in the SARJOM 
 > 📊 **Full Test Dossier & Screenshot Proof**: See **[TEST_RESULTS_AND_BENCHMARKS.md](./TEST_RESULTS_AND_BENCHMARKS.md)** for complete execution logs and latency histograms.
 
 * **Automated Test Suite**: **12 OF 12 TESTS PASSED CLEANLY (100% SUCCESS RATE)** via `node run_hard_tests.js`.
-* **Micro-Benchmark Latency**: **0.022 ms (22 microseconds)** — **135,901x faster** than the mandatory $\le$3.0s SIH SLA.
+* **Micro-Benchmark Latency**: **0.6 ms average (p99 1.8 ms)** — **~4,900x faster** than the mandatory $\le$3.0s SIH SLA.
 * **Low-Cost Tablet Memory Footprint**: Active runtime heap is **5.07 MB** (fits easily in $\le$2GB tablet limit with <2% RAM utilization).
 * **Multi-State Screenshot Matrix**: 22 automated screenshots captured across all connectivity states, language selections, curriculum tabs, neural models, decision flowcharts, audio deck, and modals in [`public/screenshots/`](./public/screenshots/).
 

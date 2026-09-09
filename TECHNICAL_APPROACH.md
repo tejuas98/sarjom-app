@@ -51,8 +51,8 @@
 ## 1. Executive Technical Architecture Summary
 
 ### 1.1 Technical Paradigm
-SARJOM implements a **Dual-Engine Hybrid Edge-Cloud Machine Learning & DSP Architecture**:
-* **Tier 1 (Cloud / Block Resource Centre)**: Executes high-capacity parameter-efficient fine-tuning (PEFT / LoRA) using PyTorch on rare Munda stems and compiles dynamic INT8 quantized weights.
+SARJOM implements a **Two-Stage On-Device Machine Learning & DSP Architecture (zero cloud)**:
+* **Tier 1 (Research machines, build-time only)**: PEFT / LoRA experiments on rare Munda stems run on the team's own training hardware; the outcome is compiled into the shipped bundle as static lexicon and weights. Nothing trains, hosts or runs in the cloud at runtime.
 * **Tier 2 (On-Device Edge Tablet)**: Operates 100% offline inside the client tablet browser, executing a pure JavaScript cascade runtime with sub-50ms latency inside the ~500 MB a 2 GB tablet leaves after OS + background (≈1.5 GB).
 
 ```
@@ -99,7 +99,7 @@ flowchart LR
     subgraph S2["2. PROCESSING STAGE (SARJOM Edge Engine)"]
         direction TB
         P1["⚙️ 1. Acoustic DSP Noise Gate (300Hz-3.4kHz)"]
-        P2["⚡ 2. Vectorized TF-IDF Cosine Space (0.022ms)"]
+        P2["⚡ 2. Vectorized TF-IDF Cosine Space (0.6 ms avg)"]
         P3["🔤 3. Munda Morphology & Script Transducer (80:20)"]
         P1 --> P2 --> P3
     end
@@ -109,7 +109,7 @@ flowchart LR
         O1["📜 Native Script Display (Ol Chiki / Warang Chiti)"]
         O2["🔊 Dual Speech Synthesis (TTS Audio Pronunciation)"]
         O3["📄 Bilingual Audio QR Worksheets (300 DPI Print)"]
-        O4["📊 e-Vidyavahini 2.0 Governance Sync (Offline JSON)"]
+        O4["📊 Encrypted Local Record Store (optional CSV file export)"]
     end
 
     S1 ==> S2 ==> S3
@@ -128,12 +128,12 @@ flowchart LR
 | | **3. Digital Slate Strokes** | Student draws character glyphs or touches capacitive prompt chips on the Gyanodaya 10.1" screen. | $< 8$ ms touch loop |
 | | **4. Audio QR Scan** | Non-literate village parent points basic smartphone camera at printed paper worksheet. | Direct Camera URL |
 | **Stage 2: PROCESS** | **1. Acoustic Noise Gate & DSP** | Web Audio API bandpass filter (300 Hz to 3,400 Hz) isolates vocal formants, suppressing monsoon tin-roof vibration. | $< 2$ ms DSP pass |
-| | **2. Vector Space TF-IDF Embedding** | Pre-computed sparse token n-gram matrix matches query vector against 1,240+ certified FLN terms via Cosine Similarity. | **0.022 ms (Measured)** |
+| | **2. Vector Space TF-IDF Embedding** | Pre-computed sparse token n-gram matrix matches query vector against 1,240+ certified FLN terms via Cosine Similarity. | **0.6 ms avg (Measured)** |
 | | **3. Agglutinative Munda Transducer** | Handles Austroasiatic infixing and case affixes; applies JEPC 80:20 scaffolding and generates authentic Unicode. | $< 1.2$ ms assembly |
 | **Stage 3: OUTPUT** | **1. Native Script Display** | Renders authentic Ol Chiki (`ᱡᱚᱦᱟᱨ`), Warang Chiti, and Devanagari/Roman phonetics in high-contrast SVG glyphs. | 0 ms (DOM Render) |
 | | **2. Dual Speech Audio (TTS)** | On-device speech synthesizer speaks tribal terms clearly through tablet speaker for correct acoustic modeling. | Real-time stream |
 | | **3. Bilingual Audio QR Worksheets** | Browser renders 300 DPI print-ready worksheets with dynamic on-device generated Audio QR code for home practice. | Instant Client Print |
-| | **4. e-Vidyavahini 2.0 Sync** | Formative assessment records are batched into encrypted offline IndexedDB and synced via MicroSD or CRC Wi-Fi. | Zero-loss offline |
+| | **4. Local Record Commit** | Formative assessment records are committed to encrypted on-device storage; an optional CSV file export travels by pen-drive. No runtime sync exists. | Zero-loss, zero-cloud |
 
 ### 1.3 Detailed System Workflow & If-Else Decision Flowchart
 
@@ -151,14 +151,12 @@ Beyond high-level data stages, real classroom deployment requires deterministic 
 
 ```mermaid
 flowchart TD
-    Start(["🚀 User Opens SARJOM App"]) --> CheckNet{"🌐 Internet Available?"}
+    Start(["🚀 User Opens SARJOM App"]) --> Boot{"📴 Zero-Cloud Boot:\nInternet available? IRRELEVANT"}
+    Boot --> BootSW
     
     %% Level 1: Connectivity
-    CheckNet -->|YES / Online| CloudSync["☁️ Cloud Sync & Handshake\ne-Vidyavahini 2.0 REST connected"]
-    CheckNet -->|NO / Offline| OfflineEdge["📶 100% Offline Edge Mode\nService Worker & IndexedDB active"]
-    
-    CloudSync --> LoadProfile["🏫 Load District & UDISE Profile\n(Dumka, West Singhbhum, Khunti)"]
-    OfflineEdge --> LoadProfile
+    BootSW["📦 Service Worker serves app + every asset from CacheStorage\nNo network check, no online branch, no cloud twin"]
+    BootSW --> LoadProfile["🏫 Load District & UDISE Profile (stored on device)\n(Dumka, West Singhbhum, Khunti)"]
     
     %% Level 2: Mode Selection
     LoadProfile --> ModeSelect{"📚 Select Classroom Mode?"}
@@ -168,7 +166,7 @@ flowchart TD
     MicCap --> DSPGate["⚙️ Web Audio DSP Noise Gate\n(Bandpass 300Hz-3.4kHz filter)"]
     DSPGate --> CheckSNR{"Acoustic SNR > 12 dB?"}
     CheckSNR -->|NO / Heavy Rain| NoiseFallback["⚠️ Noise Fallback\nUse 1-Tap Prompt Chips"]
-    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.022 ms measured latency)"]
+    CheckSNR -->|YES / Clear Voice| VectorMatch["⚡ Vector TF-IDF Cosine Match\n(0.6 ms avg measured latency)"]
     NoiseFallback --> VectorMatch
     VectorMatch --> MundaTrans["🔤 Munda Morphology & Script\n(Ol Chiki / Warang Chiti / Deva)"]
     
@@ -193,8 +191,21 @@ flowchart TD
     CheckORF -->|YES| FluencyPass["🌟 Fluency Mastered Badge\nLogged to Student Portfolio"]
     CheckORF -->|NO| PhoneGuide["👂 Phonetic Audio Modeling\nSlows playback & shows Devanagari cue"]
     
+
+    %% Branch 5: Flashcards & Dictionary
+    ModeSelect -->|5. Flashcards & Dictionary| Flash["🃏 Picture-Word Flashcard Deck\n+ 4-language dictionary search, all local"]
+    Flash --> CheckRecall{"Recall correct?"}
+    CheckRecall -->|YES| DeckUp["⏭️ Deck levels up\nNew word family unlocked"]
+    CheckRecall -->|NO| CardRepeat["🔁 Card repeats with audio + picture"]
+
+    %% Branch 6: Slate, Folklore & Teacher Tools
+    ModeSelect -->|6. Slate & Folklore| Slate["✍️ Touch-Slate Stroke-Match Practice\n+ folklore story audio in mother tongue"]
+    Slate --> DBCommit
+    DeckUp --> DBCommit
+    CardRepeat --> DBCommit
+    
     %% Convergence to Persistence
-    MundaTrans --> DBCommit["💾 Encrypted Offline IndexedDB Commit\n(Local persistence & EVV queue)"]
+    MundaTrans --> DBCommit["💾 Encrypted Local Commit (localStorage / CacheStorage)\n(No sync queue, no EVV upload — zero cloud)"]
     Praise --> DBCommit
     Remedial --> DBCommit
     AudioComp --> DBCommit
@@ -204,7 +215,11 @@ flowchart TD
     DBCommit --> Done(["✅ PROCESS COMPLETE"])
 
     style Start fill:#0284C7,stroke:#38BDF8,stroke-width:2px,color:#FFFFFF
-    style CheckNet fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
+    style Boot fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
+    style BootSW fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
+    style CheckRecall fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
+    style Flash fill:#134E4A,stroke:#2DD4BF,stroke-width:2px,color:#CCFBF1
+    style Slate fill:#7F1D1D,stroke:#F87171,stroke-width:2px,color:#FEE2E2
     style ModeSelect fill:#1E3A8A,stroke:#38BDF8,stroke-width:2px,color:#DBEAFE
     style CheckSNR fill:#78350F,stroke:#F59E0B,stroke-width:2px,color:#FEF3C7
     style CheckFLN fill:#132E22,stroke:#10B981,stroke-width:2px,color:#A7F3D0
@@ -245,7 +260,7 @@ flowchart TD
  │  • Speech Synthesis & Bluetooth A2DP 85dB+ Projection Engine                             │
  │  • Multi-Touch HTML5 Canvas Blackboard Slate with Bézier Stroke Damping                  │
  │  • CSS @media print A4 Vector Engine with Dynamic SVG QR Companion Code                  │
- │  • e-Vidyavahini 2.0 (EVV) REST Synchronizer & BRC Sneakernet MicroSD CSV Serializer     │
+ │  • Local Record Serializer & optional MicroSD / USB CSV file export (no REST client, no endpoints)     │
  └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -549,13 +564,13 @@ ctx.quadraticCurveTo(prevPoint.x, prevPoint.y, midX, midY);
 
 ## 10. State Governance Integration & Data Security
 
-### 10.1 Jharkhand e-Vidyavahini 2.0 (EVV) JSON API Payload Specification
-When the teacher visits the Block Resource Centre (BRC) and connects to broadband, the app automatically dispatches the batch synchronization payload:
+### 10.1 Local Record & Export File Schema (JSON as stored on device)
+Every classroom interaction is committed in this shape to encrypted on-device storage. The same record serializes into the optional pen-drive CSV/JSON export. SARJOM itself dispatches nothing to any server:
 
 ```json
 {
   "state_code": "JH",
-  "portal": "e-Vidyavahini 2.0",
+  "export_target": "district office (offline file handoff)",
   "api_version": "2.1.0-fln",
   "sync_timestamp": "2026-09-04T02:50:00.000Z",
   "school_profile": {

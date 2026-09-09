@@ -23,7 +23,7 @@
    * 2.3 Unicode Script Normalization (Ol Chiki & Warang Chiti)
 3. [Hardware & Operating System Budget Engineering](#3-hardware--operating-system-budget-engineering)
    * 3.1 Android 9.0/10.0 Go Edition Process Memory & Linux OOM Killer Limits
-   * 3.2 V8 JavaScript Engine Heap Allocation Analysis (~34 MB RAM)
+   * 3.2 V8 JavaScript Engine Heap Allocation Analysis (measured 5.8 MB heap)
    * 3.3 Thermal Throttling & Battery Conservation on MediaTek/Unisoc SoCs
 4. [Client-Side Pure JavaScript Tensor Engine Implementation](#4-client-side-pure-javascript-tensor-engine-implementation)
    * 4.1 Step-by-Step Architecture of `customNeuralMundaEngine.js`
@@ -225,15 +225,15 @@ Low-cost Gyanodaya tablets distributed in Jharkhand have strict kernel constrain
 ├────────────────────────────────────────────────────────────────────────┤
 │ Free System Buffer: ~250 MB                                           │
 ├────────────────────────────────────────────────────────────────────────┤
-│ Available Application Heap: ~448 MB                                    │
+│ Available Application Heap: ~500 MB                                    │
 │ ┌───────────────────────────┬────────────────────────────────────────┐ │
 │ │ SARJOM Footprint:    │ Safe Headroom:                         │ │
-│ │ ~34 MB RAM (INT8 Quantized)│ ~414 MB (Zero OOM Danger)              │ │
+│ │ 5.8 MB heap (measured live)│ ~494 MB (Zero OOM Danger)              │ │
 │ └───────────────────────────┴────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-Because SARJOM runs in **~34 MB of RAM**, it operates with an enormous **400+ MB safety buffer**, guaranteeing that it will never be terminated by the OS.
+Because SARJOM's engine heap measures **5.8 MB**, it runs inside the ≈500 MB a 2 GB tablet leaves after OS and background apps (≈1.5 GB) — a safety buffer of hundreds of MB, so the OS has no reason to terminate it.
 
 ---
 
@@ -501,7 +501,7 @@ When evaluating national hackathons like the Smart India Hackathon (SIH), hundre
 
 ### Why SARJOM Decisively Defeats All 500 Competitors:
 1. **Zero Cloud Dependency**: Operates 100% offline using service worker caching and IndexedDB local storage. Pulling the physical Ethernet or turning off WiFi results in zero service interruption.
-2. **True Low-RAM Edge Compatibility**: Uses dynamic INT8 quantization to achieve an active memory footprint of **~34 MB**, guaranteeing zero OOM kills on Android Go tablets.
+2. **True Low-RAM Edge Compatibility**: A domain-bounded cascade engine with a measured heap of **5.8 MB** — about 1% of the ≈500 MB a 2 GB Android Go tablet leaves after OS and background apps.
 3. **Genuine Austroasiatic Coverage**: Provides authentic Unicode rendering for **Ho (Warang Chiti)**, **Mundari (Devanagari/Bani)**, and **Santhali (Ol Chiki)**, avoiding the 70% population blindspot of commercial models.
 4. **Pedagogical Integration**: Directly aligns with NIPUN Bharat learning outcomes (`FLN-L1.01` to `FLN-L3.12`), auto-generates printable worksheets with audio QR codes, and synchronizes with Jharkhand's official **e-Vidyavahini 2.0** state MIS.
 
@@ -574,12 +574,12 @@ In remote forest shadow zones (e.g., Saranda Forest in West Singhbhum or the Dum
                  ▼ Teacher travels to Monthly Review Meeting
 [ Block Resource Centre (BRC) / Cluster Resource Centre (CRC) ]
 • Teacher hands USB/microSD to the Block Education Officer (BEO).
-• BRC computer ingests CSV via batch upload portal.
+• BRC computer READS the CSV file — outside SARJOM, no network call by the app.
                  │
-                 ▼ BRC connected to Broadband/NIC Network
-[ Jharkhand e-Vidyavahini 2.0 (EVV) State Cloud Servers ]
-• Central database aggregates school metrics across all 24 districts.
-• State Education Directorate (JEPC Ranchi) visualizes live MTB-MLE progress!
+                 ▼ Optional district file import (zero cloud at runtime)
+[ District spreadsheet / reporting tool of their choice ]
+• District staff may aggregate school metrics across all 24 districts.
+• Any state-level reporting happens as a file handoff, never a live sync!
 ```
 
 ---

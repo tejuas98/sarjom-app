@@ -105,7 +105,7 @@ Located at the very top of the screen (in simulated black/slate ribbon):
 | UI Element / Button | Icon / Visual | Location | Real-World Function & Classroom Purpose |
 | :--- | :--- | :--- | :--- |
 | **ऑफ़लाइन / ऑनलाइन टॉगल** | `WifiOff` / `Wifi` | Top Left | **Click to toggle offline mode**. Shows teachers whether the tablet is operating completely on-device or syncing with the central server. Triggers a Sonner toast notification. |
-| **रैम उपयोग मॉनिटर (RAM Usage)** | `Cpu` (Green) | Top Center-Left | **Live memory telemetry**. Displays real-time RAM consumption (~34 MB of 2048 MB), proving hardware budget compliance for $\le$2GB budget tablets. |
+| **रैम उपयोग मॉनिटर (RAM Usage)** | `Cpu` (Green) | Top Center-Left | **Live memory telemetry**. Displays the measured engine heap (5.8 MB of 2048 MB), proving hardware budget compliance for $\le$2GB budget tablets. |
 | **स्थानीय कैश सिंक (Cache Status)** | `HardDrive` (Amber) | Top Center | **Data integrity indicator**. Confirms that all 1,240+ FLN vocabulary entries and lesson plans are stored on-device in persistent local storage. |
 | **टैबलेट फ्रेम टॉगल बटन** | `📱 टैबलेट व्यू` / `फुल-स्क्रीन` | Top Right-Center | **Switches the viewport mode**. Toggles between the realistic **Gyanodaya 10.1" Tablet Bezel** (with camera notch and hardware border) and **Full-Screen Desktop view**. |
 | **बैटरी व ओएस संकेतक** | `BatteryCharging` / `ShieldCheck` | Top Right | Displays tablet power level (88%) and Android Go 9.0+ compatibility status. |

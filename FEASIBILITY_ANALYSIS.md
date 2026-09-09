@@ -52,7 +52,7 @@ SARJOM achieves **100% feasibility across all 8 operational dimensions** and del
 ═════════════════════════════════════════════════════════════════════════════════════════════════════════
    ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
    │ 1. Technical (RAM)   │  │ 2. Network (Offline) │  │ 3. Acoustic (Rain)   │  │ 4. Electrical (Power)│
-   │ ~34 MB Heap Budget   │  │ 0.0 KB Cellular Req. │  │ 80dB Rain Filtering  │  │ 10+ Hour Battery Life│
+   │ 5.8MB Heap Budget    │  │ 0.0 KB Cellular Req. │  │ 80dB Rain Filtering  │  │ 10+ Hour Battery Life│
    └──────────────────────┘  └──────────────────────┘  └──────────────────────┘  └──────────────────────┘
    ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
    │ 5. Operational       │  │ 6. Device Scarcity   │  │ 7. Financial (Cost)  │  │ 8. Legal & DPDP 2023 │
