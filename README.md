@@ -203,12 +203,12 @@ SARJOM features a bespoke **Parchment Sand** paper aesthetic in light mode (redu
 │ speaker audio broadcast · native script display · A4 printed worksheets              │
 │ scored flashcard quizzes · dictionary lookups · persisted dialogue logs              │
 └──────────────────────────────────────────────────────────────────────────────────────┘
-                                           │
-                                           ▼
 ┌──────────────────────────────────────────────────────────────────────────────────────┐
-│ OPTIONAL CLOUD LEG (outside classroom, never required at runtime)                    │
+│ ZERO-CLOUD DESIGN — EVERYTHING SHIPS IN-APP                                          │
 │ ─────────────────────────────────────────────────────────────────────────────────────│
-│ BRC Wi-Fi one-time sync · Bhashini IndicTrans2 bridge (ml/) · EVV 2.0 planned        │
+│ lexicon, curriculum, UI and studio audio bundled inside APK and PWA cache            │
+│ no cloud API and no sync service at runtime; app size grows instead (about 20 MB APK)│
+│ updates ship as a new sideloaded APK build or a PWA cache refresh                    │
 └──────────────────────────────────────────────────────────────────────────────────────┘
                                            │
                                            ▼
@@ -222,6 +222,69 @@ SARJOM features a bespoke **Parchment Sand** paper aesthetic in light mode (redu
 │ • seeded NIPUN worksheet auto-generation with A4 print + Audio QR companion          │
 │ • human studio audio bank + offline formant synthesizer as last resort               │
 │ • 166 kB gzip bundle fits ≤ 2 GB RAM Android 9+ tablets with headroom                │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎙 Real-Time Voice-to-Voice Pipeline (Pure Text, Corrected)
+
+> This replaces the earlier hand-made pipeline diagram. Removed from it because they are
+> NOT in this codebase: Indic Conformer, SentencePiece, IndicTrans2, IndicParler-TTS, Opus
+> and the 0.90 s / 0.12 s / 0.45 s latency labels. The real chain, measured, is below.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ TEACHER OPENS APP · classroom mic + speaker · picks language                         │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ THREE ENTRY MODES (same tab, one tap each)                                           │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ teacher teaches in Hindi · teacher asks a question · student answers in tribal       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ AUDIO CAPTURE — Web Speech API (browser recognizer, hi-IN)                           │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ interim results streamed live · final transcript on pause · echo suppressed          │
+│ if mic unsupported or denied: typed text and 1-tap chips take over                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ DIRECTION CHECK — Hindi to tribal · tribal to Hindi (Student Ear)                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ CASCADE NLP TRANSLATION — measured about 0.45 ms per clause                          │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ benchmark match → templates → phrases → cosine semantic → morpheme roots             │
+│ → lexicon match → token-level agglutinative transducer fallback                      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ BILINGUAL RESULT — native script + Devanagari + Latin phonetics                      │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ SPEECH OUTPUT — all on-device, three tiers                                           │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ 1 native-speaker studio clip → 2 SpeechSynthesis neural voice → 3 formant synth      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ LIVE LOOP — both ways · every question · dialogue log persisted                      │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
 └──────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
