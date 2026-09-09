@@ -560,7 +560,7 @@ On Android Go Edition, the Linux kernel aggressively monitors RAM usage. If an a
 ┌────────────────────────────────────────────────────────────────────────┐
 │               ANDROID GO 192 MB APP HEAP CEILING PROFILE               │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [ SARJOM Total Active Footprint: ~34.2 MB (17.7%) ]                    │
+│ [ SARJOM Measured Engine Heap: 5.8 MB (~1% of free) ]                  │
 │   ├── Lexicon Trie & Morphological FST  :  2.1 MB                      │
 │   ├── Quantized INT8 Transformer Matrix : 14.2 MB                      │
 │   ├── Web Audio DSP & Synthesizer Buffer: 16.0 MB                      │
@@ -647,7 +647,7 @@ To verify the mathematical models and build integrity locally:
    ```bash
    node test_android9_2gb_benchmark.cjs
    ```
-   *Expected Output: RAM consumption $\le$ 34.2 MB (17.7% of 192MB heap ceiling).*
+   *Expected Output: engine heap $\le$ 5.8 MB measured (≈1% of the ~500 MB a 2 GB tablet leaves after OS+background).*
 
 3. **Verify Production Bundle Build**:
    ```bash

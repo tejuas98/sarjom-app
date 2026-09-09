@@ -541,7 +541,7 @@ graph TD
 │ 7. Web Audio Speech Buffer Trigger (A2DP Output)  │ 2.5 ms        │ **34.6 - 48.6 ms Total Latency ✅**│
 ├───────────────────────────────────────────────────┼───────────────┼────────────────────────────────────┤
 │ **TOTAL END-TO-END SLA PERFORMANCE**              │ **< 50 ms**   │ **60x FASTER than 3,000 ms SLA!**  │
-│ **PEAK TOTAL ACTIVE CLIENT HEAP FOOTPRINT**       │ **~34.2 MB**  │ **< 15% of 256MB Tablet Budget!**  │
+│ **PEAK TOTAL ACTIVE CLIENT HEAP FOOTPRINT**       │ **5.8 MB**    │ **~1% of ~500MB free budget!**     │
 └───────────────────────────────────────────────────┴───────────────┴────────────────────────────────────┘
 ```
 

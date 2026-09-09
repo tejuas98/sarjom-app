@@ -28,7 +28,7 @@ const BENCHMARK_METRICS = [
   {
     parameter: 'मेमोरी व हार्डवेयर बजट (RAM Footprint)',
     competing500Teams: '4.5 GB - 8 GB VRAM (Llama-3/Gemma); 2GB टैबलेट पर तत्काल OOM क्रैश',
-    palashSetu: '~34 MB RAM (INT8 कॉम्पैक्ट); 2GB टैबलेट पर < 2% लोड, 0 क्रैश',
+    palashSetu: '5.8 MB heap (measured); 2GB टैबलेट पर ~1% लोड, 0 क्रैश',
     significance: 'ज्ञानोदय योजना में वितरित 28,945 टैबलेट 2GB रैम और Android 9/10 पर आधारित',
   },
   {

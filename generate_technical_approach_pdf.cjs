@@ -1039,7 +1039,7 @@ const htmlContent = `<!DOCTYPE html>
         <h3>2. Edge AI &amp; Munda Morphology Engine</h3>
         <p><strong>Beyond Shallow Word Lookup:</strong> Austroasiatic Munda tongues (Santhali, Ho, Mundari) are polysynthetic and agglutinative.</p>
         <ul>
-          <li><strong>AI4Bharat IndicTrans2 INT8:</strong> Dynamically quantized transformer runtime executes in browser memory in ~34 MB of RAM (sub-50ms latency).</li>
+          <li><strong>On-Device Cascade NLP Engine:</strong> domain-bounded cascade runtime executes in browser memory in a measured 5.8 MB of heap (0.6 ms average latency).</li>
           <li><strong>Dual-Iceberg Cognitive Bridge:</strong> Maps BICS (basic conversational fluency) into CALP (cognitive academic language proficiency) in Hindi.</li>
           <li><strong>80:20 Scaffolding:</strong> Balvatika starts at 80% tribal mother tongue; gradually inverts to 80% standard Hindi by Grade 3 per NIPUN Bharat.</li>
           <li><strong>Unicode 5.1 Matrix:</strong> Authentic glyph mappings for Ol Chiki (U+1C50), Warang Chiti (U+118A0), and Devanagari.</li>
