@@ -90,6 +90,143 @@ SARJOM features a bespoke **Parchment Sand** paper aesthetic in light mode (redu
 
 ---
 
+## 🏗️ Whole-System Architecture Flowchart (Pure Text)
+
+> Every box below is a real module, service or data file in this repository.
+> Text-only by design — no images, no mermaid — so it survives any copy-paste, print or jury review.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ USERS                                                                                │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ 👤 TEACHER (Hindi speaker)   👤 STUDENT (tribal mother tongue)   👤 PARENT (phone)      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ ENTRY & PLATFORM LAYER                                                               │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ • Capacitor 8 signed Android APK (sideload, minSdk 24 = Android 7+, targets 9+)      │
+│ • Installed PWA — Service Worker cache-first + Web App Manifest                      │
+│ • Vercel demo link (distribution only, never used at runtime)                        │
+│ • offline boot: language, theme, dialogue history restored from localStorage         │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ APP SHELL — React 19 (App.jsx + Navbar.jsx + ErrorBoundary)                          │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ 4 core tabs · EN/HI UI toggle · parchment light / OLED dark themes · fullscreen      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 1 · VOICE TRANSLATOR (VoiceTranslator.jsx)                                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ IN    teacher mic Hindi (Web Speech STT) · typed text · 1-tap prompt chips           │
+│ IN    student tribal text — Student Ear mode on the same tab (closed loop)           │
+│ PROC  cascade NLP 9-stage matcher · reverse tribal-to-Hindi parser                   │
+│ OUT   native script + Devanagari + Latin phonetics + auto audio broadcast            │
+│ KEEP  dialogue history + per-request measured latency (localStorage)                 │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 2 · WORKSHEET STUDIO (WorksheetStudio.jsx)                                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ IN    grade (1-3) + target language + shuffle seed                                   │
+│ PROC  seeded auto-generator over lexicon: matching · numeracy · MCQ + scoring        │
+│ OUT   interactive self-scored sheet · A4 300-DPI print via @media print              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+          └──► PARENT PATH: printed sheet Audio QR → phone camera → audio_player.html
+              (zero-install web audio companion for illiterate parents)
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 3 · FLASHCARD DECK (FlashcardDeck.jsx)                                        │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ IN    category filter chips                                                          │
+│ PROC  3-D flip cards · quiz mode with distractor options from the lexicon            │
+│ OUT   per-card native audio trigger · score and accuracy screen                      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 4 · DICTIONARY SEARCH (DictionarySearch.jsx)                                  │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ IN    query in Hindi, English or tribal script                                       │
+│ PROC  fuzzy multi-field match over lexicon + SIH benchmark cases                     │
+│ OUT   comparative 4-language entries with phonetics and audio                        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 5 · NIPUN CURRICULUM (LessonCurriculum.jsx + nipunCurriculum.js)              │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ IN    lesson picker (Balvatika to Class 3)                                           │
+│ PROC  8-week FLN plans with 80:20 mother-tongue-to-Hindi scaffolding                 │
+│ OUT   bilingual lesson scripts · activities · assessment prompts                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ MODULE 6 · PEDAGOGY SUPPORT SUITE                                                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ SlateAndFolklore.jsx — canvas chalk tracing + tribal folk stories with audio         │
+│ AcousticPronunciationCoach.jsx — oral reading fluency practice sessions              │
+│ TeacherDrawer.jsx handbook · TeacherOnboardingWizard.jsx · AudioPlayerModal.jsx      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ SHARED ON-DEVICE SERVICES (src/services)                                             │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ nlpTranslationEngine.js — cascade matcher + cosine semantic + transducer             │
+│ voiceTranslationService.js — STT, TTS voice ranking, formant synth, chimes           │
+│ offlineStorage.js — localStorage state, assessments, custom lessons                  │
+│ public/sw.js — cache-first Service Worker, offline boot and stale recovery           │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ LINGUISTIC & PEDAGOGY DATA (src/data + public/audio)                                 │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ tribalLexicon 41 clusters x 4 languages · conversationalHinglish 45 phrases          │
+│ benchmarkCases 20 SIH evaluation cases · nipunCurriculum lesson plans                │
+│ folkStories · uiTranslations EN/HI · native-speaker studio WAV/MP3 bank              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ CLASSROOM OUTPUTS                                                                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ speaker audio broadcast · native script display · A4 printed worksheets              │
+│ scored flashcard quizzes · dictionary lookups · persisted dialogue logs              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ OPTIONAL CLOUD LEG (outside classroom, never required at runtime)                    │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ BRC Wi-Fi one-time sync · Bhashini IndicTrans2 bridge (ml/) · EVV 2.0 planned        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+                                           │
+                                           ▼
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ INNOVATION & UNIQUENESS                                                              │
+│ ─────────────────────────────────────────────────────────────────────────────────────│
+│ • two-way closed loop: teacher Hindi ⇄ student tribal on one tablet                  │
+│ • 4 languages (3 mandated + Sadri) in Ol Chiki, Warang Chiti, Devanagari, Latin      │
+│ • zero-server offline: NLP cascade + full audio chain run on the device              │
+│ • sub-50 ms translation vs 3 s SLA, measured per request and shown in UI             │
+│ • seeded NIPUN worksheet auto-generation with A4 print + Audio QR companion          │
+│ • human studio audio bank + offline formant synthesizer as last resort               │
+│ • 166 kB gzip bundle fits ≤ 2 GB RAM Android 9+ tablets with headroom                │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## 🧭 Master Documentation & Evaluation Hub (4 Logical Tiers)
 
 To provide immediate clarity and eliminate clutter for hackathon evaluators, school teachers, and software engineers, all research, mathematical proofs, and manuals are organized into **4 structured tiers**:

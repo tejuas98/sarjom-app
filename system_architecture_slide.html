@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SARJOM — System Architecture (User-First Flow)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+  @page { size: 16in 9in; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    background: #fff; color: #0f172a;
+    width: 1920px; height: 1080px; overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide { width: 1920px; height: 1080px; padding: 26px 48px 22px; display: flex; flex-direction: column; }
+
+  .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .team-oval {
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 230px; height: 70px; border: 3px solid #0E5B37; border-radius: 50%;
+    color: #0E5B37; font-weight: 900; line-height: 1.05;
+  }
+  .team-oval .t1 { font-size: 20px; }
+  .team-oval .t2 { font-size: 12px; font-weight: 700; color: #D95A27; }
+  .header-title-wrap { text-align: center; }
+  h1.main-title { font-size: 42px; font-weight: 900; letter-spacing: 1.5px; color: #0E5B37; }
+  .subtitle { font-size: 15px; font-weight: 700; color: #475569; margin-top: 4px; }
+  .sih-badge { display: flex; flex-direction: column; align-items: center; width: 230px; }
+  .sih-badge .s1 { font-size: 18px; font-weight: 900; color: #2b3990; }
+  .sih-badge .s2 { font-size: 14px; font-weight: 800; color: #ea580c; }
+  .sih-badge .s3 { font-size: 11px; font-weight: 700; color: #475569; font-family: 'JetBrains Mono', monospace; }
+
+  /* Tablet boundary */
+  .boundary {
+    flex: 1; border: 4px dashed #0E5B37; border-radius: 18px; position: relative;
+    padding: 44px 30px 26px; display: flex; flex-direction: column; gap: 26px; justify-content: center;
+    background: #f0fdf4;
+  }
+  .boundary-tag {
+    position: absolute; top: -18px; left: 36px; background: #0E5B37; color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px;
+    border-radius: 999px; padding: 7px 20px;
+  }
+
+  .flow { display: flex; align-items: stretch; gap: 10px; }
+  .node {
+    flex: 1; border: 3px solid #0f172a; border-radius: 12px; background: #fff;
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
+    box-shadow: 5px 5px 0 rgba(15,23,42,.12);
+  }
+  .node .nt { font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: .4px; }
+  .node .nb { font-size: 14.5px; font-weight: 600; color: #334155; line-height: 1.35; }
+  .n-user  { background: #dbeafe; border-color: #1d4ed8; } .n-user .nt { color: #1d4ed8; }
+  .n-in    { background: #fef3c7; border-color: #b45309; } .n-in .nt { color: #b45309; }
+  .n-eng   { background: #dcfce7; border-color: #0E5B37; } .n-eng .nt { color: #0E5B37; }
+  .n-out   { background: #ffedd5; border-color: #c2410c; } .n-out .nt { color: #c2410c; }
+  .n-store { background: #e2e8f0; border-color: #334155; } .n-store .nt { color: #334155; }
+  .arrow { align-self: center; font-size: 34px; font-weight: 900; color: #0E5B37; }
+  .arrow.back { color: #D95A27; }
+
+  .loop-label {
+    align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: 13.5px;
+    font-weight: 700; color: #475569; margin: -12px 0 -14px 6px;
+  }
+
+  .outside {
+    margin-top: 16px; display: flex; justify-content: center; gap: 14px; align-items: center;
+    font-size: 15.5px; font-weight: 700; color: #475569;
+  }
+  .outside .dash { color: #94a3b8; font-weight: 900; }
+  .outside .chip { border: 2px dashed #94a3b8; border-radius: 999px; padding: 6px 16px; background: #f8fafc; }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <div class="header-bar">
+    <div class="team-oval"><span class="t1">NextGen</span><span class="t2">Innovators</span></div>
+    <div class="header-title-wrap">
+      <h1 class="main-title">SYSTEM ARCHITECTURE — USER-FIRST FLOW</h1>
+      <div class="subtitle">SARJOM (सरजोम) · Technical Approach · SIH26042 · Govt. of Jharkhand (DHTE) · Smart Education</div>
+    </div>
+    <div class="sih-badge"><span class="s1">SMART INDIA</span><span class="s2">HACKATHON</span><span class="s3">2026 · SIH26042</span></div>
+  </div>
+
+  <div class="boundary">
+    <div class="boundary-tag">📱 TABLET BOUNDARY — 100% OFFLINE, ZERO SERVER AT RUNTIME</div>
+
+    <!-- Forward loop : teacher to students -->
+    <div class="flow">
+      <div class="node n-user"><span class="nt">👤 User — Teacher</span>
+        <span class="nb">opens SARJOM (APK or installed PWA), picks language: Ho, Mundari, Santhali, Sadri</span></div>
+      <div class="arrow">➜</div>
+      <div class="node n-in"><span class="nt">🎙 Input</span>
+        <span class="nb">Hindi voice on mic, or typed text, or 1-tap prompt chips</span></div>
+      <div class="arrow">➜</div>
+      <div class="node n-eng"><span class="nt">⚙ On-Device Engine</span>
+        <span class="nb">Web Speech STT → cascade NLP matcher → Ol Chiki and Warang Chiti projection</span></div>
+      <div class="arrow">➜</div>
+      <div class="node n-out"><span class="nt">🔊 Output</span>
+        <span class="nb">native script card + Devanagari phonetics + tribal audio on speaker</span></div>
+      <div class="arrow">➜</div>
+      <div class="node n-store"><span class="nt">💾 Store and Share</span>
+        <span class="nb">localStorage log, Service Worker cache, A4 worksheet print</span></div>
+    </div>
+
+    <div class="loop-label">↩ CLOSED LOOP — STUDENT EAR (reverse direction)</div>
+
+    <!-- Reverse loop : student to teacher -->
+    <div class="flow">
+      <div class="node n-store"><span class="nt">💾 Hindi Reply</span>
+        <span class="nb">teacher hears and reads the child's meaning in Hindi</span></div>
+      <div class="arrow back">⬅</div>
+      <div class="node n-eng"><span class="nt">⚙ Reverse Parser</span>
+        <span class="nb">tribal to Hindi with morphology breakdown</span></div>
+      <div class="arrow back">⬅</div>
+      <div class="node n-in"><span class="nt">🧒 Student Ear</span>
+        <span class="nb">child answers in mother tongue via chips or typed text</span></div>
+      <div class="arrow back">⬅</div>
+      <div class="node n-user"><span class="nt">👤 User — Student</span>
+        <span class="nb">same tablet, student mode, no separate login</span></div>
+    </div>
+  </div>
+
+  <div class="outside">
+    <span class="chip">☁ BRC Wi-Fi — one-time content sync (optional)</span>
+    <span class="dash">- - ➜</span>
+    <span>everything above runs without it</span>
+  </div>
+
+</div>
+</body>
+</html>
