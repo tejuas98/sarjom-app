@@ -29,7 +29,7 @@ export const offlineStorage = {
   },
 
   getUILanguage() {
-    return localStorage.getItem(STORAGE_KEYS.UI_LANG) || 'en';
+    return localStorage.getItem(STORAGE_KEYS.UI_LANG) || 'hi';
   },
 
   setUILanguage(lang) {

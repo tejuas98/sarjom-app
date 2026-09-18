@@ -13,6 +13,8 @@ export function Navbar({
   onToggleTheme,
   activeTab,
   onSelectTab,
+  isIpadFrame,
+  onToggleIpadFrame,
 }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
   const isEn = uiLang === 'en';
@@ -318,33 +320,6 @@ export function Navbar({
           >
             {isFullscreen ? <Minimize size={15} /> : <Maximize size={15} />}
           </button>
-
-          {/* Direct Android APK Download Button */}
-          <a
-            href="/sarjom.apk"
-            download="SARJOM-v2.5.apk"
-            className="nav-apk-download-btn"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '5px',
-              padding: '5px 11px',
-              borderRadius: '6px',
-              backgroundColor: 'rgba(217, 83, 30, 0.12)',
-              color: 'var(--color-terracotta, #D9531E)',
-              border: '1px solid rgba(217, 83, 30, 0.3)',
-              fontSize: '0.78rem',
-              fontWeight: 700,
-              textDecoration: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            title={isEn ? "Download Android APK (Universal Install for All Devices)" : "एंड्रॉइड APK डाउनलोड करें (सभी फोन के लिए उपयुक्त)"}
-          >
-            <Smartphone size={14} />
-            <span>APK</span>
-            <Download size={12} />
-          </a>
         </div>
       </div>
 

@@ -81,10 +81,10 @@ export function TeacherDrawer({
               </div>
               <div>
                 <Drawer.Title style={{ fontSize: '1.25rem', margin: 0, fontWeight: 800 }}>
-                  शिक्षक सहायता एवं MTB-MLE टूल्स
+                  शिक्षक भाषा मार्गदर्शिका एवं MTB-MLE टूल्स
                 </Drawer.Title>
                 <Drawer.Description style={{ fontSize: '0.8rem', color: 'var(--color-slate-muted)', margin: 0 }}>
-                  झारखंड प्राथमिक विद्यालय शिक्षण मार्गदर्शन व अतिरिक्त साधन
+                  झारखंड प्राथमिक विद्यालय शिक्षण मार्गदर्शिका व अतिरिक्त साधन
                 </Drawer.Description>
               </div>
             </div>

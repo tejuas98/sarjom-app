@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1400"/>
+<title>SARJOM Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1400px;
+  background: #F8FAFF;
+  font-family: 'Inter', sans-serif;
+  padding: 36px 40px 40px;
+}
+
+/* ── TITLE ── */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.app-name {
+  font-size: 38px;
+  font-weight: 900;
+  color: #1E3A5F;
+  letter-spacing: -1px;
+}
+.app-name span { color: #2563EB; }
+.tagline {
+  font-size: 14px;
+  color: #64748B;
+  font-weight: 500;
+  margin-top: 4px;
+}
+.sih-badge {
+  background: #1E3A5F;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* ── THREE STAGE ROW ── */
+.stages {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* arrow between stages */
+.stage-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 60px;
+}
+.stage-arrow svg { width: 44px; height: 44px; }
+
+/* each stage panel */
+.stage {
+  flex: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+.stage-header {
+  padding: 14px 20px 12px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stage-body {
+  background: #fff;
+  padding: 18px 18px 20px;
+  height: calc(100% - 50px);
+}
+
+/* INPUT */
+.s-input .stage-header  { background: linear-gradient(135deg, #1E3A5F, #2563EB); }
+/* PROCESSING */
+.s-proc .stage-header   { background: linear-gradient(135deg, #166534, #16A34A); }
+/* OUTPUT */
+.s-out .stage-header    { background: linear-gradient(135deg, #7C3AED, #A855F7); }
+
+/* ── INPUT CONTENTS ── */
+.input-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 2px solid;
+}
+.input-item.hindi  { background: #EFF6FF; border-color: #BFDBFE; }
+.input-item.tribal { background: #F0FDF4; border-color: #BBF7D0; }
+.input-icon { font-size: 28px; flex-shrink: 0; }
+.input-label { font-size: 14px; font-weight: 700; color: #1E3A5F; }
+.input-sub   { font-size: 11.5px; color: #64748B; margin-top: 2px; font-weight: 500; }
+
+.mic-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  background: #F1F5F9;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.mic-label { font-size: 12px; font-weight: 700; color: #475569; }
+.mic-sub   { font-size: 10.5px; color: #94A3B8; font-weight: 500; }
+
+/* ── PROCESSING CONTENTS ── */
+.engine-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #166534;
+  text-align: center;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+  background: #F0FDF4;
+  border-radius: 8px;
+  border: 2px solid #BBF7D0;
+}
+.proc-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  margin-bottom: 7px;
+}
+.step-num {
+  background: #1E3A5F;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-name { font-size: 13px; font-weight: 700; color: #1E3A5F; }
+.step-sub  { font-size: 10.5px; color: #64748B; }
+
+.proc-arrow-mini { text-align: center; font-size: 14px; color: #94A3B8; margin: 2px 0; }
+
+.offline-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #0F172A;
+  color: #60A5FA;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 6px 14px;
+  margin-top: 12px;
+}
+
+/* ── OUTPUT CONTENTS ── */
+.out-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 2px solid;
+}
+.out-item.voice  { background: #EDE9FE; border-color: #C4B5FD; }
+.out-item.script { background: #FFF7ED; border-color: #FED7AA; }
+.out-item.learn  { background: #F0FDF4; border-color: #BBF7D0; }
+.out-item.mis    { background: #F0F9FF; border-color: #BAE6FD; }
+.out-label { font-size: 13.5px; font-weight: 700; color: #1E3A5F; }
+.out-sub   { font-size: 11px; color: #64748B; margin-top: 2px; }
+
+/* ── PILLAR LABELS AT BOTTOM ── */
+.pillars-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+}
+.pillar-chip {
+  flex: 1;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid;
+}
+.pc1 { background: #EFF6FF; border-color: #2563EB; color: #1D4ED8; }
+.pc2 { background: #F0FDF4; border-color: #16A34A; color: #166534; }
+.pc3 { background: #F5F3FF; border-color: #7C3AED; color: #6D28D9; }
+.pc4 { background: #FFF7ED; border-color: #D97706; color: #92400E; }
+.pillar-chip .pc-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.pillar-chip .pc-name { display: block; }
+.pillar-chip .pc-sub  { display: block; font-size: 10px; font-weight: 500; opacity: 0.75; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-row">
+  <div>
+    <div class="app-name">SAR<span>JOM</span> <span style="font-size:20px;color:#64748B;font-weight:500">सरजोम</span></div>
+    <div class="tagline">AI-Powered Tribal Pedagogy Platform · 100% Offline · Jharkhand Primary Schools</div>
+  </div>
+  <div style="text-align:right">
+    <div class="sih-badge">Smart India Hackathon 2026 · SIH26042</div>
+    <div style="font-size:11px;color:#94A3B8;margin-top:6px;">Ho · Mundari · Santhali · Sadri ↔ Hindi</div>
+  </div>
+</div>
+
+<!-- THREE STAGES -->
+<div class="stages">
+
+  <!-- ── INPUT STAGE ── -->
+  <div class="stage s-input">
+    <div class="stage-header">
+      <span>📥</span> Input Stage
+    </div>
+    <div class="stage-body">
+
+      <div class="input-item hindi">
+        <div class="input-icon">👩‍🏫</div>
+        <div>
+          <div class="input-label">Hindi Teacher Speaks</div>
+          <div class="input-sub">Normal classroom Hindi<br/>e.g. "नमस्ते बच्चों, बैठ जाओ"</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;font-size:13px;color:#94A3B8;font-weight:600;margin:4px 0;">↕ Two-Way</div>
+
+      <div class="input-item tribal">
+        <div class="input-icon">🧒</div>
+        <div>
+          <div class="input-label">Tribal Student Speaks</div>
+          <div class="input-sub">Mother tongue: Ho / Mundari / Santhali<br/>e.g. ᱫᱟᱜ ᱧᱩᱭ ᱢᱮ (May I drink water?)</div>
+        </div>
+      </div>
+
+      <div class="mic-row">
+        <span style="font-size:22px">🎤</span>
+        <div>
+          <div class="mic-label">Android On-Device Mic</div>
+          <div class="mic-sub">react-native-camera · 16 kHz · noise gate · no cloud</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;background:#FEF3C7;border:2px solid #FBBF24;border-radius:10px;padding:10px 12px;">
+        <div style="font-size:12px;font-weight:700;color:#92400E;">⌨️ Typed-Input Fallback</div>
+        <div style="font-size:10.5px;color:#78350F;margin-top:2px;">If speech unavailable — same pipeline below</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARROW 1 -->
+  <div class="stage-arrow">
+    <svg viewBox="0 0 44 44" fill="none">
+      <path d="M8 22 H36 M28 14 L36 22 L28 30" stroke="#2563EB" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ── PROCESSING STAGE ── -->
+  <div class="stage s-proc" style="flex:1.3;">
+    <div class="stage-header">
+      <span>⚙️</span> Processing Stage — 100% On-Device
+    </div>
+    <div class="stage-body">
+
+      <div class="engine-title">🧠 SARJOM On-Device NLP Engine</div>
+
+      <div class="proc-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-name">Android On-Device ASR</div>
+          <div class="step-sub">@react-native-voice/voice · SpeechRecognizer · preferOffline:true · hi-IN</div>
+        </div>
+      </div>
+      <div class="proc-arrow-mini">↓</div>
+
+      <div class="proc-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-name">Cascade NLP Translator</div>
+          <div class="step-sub">Lexicon lookup → Morphological roots → Cosine similarity → Neural fallback</div>
+        </div>
+      </div>
+      <div class="proc-arrow-mini">↓</div>
+
+      <div class="proc-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-name">customNeuralMundaEngine.js</div>
+          <div class="step-sub">4-layer Seq2Seq Transformer · INT8 weights · 14.8 MB · Metro bundled</div>
+        </div>
+      </div>
+      <div class="proc-arrow-mini">↓</div>
+
+      <div class="proc-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-name">Dual-Script Rendering</div>
+          <div class="step-sub">Ol Chiki (U+1C50) + Warang Chiti (U+118A0) + Devanagari · bundled font</div>
+        </div>
+      </div>
+      <div class="proc-arrow-mini">↓</div>
+
+      <div class="proc-step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-name">Android TextToSpeech (react-native-tts)</div>
+          <div class="step-sub">On-device voice synthesis · Bluetooth A2DP · pre-bundled .mp3 clips</div>
+        </div>
+      </div>
+
+      <div class="offline-pill">
+        ⚡ 100% Air-Gapped · ~14.8 MB model · &lt;1.75 s end-to-end · 2 GB RAM safe
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ARROW 2 -->
+  <div class="stage-arrow">
+    <svg viewBox="0 0 44 44" fill="none">
+      <path d="M8 22 H36 M28 14 L36 22 L28 30" stroke="#7C3AED" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- ── OUTPUT STAGE ── -->
+  <div class="stage s-out">
+    <div class="stage-header">
+      <span>📤</span> Output Stage
+    </div>
+    <div class="stage-body">
+
+      <div class="out-item voice">
+        <div style="font-size:26px">🔊</div>
+        <div>
+          <div class="out-label">Tribal Audio Broadcast</div>
+          <div class="out-sub">Class hears teacher's Hindi → tribal speech<br/>Bluetooth speaker · &lt;1.75 s total</div>
+        </div>
+      </div>
+
+      <div class="out-item script">
+        <div style="font-size:26px">📜</div>
+        <div>
+          <div class="out-label">Dual-Script Display</div>
+          <div class="out-sub">Hindi + Ol Chiki ᱡᱚᱦᱟᱨ + Warang Chiti 𑢹𑣉<br/>Phonetic guide for teacher pronunciation</div>
+        </div>
+      </div>
+
+      <div class="out-item learn">
+        <div style="font-size:26px">📄</div>
+        <div>
+          <div class="out-label">Bilingual Worksheet PDF</div>
+          <div class="out-sub">A4 printable · NIPUN FLN aligned<br/>1 tablet → 35 students via block printer</div>
+        </div>
+      </div>
+
+      <div class="out-item mis">
+        <div style="font-size:26px">📊</div>
+        <div>
+          <div class="out-label">Assessment + MIS Export</div>
+          <div class="out-sub">ORF score · quiz result · UDISE+ CSV<br/>Sneakernet USB sync to BRC monthly</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- PILLAR CHIPS -->
+<div class="pillars-row">
+  <div class="pillar-chip pc1">
+    <span class="pc-icon">🎙️</span>
+    <span class="pc-name">Voice Bridge</span>
+    <span class="pc-sub">Hindi ⇄ Tribal · Two-way · Real-time</span>
+  </div>
+  <div class="pillar-chip pc2">
+    <span class="pc-icon">📄</span>
+    <span class="pc-name">Bilingual Worksheets</span>
+    <span class="pc-sub">NIPUN FLN · 3 types · Offline PDF</span>
+  </div>
+  <div class="pillar-chip pc3">
+    <span class="pc-icon">🃏</span>
+    <span class="pc-name">Visual Flashcards</span>
+    <span class="pc-sub">8,500+ words · ORF Coach · Quiz</span>
+  </div>
+  <div class="pillar-chip pc4">
+    <span class="pc-icon">📖</span>
+    <span class="pc-name">Tribal Lexicon + Folklore</span>
+    <span class="pc-sub">Sarhul · Karam · UNESCO scripts</span>
+  </div>
+</div>
+
+</body>
+</html>

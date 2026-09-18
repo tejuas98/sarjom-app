@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 1100px;
+  background: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 28px 24px 32px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+thead tr th {
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+thead th:first-child { background: #F8FAFF; color: #333; }
+thead th.col-sarjom  { background: #1E3A5F; color: #fff; font-size: 14px; }
+thead th.col-other   { background: #4B5563; color: #E5E7EB; }
+
+tbody tr:nth-child(odd)  { background: #FAFAFA; }
+tbody tr:nth-child(even) { background: #fff; }
+
+tbody td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  line-height: 1.45;
+  text-align: center;
+}
+tbody td:first-child {
+  font-weight: 700;
+  color: #1a1a1a;
+  background: #F1F5F9;
+  font-size: 12.5px;
+  text-align: left;
+  width: 18%;
+}
+tbody td.sarjom {
+  background: #EFF6FF;
+  border-left: 3px solid #2563EB;
+  border-right: 3px solid #2563EB;
+  font-weight: 600;
+  color: #1E3A5F;
+  text-align: left;
+}
+
+/* ── cell types ── */
+.yes-cell  { color: #166534; font-weight: 700; }
+.note      { font-size: 11px; color: #6B7280; margin-top: 3px; display: block; font-weight: 400; }
+
+/* big X for hard NO */
+.bigx {
+  font-size: 26px;
+  color: #DC2626;
+  line-height: 1;
+  display: block;
+}
+/* sub note under X */
+.xnote {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  margin-top: 3px;
+  display: block;
+}
+
+/* dash for "doesn't exist" */
+.dash {
+  font-size: 22px;
+  color: #D1D5DB;
+  display: block;
+}
+
+/* warning cell */
+.warn-cell { color: #92400E; font-weight: 600; font-size: 12px; }
+
+.caption {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  text-align: center;
+  margin-top: 14px;
+}
+</style>
+</head>
+<body>
+
+<h2>SARJOM vs Other Solutions — At a Glance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th class="col-sarjom">SARJOM<br/><span style="font-weight:400;font-size:11px;">Our Solution</span></th>
+      <th class="col-other">BHASHINI<br/><span style="font-weight:400;font-size:11px;">AI4Bharat</span></th>
+      <th class="col-other">GOOGLE<br/><span style="font-weight:400;font-size:11px;">Translate</span></th>
+      <th class="col-other">J-GURUJI /<br/>DIKSHA</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>Works Without Internet</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ Fully offline — always</span>
+        <span class="note">Works in forest villages with zero signal</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">Needs cloud server</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">Needs cloud server</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">Needs live streaming</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Ho Language Support</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ Full audio + native script</span>
+        <span class="note">Teacher hears & reads Ho language</span>
+      </td>
+      <td><span class="dash">—</span></td>
+      <td><span class="dash">—</span></td>
+      <td>
+        <span class="warn-cell">⚠️ PDFs only</span>
+        <span class="xnote">No audio support</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Mundari Support</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ Full audio + native script</span>
+        <span class="note">Teacher hears & reads Mundari</span>
+      </td>
+      <td><span class="dash">—</span></td>
+      <td><span class="dash">—</span></td>
+      <td>
+        <span class="warn-cell">⚠️ PDFs only</span>
+        <span class="xnote">No audio support</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Runs on 2 GB Gyanodaya Tablet</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ ~80 MB used</span>
+        <span class="note">Only 4% of tablet RAM · runs smoothly</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">Needs 4,500 MB<br/>Won't run on this tablet</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">240+ MB + needs internet</span>
+      </td>
+      <td>
+        <span class="bigx">✕</span>
+        <span class="xnote">380+ MB + streaming</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Translation Speed</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ Under 30 ms — instant</span>
+        <span class="note">Classroom never waits</span>
+      </td>
+      <td>
+        <span style="color:#DC2626;font-weight:700;">5 – 12 sec</span>
+        <span class="xnote">Cloud round-trip delay</span>
+      </td>
+      <td>
+        <span style="color:#DC2626;font-weight:700;">2 – 4.5 sec</span>
+        <span class="xnote">Network dependent</span>
+      </td>
+      <td>
+        <span class="dash">—</span>
+        <span class="xnote">Not available offline</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Printable Class Worksheets</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ A4 bilingual sheets (NIPUN)</span>
+        <span class="note">1 tablet → prints for 35 students</span>
+      </td>
+      <td><span class="dash">—</span></td>
+      <td><span class="dash">—</span></td>
+      <td>
+        <span class="warn-cell">⚠️ Scanned pages only</span>
+        <span class="xnote">No tribal language</span>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Monthly Cost to Government</td>
+      <td class="sarjom">
+        <span class="yes-cell">✅ ₹0 recurring · runs entirely on-device</span>
+        <span class="note">One-time APK install · no server · no API charges ever</span>
+      </td>
+      <td>
+        <span style="color:#DC2626;font-weight:700;">GPU server fees</span>
+        <span class="xnote">Expensive cloud infra</span>
+      </td>
+      <td>
+        <span style="color:#DC2626;font-weight:700;">Paid per API call</span>
+        <span class="xnote">Charges grow with usage</span>
+      </td>
+      <td>
+        <span style="color:#DC2626;font-weight:700;">CDN bandwidth fees</span>
+        <span class="xnote">Video streaming costs</span>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<div class="caption">Sources: AI4Bharat IndicTrans2 · ASER 2022 · NIPUN Bharat FLN · UDISE+ · NEP 2020</div>
+
+</body>
+</html>

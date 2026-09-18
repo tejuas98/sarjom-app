@@ -6,12 +6,15 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.community.speechrecognition.SpeechRecognition;
 
 public class MainActivity extends BridgeActivity {
     private static final int PERMISSION_REQUEST_RECORD_AUDIO = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(SpeechRecognition.class);
+        registerPlugin(com.getcapacitor.community.tts.TextToSpeechPlugin.class);
         super.onCreate(savedInstanceState);
 
         // Proactively request RECORD_AUDIO runtime permission on Android startup
@@ -31,6 +34,12 @@ public class MainActivity extends BridgeActivity {
         try {
             if (this.bridge != null && this.bridge.getWebView() != null) {
                 this.bridge.getWebView().getSettings().setMediaPlaybackRequiresUserGesture(false);
+                this.bridge.getWebView().setWebChromeClient(new com.getcapacitor.BridgeWebChromeClient(this.bridge) {
+                    @Override
+                    public void onPermissionRequest(final android.webkit.PermissionRequest request) {
+                        request.grant(request.getResources());
+                    }
+                });
             }
         } catch (Exception e) {
             // Safe fallback

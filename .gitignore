@@ -31,9 +31,34 @@ android/app/build/
 android/build/
 android/.gradle/
 .gradle/
+# iOS build outputs
+ios/build/
+ios/DerivedData/
+ios/.build/
 *.apk
 !SARJOM-v2.5-verified.apk
 !public/sarjom.apk
 !public/SARJOM-v2.5.apk
 *.idsig
 
+# Temporary root test images and scratch scripts
+/*.png
+!proposed_solution_slide_8cards.png
+/*.jpg
+/*.jpeg
+/*.mp4
+/*.gif
+/*.wav
+/*.mp3
+/*.py
+/test_*.js
+/test_*.mjs
+/test_*.cjs
+/scratch_*.cjs
+/benchmark_*.js
+/debug_*.cjs
+/record_*.cjs
+/capture_*.cjs
+/add_*.py
+/generate_*.py
+/write_clean_recorder.py

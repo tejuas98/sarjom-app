@@ -301,57 +301,53 @@ Formatted in the exact presentation layout: **[Header Bar]** + **[Outlined Sub-b
 
 [ 1. AI-Assisted Teacher Translation Suite ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Enables Hindi-medium teachers to deliver mother-tongue instruction in Ho, Mundari, and  │
-│ Santhali.                                                                               │
+│ Helps Hindi-medium teachers conduct daily classes in Ho, Mundari & Santhali without     │
+│ prior training.                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 2. Real-Time Voice-to-Voice Translation ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Allows Hindi-speaking teachers to conduct interactive spoken classroom dialogue with    │
-│ tribal students.                                                                        │
+│ Translates teacher's spoken Hindi into native tribal speech aloud in class for live     │
+│ student interaction.                                                                    │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 3. Sub-3-Second Voice Translation Speed ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Delivers real-time voice translation with latency under 3 seconds (tested at 1.8s) for  │
-│ smooth dialogue.                                                                        │
+│ Runs at 1.8s voice speed (under 3s mandate) for natural, delay-free classroom dialogue. │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 4. Hindi FLN Curriculum Translation Engine ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Translates standard Hindi lesson scripts, classroom activities, and test prompts into   │
-│ tribal audio and text.                                                                  │
+│ Translates Hindi FLN lesson scripts, activities, and test questions into tribal speech. │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 5. Auto-Generated Bilingual Worksheets (NIPUN Bharat) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Auto-generates printable bilingual worksheets aligned with the NIPUN Bharat learning   │
-│ outcomes framework.                                                                     │
+│ Auto-generates printable bilingual practice sheets (Tribal + Hindi) aligned to NIPUN    │
+│ Bharat goals.                                                                           │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 6. Visual Flashcard Sets with Native Script & Audio ]
+[ 6. Visual Flashcards with Native Script & Audio ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Generates visual flashcards with native scripts and synthesised tribal audio aligned    │
-│ to NIPUN Bharat.                                                                        │
+│ Provides picture flashcards with authentic native scripts (like Ol Chiki) and spoken    │
+│ audio.                                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
-[ 7. Full Offline Operation (Zero Internet) ]
+[ 7. 100% Full Offline Operation (Zero Internet) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Operates 100% offline on local device storage after initial content sync, with zero    │
-│ internet needed.                                                                        │
+│ Operates 100% offline with zero internet, built for off-grid forest tribal schools.     │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 [ 8. Low-Cost Tablet Support (≤ 2 GB RAM, Android 9+) ]
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│ Runs locally on low-cost government tablets with ≤ 2 GB RAM and Android 9+ without      │
-│ crashing.                                                                               │
+│ Runs in under 350 MB RAM on existing 2 GB government tablets without crashing.          │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 
 Connected Strategic Benefits (Right-Hand Nodes):
-  • [ 100% Fully Offline ]: Zero internet needed; works in remote village schools without network.
-  • [ Fast Voice Speed (< 3s) ]: 1.8s live speed ensures natural classroom conversations without delay.
-  • [ Zero Cloud Overhead ]: Fully self-contained; runs directly on existing school tablets.
-  • [ Constitutional Right ]: Fulfills Article 350A & RTE Act duty to teach children in their mother tongue.
+  • [ Full Offline Operation ]: Zero internet needed; built for off-grid forest schools.
+  • [ Fast Voice Speed (< 3s) ]: Sub-3s speed maintains natural teacher-student dialogue.
+  • [ Low-End Tablet Ready ]: Runs in < 350 MB RAM on existing 2 GB school tablets.
+  • [ Constitutional Duty ]: Fulfills Article 350A right to mother-tongue education.
 ```
 
 ---

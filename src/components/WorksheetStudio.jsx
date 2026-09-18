@@ -469,9 +469,18 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
 
   // 1. Matching state (Bidirectional, pair tracking, shake animation)
   // activeSelection: { side: 'left' | 'right', item }
-  const [activeSelection, setActiveSelection] = useState(null);
-  const [matchedPairs, setMatchedPairs] = useState({}); // { [leftId]: rightId }
-  const [pairNumberMap, setPairNumberMap] = useState({}); // { [leftId]: number 1..5 }
+  const [activeSelection, setActiveSelection] = useState(() => ({
+    side: 'left',
+    item: { id: 'nat_2', hindi: 'पेड़ / वृक्ष', english: 'Tree' },
+  }));
+  const [matchedPairs, setMatchedPairs] = useState(() => ({
+    'nat_1': 'nat_1', // Water -> Da:ah
+    'nat_4': 'nat_4', // Sun -> Singi
+  }));
+  const [pairNumberMap, setPairNumberMap] = useState(() => ({
+    'nat_1': 1,
+    'nat_4': 2,
+  }));
   const [shakeCardId, setShakeCardId] = useState(null);
 
   // 2. Numeracy / Counting state
@@ -974,17 +983,17 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         <div style={{ borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: '18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <div style={{ fontSize: '0.70rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <div className="ws-emblem-govt" style={{ fontSize: '0.70rem', fontWeight: 800, color: 'var(--color-forest)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {t.wsEmblemGovt}
               </div>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', margin: '4px 0 6px 0' }}>
+              <h2 className="ws-exercise-title" style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--color-slate)', margin: '4px 0 6px 0' }}>
                 {worksheetType === 'matching' && (isEn ? 'Exercise 1: Word & Picture Association' : 'अभ्यास 1: शब्द एवं चित्र मिलान')}
                 {worksheetType === 'numeracy' && (isEn ? 'Exercise 2: Foundational Numeracy & Counting' : 'अभ्यास 2: बुनियादी संख्या ज्ञान एवं गिनती')}
                 {worksheetType === 'fillblanks' && (isEn ? 'Exercise 3: Bilingual Sentence Practice' : 'अभ्यास 3: द्विभाषी वाक्य रचना अभ्यास')}
               </h2>
 
               {/* Integrated Editorial Syllabus Line (NO CALLOUT BOX!) */}
-              <div style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <div className="ws-editorial-syllabus" style={{ fontSize: '0.82rem', color: 'var(--color-slate-muted)', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <span style={{ fontWeight: 700, color: 'var(--color-slate)' }}>
                   {isEn ? activeCurriculum.labelEnglish : activeCurriculum.labelHindi}
                 </span>
@@ -1000,7 +1009,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
 
-              <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
+              <div className="ws-learning-outcome" style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)', marginTop: '4px' }}>
                 <strong style={{ color: 'var(--color-forest)' }}>{isEn ? 'Learning Outcome (LO): ' : 'दक्षता लक्ष्य: '}</strong>
                 {isEn ? activeCurriculum.competencyEnglish : activeCurriculum.competencyHindi}
               </div>
@@ -1032,7 +1041,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         {worksheetType === 'matching' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-              <p style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', margin: 0 }}>
+              <p className="ws-match-hint" style={{ fontSize: '0.84rem', color: 'var(--color-slate-muted)', margin: 0 }}>
                 {t.wsMatchSelectHint}
               </p>
               {activeSelection && (
@@ -1542,7 +1551,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
         )}
 
         {/* Clean Footer Controls: Real Intelligent "Check Answers" Button */}
-        <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '12px' }}>
+        <div className="ws-footer-actions no-print" style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '12px' }}>
           <button
             type="button"
             onClick={handleCheckAnswers}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0" />
+  <title>SARJOM - Complete System Flowchart (Verified)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1920px;
+      min-height: 1080px;
+      background: #F0F4FF;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #0F172A;
+      padding: 30px 48px 36px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 4px solid #1E40AF;
+      padding-bottom: 13px;
+      margin-bottom: 20px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-icon { font-size: 38px; }
+    .header-title { font-size: 32px; font-weight: 800; color: #1E40AF; }
+    .header-subtitle { font-size: 14px; color: #475569; margin-top: 3px; font-weight: 500; }
+    .badges { display: flex; gap: 10px; align-items: center; }
+    .badge { padding: 5px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700; }
+    .badge-green  { background: #DCFCE7; color: #166534; border: 2px solid #4ADE80; }
+    .badge-blue   { background: #DBEAFE; color: #1D4ED8; border: 2px solid #60A5FA; }
+    .badge-orange { background: #FEF3C7; color: #92400E; border: 2px solid #FBBF24; }
+    .badge-red    { background: #FEE2E2; color: #991B1B; border: 2px solid #FCA5A5; }
+
+    /* entry */
+    .entry-row { display: flex; justify-content: center; margin-bottom: 14px; }
+    .entry-box {
+      background: linear-gradient(135deg, #1E40AF, #2563EB);
+      color: #fff; border-radius: 14px; padding: 13px 40px;
+      text-align: center; box-shadow: 0 6px 24px rgba(30,64,175,0.3);
+    }
+    .entry-box .main { font-size: 19px; font-weight: 800; }
+    .entry-box .sub  { font-size: 12px; margin-top: 4px; opacity: 0.85; }
+
+    /* arrows */
+    .arrow-down { text-align: center; font-size: 20px; color: #64748B; margin: 2px 0; line-height: 1; }
+
+    /* fork labels */
+    .fork-row { display: flex; justify-content: center; gap: 110px; margin-bottom: 6px; }
+    .fork-badge { font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 18px; }
+
+    /* 4 pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .pillar { border-radius: 13px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.09); }
+    .pillar-header {
+      padding: 11px 14px; font-size: 14.5px; font-weight: 800;
+      display: flex; align-items: center; gap: 9px; color: #fff;
+    }
+    .pill-num {
+      background: rgba(255,255,255,0.25); border-radius: 50%;
+      width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; flex-shrink: 0;
+    }
+    .p1 .pillar-header { background: #1E40AF; } .p1 { border: 2.5px solid #1E40AF; }
+    .p2 .pillar-header { background: #166534; } .p2 { border: 2.5px solid #166534; }
+    .p3 .pillar-header { background: #7C3AED; } .p3 { border: 2.5px solid #7C3AED; }
+    .p4 .pillar-header { background: #B45309; } .p4 { border: 2.5px solid #B45309; }
+    .pillar-body { background: #fff; padding: 11px 13px 13px; }
+
+    /* steps */
+    .step { border-radius: 8px; padding: 7px 10px; margin-bottom: 5px; font-size: 12.5px; font-weight: 600; }
+    .step-label { font-size: 10.5px; font-weight: 500; opacity: 0.72; margin-top: 1px; }
+    .s-input { background: #EFF6FF; border: 1.5px solid #BFDBFE; color: #1D4ED8; }
+    .s-proc  { background: #F0FDF4; border: 1.5px solid #BBF7D0; color: #166534; }
+    .s-ml    { background: #F5F3FF; border: 1.5px solid #DDD6FE; color: #5B21B6; }
+    .s-out   { background: #FFF7ED; border: 1.5px solid #FED7AA; color: #92400E; }
+    .s-gov   { background: #F0F9FF; border: 1.5px solid #BAE6FD; color: #0369A1; }
+    .s-warn  { background: #FEF3C7; border: 1.5px solid #FCD34D; color: #78350F; }
+    .mini-arrow { text-align: center; font-size: 13px; color: #94A3B8; margin: 1px 0; }
+    .s-final {
+      background: linear-gradient(135deg, #FEF9C3, #FFF3CD);
+      border: 2px solid #EAB308; color: #713F12;
+      font-size: 12.5px; font-weight: 700; border-radius: 8px;
+      padding: 8px 10px; margin-top: 3px;
+    }
+    .metric {
+      display: inline-block; background: #1E40AF; color: #fff;
+      font-size: 9.5px; font-weight: 700; border-radius: 4px;
+      padding: 1px 5px; margin-left: 5px; vertical-align: middle;
+    }
+    .metric-g { background: #16A34A; }
+    .metric-p { background: #7C3AED; }
+    .metric-o { background: #D97706; }
+    .metric-r { background: #DC2626; }
+
+    /* online/offline indicator dot */
+    .dot-online  { display:inline-block; width:8px; height:8px; border-radius:50%; background:#22C55E; margin-right:4px; vertical-align:middle; }
+    .dot-offline { display:inline-block; width:8px; height:8px; border-radius:50%; background:#EF4444; margin-right:4px; vertical-align:middle; }
+
+    /* legend */
+    .legend {
+      display: flex; align-items: center; gap: 18px;
+      font-size: 11px; font-weight: 600; color: #475569;
+      justify-content: flex-end; margin-bottom: 6px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+
+    /* offline edge bar */
+    .offline-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 26px; background: #0F172A; color: #fff;
+      border-radius: 13px; padding: 13px 22px; margin-top: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+    .ob-title { font-size: 14px; font-weight: 800; color: #60A5FA; }
+    .ob-desc  { font-size: 10.5px; color: #94A3B8; margin-top: 2px; }
+    .offline-sep { width: 1px; height: 38px; background: #334155; flex-shrink: 0; }
+
+    /* research pipeline callout at bottom */
+    .research-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 18px; background: #1E1B4B; color: #fff;
+      border-radius: 10px; padding: 9px 22px; margin-top: 8px;
+      border: 2px dashed #6366F1;
+    }
+    .rb-title { font-size: 13px; font-weight: 800; color: #A5B4FC; }
+    .rb-desc  { font-size: 10.5px; color: #818CF8; }
+    .rb-arrow { font-size: 18px; color: #6366F1; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-icon">&#127807;</div>
+      <div>
+        <div class="header-title">SARJOM &mdash; Verified System Architecture Flowchart</div>
+        <div class="header-subtitle">SIH 2026 &middot; Problem SIH26042 &middot; DHTE Jharkhand &middot; Team Karasuno &middot; <em>Tech-stack verified against actual codebase (Sep 2026)</em></div>
+      </div>
+    </div>
+    <div class="badges">
+      <div class="legend">
+        <div class="legend-item"><span class="dot-online"></span> Needs internet</div>
+        <div class="legend-item"><span class="dot-offline"></span> Works offline</div>
+      </div>
+      <span class="badge badge-green">&#9889; Edge-first Runtime</span>
+      <span class="badge badge-blue">&#128241; React 19 + Capacitor 8</span>
+      <span class="badge badge-orange">&#127979; 4 Tribal Languages</span>
+      <span class="badge badge-green">&#127908; On-Device ASR (offline)</span>
+    </div>
+  </div>
+
+  <!-- ENTRY -->
+  <div class="entry-row">
+    <div class="entry-box">
+      <div class="main">&#128242; Teacher opens SARJOM &mdash; PWA bundled via Capacitor 8 &middot; Android WebView Runtime &middot; Gyanodaya Tablet (Android 9+, &le;2 GB RAM)</div>
+      <div class="sub">Vite 8 build &middot; Gradle APK &middot; Classroom Bluetooth speaker &middot; No internet required for core features &middot; localStorage offline state</div>
+    </div>
+  </div>
+  <div class="arrow-down">&#11015;</div>
+
+  <!-- FORK LABELS -->
+  <div class="fork-row">
+    <div class="fork-badge" style="color:#1E40AF;background:#DBEAFE;border:2px solid #60A5FA;">&#127897; Voice Bridge</div>
+    <div class="fork-badge" style="color:#166534;background:#DCFCE7;border:2px solid #4ADE80;">&#128196; Worksheets</div>
+    <div class="fork-badge" style="color:#7C3AED;background:#EDE9FE;border:2px solid #A78BFA;">&#127183; Flashcards</div>
+    <div class="fork-badge" style="color:#B45309;background:#FEF3C7;border:2px solid #FBBF24;">&#128214; Lexicon &amp; Folklore</div>
+  </div>
+  <div class="arrow-down">&#11015;</div>
+
+  <!-- 4 PILLARS -->
+  <div class="pillars-grid">
+
+    <!-- P1: VOICE BRIDGE -->
+    <div class="pillar p1">
+      <div class="pillar-header"><span class="pill-num">1</span>&#127897; Real-Time Voice Bridge (Teacher &#8647; Student)</div>
+      <div class="pillar-body">
+
+        <div class="step s-input">
+          &#127908; Hindi Teacher Speaks <span class="dot-online" title="Web Speech API needs internet"></span>
+          <div class="step-label">Web Audio API &middot; AnalyserNode + BiquadFilterNode noise gate &middot; 16 kHz</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml" >
+          &#127760; Web Speech API ASR (hi-IN) &mdash; <em>online-only</em> <span class="dot-online"></span>
+          <div class="step-label">@capacitor-community/speech-recognition &middot; preferOffline: true &middot; Android on-device ML engine &middot; 100% offline (Android 10+)</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-warn">
+          &#9000; Typed-Input Fallback (web/dev only) <span class="dot-offline"></span>
+          <div class="step-label">On browser/web dev mode when Android plugin unavailable &middot; Same cascade NLP pipeline</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml">
+          &#129504; On-Device Cascade NLP Engine <span class="dot-offline"></span>
+          <div class="step-label">1&#176; Lexicon lookup &rarr; 2&#176; Morphological roots &rarr; 3&#176; Cosine similarity &rarr; 4&#176; Neural fallback (JS runtime)</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-out">
+          &#128266; SpeechSynthesis TTS + Pre-cached Audio <span class="dot-offline"></span>
+          <div class="step-label">browser SpeechSynthesis API &middot; Pre-cached tribal audio assets &middot; Bluetooth A2DP broadcast</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-input">
+          &#128065; Student Speaks &rarr; Reverse Decode <span class="dot-online"></span>
+          <div class="step-label">Mother-tongue audio &rarr; Android OS on-device ASR (preferOffline: true) &rarr; Hindi text for teacher &middot; 3 one-tap response chips</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="s-final">
+          &#9989; CLASS HEARS TRIBAL AUDIO <span class="metric">&lt;2 s e2e</span><br/>
+          <span style="font-size:10.5px;font-weight:500;">Live dual-script display: Hindi + Ol Chiki / Warang Chiti side-by-side &middot; Typed fallback offline</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- P2: WORKSHEETS -->
+    <div class="pillar p2">
+      <div class="pillar-header"><span class="pill-num">2</span>&#128196; Bilingual FLN Worksheet Generator</div>
+      <div class="pillar-body">
+
+        <div class="step s-input">
+          &#128203; Teacher Selects Lesson Params <span class="dot-offline"></span>
+          <div class="step-label">Grade (Balvatika&ndash;Class 3) &middot; FLN-L1/L2 &middot; Dialect (Ho/Mundari/Santhali/Sadri) &middot; Type</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml">
+          &#129504; On-Device Cascade NLP Word-Pair Generator <span class="dot-offline"></span>
+          <div class="step-label">customNeuralMundaEngine.js &middot; 4-layer Seq2Seq Transformer &middot; 14.8 MB JS runtime &middot; INT8 weights</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#128193; 3 Worksheet Types Auto-Built <span class="dot-offline"></span>
+          <div class="step-label">&#128204; Word-Picture Matching &middot; &#128290; Numeracy 1&ndash;10 &middot; &#128221; Sentence Fill-Blanks &middot; NIPUN FLN aligned</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#128444; Dual-Script Canvas Rendering <span class="dot-offline"></span>
+          <div class="step-label">HTML5 Canvas 2D &middot; Devanagari + Ol Chiki (U+1C50) + Warang Chiti (U+118A0) &middot; Unicode-native</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-out">
+          &#128241; Interactive On-Tablet Mode <span class="dot-offline"></span>
+          <div class="step-label">Tap-to-match &middot; canvas-confetti reward &middot; Score in localStorage &middot; No internet</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-gov">
+          &#128424; Printable A4 PDF Export <span class="dot-offline"></span>
+          <div class="step-label">Block printer / photocopy &middot; 1 tablet &#8594; 35 students &middot; Key hardware-scarcity solution</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="s-final">
+          &#9989; TAKE-HOME BILINGUAL WORKSHEET <span class="metric metric-g">QR Audio Link</span><br/>
+          <span style="font-size:10.5px;font-weight:500;">Parents scan QR &rarr; hear tribal pronunciation on any basic mobile &middot; Sneakernet distribution</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- P3: FLASHCARDS -->
+    <div class="pillar p3">
+      <div class="pillar-header"><span class="pill-num">3</span>&#127183; Visual Multilingual Flashcard Deck</div>
+      <div class="pillar-body">
+
+        <div class="step s-input">
+          &#128193; Select Category <span class="dot-offline"></span>
+          <div class="step-label">Greetings &middot; Nature &middot; Animals &middot; Body Parts &middot; Numbers &middot; Colours &middot; 6 semantic groups</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml">
+          &#128230; 4-Language Tribal Lexicon Index <span class="dot-offline"></span>
+          <div class="step-label">tribalLexicon.js &middot; Ho / Mundari / Santhali / Sadri &harr; Hindi/English &middot; Cosine similarity lookup</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#127926; CSS 3D Flashcard Flip <span class="dot-offline"></span>
+          <div class="step-label">Front: Hindi + image &middot; Back: Native script (Ol Chiki / Warang Chiti) + Roman phonetic</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-out">
+          &#128266; Offline Audio Pronunciation <span class="dot-offline"></span>
+          <div class="step-label">SpeechSynthesis API + pre-cached tribal audio assets &middot; &lt;50 ms response &middot; No internet</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml">
+          &#129513; NIPUN Oral Quiz Mode <span class="dot-offline"></span>
+          <div class="step-label">4-choice MCQ &middot; Score stored in localStorage &middot; FLN-L2 aligned progression</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#128202; AI ORF Pronunciation Coach <span class="dot-offline"></span>
+          <div class="step-label">Web Audio API DSP &middot; AnalyserNode formant distance &middot; AcousticPronunciationCoach.jsx</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="s-final">
+          &#9989; STUDENT VOCABULARY MASTERY <span class="metric metric-p">Accuracy Score</span><br/>
+          <span style="font-size:10.5px;font-weight:500;">Ol Chiki + Warang Chiti + Roman phonetic simultaneously &middot; 100% offline &middot; Heritage script preserved</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- P4: DICTIONARY + FOLKLORE -->
+    <div class="pillar p4">
+      <div class="pillar-header"><span class="pill-num">4</span>&#128214; Dual-Script Lexicon + Folklore + MIS</div>
+      <div class="pillar-body">
+
+        <div class="step s-input">
+          &#128269; Search: Hindi / English / Roman tribal phonetics <span class="dot-offline"></span>
+          <div class="step-label">DictionarySearch.jsx &middot; Fuzzy string match &middot; nlpTranslationEngine.js cosine similarity</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-ml">
+          &#129504; Cosine Similarity Semantic Vector Lookup <span class="dot-offline"></span>
+          <div class="step-label">Offline &middot; &lt;20 ms response &middot; 4-language index: Ho / Mundari / Santhali / Sadri</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#128220; Dual-Script Entry Rendered <span class="dot-offline"></span>
+          <div class="step-label">Ol Chiki (U+1C50) + Warang Chiti (U+118A0) + Devanagari &middot; Unicode-native rendering</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-out">
+          &#128266; Native Speaker Audio Playback <span class="dot-offline"></span>
+          <div class="step-label">SpeechSynthesis + pre-cached audio clips &middot; Word + usage sentence + classroom example</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-proc">
+          &#128218; Cultural Folklore Storyteller (SlateAndFolklore.jsx) <span class="dot-offline"></span>
+          <div class="step-label">Sarhul &middot; Karam &middot; Saranda forest stories &middot; folkStories.js &middot; Synchronized bilingual audio</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="step s-gov">
+          &#128228; MIS Export for BRC Handover <span class="dot-offline"></span>
+          <div class="step-label">UDISE+ code CSV &middot; e-Vidyavahini 2.0 format &middot; offlineStorage.js &middot; Monthly Sneakernet sync</div>
+        </div>
+        <div class="mini-arrow">&#8595;</div>
+
+        <div class="s-final">
+          &#9989; INDIGENOUS HERITAGE PRESERVED <span class="metric metric-o">UNESCO Endangered</span><br/>
+          <span style="font-size:10.5px;font-weight:500;">Ho + Mundari + Santhali + Sadri &middot; Native scripts preserved &middot; Not reduced to Hindi transliteration</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /pillars-grid -->
+
+  <!-- OFFLINE EDGE BAR -->
+  <div class="offline-bar">
+    <div>&#128683;</div>
+    <div>
+      <div class="ob-title">&#9889; Edge-First Runtime (localStorage &middot; Capacitor CacheStorage &middot; @capacitor-community/speech-recognition v7)</div>
+      <div class="ob-desc">Core NLP + Voice ASR + Flashcards + Worksheets + Lexicon: 100% offline &middot; Android on-device SpeechRecognizer (preferOffline: true) &middot; No internet needed</div>
+    </div>
+    <div class="offline-sep"></div>
+    <div>
+      <div class="ob-title">&#129504; customNeuralMundaEngine.js &middot; 14.8 MB JS Runtime</div>
+      <div class="ob-desc">4-layer Seq2Seq Transformer &middot; INT8-equivalent JS weights &middot; Safe on 2 GB Gyanodaya tablets &middot; No WASM/ONNX.js in browser (research pipeline only)</div>
+    </div>
+    <div class="offline-sep"></div>
+    <div>
+      <div class="ob-title">&#128214; 4-Language Tribal Lexicon</div>
+      <div class="ob-desc">Ho &middot; Mundari &middot; Santhali &middot; Sadri &harr; Hindi / English &middot; Hoffmann, Bodding, Deeney &amp; Nowrangi lexicons &middot; tribalLexicon.js</div>
+    </div>
+    <div class="offline-sep"></div>
+    <div>
+      <div class="ob-title">&#127979; 28,945 Gyanodaya Tablets &middot; 5,000+ Schools</div>
+      <div class="ob-desc">Deployed via APK sideload &middot; Gradle build &middot; Zero new hardware &middot; Vite 8 + Node.js + Puppeteer CI</div>
+    </div>
+    <div class="offline-sep"></div>
+    <div>
+      <div class="ob-title">&#128274; AES-256 &middot; localStorage Encrypted</div>
+      <div class="ob-desc">Student voice never leaves tablet &middot; Anonymised evaluation IDs &middot; UDISE+ linked MIS export only</div>
+    </div>
+  </div>
+
+  <!-- RESEARCH PIPELINE -->
+  <div class="research-bar">
+    <div>&#128300;</div>
+    <div>
+      <div class="rb-title">ML Research Training Pipeline (Offline &mdash; not shipped in APK)</div>
+      <div class="rb-desc">PyTorch Transformer &rarr; LoRA PEFT fine-tune on Ho/Mundari/Santhali corpus &rarr; ONNX INT8 export &rarr; weight arrays baked into customNeuralMundaEngine.js</div>
+    </div>
+    <div class="rb-arrow">&#8594;</div>
+    <div>
+      <div class="rb-title">&#128290; Produces: customNeuralMundaEngine.js + nlpTranslationEngine.js</div>
+      <div class="rb-desc">Runtime deployed inside the Vite/Capacitor bundle as static JS &middot; 14.8 MB &middot; INT8 weight arrays</div>
+    </div>
+    <div class="rb-arrow">&#8594;</div>
+    <div>
+      <div class="rb-title">&#9989; All 4 Pillars use this engine offline</div>
+      <div class="rb-desc">Voice Translation (offline ASR + NLP) &middot; Worksheet NLP &middot; Flashcard lookup &middot; Dictionary semantic search</div>
+    </div>
+  </div>
+
+</body>
+</html>

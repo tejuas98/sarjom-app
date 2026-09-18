@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 960px;
+  background: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 30px 28px 36px;
+}
+h1 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.subtitle {
+  text-align: center;
+  font-size: 11.5px;
+  color: #777;
+  margin-bottom: 28px;
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+}
+
+.panel {
+  flex: 1;
+  border: 2px dashed #999;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.panel-head {
+  background: #eeeeee;
+  border-bottom: 2px solid #999;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  padding: 8px 12px;
+  letter-spacing: 0.5px;
+}
+.panel-body {
+  padding: 20px 14px 18px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow {
+  flex-shrink: 0;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #555;
+}
+
+/* input */
+.teacher-box {
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 16px;
+  text-align: center;
+  background: #fafafa;
+  width: 100%;
+}
+.caption {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  margin-top: 4px;
+}
+.sub-caption {
+  font-size: 10.5px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* mic */
+.mic-box {
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 10px 16px;
+  text-align: center;
+  background: #fafafa;
+  width: 100%;
+}
+
+/* processing */
+.gear-box {
+  text-align: center;
+  width: 100%;
+}
+.sub-box {
+  border: 1.5px solid #bbb;
+  border-radius: 3px;
+  padding: 7px 14px;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #333;
+  background: #f5f5f5;
+  width: 100%;
+}
+
+/* output */
+.tablet-frame {
+  border: 3px solid #444;
+  border-radius: 10px;
+  padding: 10px 8px 8px;
+  background: #fafafa;
+  width: 100%;
+  text-align: center;
+}
+.tablet-screen {
+  background: #fff;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 8px;
+}
+.tablet-btn {
+  width: 22px;
+  height: 5px;
+  background: #bbb;
+  border-radius: 3px;
+  margin: 7px auto 0;
+}
+</style>
+</head>
+<body>
+
+<h1>SARJOM — How It Works</h1>
+<div class="subtitle">Hindi Teacher → Tribal Audio · 100% Offline · Android Tablet · Jharkhand</div>
+
+<div class="row">
+
+  <!-- INPUT -->
+  <div class="panel">
+    <div class="panel-head">Input Stage</div>
+    <div class="panel-body">
+
+      <div class="teacher-box">
+        <img src="teacher_icon.jpg" width="90" height="90" style="object-fit:contain;" alt="Teacher"/>
+        <div class="caption">Hindi Teacher</div>
+        <div class="sub-caption">Speaks in Hindi · classroom</div>
+      </div>
+
+      <div style="font-size:18px;color:#aaa;">↓</div>
+
+      <div class="mic-box">
+        <!-- Clean mic SVG -->
+        <svg width="36" height="46" viewBox="0 0 36 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="1" width="16" height="22" rx="8" fill="#374151"/>
+          <path d="M4 20 Q4 34 18 34 Q32 34 32 20" stroke="#374151" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="18" y1="34" x2="18" y2="43" stroke="#374151" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="43" x2="26" y2="43" stroke="#374151" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M33 14 Q37 18 33 22" stroke="#2563EB" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M35 10 Q41 18 35 26" stroke="#2563EB" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="caption" style="margin-top:4px;">Android Microphone</div>
+        <div class="sub-caption">On-device · no internet</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arrow">→</div>
+
+  <!-- PROCESSING -->
+  <div class="panel" style="flex:1.2;">
+    <div class="panel-head">Processing Stage</div>
+    <div class="panel-body">
+
+      <div class="gear-box">
+        <!-- Clean gear SVG -->
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 10 L33 4 L27 4 Z M30 50 L33 56 L27 56 Z M10 30 L4 33 L4 27 Z M50 30 L56 33 L56 27 Z
+                   M16 16 L11 11 L15 7 Z M44 44 L49 49 L45 53 Z M16 44 L11 49 L7 45 Z M44 16 L49 11 L53 15 Z"
+                fill="#9CA3AF"/>
+          <circle cx="30" cy="30" r="12" fill="#374151" stroke="#222" stroke-width="1.5"/>
+          <circle cx="30" cy="30" r="6" fill="#6B7280"/>
+          <!-- small gear -->
+          <circle cx="46" cy="18" r="6" fill="#9CA3AF" stroke="#555" stroke-width="1.2"/>
+          <circle cx="46" cy="18" r="3.2" fill="#6B7280"/>
+        </svg>
+        <div style="font-size:12px;font-weight:700;color:#222;margin-top:2px;">Translation Engine</div>
+      </div>
+
+      <div class="sub-box">Speech Recognition · Android ASR</div>
+      <div class="sub-box">Tribal Language Mapping</div>
+      <div class="sub-box">Script Synthesis · Ol Chiki / Devanagari</div>
+      <div class="sub-box">Text-to-Speech · Android TTS</div>
+
+    </div>
+  </div>
+
+  <div class="arrow">→</div>
+
+  <!-- OUTPUT -->
+  <div class="panel">
+    <div class="panel-head">Output Stage</div>
+    <div class="panel-body">
+
+      <div class="tablet-frame">
+        <div class="tablet-screen">
+          <div style="font-size:26px;">🔊</div>
+          <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-top:4px;">ᱡᱚᱦᱟᱨ</div>
+          <div style="font-size:11px;color:#555;margin-top:2px;">Johar &nbsp;·&nbsp; जोहार</div>
+          <div style="font-size:10px;color:#aaa;margin-top:5px;border-top:1px dashed #e5e5e5;padding-top:4px;">Audio plays on tablet speaker</div>
+        </div>
+        <div class="tablet-btn"></div>
+      </div>
+
+      <div style="font-size:11.5px;font-weight:700;color:#444;text-align:center;">
+        User Selected Language
+      </div>
+      <div style="font-size:11px;color:#888;text-align:center;">
+        Ho &nbsp;/&nbsp; Mundari &nbsp;/&nbsp; Santhali &nbsp;/&nbsp; Sadri
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

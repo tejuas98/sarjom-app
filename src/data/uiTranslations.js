@@ -9,9 +9,15 @@ export const UI_TRANSLATIONS = {
     brandTitle: 'सरजोम',
     brandSub: '',
     brandTagline: 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE',
+    appTitle: 'सरजोम',
+    appSubtitle: 'झारखंड प्राथमिक मातृभाषा सेतु • MTB-MLE',
     offlineStatus: 'ऑफ़लाइन',
     onlineStatus: 'ऑनलाइन',
     uiLangLabel: 'भाषा',
+    badgeOfficial: 'आधिकारिक MTB-MLE मंच',
+    badgeOffline: '100% ऑफ़लाइन तैयार',
+    teacherProfile: 'शिक्षक प्रोफ़ाइल',
+    switchLang: 'भाषा',
 
     // Core Tabs
     tabVoice: 'कक्षा संवाद (Voice & Text)',
@@ -22,13 +28,13 @@ export const UI_TRANSLATIONS = {
     // Voice Translator (Classroom Dialogue)
     modeTeacherToStudent: 'शिक्षक बोलें (हिंदी → मातृभाषा)',
     modeStudentToTeacher: 'छात्र बोलें (मातृभाषा → हिंदी)',
-    
+
     // Teacher Mode
     tapToSpeakIdleTeacher: 'माइक दबाकर बोलें (Tap to Speak)',
     tapToSpeakSubIdleTeacher: 'हिंदी या अंग्रेजी में बोलें — तुरंत {lang} में अनुवाद होकर स्पीकर पर बोलेगा',
     tapToSpeakRecTeacher: 'माइक चालू है... (रोकने के लिए पुनः दबाएं)',
     tapToSpeakSubRecTeacher: 'बोलना समाप्त करते ही स्वतः {lang} में अनुवाद होगा',
-    
+
     // Student Mode
     tapToSpeakIdleStudent: 'छात्र माइक दबाकर बोलें (Student Speak)',
     tapToSpeakSubIdleStudent: 'छात्र अपनी मातृभाषा ({lang}), हिंदी या अंग्रेजी में बोलें — शिक्षक को हिंदी में सुनाई देगा',
@@ -89,7 +95,6 @@ export const UI_TRANSLATIONS = {
     wsEmblemGovt: 'झारखंड सरकार • स्कूली शिक्षा एवं साक्षरता विभाग',
     wsEmblemDept: 'निपुण भारत मातृभाषा शिक्षण सेतु (MTB-MLE)',
 
-
     // Flashcards Deck
     fcTitle: 'दृश्य बहुभाषी फ्लैशकार्ड्स',
     fcSubtitle: 'चित्र, मातृभाषा लिपि एवं ऑडियो उच्चारण के साथ संवादात्मक कार्ड्स',
@@ -118,8 +123,21 @@ export const UI_TRANSLATIONS = {
     dictDistrictLabel: 'प्रचलित जिला:',
     dictDevanagariLabel: 'देवनागरी:',
     dictPhoneticLabel: 'ध्वन्यात्मक:',
+    dictBadgeAllLangs: 'हो • मुण्डारी • संताली • सादरी',
+    dictColHindi: 'हिन्दी',
+    dictColEnglish: 'अंग्रेजी',
+    dictColHo: 'हो',
+    dictColMundari: 'मुण्डारी',
+    dictColSanthali: 'संताली',
+    dictColSadri: 'सादरी',
     dictAudioBtn: 'उच्चारण सुनें',
     dictNoResults: 'कोई परिणाम नहीं मिला',
+
+    // Footer
+    footerGovt: 'झारखंड सरकार • उच्च एवं तकनीकी शिक्षा विभाग',
+    footerProject: 'सरजोम प्राथमिक मातृभाषा शिक्षा सेतु (MTB-MLE)',
+    footerDevBarToggle: 'हार्डवेयर सिमुलेटर बार',
+    footerDevBarHide: 'हार्डवेयर बार छुपाएं',
   },
 
   en: {
@@ -127,14 +145,17 @@ export const UI_TRANSLATIONS = {
     brandTitle: 'SARJOM',
     brandSub: '',
     brandTagline: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
-    offlineStatus: 'Offline',
-    onlineStatus: 'Online',
     appTitle: 'SARJOM',
     appSubtitle: 'Jharkhand Primary MTB-MLE Pedagogic Bridge',
+    offlineStatus: 'Offline',
+    onlineStatus: 'Online',
+    uiLangLabel: 'Language',
     badgeOfficial: 'Official MTB-MLE Platform',
     badgeOffline: '100% Offline Ready',
     teacherProfile: 'Teacher Profile',
     switchLang: 'Language',
+
+    // Core Tabs
     tabVoice: 'Classroom Voice',
     tabWorksheets: 'Worksheets',
     tabFlashcards: 'Flashcards',
@@ -210,7 +231,6 @@ export const UI_TRANSLATIONS = {
     wsEmblemGovt: 'Government of Jharkhand • School Education & Literacy Department',
     wsEmblemDept: 'NIPUN Bharat Mother Tongue Learning Bridge (MTB-MLE)',
 
-
     // Flashcards Deck
     fcTitle: 'Visual Multilingual Flashcards',
     fcSubtitle: 'Interactive flashcards with visual imagery, tribal script, and audio pronunciation',
@@ -231,6 +251,14 @@ export const UI_TRANSLATIONS = {
     dictTitle: 'Jharkhand Tri-Lingual FLN Dictionary',
     dictSubtitle: 'Instant search across Hindi, English, and 4 tribal languages (Ho, Mundari, Santhali, Sadri)',
     dictSearchPlaceholder: 'Search by Hindi, English, or phonetics (e.g., water, elephant, johar, 1, mother)...',
+    dictAllDistricts: 'All Districts',
+    dictSelectLanguage: 'Select Language:',
+    dictEntriesFound: 'entries found',
+    dictEmptyState: 'No entries found. Try another search or filter.',
+    dictCategoryLabel: 'Category:',
+    dictDistrictLabel: 'District:',
+    dictDevanagariLabel: 'Devanagari:',
+    dictPhoneticLabel: 'Phonetic:',
     dictBadgeAllLangs: 'Ho • Mundari • Santhali • Sadri',
     dictColHindi: 'Hindi',
     dictColEnglish: 'English',
@@ -239,6 +267,7 @@ export const UI_TRANSLATIONS = {
     dictColSanthali: 'Santhali',
     dictColSadri: 'Sadri',
     dictAudioBtn: 'Listen',
+    dictNoResults: 'No results found',
 
     // Footer
     footerGovt: 'Government of Jharkhand • Department of Higher & Technical Education',
