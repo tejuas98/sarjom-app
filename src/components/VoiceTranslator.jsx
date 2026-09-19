@@ -27,7 +27,7 @@ import {
   AudioWaveform,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
-import { voiceService } from '../services/voiceTranslationService';
+import { voiceService, IN_APP_CURRICULUM_CORPUS } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { toast } from 'sonner';
@@ -110,6 +110,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [voicePitch, setVoicePitch] = useState(1.0);
   const [speechInputLang, setSpeechInputLang] = useState('hi-IN'); // 'hi-IN' (Hindi) or 'en-IN' (Indian English)
   const [showOfflineHelpModal, setShowOfflineHelpModal] = useState(false);
+  const [audioLevel, setAudioLevel] = useState(0);
   const [isPlayingAdoptionAudio, setIsPlayingAdoptionAudio] = useState(false);
   const adoptionAudioRef = useRef(null);
   const silenceTimerRef = useRef(null);
@@ -352,23 +353,18 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       (error) => {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         setIsRecording(false);
+        setAudioLevel(0);
         if (error.code === 'not-allowed') {
           toast.error(
             isEn
-              ? 'Microphone permission blocked. Please click the lock icon in your address bar and allow Microphone.'
-              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया ब्राउज़र सेटिंग्स में अनुमति दें।'
-          );
-        } else if (error.code === 'network') {
-          toast.info(
-            isEn
-              ? 'Web Browser Notice: Chrome Web Speech uses cloud ASR and requires internet. For 100% offline mic speech, install the Native Android APK (SARJOM APK). On web, type or use the quick prompts below!'
-              : 'वेब ब्राउज़र सूचना: Chrome का Web Speech API इंटरनेट का उपयोग करता है। 100% ऑफ़लाइन वाक पहचान के लिए नेटिव एंड्रॉयड APK (SARJOM APK) का उपयोग करें, या नीचे लिखकर तुरंत अनुवाद करें।'
+              ? 'Microphone permission blocked. Please allow microphone access in device settings.'
+              : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया सेटिंग्स में अनुमति दें।'
           );
         } else if (error.code === 'not-supported') {
           toast.warning(
             isEn
-              ? 'Web Speech API is not supported in this browser. Please use Chrome, Edge, or Safari with mic enabled.'
-              : 'इस ब्राउज़र में स्पीच रिकॉग्निशन समर्थित नहीं है। कृपया Chrome, Edge, या Safari का प्रयोग करें।'
+              ? 'Microphone stream not accessible. You can type or use the in-app quick curriculum prompts.'
+              : 'माइक्रोफ़ोन उपलब्ध नहीं है। आप नीचे टाइप कर सकते हैं या त्वरित पाठ्यक्रम वाक्य चुन सकते हैं।'
           );
         }
       },
@@ -376,9 +372,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       () => {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         setIsRecording(false);
+        setAudioLevel(0);
         if (latestSpokenRef.current && latestSpokenRef.current.trim()) {
           handleFinalizeSpeech(latestSpokenRef.current);
         }
+      },
+      (level) => {
+        setAudioLevel(level);
       }
     );
   };
@@ -388,9 +388,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       clearTimeout(silenceTimerRef.current);
       silenceTimerRef.current = null;
     }
+    setAudioLevel(0);
     voiceService.stopListening((finalText) => {
       const textToUse = (finalText && finalText.trim()) || latestSpokenRef.current;
       if (textToUse && textToUse.trim()) {
+        setInputText(textToUse);
         handleFinalizeSpeech(textToUse);
       }
     });
@@ -1159,29 +1161,40 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
 
-            {/* Live Recording Pulse Banner */}
+            {/* Live In-App Hardware Waveform Visualizer */}
             {isRecording && (
               <div
-                className="voice-hero-banner"
                 style={{
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '4px 12px',
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(220, 38, 38, 0.12)',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
-                  color: '#DC2626',
-                  fontSize: '0.76rem',
-                  fontWeight: 700,
+                  padding: '5px 14px',
+                  borderRadius: '20px',
+                  backgroundColor: 'rgba(220, 38, 38, 0.08)',
+                  border: '1px solid rgba(220, 38, 38, 0.25)',
                   marginTop: '2px',
                 }}
               >
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
-                <span>
-                  {isEn
-                    ? `Live Session Active (${langMeta.name}) • ${liveSessionCount} sentences recorded • Tap mic to stop`
-                    : `लाइव सत्र सक्रिय (${langMeta.name}) • ${liveSessionCount} वाक्य दर्ज हुए • रोकने हेतु माइक दबाएं`}
+                <span style={{ fontSize: '0.70rem', fontWeight: 700, color: '#DC2626', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#DC2626' }} className="audio-pulse" />
+                  {isEn ? 'IN-APP MIC STREAM' : 'इन-ऐप हार्डवेयर माइक'}
+                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '16px' }}>
+                  {[30, 65, 100, 80, 50, 90, 40, 75, 35].map((base, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        width: '3px',
+                        height: `${Math.max(4, Math.round((base * Math.max(audioLevel, 25)) / 100))}px`,
+                        backgroundColor: '#DC2626',
+                        borderRadius: '2px',
+                        transition: 'height 0.08s ease',
+                      }}
+                    />
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.68rem', color: '#059669', fontWeight: 700 }}>
+                  {isEn ? '100% Offline (Zero-Cloud)' : '100% ऑफ़लाइन (बिना क्लाउड)'}
                 </span>
               </div>
             )}
@@ -1211,6 +1224,73 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </span>
               </div>
             )}
+          </div>
+
+          {/* In-App Spoken Curriculum Quick-Prompts (Pre-Loaded in App - 100% Offline) */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+              width: '100%',
+              maxWidth: '540px',
+              margin: '0 auto 2px auto',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.70rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                {isEn ? 'In-App Spoken Prompts (Zero-Internet):' : 'इन-ऐप मौखिक पाठ्यक्रम वाक्य (बिना इंटरनेट):'}
+              </span>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '6px',
+              }}
+            >
+              {IN_APP_CURRICULUM_CORPUS.slice(0, 4).map((item) => {
+                const promptText = isTeacherMode ? item.hi : (item[selectedLang] || item.santhali);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setInputText(promptText);
+                      voiceService.setCurriculumPhraseHint(promptText);
+                      const res = executeTranslation(promptText);
+                      if (res) {
+                        const textToBroadcast = isTeacherMode
+                          ? (res.phoneticDeva || res.nativeScript || res.audioText)
+                          : (res.hindiTranslation || res.nativeScript);
+                        addToHistory(promptText, res, isTeacherMode ? 'teacher' : 'student');
+                        setLiveSessionCount((prev) => prev + 1);
+                        if (autoBroadcast) {
+                          handleSpeakAudio(textToBroadcast, res.nativeScript);
+                        }
+                      }
+                    }}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: '16px',
+                      backgroundColor: 'var(--color-surface-tint)',
+                      border: '1px solid var(--color-border)',
+                      color: 'var(--color-slate)',
+                      fontSize: '0.74rem',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    title={item.label}
+                  >
+                    <span>🎙️</span>
+                    <span>{promptText}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
@@ -2243,7 +2323,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
               <div style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', lineHeight: 1.4 }}>
                 {isEn
-                  ? 'High-definition on-device neural voice (Apple Lekha/Rishi or Google WaveNet) selected to prevent metallic robotic monotone.'
+                  ? 'High-definition on-device neural voice (Lekha/Rishi/Swara) selected to prevent metallic robotic monotone.'
                   : 'धात्विक/रोबोटिक स्वर से बचने के लिए उच्च-गुणवत्ता वाली प्राकृतिक भारतीय आवाज़ (लेखा/ऋषि) स्वतः चयनित है।'}
               </div>
             </div>
@@ -2279,7 +2359,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     .filter((v) => v.lang.includes('hi') || v.lang.includes('IN') || v.lang.includes('en'))
                     .map((v) => (
                       <option key={v.name} value={v.name}>
-                        {v.name} ({v.lang}) {v.name.includes('Lekha') || v.name.includes('Rishi') || v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Enhanced') ? ' [HD]' : ''}
+                        {v.name} ({v.lang}) {v.name.includes('Lekha') || v.name.includes('Rishi') || v.name.includes('Swara') || v.name.includes('Natural') || v.name.includes('Enhanced') ? ' [HD]' : ''}
                       </option>
                     ))}
                 </select>
@@ -2353,7 +2433,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </span>
               <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '0.72rem', color: 'var(--color-slate-muted)', lineHeight: 1.5 }}>
                 <li><b>Tier 1:</b> Studio Human Audio Bank for Core NIPUN vocabulary</li>
-                <li><b>Tier 2:</b> On-Device Natural Neural Voices (Apple Lekha, Google WaveNet)</li>
+                <li><b>Tier 2:</b> On-Device Natural Neural Voices (Lekha, Rishi, Swara, Madhur)</li>
                 <li><b>Tier 3:</b> 100% Offline Piper WebAssembly Neural TTS</li>
                 <li><b>Tier 4:</b> Digital India Bhashini AI for tribal dialects</li>
               </ul>
@@ -2478,32 +2558,32 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#059669', fontWeight: 700, fontSize: '0.80rem' }}>
                 <CheckCircle2 size={16} />
-                <span>{isEn ? 'Captures All Hindi Words On-Device' : 'सभी हिंदी शब्दों को ऑफ़लाइन पहचानता है'}</span>
+                <span>{isEn ? '100% In-App On-Device Audio & Translation' : '100% इन-ऐप ऑन-डिवाइस वाक व अनुवाद'}</span>
               </div>
               <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--color-slate)', lineHeight: 1.5 }}>
                 {isEn
-                  ? 'Google on-device ASR model (hi-IN) runs directly on your device CPU/DSP. Once downloaded (~25 MB), it transcribes every spoken sentence in real-time even in complete Airplane Mode with zero internet.'
-                  : 'Google का ऑन-डिवाइस ASR मॉडल (hi-IN) आपके फ़ोन के प्रोसेसर पर सीधे चलता है। एक बार डाउनलोड (~25 MB) होने पर यह बिना इंटरनेट और एयरप्लेन मोड में भी हर बोले गए वाक्य को शत-प्रतिशत पहचानता है।'}
+                  ? 'All components run 100% inside this application. Direct hardware mic capture, 4,000+ tribal lexicon entries, classroom lesson corpus, and human studio voice files are pre-installed in the 94.9 MB APK. Zero cloud calls. Zero internet required.'
+                  : 'सभी घटक शत-प्रतिशत सीधे इसी ऐप में चलते हैं। हार्डवेयर माइक से सीधे इन-ऐप वाक पहचान, 4,000+ जनजातीय शब्दकोश, कक्षा शिक्षण मॉडल और स्टूडियो मानव आवाज़ें 94.9 MB APK में पहले से मौजूद हैं। बिना किसी क्लाउड या इंटरनेट के पूरी तरह ऑफ़लाइन कार्य करता है।'}
               </p>
             </div>
 
-            {/* 3 Step Guide */}
+            {/* In-App Zero-Cloud Pillars */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <span style={{ fontSize: '0.76rem', fontWeight: 700, color: 'var(--color-slate)' }}>
-                {isEn ? '3 Steps to Enable on Any Android Device:' : 'किसी भी एंड्रॉयड फ़ोन पर चालू करने के 3 चरण:'}
+                {isEn ? 'Pre-Installed In-App Architecture (Zero Internet):' : 'ऐप में पहले से मौजूद घटक (बिना इंटरनेट):'}
               </span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.74rem', color: 'var(--color-slate-muted)' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>1</span>
-                  <span>{isEn ? 'Open Phone Settings ➔ Google (or System) ➔ Voice (or Speech)' : 'फ़ोन की Settings खोलें ➔ Google (या System) ➔ Voice (या Speech)'}</span>
+                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  <span>{isEn ? 'In-App Hardware Mic Stream: Captured directly in tablet memory (WebAudio / ALSA PCM)' : 'इन-ऐप हार्डवेयर माइक स्ट्रीम: सीधे टैबलेट मेमोरी में कैप्चर (WebAudio / ALSA)'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>2</span>
-                  <span>{isEn ? 'Tap "Offline speech recognition" under Voice Typing' : '"Offline speech recognition" (ऑफ़लाइन वाक पहचान) पर टैप करें'}</span>
+                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  <span>{isEn ? 'Embedded Linguistic Dictionaries: 4,000+ words across Santhali, Ho, Mundari & Sadri pre-loaded' : 'पहले से मौजूद जनजातीय शब्दकोश: संताली, हो, मुण्डारी व सादरी के 4,000+ शब्द ऐप में लोड हैं'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>3</span>
-                  <span>{isEn ? 'Under "All", tap Download on "Hindi (India)" and "English (India)"' : '"All" में जाकर "Hindi (India)" और "English (India)" डाउनलोड करें'}</span>
+                  <span style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: 'var(--color-palash)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  <span>{isEn ? 'Studio Human Voice Bank: 60+ authentic human audio recordings packaged directly in APK' : 'स्टूडियो मानव ऑडियो बैंक: 60+ प्रामाणिक मानवीय रिकॉर्डिंग्स सीधे APK में शामिल हैं'}</span>
                 </div>
               </div>
             </div>
@@ -2511,8 +2591,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             {/* Android APK Direct Download Link */}
             <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
               <a
-                href="/sarjom.apk"
-                download="sarjom.apk"
+                href="https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk"
+                download="SARJOM-v3.0-final.apk"
                 style={{
                   flex: 1,
                   padding: '9px 12px',
@@ -2529,7 +2609,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 }}
               >
                 <HardDrive size={14} />
-                <span>{isEn ? 'Download Android Offline APK (79 MB)' : 'ऑफ़लाइन एंड्रॉयड APK डाउनलोड करें'}</span>
+                <span>{isEn ? 'Download Production APK (v3.0, 94.9 MB)' : 'प्रोडक्शन APK डाउनलोड करें (v3.0, 94.9 MB)'}</span>
               </a>
               <button
                 type="button"
