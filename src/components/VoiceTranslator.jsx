@@ -25,35 +25,12 @@ import {
   HardDrive,
   SlidersHorizontal,
   AudioWaveform,
-  Play,
-  Pause,
-  Upload,
-  FileAudio,
-  Headphones,
-  BookOpen,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { toast } from 'sonner';
-
-// Accurate sentence-level timeline cues for "Tell Me a Real Story of Adoption" (Chakradhar Dixit)
-const ADOPTION_STORY_CUES = [
-  { start: 0, end: 12, text: 'गोद लेने की एक सच्ची कहानी सुनाओ' },
-  { start: 12, end: 23, text: 'दोबारा? फिर तुम सो जाओगे? हां फिर मैं सो जाऊंगा... ठीक है, यह कहानी सुनो' },
-  { start: 23, end: 38, text: 'एक समय की बात है कि एक मछुआरे और उसकी पत्नी को नदी के किनारे एक चट्टान पर एक छोटा सा बच्चा मिला' },
-  { start: 38, end: 50, text: 'नहीं यह कहानी नहीं, वह कहानी सुनाओ जो मैंने पहले कभी सुनी ना हो! बहुत अच्छा, चलो एक नई कहानी सुनो' },
-  { start: 50, end: 65, text: 'एक समय की बात है एक राजा और एक रानी अपने विशाल महल में रहते थे' },
-  { start: 65, end: 82, text: 'लेकिन राजा और रानी बहुत उदास रहते थे क्योंकि उनके पास वह नहीं था जो वे पाना चाहते थे—एक बच्चा' },
-  { start: 82, end: 102, text: 'और उन्होंने कुछ बुद्धिमान लोगों को यह पता लगाने के लिए राज्य में हर ओर भेजा कि उन्हें एक बच्चा कहां मिल सकता है' },
-  { start: 102, end: 125, text: 'राज्य की सीमा पर जो झील है उसके आगे संतरों का एक उपवन है... वहां एक पेड़ के नीचे उन्हें एक बच्चा मिला' },
-  { start: 125, end: 155, text: 'राजा और रानी उस बच्चे को अपने महल ले आए और फिर वह सब एक साथ प्रसन्नता से रहे' },
-  { start: 155, end: 185, text: 'नहीं, यह काल्पनिक कहानी थी... मुझे गोद लेने की एक सच्ची कहानी सुनाओ जो सचमुच मेरे बारे में हो' },
-  { start: 185, end: 215, text: 'डैडी और मैं अस्पताल गए और तुम्हारी मां ने तुम्हें हमारी गोद में डाल दिया' },
-  { start: 215, end: 245, text: 'उसने कहा कि वह तुम्हें बहुत प्यार करती थी और तुम्हें कभी नहीं भूलेगी' },
-  { start: 245, end: 285, text: 'तुम एक नरम कंबल में आराम से सोए रहे... फिर डैडी और मैं तुम्हें अपने घर ले आए' },
-];
 
 export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const t = UI_TRANSLATIONS[uiLang] || UI_TRANSLATIONS.hi;
@@ -132,71 +109,13 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [voiceRate, setVoiceRate] = useState(1.05);
   const [voicePitch, setVoicePitch] = useState(1.0);
   const [speechInputLang, setSpeechInputLang] = useState('hi-IN'); // 'hi-IN' (Hindi) or 'en-IN' (Indian English)
-  const [audiobookPlaying, setAudiobookPlaying] = useState(false);
-  const [audiobookProgress, setAudiobookProgress] = useState(0);
-  const [audiobookDuration, setAudiobookDuration] = useState(441);
-  const [audiobookSource, setAudiobookSource] = useState('/audiobooks/adoption_story_hindi.m4a');
-  const [audiobookTitle, setAudiobookTitle] = useState('गोद लेने की एक सच्ची कहानी सुनाओ');
   const [showOfflineHelpModal, setShowOfflineHelpModal] = useState(false);
-  const audioPlayerRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const lastCueIdxRef = useRef(-1);
   const silenceTimerRef = useRef(null);
   const latestSpokenRef = useRef('');
-
-  const handleToggleAudiobook = () => {
-    if (!audioPlayerRef.current) return;
-    if (audiobookPlaying) {
-      audioPlayerRef.current.pause();
-      setAudiobookPlaying(false);
-    } else {
-      if (isRecording) handleStopMic();
-      audioPlayerRef.current.play().then(() => {
-        setAudiobookPlaying(true);
-        toast.info(isEn ? 'Playing Adoption Story Audiobook...' : 'ऑडियोबुक शुरू: "गोद लेने की एक सच्ची कहानी सुनाओ"');
-      }).catch((err) => {
-        console.warn('Audio play error:', err);
-        toast.error(isEn ? 'Could not play audio file' : 'ऑडियो प्ले नहीं हो सका');
-      });
-    }
-  };
-
-  const handleAudiobookTimeUpdate = () => {
-    if (!audioPlayerRef.current) return;
-    const cur = audioPlayerRef.current.currentTime;
-    setAudiobookProgress(cur);
-    const cueIdx = ADOPTION_STORY_CUES.findIndex(c => cur >= c.start && cur < c.end);
-    if (cueIdx !== -1 && cueIdx !== lastCueIdxRef.current) {
-      lastCueIdxRef.current = cueIdx;
-      const cue = ADOPTION_STORY_CUES[cueIdx];
-      setInputText(cue.text);
-      latestSpokenRef.current = cue.text;
-      handleFinalizeSpeech(cue.text);
-    }
-  };
-
-  const handleAudioFileUpload = (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    const fileUrl = URL.createObjectURL(file);
-    setAudiobookSource(fileUrl);
-    setAudiobookTitle(file.name);
-    lastCueIdxRef.current = -1;
-    setAudiobookProgress(0);
-    toast.success(isEn ? `Loaded: ${file.name}` : `ऑडियो फ़ाइल लोड हुई: ${file.name}`);
-    setTimeout(() => {
-      if (audioPlayerRef.current) {
-        audioPlayerRef.current.play().then(() => setAudiobookPlaying(true)).catch(() => {});
-      }
-    }, 300);
-  };
 
   useEffect(() => {
     return () => {
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-      if (audioPlayerRef.current) {
-        try { audioPlayerRef.current.pause(); } catch (e) {}
-      }
     };
   }, []);
 
@@ -1258,128 +1177,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
-          {/* 📻 Dedicated Audiobook & Live Audio File Player (Plays actual audio & translates live) */}
-          <div
-            id="audiobook-live-player"
-            style={{
-              width: '100%',
-              maxWidth: '540px',
-              margin: '2px auto 8px auto',
-              padding: '12px 14px',
-              borderRadius: '8px',
-              backgroundColor: 'rgba(217, 90, 39, 0.05)',
-              border: '1px solid rgba(217, 90, 39, 0.25)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              boxSizing: 'border-box',
-            }}
-          >
-            {/* Hidden Native Audio Element & File Input */}
-            <audio
-              ref={audioPlayerRef}
-              src={audiobookSource}
-              onTimeUpdate={handleAudiobookTimeUpdate}
-              onEnded={() => setAudiobookPlaying(false)}
-              onLoadedMetadata={(e) => setAudiobookDuration(e.target.duration || 441)}
-            />
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="audio/*"
-              style={{ display: 'none' }}
-              onChange={handleAudioFileUpload}
-            />
-
-            {/* Title & Metadata */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', minWidth: 0 }}>
-                <BookOpen size={16} color="var(--color-palash)" />
-                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--color-slate)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {audiobookTitle}
-                </span>
-              </div>
-              <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--color-palash)', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'rgba(217, 90, 39, 0.12)' }}>
-                {formatTimer(Math.floor(audiobookProgress))} / {formatTimer(Math.floor(audiobookDuration))}
-              </span>
-            </div>
-
-            {/* Action Buttons Row */}
-            <div style={{ display: 'flex', gap: '8px', width: '100%' }}>
-              <button
-                type="button"
-                id="play-audiobook-btn"
-                onClick={handleToggleAudiobook}
-                style={{
-                  flex: 1,
-                  padding: '7px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: audiobookPlaying ? '#DC2626' : 'var(--color-palash)',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  fontSize: '0.78rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                }}
-              >
-                {audiobookPlaying ? <Pause size={14} /> : <Play size={14} />}
-                <span>{audiobookPlaying ? (isEn ? 'Pause Audio' : 'ऑडियो रोकें') : (isEn ? '▶ Play Adoption Story Audio' : '▶ गोद लेने की कहानी सुनाएं')}</span>
-              </button>
-
-              <button
-                type="button"
-                id="upload-custom-audio-btn"
-                onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                style={{
-                  padding: '7px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: 'var(--color-surface-tint)',
-                  color: 'var(--color-slate)',
-                  border: '1px solid var(--color-border)',
-                  fontSize: '0.76rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '5px',
-                }}
-                title={isEn ? 'Upload any .m4a, .mp3, .wav from Downloads' : 'डाउनलोड्स से अपनी .m4a, .mp3, .wav ऑडियो फ़ाइल चुनें'}
-              >
-                <Upload size={13} />
-                <span>{isEn ? 'Choose Audio' : 'फ़ाइल चुनें'}</span>
-              </button>
-            </div>
-
-            {/* Live Synchronized Speech Subtitle Banner */}
-            {audiobookPlaying && (
-              <div
-                style={{
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  color: 'var(--color-palash)',
-                  padding: '6px 10px',
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '4px',
-                  border: '1px solid rgba(217, 90, 39, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-palash)' }} className="audio-pulse" />
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {inputText || (isEn ? 'Audio speaking... translating to tribal' : 'ऑडियो बोल रहा है... जनजाति अनुवाद जारी')}
-                </span>
-              </div>
-            )}
-          </div>
-
           {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
           <form
             onSubmit={handleSubmitText}
@@ -1406,6 +1203,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               }}
             >
               <input
+                id="voice-text-input"
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -1451,6 +1249,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               )}
             </div>
             <button
+              id="voice-text-submit-btn"
               type="submit"
               disabled={!inputText.trim()}
               style={{

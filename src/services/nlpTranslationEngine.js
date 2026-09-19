@@ -837,43 +837,7 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
   if (!result) {
     // Multi-Word Idiomatic & Grammatical Phrases
     const MULTI_WORD_CHUNKS = [
-      // Adoption & Story Idioms & Pronoun Postpositions
-      {
-        pattern: /(?:(?:tell\s+(?:me\s+)?(?:a\s+)?(?:real\s+)?story\s+of\s+adoption)|(?:tell\s+(?:me\s+)?an\s+adoption\s+story)|(?:गोद\s+लेने\s+की\s+(?:एक\s+)?सच्ची\s+कहानी\s+(?:सुनाओ|सुनाएं)))/i,
-        ho: 'गोद हाताओ रेआः मिद सारी काहनी काजी पे',
-        mundari: 'पोसोः रेआः मियद सारी काहनी कजीपे',
-        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱢᱤᱫ ᱥᱟᱹᱨᱤ ᱠᱟᱹᱦᱱᱤ ᱞᱟᱹᱭ ᱯᱮ',
-        santhaliDeva: 'आपणार रेनाग मिद सारी काहनी लई पे',
-        sadri: 'गोद लेवेक कर एक सच कहानी सुनावा',
-        audio: 'Apnar renag mid sari kahni lay pe',
-      },
-      {
-        pattern: /(?:(?:tell\s+(?:me\s+)?(?:a\s+)?story)|(?:कहानी\s+(?:सुनाओ|सुनाएं)))/i,
-        ho: 'काहनी काजी पे',
-        mundari: 'काहनी कजीपे',
-        santhali: 'ᱠᱟᱹᱦᱱᱤ ᱞᱟᱹᱭ ᱯᱮ',
-        santhaliDeva: 'काहनी लई पे',
-        sadri: 'कहानी सुनावा',
-        audio: 'Kahni lay pe',
-      },
-      {
-        pattern: /(?:(?:a\s+real\s+story\s+of\s+adoption)|(?:real\s+story\s+of\s+adoption)|(?:story\s+of\s+adoption)|(?:गोद\s+लेने\s+की\s+(?:एक\s+)?सच्ची\s+कहानी))/i,
-        ho: 'गोद हाताओ रेआः मिद सारी काहनी',
-        mundari: 'पोसोः रेआः मियद सारी काहनी',
-        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱢᱤᱫ ᱥᱟᱹᱨᱤ ᱠᱟᱹᱦᱱᱤ',
-        santhaliDeva: 'आपणार रेनाग मिद सारी काहनी',
-        sadri: 'गोद लेवेक कर एक सच कहानी',
-        audio: 'Apnar renag mid sari kahni',
-      },
-      {
-        pattern: /(?:(?:adoption\s+story)|(?:गोद\s+लेने\s+की\s+(?:एक\s+)?कहानी))/i,
-        ho: 'गोद हाताओ रेआः काहनी',
-        mundari: 'पोसोः रेआः काहनी',
-        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱠᱟᱹᱦᱱᱤ',
-        santhaliDeva: 'आपणार रेनाग काहनी',
-        sadri: 'गोद लेवेक कर कहानी',
-        audio: 'Apnar renag kahni',
-      },
+      // Syntactic & Grammatical Multi-Word Chunks
       {
         pattern: /(?:गोद\s+ले\s+लिया)/i,
         ho: 'पोसोः केदाको',
