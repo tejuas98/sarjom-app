@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SARJOM Demo Slides</title>
+  <title>SARJOM Demo Slides - Horizontal Tablet (1280x800)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@500;700&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
       margin: 0;
       padding: 0;
     }
-    body {
-      width: 800px;
-      height: 1100px;
+    html, body {
+      width: 1280px;
+      height: 800px;
       background: #FAF7F2;
       color: #1E293B;
       font-family: 'Inter', sans-serif;
@@ -26,15 +26,15 @@
     }
 
     .slide {
-      width: 800px;
-      height: 1100px;
-      padding: 60px 48px;
+      width: 1280px;
+      height: 800px;
+      padding: 36px 64px;
       display: none;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      background: radial-gradient(circle at 10% 20%, rgba(217, 90, 39, 0.05) 0%, transparent 60%),
-                  radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 60%),
+      background: radial-gradient(circle at 10% 20%, rgba(217, 90, 39, 0.06) 0%, transparent 60%),
+                  radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 60%),
                   #FAF7F2;
     }
     .slide.active {
@@ -47,48 +47,48 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 2px solid rgba(217, 90, 39, 0.15);
-      padding-bottom: 20px;
+      padding-bottom: 16px;
     }
     .brand-mark {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
     .brand-logo-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       background: #D95A27;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 12px rgba(217, 90, 39, 0.25);
+      font-size: 26px;
+      box-shadow: 0 4px 14px rgba(217, 90, 39, 0.28);
     }
     .brand-name {
       font-family: 'Outfit', sans-serif;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 800;
       color: #D95A27;
       letter-spacing: -0.5px;
     }
     .brand-subtitle {
-      font-size: 13px;
+      font-size: 13.5px;
       color: #64748B;
       font-weight: 600;
     }
     .badge-pill {
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
       background: rgba(16, 185, 129, 0.12);
       color: #059669;
       border: 1px solid rgba(16, 185, 129, 0.3);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     .pulse-dot {
       width: 8px;
@@ -103,7 +103,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 30px 0;
+      padding: 16px 0;
     }
     .slide-tag {
       display: inline-block;
@@ -116,23 +116,24 @@
       background: rgba(217, 90, 39, 0.1);
       padding: 6px 14px;
       border-radius: 6px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
     .slide-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 44px;
+      font-size: 46px;
       font-weight: 800;
       line-height: 1.2;
       color: #0F172A;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
       letter-spacing: -1px;
     }
     .slide-subtitle {
       font-size: 22px;
-      line-height: 1.55;
+      line-height: 1.5;
       color: #475569;
-      margin-bottom: 36px;
+      margin-bottom: 24px;
       font-weight: 400;
+      max-width: 1080px;
     }
 
     /* Cards & Visual Modules */
@@ -140,19 +141,18 @@
       background: white;
       border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 16px;
-      padding: 28px;
+      padding: 24px 30px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-      margin-top: 10px;
     }
     .compare-grid {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      gap: 16px;
+      gap: 24px;
       align-items: center;
     }
     .compare-box {
-      padding: 20px;
-      border-radius: 12px;
+      padding: 22px;
+      border-radius: 14px;
       text-align: center;
     }
     .box-teacher {
@@ -160,16 +160,17 @@
       border: 1px solid #BFDBFE;
     }
     .box-barrier {
-      font-size: 28px;
+      font-size: 32px;
       color: #EF4444;
       font-weight: 900;
+      text-align: center;
     }
     .box-students {
       background: #FEF3C7;
       border: 1px solid #FDE68A;
     }
     .box-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       margin-bottom: 6px;
     }
@@ -178,16 +179,17 @@
     .box-desc {
       font-size: 14px;
       color: #475569;
+      line-height: 1.4;
     }
 
     /* Bottom Status Bar */
     .slide-footer {
       border-top: 1px solid rgba(0, 0, 0, 0.08);
-      padding-top: 18px;
+      padding-top: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 13px;
+      font-size: 13.5px;
       color: #64748B;
       font-weight: 600;
     }
@@ -223,15 +225,18 @@
       <div class="visual-card">
         <div class="compare-grid">
           <div class="compare-box box-teacher">
-            <div style="font-size: 32px; margin-bottom: 6px;">👨‍🏫</div>
+            <div style="font-size: 38px; margin-bottom: 8px;">👨‍🏫</div>
             <div class="box-title">Teacher Explains in Hindi</div>
-            <div class="box-desc">Standard Curriculum & Hindi Vocabulary</div>
+            <div class="box-desc">Standard Curriculum • Textbooks in Hindi • Formal Vocabulary</div>
           </div>
-          <div class="box-barrier">⚡ ⚡<div style="font-size: 11px; font-weight: 700; color: #EF4444; margin-top: 4px;">BARRIER</div></div>
+          <div class="box-barrier">
+            ⚡ ⚡
+            <div style="font-size: 11px; font-weight: 800; color: #EF4444; letter-spacing: 1px; margin-top: 4px;">LANGUAGE BARRIER</div>
+          </div>
           <div class="compare-box box-students">
-            <div style="font-size: 32px; margin-bottom: 6px;">👧🧒</div>
+            <div style="font-size: 38px; margin-bottom: 8px;">👧🧒</div>
             <div class="box-title">Students Speak Mother Tongue</div>
-            <div class="box-desc">Santhali • Ho • Mundari • Sadri</div>
+            <div class="box-desc">Santhali (ᱚᱞ ᱪᱤᱠᱤ) • Ho (𑢹𑣉𑣉) • Mundari (मुंडारी) • Sadri</div>
           </div>
         </div>
       </div>
@@ -239,7 +244,7 @@
 
     <div class="slide-footer">
       <span>Problem Statement: SIH 26042</span>
-      <span>Foundational Learning (NIPUN Bharat)</span>
+      <span>Foundational Learning (NIPUN Bharat) • Classroom Tablet Mode</span>
     </div>
   </div>
 
@@ -257,7 +262,7 @@
       </div>
       <div class="badge-pill">
         <span class="pulse-dot"></span>
-        <span>100% Offline AI Solution</span>
+        <span>100% Offline Edge AI</span>
       </div>
     </div>
 
@@ -268,16 +273,26 @@
         “Here, the teacher is explaining a lesson in Hindi, while the students understand mainly their mother tongue. To bridge this gap, the teacher turns to Sarjom.”
       </p>
 
-      <div class="visual-card" style="border-left: 6px solid #D95A27;">
-        <div style="display: flex; align-items: center; gap: 20px;">
-          <div style="font-size: 48px; background: rgba(217, 90, 39, 0.1); padding: 14px; border-radius: 14px;">🤝</div>
-          <div>
-            <div style="font-size: 18px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">
-              Mother Tongue-Based Multilingual Education (MTB-MLE)
-            </div>
-            <div style="font-size: 14px; color: #475569; line-height: 1.5;">
-              Instantly converts classroom spoken concepts into native Ol Chiki, Warang Chiti & Devanagari with authentic human speech.
-            </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <div class="visual-card" style="border-top: 4px solid #D95A27;">
+          <div style="font-size: 32px; margin-bottom: 8px;">🗣️</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Mother Tongue-Based</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">
+            Instantly translates Hindi lesson into Santhali Ol Chiki, Ho Warang Chiti, and Mundari.
+          </div>
+        </div>
+        <div class="visual-card" style="border-top: 4px solid #2563EB;">
+          <div style="font-size: 32px; margin-bottom: 8px;">🔊</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Human Voice Output</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">
+            Speaks aloud in authentic tribal dialect so every child grasps the concept naturally.
+          </div>
+        </div>
+        <div class="visual-card" style="border-top: 4px solid #10B981;">
+          <div style="font-size: 32px; margin-bottom: 8px;">📶</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Zero Internet Needed</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">
+            Runs fully offline directly on budget 2GB Android classroom tablets and phones.
           </div>
         </div>
       </div>
@@ -285,7 +300,7 @@
 
     <div class="slide-footer">
       <span>Entering Live Tablet Demonstration...</span>
-      <span>Zero Cloud Dependency • Edge Android</span>
+      <span>Horizontal Tablet Widescreen (1280x800)</span>
     </div>
   </div>
 
@@ -314,23 +329,28 @@
         “With Sarjom, teachers and students can communicate more easily, while students learn in the language they understand best.”
       </p>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;">
-        <div class="visual-card" style="margin: 0; padding: 22px;">
-          <div style="font-size: 28px; margin-bottom: 8px;">🗣️</div>
-          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Two-Way Dialogue</div>
-          <div style="font-size: 13px; color: #64748B;">Students freely ask questions and express doubts in their mother tongue.</div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <div class="visual-card" style="padding: 24px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">🗣️</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Two-Way Dialogue</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">Students freely ask questions and express doubts in their native dialect.</div>
         </div>
-        <div class="visual-card" style="margin: 0; padding: 22px;">
-          <div style="font-size: 28px; margin-bottom: 8px;">🎯</div>
-          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">NIPUN Bharat Aligned</div>
-          <div style="font-size: 13px; color: #64748B;">Interactive quizzes reinforce foundational literacy and numeracy.</div>
+        <div class="visual-card" style="padding: 24px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">🎯</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 6px;">NIPUN Bharat Aligned</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">Interactive quizzes reinforce foundational literacy and numeracy (FLN).</div>
+        </div>
+        <div class="visual-card" style="padding: 24px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">📚</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 6px;">Multilingual Lexicon</div>
+          <div style="font-size: 13.5px; color: #64748B; line-height: 1.45;">Empowers teachers with authoritative classical tribal encyclopedias and guidance.</div>
         </div>
       </div>
     </div>
 
     <div class="slide-footer">
       <span>Inclusive Digital Pedagogy</span>
-      <span>Empowering 28+ Lakh Tribal Learners</span>
+      <span>Empowering 28+ Lakh Tribal Learners in Jharkhand</span>
     </div>
   </div>
 
@@ -338,18 +358,18 @@
   <!-- SLIDE 9 (1:55–2:00): Outro Tagline & Official Logo   -->
   <!-- ==================================================== -->
   <div id="slide-9" class="slide" style="justify-content: center; align-items: center; text-align: center;">
-    <div style="max-width: 600px; display: flex; flex-direction: column; align-items: center;">
-      <div style="width: 100px; height: 100px; border-radius: 24px; background: #D95A27; color: white; display: flex; align-items: center; justify-content: center; font-size: 52px; box-shadow: 0 12px 30px rgba(217, 90, 39, 0.35); margin-bottom: 28px;">
+    <div style="max-width: 780px; display: flex; flex-direction: column; align-items: center;">
+      <div style="width: 108px; height: 108px; border-radius: 26px; background: #D95A27; color: white; display: flex; align-items: center; justify-content: center; font-size: 56px; box-shadow: 0 14px 34px rgba(217, 90, 39, 0.35); margin-bottom: 24px;">
         📖
       </div>
-      <h1 style="font-family: 'Outfit', sans-serif; font-size: 52px; font-weight: 900; color: #D95A27; margin-bottom: 12px; letter-spacing: -1px;">
+      <h1 style="font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 900; color: #D95A27; margin-bottom: 12px; letter-spacing: -1px;">
         सरजोम • SARJOM
       </h1>
-      <p style="font-size: 20px; font-weight: 600; color: #475569; margin-bottom: 36px; line-height: 1.5;">
+      <p style="font-size: 22px; font-weight: 600; color: #475569; margin-bottom: 32px; line-height: 1.5;">
         “Because when children understand the language, they can understand the lesson.”
       </p>
 
-      <div style="padding: 16px 28px; border-radius: 30px; background: #0F172A; color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2);">
+      <div style="padding: 16px 36px; border-radius: 30px; background: #0F172A; color: #FFFFFF; font-size: 17px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 6px 22px rgba(15, 23, 42, 0.25);">
         Breaking Language Barriers. Building Better Learning.
       </div>
     </div>
