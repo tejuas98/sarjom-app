@@ -1,0 +1,5 @@
+# GitHub Linguist language detection overrides
+public/** linguist-vendored
+*.json linguist-generated
+package-lock.json linguist-generated
+*.cjs linguist-documentation
