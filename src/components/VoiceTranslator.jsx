@@ -14,6 +14,7 @@ import {
   Wrench,
   HardDrive,
   SlidersHorizontal,
+  MessageSquare,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
