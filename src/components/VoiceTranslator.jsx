@@ -27,7 +27,7 @@ import {
   AudioWaveform,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
-import { voiceService, IN_APP_CURRICULUM_CORPUS } from '../services/voiceTranslationService';
+import { voiceService } from '../services/voiceTranslationService';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { toast } from 'sonner';
@@ -363,8 +363,8 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         } else if (error.code === 'not-supported') {
           toast.warning(
             isEn
-              ? 'Microphone stream not accessible. You can type or use the in-app quick curriculum prompts.'
-              : 'माइक्रोफ़ोन उपलब्ध नहीं है। आप नीचे टाइप कर सकते हैं या त्वरित पाठ्यक्रम वाक्य चुन सकते हैं।'
+              ? 'Microphone stream not accessible. You can type your sentence directly below.'
+              : 'माइक्रोफ़ोन उपलब्ध नहीं है। आप नीचे सीधे वाक्य टाइप कर सकते हैं।'
           );
         }
       },
@@ -1226,73 +1226,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             )}
           </div>
 
-          {/* In-App Spoken Curriculum Quick-Prompts (Pre-Loaded in App - 100% Offline) */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '6px',
-              width: '100%',
-              maxWidth: '540px',
-              margin: '0 auto 2px auto',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.70rem', fontWeight: 700, color: 'var(--color-slate-muted)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                {isEn ? 'In-App Spoken Prompts (Zero-Internet):' : 'इन-ऐप मौखिक पाठ्यक्रम वाक्य (बिना इंटरनेट):'}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '6px',
-              }}
-            >
-              {IN_APP_CURRICULUM_CORPUS.slice(0, 4).map((item) => {
-                const promptText = isTeacherMode ? item.hi : (item[selectedLang] || item.santhali);
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setInputText(promptText);
-                      voiceService.setCurriculumPhraseHint(promptText);
-                      const res = executeTranslation(promptText);
-                      if (res) {
-                        const textToBroadcast = isTeacherMode
-                          ? (res.phoneticDeva || res.nativeScript || res.audioText)
-                          : (res.hindiTranslation || res.nativeScript);
-                        addToHistory(promptText, res, isTeacherMode ? 'teacher' : 'student');
-                        setLiveSessionCount((prev) => prev + 1);
-                        if (autoBroadcast) {
-                          handleSpeakAudio(textToBroadcast, res.nativeScript);
-                        }
-                      }
-                    }}
-                    style={{
-                      padding: '4px 10px',
-                      borderRadius: '16px',
-                      backgroundColor: 'var(--color-surface-tint)',
-                      border: '1px solid var(--color-border)',
-                      color: 'var(--color-slate)',
-                      fontSize: '0.74rem',
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      transition: 'all 0.15s ease',
-                    }}
-                    title={item.label}
-                  >
-                    <span>🎙️</span>
-                    <span>{promptText}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Freeform Typing Input Bar (Speak or Type Freely - No Canned Prompts) */}
           <form
             onSubmit={handleSubmitText}
@@ -1628,7 +1561,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
           ) : (
-            /* Interactive Classroom Prompt Empty State */
+            /* Real-Time Voice & Text Translation Empty State */
             <div
               style={{
                 display: 'flex',
@@ -1659,61 +1592,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 </p>
               </div>
 
-              {/* Classroom Prompt Suggestions */}
+              {/* Adoption Audiobook Audio Benchmark Section */}
               {isTeacherMode && (
-                <div style={{ width: '100%', maxWidth: '500px', marginTop: '4px' }}>
-                  <div style={{ fontSize: '0.74rem', color: 'var(--color-slate-muted)', fontWeight: 600, marginBottom: '8px' }}>
-                    {isEn ? '💡 Classroom Quick Prompts (tap to translate):' : '💡 कक्षा के त्वरित वाक्य (अनुवाद हेतु टैप करें):'}
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
-                    {[
-                      { icon: '⚖️', label: 'रुद्र: भूमि विवाद व प्रशासनिक शिकायत', text: 'चूंकि ग्राम सभा के सक्रिय सदस्य रुद्र ने यह आधिकारिक प्रशासनिक शिकायत दर्ज कराई है कि सुदूरवर्ती टोले के कुछ बाहरी बिचौलियों ने कपटपूर्ण तरीके से हमारे दादाजी की पारंपरिक भूमि के दस्तावेज़ों को बदल दिया है, इसलिए मानकी-मुंडा न्याय व्यवस्था ने सर्वसम्मति से यह सामाजिक निर्णय लिया है कि जब तक अंचल अधिकारी स्वयं पुलिस बल के साथ आकर भूमि की नए सिरे से पैमाइश नहीं करेंगे, तब तक न तो रुद्र की शिकायत का निवारण माना जाएगा और न ही उस विवादित भूमि पर किसी भी प्रकार के बाहरी निर्माण कार्य की अनुमति दी जाएगी, जिसका उल्लंघन करने वाले किसी भी व्यक्ति के खिलाफ कानूनी और सामाजिक दंडात्मक कार्रवाई सुनिश्चित की जाएगी।' },
-                      { icon: '👤', label: 'मेरा नाम रुद्र है', text: 'मेरा नाम रुद्र है।' },
-                      { icon: '📖', label: 'किताब खोलो', text: 'अपनी किताब खोलो' },
-                      { icon: '🤫', label: 'शांत रहें', text: 'सभी बच्चे शांत रहें' },
-                      { icon: '💧', label: 'साफ पानी', text: 'साफ पानी पियो' },
-                      { icon: '🌳', label: 'पेड़ लगाओ', text: 'पेड़ लगाओ' },
-                    ].map((item, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => {
-                          setInputText(item.text);
-                          executeTranslation(item.text);
-                        }}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          padding: '5px 11px',
-                          fontSize: '0.78rem',
-                          fontWeight: 500,
-                          backgroundColor: 'var(--color-surface)',
-                          border: '1px solid var(--color-border)',
-                          borderRadius: '16px',
-                          cursor: 'pointer',
-                          color: 'var(--color-slate)',
-                          transition: 'all 0.15s ease',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = 'var(--color-palash)';
-                          e.currentTarget.style.backgroundColor = 'rgba(217, 90, 39, 0.08)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.borderColor = 'var(--color-border)';
-                          e.currentTarget.style.backgroundColor = 'var(--color-surface)';
-                        }}
-                      >
-                        <span>{item.icon}</span>
-                        <span>{item.label || item.text}</span>
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Adoption Audiobook Audio Benchmark Section */}
+                <div style={{ width: '100%', maxWidth: '500px', marginTop: '6px' }}>
                   <div
                     style={{
-                      marginTop: '14px',
+                      marginTop: '4px',
                       padding: '12px 14px',
                       borderRadius: '8px',
                       backgroundColor: 'rgba(217, 90, 39, 0.06)',
