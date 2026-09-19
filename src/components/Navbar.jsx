@@ -194,6 +194,7 @@ export function Navbar({
             return (
               <button
                 key={lang.id}
+                id={`nav-lang-${lang.id}`}
                 type="button"
                 onClick={() => onSelectLang(lang.id)}
                 style={{

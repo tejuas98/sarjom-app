@@ -757,8 +757,8 @@ export const TRIBAL_LEXICON = [
   // ================= 4. NATURE & ENVIRONMENT =================
   {
     id: 'nat_1',
-    hindi: 'पानी / जल / Paani',
-    english: 'Water / Paani',
+    hindi: 'पानी',
+    english: 'Water',
     category: 'nature',
     nipunLevel: 'Balvatika',
     icon: 'Droplets',
@@ -790,8 +790,8 @@ export const TRIBAL_LEXICON = [
   },
   {
     id: 'nat_2',
-    hindi: 'पेड़ / वृक्ष / Ped',
-    english: 'Tree / Ped',
+    hindi: 'पेड़',
+    english: 'Tree',
     category: 'nature',
     nipunLevel: 'Balvatika',
     icon: 'Trees',
@@ -823,8 +823,8 @@ export const TRIBAL_LEXICON = [
   },
   {
     id: 'nat_plant',
-    hindi: 'पौधा / पौधे / पौधों / Paudha',
-    english: 'Plant / Plants / Paudhe',
+    hindi: 'पौधा',
+    english: 'Plant',
     category: 'nature',
     nipunLevel: 'Balvatika',
     icon: 'Trees',
@@ -856,8 +856,8 @@ export const TRIBAL_LEXICON = [
   },
   {
     id: 'nat_light',
-    hindi: 'रोशनी / प्रकाश / उजाला / Roshni',
-    english: 'Light / Roshni / Brightness',
+    hindi: 'रोशनी',
+    english: 'Light',
     category: 'nature',
     nipunLevel: 'Grade 1',
     icon: 'Sun',
@@ -889,8 +889,8 @@ export const TRIBAL_LEXICON = [
   },
   {
     id: 'nat_sunlight',
-    hindi: 'धूप / घाम / सूरज की रोशनी / Sunlight',
-    english: 'Sunlight / Sunshine / Sun Light',
+    hindi: 'धूप',
+    english: 'Sunlight',
     category: 'nature',
     nipunLevel: 'Grade 1',
     icon: 'Sun',
@@ -1290,8 +1290,8 @@ export const TRIBAL_LEXICON = [
   },
   {
     id: 'core_sun',
-    hindi: 'सूरज / सूर्य / Suraj',
-    english: 'Sun / Suraj',
+    hindi: 'सूरज',
+    english: 'Sun',
     category: 'nature',
     nipunLevel: 'Grade 1',
     icon: 'Sun',

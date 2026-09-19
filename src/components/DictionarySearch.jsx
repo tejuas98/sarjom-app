@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { BENCHMARK_CASES } from '../data/benchmarkCases';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
-import { translateHindiToTribal } from '../services/nlpTranslationEngine';
+import { translateHindiToTribal, cleanPrimaryHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
 import { Search, Volume2, BookOpen, Library, ChevronDown, ChevronUp, BookMarked, Award, Sparkles, Info, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -464,7 +464,7 @@ export function DictionarySearch({ uiLang = 'hi' }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
               <div>
                 <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-slate)' }}>
-                  {item.hindi}
+                  {cleanPrimaryHindi(item.hindi)}
                 </span>
                 <span style={{ fontSize: '0.9rem', color: 'var(--color-slate-muted)', marginLeft: '10px' }}>
                   ({item.english})

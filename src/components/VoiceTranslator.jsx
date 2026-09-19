@@ -110,14 +110,45 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [voicePitch, setVoicePitch] = useState(1.0);
   const [speechInputLang, setSpeechInputLang] = useState('hi-IN'); // 'hi-IN' (Hindi) or 'en-IN' (Indian English)
   const [showOfflineHelpModal, setShowOfflineHelpModal] = useState(false);
+  const [isPlayingAdoptionAudio, setIsPlayingAdoptionAudio] = useState(false);
+  const adoptionAudioRef = useRef(null);
   const silenceTimerRef = useRef(null);
   const latestSpokenRef = useRef('');
 
   useEffect(() => {
     return () => {
       if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      if (adoptionAudioRef.current) {
+        adoptionAudioRef.current.pause();
+        adoptionAudioRef.current = null;
+      }
     };
   }, []);
+
+  const toggleAdoptionAudio = () => {
+    if (!adoptionAudioRef.current) {
+      adoptionAudioRef.current = new Audio('/audio/adoption_audiobook_preview.mp3');
+      adoptionAudioRef.current.onended = () => setIsPlayingAdoptionAudio(false);
+      adoptionAudioRef.current.onerror = () => {
+        setIsPlayingAdoptionAudio(false);
+        toast.error(isEn ? 'Could not load adoption audio file' : 'गोद लेने की कहानी का ऑडियो लोड नहीं हुआ');
+      };
+    }
+
+    if (isPlayingAdoptionAudio) {
+      adoptionAudioRef.current.pause();
+      setIsPlayingAdoptionAudio(false);
+      toast.info(isEn ? 'Adoption Audiobook paused' : 'ऑडिओबुक रोकी गई');
+    } else {
+      adoptionAudioRef.current.play().then(() => {
+        setIsPlayingAdoptionAudio(true);
+        toast.success(isEn ? 'Playing Adoption Story (Chakradhar Dixit Audio)' : 'गोद लेने की सच्ची कहानी (ऑडिओबुक) चल रही है...');
+      }).catch((e) => {
+        console.error('Playback error', e);
+        setIsPlayingAdoptionAudio(false);
+      });
+    }
+  };
 
   useEffect(() => {
     const updateVoices = () => {
@@ -233,8 +264,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       setMeasuredLatency(latency);
       setTranslationResult({
         sourceHindi: textToTranslate,
+        sourceTribal: textToTranslate,
         nativeScript: result.hindiTranslation,
-        phoneticDeva: result.englishMeaning || result.hindiTranslation,
+        phoneticDeva: result.hindiTranslation,
+        hindiTranslation: result.hindiTranslation,
+        englishMeaning: result.englishMeaning,
         audioText: result.hindiTranslation,
         matchType: result.matchType,
         confidence: result.confidence,
@@ -1424,10 +1458,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               >
                 <div style={{ fontSize: '0.84rem', color: 'var(--color-slate)', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
                   <span style={{ color: 'var(--color-slate-muted)', marginRight: '2px', fontWeight: 600 }}>
-                    {isTeacherMode ? (selectedLang === 'ho' ? (isEn ? 'Roman Phonetics:' : 'रोमन उच्चारण:') : (isEn ? 'Pronounce As:' : 'उच्चारण ध्वनि:')) : (isEn ? 'Hindi Meaning:' : 'हिंदी अनुवाद:')}
+                    {isTeacherMode
+                      ? (isEn ? 'Pronounce As (Devanagari):' : 'उच्चारण ध्वनि (देवनागरी):')
+                      : (isEn ? 'Student Speech (Mother Tongue):' : 'छात्र मूल अभिव्यक्ति:')
+                    }
                   </span>
                   <strong style={{ color: 'var(--color-palash)', fontWeight: 700 }}>
-                    {selectedLang === 'ho' ? (translationResult.phoneticLatin || translationResult.phoneticDeva) : translationResult.phoneticDeva}
+                    {isTeacherMode
+                      ? (translationResult.phoneticDeva || translationResult.nativeScript)
+                      : (translationResult.sourceTribal || translationResult.sourceHindi || inputText)
+                    }
                   </strong>
                   <span
                     style={{
@@ -1588,6 +1628,107 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                         <span>{item.label || item.text}</span>
                       </button>
                     ))}
+                  </div>
+
+                  {/* Adoption Audiobook Audio Benchmark Section */}
+                  <div
+                    style={{
+                      marginTop: '14px',
+                      padding: '12px 14px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(217, 90, 39, 0.06)',
+                      border: '1px solid rgba(217, 90, 39, 0.25)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px',
+                      textAlign: 'left',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '1.1rem' }}>📖</span>
+                        <div>
+                          <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--color-palash)' }}>
+                            {isEn ? 'Adoption Audiobook (Chakradhar Dixit Audio)' : 'गोद लेने की एक सच्ची कहानी (ऑडिओबुक)'}
+                          </div>
+                          <div style={{ fontSize: '0.70rem', color: 'var(--color-slate-muted)' }}>
+                            {isEn ? 'Hindi Audiobook → 100% Native Tribal Translation' : 'हिंदी ऑडियोबुक → शत-प्रतिशत प्रामाणिक जनजातीय अनुवाद'}
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        id="play-adoption-audio-btn"
+                        onClick={toggleAdoptionAudio}
+                        style={{
+                          padding: '5px 12px',
+                          fontSize: '0.74rem',
+                          fontWeight: 700,
+                          borderRadius: '16px',
+                          backgroundColor: isPlayingAdoptionAudio ? '#DC2626' : 'var(--color-palash)',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {isPlayingAdoptionAudio ? <VolumeX size={13} /> : <Volume2 size={13} />}
+                        <span>{isPlayingAdoptionAudio ? (isEn ? 'Pause Story Audio' : 'कहानी ऑडियो रोकें') : (isEn ? 'Play Story Audio' : 'कहानी ऑडियो सुनें')}</span>
+                      </button>
+                    </div>
+
+                    <div style={{ fontSize: '0.72rem', color: 'var(--color-slate-muted)', fontWeight: 600 }}>
+                      {isEn ? 'Tap any sentence to test dynamic translation:' : 'वाक्य पर टैप करके तुरंत अनुवाद जांचें:'}
+                    </div>
+
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {[
+                        { label: '👶 कहानी सुनाओ', text: 'गोद लेने की एक सच्ची कहानी सुनाओ।' },
+                        { label: '👑 राजा और रानी', text: 'एक समय की बात है एक राजा और एक रानी अपने महल में कुत्ते और एक बिल्ली के साथ रहते थे।' },
+                        { label: '🐕 बिल्कुल उनके जैसे', text: 'वे हमारे कुत्ते और बिल्ली जैसे थे? हाँ, बिल्कुल उनके जैसे।' },
+                        { label: '🏰 गोद ले लिया', text: 'एक दिन उन्होंने एक छोटे बच्चे को गोद ले लिया और अपने महल में ले आए।' },
+                        { label: '🏥 अस्पताल गए', text: 'डैडी और मैं अस्पताल गए और तुम्हारी मां ने तुम्हें हमारी गोद में डाल दिया।' },
+                        { label: '🏡 असली औरत व घर', text: 'एक असली औरत और एक असली आदमी थे, तुम्हारे और डैडी जैसे। और उनके पास एक असली आरामदायक घर था।' },
+                        { label: '🤝 वचन दो', text: 'वचन दो कि उसमें कुछ भी काल्पनिक नहीं होगा। मैं वचन देता हूँ।' },
+                      ].map((item, idx) => (
+                        <button
+                          key={`adopt-pill-${idx}`}
+                          type="button"
+                          onClick={() => {
+                            setInputText(item.text);
+                            executeTranslation(item.text);
+                          }}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            padding: '4px 10px',
+                            fontSize: '0.74rem',
+                            fontWeight: 600,
+                            backgroundColor: 'var(--color-surface)',
+                            border: '1px solid rgba(217, 90, 39, 0.35)',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            color: 'var(--color-slate)',
+                            transition: 'all 0.15s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'rgba(217, 90, 39, 0.12)';
+                            e.currentTarget.style.borderColor = 'var(--color-palash)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--color-surface)';
+                            e.currentTarget.style.borderColor = 'rgba(217, 90, 39, 0.35)';
+                          }}
+                        >
+                          <span>{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}

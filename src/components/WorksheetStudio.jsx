@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { TRIBAL_LEXICON, TRIBAL_LANGUAGES } from '../data/tribalLexicon';
 import { UI_TRANSLATIONS } from '../data/uiTranslations';
 import { voiceService } from '../services/voiceTranslationService';
+import { cleanPrimaryHindi } from '../services/nlpTranslationEngine';
 import {
   Printer,
   RefreshCw,
@@ -1047,8 +1048,8 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
               {activeSelection && (
                 <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-palash)' }}>
                   {isEn
-                    ? `Selected "${activeSelection.item.hindi}" — Now tap matching in ${activeSelection.side === 'left' ? 'Column B' : 'Column A'}`
-                    : `चयनित: "${activeSelection.item.hindi}" — अब ${activeSelection.side === 'left' ? 'कॉलम B' : 'कॉलम A'} से मिलान करें`}
+                    ? `Selected "${cleanPrimaryHindi(activeSelection.item.hindi)}" — Now tap matching in ${activeSelection.side === 'left' ? 'Column B' : 'Column A'}`
+                    : `चयनित: "${cleanPrimaryHindi(activeSelection.item.hindi)}" — अब ${activeSelection.side === 'left' ? 'कॉलम B' : 'कॉलम A'} से मिलान करें`}
                 </span>
               )}
             </div>
@@ -1110,7 +1111,7 @@ export function WorksheetStudio({ selectedLang, uiLang = 'hi' }) {
                         </span>
                         <div>
                           <div style={{ fontWeight: 700, fontSize: '0.96rem', color: 'var(--color-slate)' }}>
-                            {item.hindi}
+                            {cleanPrimaryHindi(item.hindi)}
                           </div>
                           <div style={{ fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
                             {item.english}

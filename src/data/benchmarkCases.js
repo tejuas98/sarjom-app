@@ -16,7 +16,7 @@ export const BENCHMARK_CASES = [
     level: 'easy',
     levelLabel: '1. Easy: Core Vocabulary',
     english: 'Water',
-    hindi: 'पानी (Paani)',
+    hindi: 'पानी',
     searchKey: 'पानी',
     ho: {
       native: 'दाः (𑢵𑣁𑣄)',
@@ -49,7 +49,7 @@ export const BENCHMARK_CASES = [
     level: 'easy',
     levelLabel: '1. Easy: Core Vocabulary',
     english: 'House / Home',
-    hindi: 'घर (Ghar)',
+    hindi: 'घर',
     searchKey: 'घर',
     ho: {
       native: 'ओवाः (𑢷𑣖𑣄)',
@@ -115,7 +115,7 @@ export const BENCHMARK_CASES = [
     level: 'easy',
     levelLabel: '1. Easy: Core Vocabulary',
     english: 'Sun',
-    hindi: 'सूरज (Suraj)',
+    hindi: 'सूरज',
     searchKey: 'सूरज',
     ho: {
       native: 'सिंगी (𑢷𑣂𑣏𑣂)',
@@ -148,7 +148,7 @@ export const BENCHMARK_CASES = [
     level: 'easy',
     levelLabel: '1. Easy: Core Vocabulary',
     english: 'I / Me',
-    hindi: 'मैं (Main)',
+    hindi: 'मैं',
     searchKey: 'मैं',
     ho: {
       native: 'अयिङ / इङ',

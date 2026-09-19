@@ -53,11 +53,10 @@ ios/.build/
 /*.py
 /test_*.js
 /test_*.mjs
-/test_*.cjs
-/scratch_*.cjs
-/benchmark_*.js
-/debug_*.cjs
 /record_*.cjs
+!record_adoption_tablet_demo.cjs
+/test_*.cjs
+!test_adoption_audiobook_translation.cjs
 /capture_*.cjs
 /add_*.py
 /generate_*.py
