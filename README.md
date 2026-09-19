@@ -11,7 +11,7 @@ Offline mother-tongue translation and pedagogical bridge for Jharkhand primary s
 
 <br/>
 
-[![Download Latest APK](https://img.shields.io/badge/Download%20Latest%20APK-v3.0%20(94.9%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
+[![Download Latest APK](https://img.shields.io/badge/Download%20Latest%20APK-v3.0%20(102.2%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
 [![Download Debug Build](https://img.shields.io/badge/Download%20Debug%20Build-v2.4%20(18.5%20MB)-4285F4?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v2.4/SARJOM-v2.4-debug.apk)
 
 Direct downloads: **[Latest Production APK (v3.0)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[Debug Build (v2.4)](https://github.com/tejuas98/sarjom-app/releases/download/v2.4/SARJOM-v2.4-debug.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
@@ -152,7 +152,7 @@ Direct downloads for milestone builds:
 
 | Version | Highlight | APK Size | Download |
 | :--- | :--- | :--- | :---: |
-| **v3.0** | **Final Production: Audio Engine and Real-Time Transduction** | **94.9 MB** | [Download APK](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk) |
+| **v3.0** | **Final Production: Audio Engine and Real-Time Transduction** | **102.2 MB** | [Download APK](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk) |
 | **v2.9** | Dynamic Morphological Transduction Engine | 75.6 MB | [Download APK](https://github.com/tejuas98/sarjom-app/releases/download/v2.9/SARJOM-v2.9-dynamic-translation.apk) |
 | **v2.8** | Low-End Tablet Performance Optimization | 75.6 MB | [Download APK](https://github.com/tejuas98/sarjom-app/releases/download/v2.8/SARJOM-v2.8-mobile-polished.apk) |
 | **v2.7** | Interactive Classroom Flashcard Decks | 75.6 MB | [Download APK](https://github.com/tejuas98/sarjom-app/releases/download/v2.7/SARJOM-v2.7-classroom-flashcards.apk) |
