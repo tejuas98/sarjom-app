@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Mic,
   MicOff,
@@ -108,6 +108,15 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [selectedVoiceName, setSelectedVoiceName] = useState('auto');
   const [voiceRate, setVoiceRate] = useState(1.05);
   const [voicePitch, setVoicePitch] = useState(1.0);
+  const [speechInputLang, setSpeechInputLang] = useState('hi-IN'); // 'hi-IN' (Hindi) or 'en-IN' (Indian English)
+  const silenceTimerRef = useRef(null);
+  const latestSpokenRef = useRef('');
+
+  useEffect(() => {
+    return () => {
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const updateVoices = () => {
@@ -244,45 +253,69 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
+  const handleFinalizeSpeech = (transcript) => {
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+    setIsRecording(false);
+    if (!transcript || !transcript.trim()) return;
+
+    const res = executeTranslation(transcript);
+    if (res) {
+      const textToBroadcast = isTeacherMode
+        ? (res.phoneticDeva || res.nativeScript || res.audioText)
+        : (res.hindiTranslation || res.nativeScript);
+      if (autoBroadcast) {
+        handleSpeakAudio(textToBroadcast, res.nativeScript);
+      }
+      addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
+      setLiveSessionCount((prev) => prev + 1);
+      toast.success(
+        isEn
+          ? `Captured: "${transcript.length > 30 ? transcript.slice(0, 30) + '...' : transcript}"`
+          : `वाक अनुवादित: "${transcript.length > 30 ? transcript.slice(0, 30) + '...' : transcript}"`
+      );
+    }
+  };
+
   const handleStartMic = async () => {
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    latestSpokenRef.current = '';
     setSessionSeconds(0);
     setIsRecording(true);
-    const recognitionLang = 'hi-IN';
+    const recognitionLang = isTeacherMode ? speechInputLang : 'hi-IN';
 
     toast.info(
       isEn
         ? isTeacherMode
-          ? 'Microphone active: Speak in Hindi...'
+          ? `Microphone active (${recognitionLang === 'en-IN' ? 'English' : 'Hindi'}): Speak now...`
           : `Student microphone active: Speak in ${langMeta.name}...`
         : isTeacherMode
-        ? 'माइक्रोफ़ोन सक्रिय: हिंदी में बोलें...'
+        ? `माइक्रोफ़ोन सक्रिय (${recognitionLang === 'en-IN' ? 'अंग्रेज़ी' : 'हिंदी'}): अब बोलें...`
         : `छात्र माइक्रोफ़ोन सक्रिय: ${langMeta.name} में बोलें...`
     );
 
     voiceService.startListening(
       (transcript, isFinal) => {
+        if (!transcript) return;
+        latestSpokenRef.current = transcript;
         setInputText(transcript);
+
+        // Reset silence timer on every new speech packet
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+
         if (isFinal) {
-          setIsRecording(false);
-          const res = executeTranslation(transcript);
-          if (res) {
-            const textToBroadcast = isTeacherMode
-              ? (res.phoneticDeva || res.nativeScript || res.audioText)
-              : (res.hindiTranslation || res.nativeScript);
-            if (autoBroadcast) {
-              handleSpeakAudio(textToBroadcast, res.nativeScript);
-            }
-            addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
-            setLiveSessionCount((prev) => prev + 1);
-            toast.success(
-              isEn
-                ? `Logged: "${transcript}"`
-                : `दर्ज हुआ: "${transcript}"`
-            );
-          }
+          handleFinalizeSpeech(transcript);
+        } else {
+          // Keep listening continuously across pauses; auto-finalize after 2.2s of silence
+          silenceTimerRef.current = setTimeout(() => {
+            handleStopMic();
+          }, 2200);
         }
       },
       (error) => {
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         setIsRecording(false);
         if (error.code === 'not-allowed') {
           toast.error(
@@ -306,33 +339,27 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       },
       recognitionLang,
       () => {
+        if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         setIsRecording(false);
+        if (latestSpokenRef.current && latestSpokenRef.current.trim()) {
+          handleFinalizeSpeech(latestSpokenRef.current);
+        }
       }
     );
   };
 
   const handleStopMic = () => {
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
     voiceService.stopListening((finalText) => {
-      if (finalText && finalText.trim()) {
-        const res = executeTranslation(finalText);
-        if (res) {
-          const textToBroadcast = isTeacherMode
-            ? (res.phoneticDeva || res.nativeScript || res.audioText)
-            : (res.hindiTranslation || res.nativeScript);
-          if (autoBroadcast) {
-            handleSpeakAudio(textToBroadcast, res.nativeScript);
-          }
-          addToHistory(finalText, res, isTeacherMode ? 'teacher' : 'student');
-          setLiveSessionCount((prev) => prev + 1);
-        }
+      const textToUse = (finalText && finalText.trim()) || latestSpokenRef.current;
+      if (textToUse && textToUse.trim()) {
+        handleFinalizeSpeech(textToUse);
       }
     });
     setIsRecording(false);
-    toast.success(
-      isEn
-        ? `Microphone stopped.`
-        : `माइक्रोफ़ोन बंद किया गया।`
-    );
   };
 
   const addToHistory = (source, res, direction = 'teacher') => {
@@ -825,28 +852,43 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
           }}
         >
           {/* Column 1: Speech Language Badge */}
-          <div
+          <button
+            type="button"
+            id="speech-lang-toggle-btn"
+            onClick={() => {
+              if (isTeacherMode) {
+                const next = speechInputLang === 'hi-IN' ? 'en-IN' : 'hi-IN';
+                setSpeechInputLang(next);
+                toast.info(
+                  isEn
+                    ? `Microphone tuned to: ${next === 'en-IN' ? 'English (en-IN)' : 'Hindi (hi-IN)'}`
+                    : `माइक्रोफ़ोन बदला: ${next === 'en-IN' ? 'अंग्रेज़ी (en-IN)' : 'हिंदी (hi-IN)'}`
+                );
+              }
+            }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '5px',
+              gap: '4px',
               padding: '6px 6px',
               borderRadius: '6px',
-              backgroundColor: 'var(--color-surface-tint)',
-              border: '1px solid var(--color-border)',
+              backgroundColor: isTeacherMode && speechInputLang === 'en-IN' ? 'rgba(37, 99, 235, 0.12)' : 'var(--color-surface-tint)',
+              border: `1px solid ${isTeacherMode && speechInputLang === 'en-IN' ? 'rgba(37, 99, 235, 0.4)' : 'var(--color-border)'}`,
               fontSize: '0.74rem',
               fontWeight: 700,
-              color: isTeacherMode ? 'var(--color-slate)' : 'var(--color-palash)',
+              color: isTeacherMode && speechInputLang === 'en-IN' ? '#2563EB' : (isTeacherMode ? 'var(--color-slate)' : 'var(--color-palash)'),
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              cursor: isTeacherMode ? 'pointer' : 'default',
             }}
-            title={isTeacherMode ? (isEn ? 'Speech Input: Hindi' : 'वाक इनपुट: हिंदी') : (isEn ? `Speech: ${langMeta.name}` : `वाक इनपुट: ${langMeta.name}`)}
+            title={isTeacherMode ? (isEn ? 'Click to switch Mic between Hindi and English' : 'हिंदी और अंग्रेज़ी वाक इनपुट बदलने के लिए क्लिक करें') : `वाक इनपुट: ${langMeta.name}`}
           >
             <span>🎙️</span>
-            <span>{isTeacherMode ? (isEn ? 'Hindi Voice' : 'हिंदी वाक') : `${langMeta.name} वाक`}</span>
-          </div>
+            <span>{isTeacherMode ? (speechInputLang === 'en-IN' ? (isEn ? 'English Mic' : 'अंग्रेज़ी वाक') : (isEn ? 'Hindi Mic' : 'हिंदी वाक')) : `${langMeta.name} वाक`}</span>
+            {isTeacherMode && <span style={{ fontSize: '0.65rem', opacity: 0.7 }}>⇄</span>}
+          </button>
 
           {/* Column 2: Classroom Speaker Broadcast Toggle */}
           <button
@@ -998,6 +1040,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             {/* Hero Mic Button */}
             <button
               type="button"
+              id="primary-mic-button"
               className="voice-hero-mic-btn"
               onClick={isRecording ? handleStopMic : handleStartMic}
               style={{

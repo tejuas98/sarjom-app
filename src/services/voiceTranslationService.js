@@ -815,20 +815,22 @@ class VoiceTranslationService {
         // Attempt background recognition without popup first
         try {
           const result = await CapSpeech.start({
-            language: lang,           // e.g. 'hi-IN'
+            language: lang,           // e.g. 'hi-IN' or 'en-IN'
             maxResults: 3,
             partialResults: true,
             popup: false,
           });
 
-          if (result && result.matches && result.matches[0]) {
+          if (result && result.matches && result.matches.length > 0 && result.matches[0].trim()) {
             const finalText = result.matches[0].trim();
             this.isListening = false;
-            if (!this.hasEmittedFinal) {
-              this.hasEmittedFinal = true;
-              onResult(finalText, true);
-            }
+            this.latestTranscript = finalText;
+            this.hasEmittedFinal = true;
+            onResult(finalText, true);
             if (onEnd) onEnd();
+          } else {
+            // Result had empty matches in background mode. Trigger native dialog fallback.
+            throw new Error('empty_matches_fallback_to_popup');
           }
         } catch (bgErr) {
           console.warn('[ASR Native] Background ASR exception, attempting native dialog fallback:', bgErr);
@@ -843,10 +845,9 @@ class VoiceTranslationService {
           if (popupResult && popupResult.matches && popupResult.matches[0]) {
             const finalText = popupResult.matches[0].trim();
             this.isListening = false;
-            if (!this.hasEmittedFinal) {
-              this.hasEmittedFinal = true;
-              onResult(finalText, true);
-            }
+            this.latestTranscript = finalText;
+            this.hasEmittedFinal = true;
+            onResult(finalText, true);
             if (onEnd) onEnd();
           }
         }
@@ -890,7 +891,7 @@ class VoiceTranslationService {
     try {
       this.recognition = new BrowserSpeech();
       this.recognition.lang = lang;
-      this.recognition.continuous = false;
+      this.recognition.continuous = true; // Stay active across pauses and continuous speech!
       this.recognition.interimResults = true;
       this.recognition.maxAlternatives = 1;
     } catch (initErr) {
@@ -899,30 +900,29 @@ class VoiceTranslationService {
       return;
     }
 
+    this.latestTranscript = '';
+    this.hasEmittedFinal = false;
+
     this.recognition.onresult = (event) => {
       if (this.isSpeaking) return;
-      let interimTranscript = '';
       let finalTranscript = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
+      let interimTranscript = '';
+      for (let i = 0; i < event.results.length; ++i) {
         const text = event.results[i][0].transcript;
-        if (event.results[i].isFinal) finalTranscript += text;
+        if (event.results[i].isFinal) finalTranscript += text + ' ';
         else interimTranscript += text;
       }
-      const activeText = (finalTranscript || interimTranscript || '').trim();
+      const activeText = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
       if (activeText) {
         this.latestTranscript = activeText;
-        if (finalTranscript && !this.hasEmittedFinal) {
-          this.hasEmittedFinal = true;
-          onResult(activeText, true);
-        } else if (!this.hasEmittedFinal) {
-          onResult(activeText, false);
-        }
+        // Stream live interim preview continuously without premature cutoffs
+        onResult(activeText, false);
       }
     };
 
     this.recognition.onerror = (err) => {
       const errCode = err.error || 'unknown';
-      if (errCode === 'no-speech') return; // natural pause — silent
+      if (errCode === 'no-speech') return; // natural pause — keep listening
       this.isListening = false;
       let message = 'Microphone notice: ' + errCode;
       if (errCode === 'not-allowed') {
@@ -970,9 +970,10 @@ class VoiceTranslationService {
       }
     }
 
-    if (onStopFinal && this.latestTranscript && !this.hasEmittedFinal) {
+    if (onStopFinal && this.latestTranscript) {
+      const text = this.latestTranscript;
       this.hasEmittedFinal = true;
-      onStopFinal(this.latestTranscript);
+      onStopFinal(text);
     }
   }
 }
