@@ -40,9 +40,10 @@ export default function App() {
         if (Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) return false;
         if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) return false;
       } catch (e) {}
+      // Strictly native edge-to-edge for all phones and standard tablets
+      if (window.innerWidth <= 1024) return false;
       if (urlParams && (urlParams.get('frame') === 'ipad' || urlParams.get('device') === 'ipad-horizontal' || urlParams.get('device') === 'ipad')) return true;
       if (urlParams && urlParams.get('frame') === 'full') return false;
-      if (window.innerWidth < 768) return false;
       const saved = localStorage.getItem('sarjom_ipad_frame');
       if (saved !== null) return saved === 'true';
     }

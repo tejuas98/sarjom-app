@@ -126,8 +126,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       const el = document.getElementById('voice-translation-result');
       if (el && window.innerWidth <= 768) {
         setTimeout(() => {
-          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 120);
+          const navBar = document.querySelector('.mobile-bottom-nav');
+          const navHeight = navBar ? navBar.getBoundingClientRect().height : 70;
+          const rect = el.getBoundingClientRect();
+          const targetBottom = window.innerHeight - navHeight - 24; // Generous 24px clearance above bottom nav
+          
+          if (rect.bottom > targetBottom || rect.top < 60) {
+            const scrollDiff = rect.bottom - targetBottom;
+            window.scrollBy({ top: scrollDiff, behavior: 'smooth' });
+          }
+        }, 100);
       }
     }
   }, [translationResult]);
