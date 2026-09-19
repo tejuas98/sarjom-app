@@ -16,3 +16,12 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 *.local
+
+# Binaries & Heavy Media (kept in backup repo)
+*.apk
+*.idsig
+*.wav
+*.mp4
+*.gif
+*.zip
+*.tar.gz
