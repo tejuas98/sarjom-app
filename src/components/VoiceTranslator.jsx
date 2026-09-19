@@ -792,6 +792,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         >
           <button
             type="button"
+            id="teacher-mode-btn"
             onClick={() => setDialogueMode('teacher_to_student')}
             style={{
               padding: '7px 10px',
@@ -817,6 +818,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
 
           <button
             type="button"
+            id="student-mode-btn"
             onClick={() => setDialogueMode('student_to_teacher')}
             style={{
               padding: '7px 10px',
