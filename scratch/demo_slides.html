@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARJOM Demo Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 800px;
+      height: 1100px;
+      background: #FAF7F2;
+      color: #1E293B;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .slide {
+      width: 800px;
+      height: 1100px;
+      padding: 60px 48px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: radial-gradient(circle at 10% 20%, rgba(217, 90, 39, 0.05) 0%, transparent 60%),
+                  radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 60%),
+                  #FAF7F2;
+    }
+    .slide.active {
+      display: flex;
+    }
+
+    /* Top Branding Bar */
+    .slide-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid rgba(217, 90, 39, 0.15);
+      padding-bottom: 20px;
+    }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #D95A27;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(217, 90, 39, 0.25);
+    }
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #D95A27;
+      letter-spacing: -0.5px;
+    }
+    .brand-subtitle {
+      font-size: 13px;
+      color: #64748B;
+      font-weight: 600;
+    }
+    .badge-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+
+    /* Main Slide Content */
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px 0;
+    }
+    .slide-tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #D95A27;
+      background: rgba(217, 90, 39, 0.1);
+      padding: 6px 14px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    .slide-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #0F172A;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .slide-subtitle {
+      font-size: 22px;
+      line-height: 1.55;
+      color: #475569;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+
+    /* Cards & Visual Modules */
+    .visual-card {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      margin-top: 10px;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .compare-box {
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .box-teacher {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+    }
+    .box-barrier {
+      font-size: 28px;
+      color: #EF4444;
+      font-weight: 900;
+    }
+    .box-students {
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+    }
+    .box-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .box-teacher .box-title { color: #1D4ED8; }
+    .box-students .box-title { color: #B45309; }
+    .box-desc {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    /* Bottom Status Bar */
+    .slide-footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      padding-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #64748B;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================================================== -->
+  <!-- SLIDE 1 (0:00–0:15): The Classroom Language Gap      -->
+  <!-- ==================================================== -->
+  <div id="slide-1" class="slide active">
+    <div class="slide-topbar">
+      <div class="brand-mark">
+        <div class="brand-logo-icon">📖</div>
+        <div>
+          <div class="brand-name">सरजोम • SARJOM</div>
+          <div class="brand-subtitle">Jharkhand Primary MTB-MLE Pedagogic Bridge</div>
+        </div>
+      </div>
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>SIH 2026 Innovation</span>
+      </div>
+    </div>
+
+    <div class="slide-content">
+      <span class="slide-tag">Classroom Reality</span>
+      <h1 class="slide-title">The Language Gap in Tribal Classrooms</h1>
+      <p class="slide-subtitle">
+        “In many tribal classrooms, teachers and students may speak different languages. This language gap can make even a simple lesson difficult to understand.”
+      </p>
+
+      <div class="visual-card">
+        <div class="compare-grid">
+          <div class="compare-box box-teacher">
+            <div style="font-size: 32px; margin-bottom: 6px;">👨‍🏫</div>
+            <div class="box-title">Teacher Explains in Hindi</div>
+            <div class="box-desc">Standard Curriculum & Hindi Vocabulary</div>
+          </div>
+          <div class="box-barrier">⚡ ⚡<div style="font-size: 11px; font-weight: 700; color: #EF4444; margin-top: 4px;">BARRIER</div></div>
+          <div class="compare-box box-students">
+            <div style="font-size: 32px; margin-bottom: 6px;">👧🧒</div>
+            <div class="box-title">Students Speak Mother Tongue</div>
+            <div class="box-desc">Santhali • Ho • Mundari • Sadri</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Problem Statement: SIH 26042</span>
+      <span>Foundational Learning (NIPUN Bharat)</span>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- SLIDE 2 (0:15–0:30): Bridging with SARJOM             -->
+  <!-- ==================================================== -->
+  <div id="slide-2" class="slide">
+    <div class="slide-topbar">
+      <div class="brand-mark">
+        <div class="brand-logo-icon">📖</div>
+        <div>
+          <div class="brand-name">सरजोम • SARJOM</div>
+          <div class="brand-subtitle">Jharkhand Primary MTB-MLE Pedagogic Bridge</div>
+        </div>
+      </div>
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>100% Offline AI Solution</span>
+      </div>
+    </div>
+
+    <div class="slide-content">
+      <span class="slide-tag" style="background: rgba(37, 99, 235, 0.1); color: #2563EB;">The Solution</span>
+      <h1 class="slide-title">To Bridge This Gap, The Teacher Turns to Sarjom</h1>
+      <p class="slide-subtitle">
+        “Here, the teacher is explaining a lesson in Hindi, while the students understand mainly their mother tongue. To bridge this gap, the teacher turns to Sarjom.”
+      </p>
+
+      <div class="visual-card" style="border-left: 6px solid #D95A27;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <div style="font-size: 48px; background: rgba(217, 90, 39, 0.1); padding: 14px; border-radius: 14px;">🤝</div>
+          <div>
+            <div style="font-size: 18px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">
+              Mother Tongue-Based Multilingual Education (MTB-MLE)
+            </div>
+            <div style="font-size: 14px; color: #475569; line-height: 1.5;">
+              Instantly converts classroom spoken concepts into native Ol Chiki, Warang Chiti & Devanagari with authentic human speech.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Entering Live Tablet Demonstration...</span>
+      <span>Zero Cloud Dependency • Edge Android</span>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- SLIDE 8 (1:40–1:55): Transformative Classroom Impact  -->
+  <!-- ==================================================== -->
+  <div id="slide-8" class="slide">
+    <div class="slide-topbar">
+      <div class="brand-mark">
+        <div class="brand-logo-icon">📖</div>
+        <div>
+          <div class="brand-name">सरजोम • SARJOM</div>
+          <div class="brand-subtitle">Jharkhand Primary MTB-MLE Pedagogic Bridge</div>
+        </div>
+      </div>
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>Pedagogic Transformation</span>
+      </div>
+    </div>
+
+    <div class="slide-content">
+      <span class="slide-tag" style="background: rgba(16, 185, 129, 0.1); color: #059669;">Classroom Impact</span>
+      <h1 class="slide-title">Effortless Communication. Confident Learning.</h1>
+      <p class="slide-subtitle">
+        “With Sarjom, teachers and students can communicate more easily, while students learn in the language they understand best.”
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;">
+        <div class="visual-card" style="margin: 0; padding: 22px;">
+          <div style="font-size: 28px; margin-bottom: 8px;">🗣️</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">Two-Way Dialogue</div>
+          <div style="font-size: 13px; color: #64748B;">Students freely ask questions and express doubts in their mother tongue.</div>
+        </div>
+        <div class="visual-card" style="margin: 0; padding: 22px;">
+          <div style="font-size: 28px; margin-bottom: 8px;">🎯</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0F172A; margin-bottom: 4px;">NIPUN Bharat Aligned</div>
+          <div style="font-size: 13px; color: #64748B;">Interactive quizzes reinforce foundational literacy and numeracy.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Inclusive Digital Pedagogy</span>
+      <span>Empowering 28+ Lakh Tribal Learners</span>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- SLIDE 9 (1:55–2:00): Outro Tagline & Official Logo   -->
+  <!-- ==================================================== -->
+  <div id="slide-9" class="slide" style="justify-content: center; align-items: center; text-align: center;">
+    <div style="max-width: 600px; display: flex; flex-direction: column; align-items: center;">
+      <div style="width: 100px; height: 100px; border-radius: 24px; background: #D95A27; color: white; display: flex; align-items: center; justify-content: center; font-size: 52px; box-shadow: 0 12px 30px rgba(217, 90, 39, 0.35); margin-bottom: 28px;">
+        📖
+      </div>
+      <h1 style="font-family: 'Outfit', sans-serif; font-size: 52px; font-weight: 900; color: #D95A27; margin-bottom: 12px; letter-spacing: -1px;">
+        सरजोम • SARJOM
+      </h1>
+      <p style="font-size: 20px; font-weight: 600; color: #475569; margin-bottom: 36px; line-height: 1.5;">
+        “Because when children understand the language, they can understand the lesson.”
+      </p>
+
+      <div style="padding: 16px 28px; border-radius: 30px; background: #0F172A; color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2);">
+        Breaking Language Barriers. Building Better Learning.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.showSlide = function(num) {
+      document.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('slide-' + num);
+      if (target) target.classList.add('active');
+    };
+  </script>
+</body>
+</html>
