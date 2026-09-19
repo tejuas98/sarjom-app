@@ -57,7 +57,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 !p.sourceText.includes('पौधों को बढ़ने के लिए') &&
                 !p.sourceText.includes('पौधों के बढ़ने के लिए')
             );
-            if (clean.length > 0) return clean;
+            if (clean.length > 0) {
+              try { localStorage.setItem('sarjom_dialogue_log', JSON.stringify(clean)); } catch (err) {}
+              return clean;
+            } else {
+              try { localStorage.removeItem('sarjom_dialogue_log'); } catch (err) {}
+            }
           }
         }
       } catch (e) {
@@ -360,11 +365,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               ? 'Microphone permission blocked. Please allow microphone access in device settings.'
               : 'माइक्रोफ़ोन अनुमति ब्लॉक है। कृपया सेटिंग्स में अनुमति दें।'
           );
-        } else if (error.code === 'not-supported') {
-          toast.warning(
+        } else {
+          toast.info(
             isEn
-              ? 'Microphone stream not accessible. You can type your sentence directly below.'
-              : 'माइक्रोफ़ोन उपलब्ध नहीं है। आप नीचे सीधे वाक्य टाइप कर सकते हैं।'
+              ? 'No speech recognized. Please speak into the mic or type in the box below.'
+              : 'कोई आवाज़ पहचानी नहीं गई। कृपया माइक के पास बोलें या नीचे बॉक्स में लिखें।'
           );
         }
       },
@@ -394,6 +399,12 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       if (textToUse && textToUse.trim()) {
         setInputText(textToUse);
         handleFinalizeSpeech(textToUse);
+      } else {
+        toast.info(
+          isEn
+            ? 'No speech recognized. Please speak into the mic or type in the box below.'
+            : 'कोई आवाज़ पहचानी नहीं गई। कृपया माइक के पास बोलें या नीचे बॉक्स में लिखें।'
+        );
       }
     });
     setIsRecording(false);

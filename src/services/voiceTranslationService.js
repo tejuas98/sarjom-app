@@ -537,20 +537,8 @@ class VoiceTranslationService {
     }
   }
 
-  /**
-   * Resolves in-app offline speech acoustic sample against curriculum corpus
-   */
-  resolveOfflineAcousticSpeech(lang = 'hi-IN') {
-    if (this.curriculumPhraseHint) {
-      const hint = this.curriculumPhraseHint;
-      this.curriculumPhraseHint = null;
-      return hint;
-    }
-    const isHindiTarget = (lang || '').toLowerCase().startsWith('hi');
-    if (isHindiTarget) {
-      return 'पौधों को बढ़ने के लिए पानी और सूरज चाहिए';
-    }
-    return 'ᱫᱟᱨᱮ ᱠᱚ ᱦᱟᱨᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱥᱤᱧᱡᱚ ᱢᱟᱨᱥᱟᱞ ᱟᱨ ᱫᱟᱜ ᱞᱟᱹᱠᱛᱤᱭᱟ';
+  setCurriculumPhraseHint(hint) {
+    this.curriculumPhraseHint = hint;
   }
 
   getInAppOfflineStatus() {
@@ -941,10 +929,7 @@ class VoiceTranslationService {
           if (state && state.status === 'stopped') {
             this.isListening = false;
             this.stopInAppAudioCapture();
-            let text = this.latestTranscript ? this.latestTranscript.trim() : '';
-            if (!text && this.hasDetectedVoiceActivity) {
-              text = this.resolveOfflineAcousticSpeech(lang);
-            }
+            const text = this.latestTranscript ? this.latestTranscript.trim() : '';
             if (text && !this.hasEmittedFinal) {
               this.hasEmittedFinal = true;
               this.latestTranscript = text;
@@ -954,45 +939,24 @@ class VoiceTranslationService {
           }
         });
 
-        // Attempt background recognition without popup first
+        // Start pure in-app background recognition (strictly zero Google popup dialog)
         try {
-          const result = await CapSpeech.start({
+          await CapSpeech.start({
             language: lang,           // e.g. 'hi-IN' or 'en-IN'
             maxResults: 3,
             partialResults: true,
-            popup: false,
+            popup: false,             // Zero popup dialogs
           });
-
-          if (result && result.matches && result.matches.length > 0 && result.matches[0].trim()) {
-            const finalText = result.matches[0].trim();
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            this.latestTranscript = finalText;
-            this.hasEmittedFinal = true;
-            onResult(finalText, true);
-            if (onEnd) onEnd();
-          } else {
-            // Result had empty matches in background mode. Trigger native dialog fallback.
-            throw new Error('empty_matches_fallback_to_popup');
-          }
-        } catch (bgErr) {
-          // Fallback to native Android speech dialog
-          const popupResult = await CapSpeech.start({
-            language: lang,
-            maxResults: 3,
-            partialResults: false,
-            popup: true,
+        } catch (startErr) {
+          console.warn('[ASR Native] Background start notice:', startErr);
+          this.isListening = false;
+          this.stopInAppAudioCapture();
+          onError({
+            code: 'asr-start-failed',
+            message: 'Voice recognition could not start. Please speak clearly or type below.',
           });
-
-          if (popupResult && popupResult.matches && popupResult.matches[0]) {
-            const finalText = popupResult.matches[0].trim();
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            this.latestTranscript = finalText;
-            this.hasEmittedFinal = true;
-            onResult(finalText, true);
-            if (onEnd) onEnd();
-          }
+          if (onEnd) onEnd();
+          return;
         }
       } catch (err) {
         await CapSpeech.removeAllListeners().catch(() => {});
@@ -1000,20 +964,11 @@ class VoiceTranslationService {
         this.stopInAppAudioCapture();
         const code = (err && err.message) || String(err) || 'unknown';
         console.warn('[ASR Native] Notice:', err);
-        // Fall back to in-app acoustic resolver instead of failing with an external error
-        if (this.hasDetectedVoiceActivity) {
-          const resolved = this.resolveOfflineAcousticSpeech(lang);
-          this.hasEmittedFinal = true;
-          this.latestTranscript = resolved;
-          onResult(resolved, true);
-          if (onEnd) onEnd();
-        } else {
-          onError({
-            code,
-            message: 'In-app offline voice processing active. Speak directly into the microphone.',
-          });
-          if (onEnd) onEnd();
-        }
+        onError({
+          code,
+          message: 'Voice recognition unavailable. Please type directly in the box below.',
+        });
+        if (onEnd) onEnd();
       }
       return;
     }
@@ -1087,10 +1042,7 @@ class VoiceTranslationService {
     this.recognition.onend = () => {
       this.isListening = false;
       this.stopInAppAudioCapture();
-      let text = this.latestTranscript ? this.latestTranscript.trim() : '';
-      if (!text && this.hasDetectedVoiceActivity) {
-        text = this.resolveOfflineAcousticSpeech(lang);
-      }
+      const text = this.latestTranscript ? this.latestTranscript.trim() : '';
       if (text && !this.hasEmittedFinal) {
         this.hasEmittedFinal = true;
         this.latestTranscript = text;
@@ -1127,11 +1079,7 @@ class VoiceTranslationService {
       }
     }
 
-    let text = (this.latestTranscript && this.latestTranscript.trim()) || '';
-    if (!text && this.hasDetectedVoiceActivity) {
-      text = this.resolveOfflineAcousticSpeech();
-    }
-
+    const text = (this.latestTranscript && this.latestTranscript.trim()) || '';
     if (onStopFinal && text) {
       this.hasEmittedFinal = true;
       onStopFinal(text);
