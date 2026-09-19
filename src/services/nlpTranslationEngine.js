@@ -605,6 +605,304 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
   if (!result) {
     // Multi-Word Idiomatic & Grammatical Phrases
     const MULTI_WORD_CHUNKS = [
+      // Adoption & Story Idioms & Pronoun Postpositions
+      {
+        pattern: /(?:गोद\s+लेने\s+की\s+(?:एक\s+)?सच्ची\s+कहानी\s+(?:सुनाओ|सुनाएं))/i,
+        ho: 'गोद हाताओ रेआः मिद सारी काहनी काजी पे',
+        mundari: 'पोसोः रेआः मियद सारी काहनी कजीपे',
+        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱢᱤᱫ ᱥᱟᱹᱨᱤ ᱠᱟᱹᱦᱱᱤ ᱞᱟᱹᱭ ᱯᱮ',
+        santhaliDeva: 'आपणार रेनाग मिद सारी काहनी लई पे',
+        sadri: 'गोद लेवेक कर एक सच कहानी सुनावा',
+        audio: 'Apnar renag mid sari kahni lay pe',
+      },
+      {
+        pattern: /(?:गोद\s+लेने\s+की\s+(?:एक\s+)?कहानी\s+(?:सुनाओ|सुनाएं))/i,
+        ho: 'गोद हाताओ रेआः काहनी काजी पे',
+        mundari: 'पोसोः रेआः काहनी कजीपे',
+        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱠᱟᱹᱦᱱᱤ ᱞᱟᱹᱭ ᱯᱮ',
+        santhaliDeva: 'आपणार रेनाग काहनी लई पे',
+        sadri: 'गोद लेवेक कर कहानी सुनावा',
+        audio: 'Apnar renag kahni lay pe',
+      },
+      {
+        pattern: /(?:गोद\s+लेने\s+की\s+(?:एक\s+)?सच्ची\s+कहानी)/i,
+        ho: 'गोद हाताओ रेआः मिद सारी काहनी',
+        mundari: 'पोसोः रेआः मियद सारी काहनी',
+        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱢᱤᱫ ᱥᱟᱹᱨᱤ ᱠᱟᱹᱦᱱᱤ',
+        santhaliDeva: 'आपणार रेनाग मिद सारी काहनी',
+        sadri: 'गोद लेवेक कर एक सच कहानी',
+        audio: 'Apnar renag mid sari kahni',
+      },
+      {
+        pattern: /(?:गोद\s+लेने\s+की\s+(?:एक\s+)?कहानी)/i,
+        ho: 'गोद हाताओ रेआः काहनी',
+        mundari: 'पोसोः रेआः काहनी',
+        santhali: 'ᱟᱯᱱᱟᱨ ᱨᱮᱱᱟᱜ ᱠᱟᱹᱦᱱᱤ',
+        santhaliDeva: 'आपणार रेनाग काहनी',
+        sadri: 'गोद लेवेक कर कहानी',
+        audio: 'Apnar renag kahni',
+      },
+      {
+        pattern: /(?:गोद\s+ले\s+लिया)/i,
+        ho: 'पोसोः केदाको',
+        mundari: 'पोसोः केद-आको',
+        santhali: 'ᱟᱯᱱᱟᱨ ᱠᱮᱫᱮᱭᱟ ᱠᱚ',
+        santhaliDeva: 'आपणार केदेया को',
+        sadri: 'गोद लेलँय',
+        audio: 'Apnar kedeya ko',
+      },
+      {
+        pattern: /(?:गोद\s+लेना)/i,
+        ho: 'पोसोः',
+        mundari: 'पोसोः',
+        santhali: 'ᱟᱯᱱᱟᱨ',
+        santhaliDeva: 'आपणार',
+        sadri: 'गोद लेवेक',
+        audio: 'Apnar',
+      },
+      {
+        pattern: /(?:हमारी\s+गोद\s+में)/i,
+        ho: 'अलेयाः कोवा रे',
+        mundari: 'अलेयाः कोवा रे',
+        santhali: 'ᱟᱞᱮᱭᱟᱜ ᱠᱳᱞᱮ ᱨᱮ',
+        santhaliDeva: 'आलेयाग कोले रे',
+        sadri: 'हमर कोरा में',
+        audio: 'Aleyag kole re',
+      },
+      {
+        pattern: /(?:गोद\s+में)/i,
+        ho: 'कोवा रे',
+        mundari: 'कोवा रे',
+        santhali: 'ᱠᱳᱞᱮ ᱨᱮ',
+        santhaliDeva: 'कोले रे',
+        sadri: 'कोरा में',
+        audio: 'Kole re',
+      },
+      {
+        pattern: /(?:डाल\s+दिया)/i,
+        ho: 'ओमाद लेया',
+        mundari: 'ओमाद लेया',
+        santhali: 'ᱮᱢᱟᱫ ᱞᱮᱭᱟᱭ',
+        santhaliDeva: 'एमाद लेयाय',
+        sadri: 'दिलाक',
+        audio: 'Emad leyay',
+      },
+      {
+        pattern: /(?:नरम\s+कंबल)/i,
+        ho: 'लेबेद कंबल',
+        mundari: 'लेबेद कंबल',
+        santhali: 'ᱞᱮᱵᱮᱫ ᱠᱚᱢᱵᱚᱞ',
+        santhaliDeva: 'लेबेद कोम्बोल',
+        sadri: 'नरम कंबल',
+        audio: 'Lebed kombol',
+      },
+      {
+        pattern: /(?:सच्ची\s+कहानी)/i,
+        ho: 'सारी काहनी',
+        mundari: 'सारी काहनी',
+        santhali: 'ᱥᱟᱹᱨᱤ ᱠᱟᱹᱦᱱᱤ',
+        santhaliDeva: 'सारी काहनी',
+        sadri: 'सच कहानी',
+        audio: 'Sari kahni',
+      },
+      {
+        pattern: /(?:एक\s+समय\s+की\s+बात\s+है)/i,
+        ho: 'मिद समोय रेआः काजी मेनाः',
+        mundari: 'मियद समोय रेआः कजी मेनाः',
+        santhali: 'ᱢᱤᱫ ᱚᱠᱛᱚ ᱨᱮᱱᱟᱜ ᱠᱟᱛᱷᱟ ᱢᱮᱱᱟᱜ-ᱟ',
+        santhaliDeva: 'मिद ओकतो रेनाग काथा मेनाग-आ',
+        sadri: 'एक समय कर बात हेके',
+        audio: 'Mid okto renag katha menag-a',
+      },
+      {
+        pattern: /(?:उनके\s+पास)/i,
+        ho: 'उनकुवाः पाः रे',
+        mundari: 'उनकुवाः पाः रे',
+        santhali: 'ᱩᱱᱠᱩ ᱴᱷᱮᱱ',
+        santhaliDeva: 'उनकु ठेन',
+        sadri: 'उमन ठीन',
+        audio: 'Unku then',
+      },
+      {
+        pattern: /(?:हमारे\s+पास)/i,
+        ho: 'अले जापाः रे',
+        mundari: 'अले पाः रे',
+        santhali: 'ᱟᱞᱮ ᱴᱷᱮᱱ',
+        santhaliDeva: 'आले ठेन',
+        sadri: 'हमरे ठीन',
+        audio: 'Ale then',
+      },
+      {
+        pattern: /(?:तुम्हारे\s+पास)/i,
+        ho: 'आम जापाः रे',
+        mundari: 'आम पाः रे',
+        santhali: 'ᱟᱢ ᱴᱷᱮᱱ',
+        santhaliDeva: 'आम ठेन',
+        sadri: 'तोहर ठीन',
+        audio: 'Aam then',
+      },
+      {
+        pattern: /(?:मेरे\s+पास)/i,
+        ho: 'अयिङ जापाः रे',
+        mundari: 'आइङ पाः रे',
+        santhali: 'ᱤᱧ ᱴᱷᱮᱱ',
+        santhaliDeva: 'इञ ठेन',
+        sadri: 'मोर ठीन',
+        audio: 'Inj then',
+      },
+      {
+        pattern: /(?:कुत्ते\s+और\s+(?:एक\s+)?बिल्ली)/i,
+        ho: 'सेता आर मिद पिली',
+        mundari: 'सेता आर मियद पिसी',
+        santhali: 'ᱥᱮᱛᱟ ᱟᱨ ᱢᱤᱫ ᱯᱩᱥᱤ',
+        santhaliDeva: 'सेता आर मिद पुसी',
+        sadri: 'कुकुर आउर एक बिलई',
+        audio: 'Seta aar mid pusi',
+      },
+      {
+        pattern: /(?:बहुत\s+प्यार\s+करती\s+थी)/i,
+        ho: 'पुरः दुलार ए-म ताइकेना',
+        mundari: 'पुरः दुलार ए-म ताइकेना',
+        santhali: 'ᱟᱹᱰᱤ ᱫᱩᱞᱟᱹᱲᱮᱫ ᱢᱮ ᱛᱟᱦᱮᱸᱫ',
+        santhaliDeva: 'आडी दुलारेद मे ताहेद',
+        sadri: 'बहुत पिआर करत रहे',
+        audio: 'Aadi dulared me tahed',
+      },
+      {
+        pattern: /(?:कभी\s+नहीं\s+भूलेंगे|कभी\s+नहीं\s+भूलेगी)/i,
+        ho: 'तिस हो का हिरिंग मेआ',
+        mundari: 'तिस हो का हिरिंग मेआ',
+        santhali: 'ᱛᱤᱥ ᱦᱚᱸ ᱵᱟᱭ ᱦᱤᱲᱤᱧ ᱢᱮᱭᱟ',
+        santhaliDeva: 'तिस हों बाय हिड़िञ मेया',
+        sadri: 'कखनो नी भुलावी',
+        audio: 'Tis ho bay hirinj meya',
+      },
+      {
+        pattern: /(?:सो\s+जाओगे)/i,
+        ho: 'गितिः आ-म',
+        mundari: 'गितिः आ-म',
+        santhali: 'ᱜᱤᱛᱤᱡ ᱟᱢ',
+        santhaliDeva: 'गीतिज आम',
+        sadri: 'सुत जाबे',
+        audio: 'Gitij aam',
+      },
+      {
+        pattern: /(?:(?:मैं\s+)?सो\s+जाऊंगा)/i,
+        ho: 'अयिङ गितिः आ',
+        mundari: 'आइङ गितिः आ',
+        santhali: 'ᱤᱧ ᱜᱤᱛᱤᱡ-ᱟ',
+        santhaliDeva: 'इञ गीतिज-आ',
+        sadri: 'हम सुत जाब',
+        audio: 'Inj gitij-a',
+      },
+      {
+        pattern: /(?:सोए\s+रहे)/i,
+        ho: 'गितिः कान ताइकेना-म',
+        mundari: 'गितिः अकन ताइकेना-म',
+        santhali: 'ᱡᱟᱹᱯᱤᱫ ᱟᱠᱟᱫ ᱛᱟᱦᱮᱸᱫ',
+        santhaliDeva: 'जापिद आकाद ताहेद',
+        sadri: 'सुतल रहले',
+        audio: 'Japid akad tahed',
+      },
+      {
+        pattern: /(?:महल\s+में\s+ले\s+आए)/i,
+        ho: 'राज ओड़ाः रे आगु केदाको',
+        mundari: 'राज ओड़ाः रे आगुकेद-आको',
+        santhali: 'ᱨᱟᱡᱽ ᱚᱲᱟᱜ ᱛᱮ ᱟᱹᱜᱩ ᱠᱮᱫᱮᱭᱟ ᱠᱚ',
+        santhaliDeva: 'राज ओड़ाग ते आगु केदेया को',
+        sadri: 'महल में लय आनलयँ',
+        audio: 'Raj orag te aagu kedeya ko',
+      },
+      {
+        pattern: /(?:घर\s+ले\s+आए)/i,
+        ho: 'ओड़ाः रे आगु केदाबु',
+        mundari: 'ओड़ाः रे आगुकेद-आबु',
+        santhali: 'ᱚᱲᱟᱜ ᱛᱮ ᱟᱹᱜᱩ ᱠᱮᱫᱮᱭᱟ ᱞᱮ',
+        santhaliDeva: 'ओड़ाग ते आगु केदेया ले',
+        sadri: 'घर लय आनली',
+        audio: 'Orag te aagu kedeya le',
+      },
+      {
+        pattern: /(?:छोटे\s+बच्चे\s+को)/i,
+        ho: 'हुडिंग होन के',
+        mundari: 'हुडिंग होन के',
+        santhali: 'ᱦᱩᱰᱤᱧ ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ',
+        santhaliDeva: 'हुडिञ गिदरा को',
+        sadri: 'छोट छौवा के',
+        audio: 'Huding gidra ko',
+      },
+      {
+        pattern: /(?:छोटा\s+बच्चा|छोटे\s+बच्चे)/i,
+        ho: 'हुडिंग होन',
+        mundari: 'हुडिंग होन',
+        santhali: 'ᱦᱩᱰᱤᱧ ᱜᱤᱫᱽᱨᱟᱹ',
+        santhaliDeva: 'हुडिञ गिदरा',
+        sadri: 'छोट छौवा',
+        audio: 'Huding gidra',
+      },
+      {
+        pattern: /(?:रहते\s+थे)/i,
+        ho: 'तायेन ताइकेनाको',
+        mundari: 'ताएन ताइकेनाको',
+        santhali: 'ᱛᱟᱦᱮᱸᱱ ᱠᱟᱱ ᱛᱟᱦᱮᱸᱫ',
+        santhaliDeva: 'ताहेन कान ताहेद',
+        sadri: 'रहत रहेँ',
+        audio: 'Tahen kan tahed',
+      },
+      {
+        pattern: /(?:बच्चा\s+नहीं\s+था)/i,
+        ho: 'होन का ताइकेना',
+        mundari: 'होन का ताइकेना',
+        santhali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱵᱟᱭ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ',
+        santhaliDeva: 'गिदरा बाय ताहे काना',
+        sadri: 'छौवा नखे रहे',
+        audio: 'Gidra bay tahe kana',
+      },
+      {
+        pattern: /(?:अस्पताल\s+गए)/i,
+        ho: 'अस्पताल सेनकेना लिंग',
+        mundari: 'अस्पताल सेनकेना लिंग',
+        santhali: 'ᱦᱟᱥᱯᱟᱛᱟᱞ ᱞᱤᱧ ᱥᱮᱱ ᱞᱮᱱᱟ',
+        santhaliDeva: 'हासपाताल लिञ सेन लेना',
+        sadri: 'अस्पताल गली',
+        audio: 'Haspatal linj sen lena',
+      },
+      {
+        pattern: /(?:आराम\s+से)/i,
+        ho: 'सुख ते',
+        mundari: 'सुख ते',
+        santhali: 'ᱡᱤᱨᱟᱹᱣ ᱛᱮ',
+        santhaliDeva: 'जिराव ते',
+        sadri: 'अराम से',
+        audio: 'Jiraw te',
+      },
+      {
+        pattern: /(?:उसने\s+कहा)/i,
+        ho: 'एनी काजीकेदा',
+        mundari: 'एनी कजीकेद',
+        santhali: 'ᱩᱱᱤ ᱢᱮᱱ ᱠᱮᱫ-ᱟ',
+        santhaliDeva: 'उनी मेन केद-आ',
+        sadri: 'उ कहलक',
+        audio: 'Uni men ked-a',
+      },
+      {
+        pattern: /(?:तुम्हारी\s+मां\s+ने\s+तुम्हें)/i,
+        ho: 'आमा इंगा आमे',
+        mundari: 'आमाः इंगा आमे',
+        santhali: 'ᱟᱢ ᱨᱮᱱ ᱟᱭᱳ ᱟᱢ',
+        santhaliDeva: 'आम रेन आयो आम',
+        sadri: 'तोहर माय तोके',
+        audio: 'Aam ren ayo aam',
+      },
+      {
+        pattern: /(?:ठीक\s+है)/i,
+        ho: 'ठीक गे',
+        mundari: 'ठीक गे',
+        santhali: 'ᱴᱷᱤᱠ ᱜᱮᱭᱟ',
+        santhaliDeva: 'ठीक गेया',
+        sadri: 'ठीक है',
+        audio: 'Thik geya',
+      },
       {
         pattern: /(?:(?:पेड़|पेड|दारे)\s+के\s+नीचे|दारे\s+सुबा\s+रे)/i,
         ho: 'दारे सुबा रे',
@@ -637,7 +935,7 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
         ho: 'जापाः रे',
         mundari: 'पाः रे',
         santhali: 'ᱴᱷᱮᱱ',
-        santhaliDeva: 'ठेस',
+        santhaliDeva: 'ठेन',
         sadri: 'ठीन',
         audio: 'Japaah re',
       },
@@ -1305,6 +1603,52 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
       'तीन': { ho: 'आपिया', mundari: 'आपिया', santhali: 'ᱯᱮ', santhaliDeva: 'पे', sadri: 'तीन', audio: 'Pe' },
       'चार': { ho: 'उपुन', mundari: 'उपुन', santhali: 'ᱯᱩᱱ', santhaliDeva: 'पून', sadri: 'चार', audio: 'Pun' },
       'पांच': { ho: 'मोय', mundari: 'मोड़े', santhali: 'ᱢᱚᱬᱮ', santhaliDeva: 'मोड़े', sadri: 'पाँच', audio: 'More' },
+
+      // Adoption & Folktale Core Vocabulary
+      'सच्ची': { ho: 'सारी', mundari: 'सारी', santhali: 'ᱥᱟᱹᱨᱤ', santhaliDeva: 'सारी', sadri: 'सच', audio: 'Sari' },
+      'सच': { ho: 'सारी', mundari: 'सारी', santhali: 'ᱥᱟᱹᱨᱤ', santhaliDeva: 'सारी', sadri: 'सच', audio: 'Sari' },
+      'कुत्ता': { ho: 'सेता', mundari: 'सेता', santhali: 'ᱥᱮᱛᱟ', santhaliDeva: 'सेता', sadri: 'कुकुर', audio: 'Seta' },
+      'कुत्ते': { ho: 'सेताको', mundari: 'सेताको', santhali: 'ᱥᱮᱛᱟ ᱠᱚ', santhaliDeva: 'सेता को', sadri: 'कुकुर मन', audio: 'Seta ko' },
+      'बिल्ली': { ho: 'पिली', mundari: 'पिसी', santhali: 'ᱯᱩᱥᱤ', santhaliDeva: 'पुसी', sadri: 'बिलई', audio: 'Pusi' },
+      'राजा': { ho: 'राजा', mundari: 'राजा', santhali: 'ᱨᱟᱡᱟ', santhaliDeva: 'राजा', sadri: 'राजा', audio: 'Raja' },
+      'रानी': { ho: 'रानी', mundari: 'रानी', santhali: 'ᱨᱟᱹᱱᱤ', santhaliDeva: 'रानी', sadri: 'रानी', audio: 'Rani' },
+      'महल': { ho: 'राज ओड़ाः', mundari: 'राज ओड़ाः', santhali: 'ᱨᱟᱡᱽ ᱚᱲᱟᱜ', santhaliDeva: 'राज ओड़ाग', sadri: 'महल', audio: 'Raj orag' },
+      'उदास': { ho: 'उदास', mundari: 'उदास', santhali: 'ᱩᱫᱟᱹᱥ', santhaliDeva: 'उदास', sadri: 'उदास', audio: 'Udas' },
+      'कंबल': { ho: 'कंबल', mundari: 'कंबल', santhali: 'ᱠᱚᱢᱵᱚᱞ', santhaliDeva: 'कोम्बोल', sadri: 'कंबल', audio: 'Kombol' },
+      'नरम': { ho: 'लेबेद', mundari: 'लेबेद', santhali: 'ᱞᱮᱵᱮᱫ', santhaliDeva: 'लेबेद', sadri: 'मुलायम', audio: 'Lebed' },
+      'डैडी': { ho: 'बाबा', mundari: 'अप्पा', santhali: 'ᱵᱟᱵᱟ', santhaliDeva: 'बाबा', sadri: 'बाप', audio: 'Baba' },
+      'मां': { ho: 'इंगा', mundari: 'इंगा', santhali: 'ᱟᱭᱳ', santhaliDeva: 'आयो', sadri: 'माय', audio: 'Ayo' },
+      'माता': { ho: 'इंगा', mundari: 'इंगा', santhali: 'ᱟᱭᱳ', santhaliDeva: 'आयो', sadri: 'माय', audio: 'Ayo' },
+      'पिता': { ho: 'अप्पा', mundari: 'अप्पा', santhali: 'ᱵᱟᱵᱟ', santhaliDeva: 'बाबा', sadri: 'बाप', audio: 'Baba' },
+      'अस्पताल': { ho: 'अस्पताल', mundari: 'अस्पताल', santhali: 'ᱦᱟᱥᱯᱟᱛᱟᱞ', santhaliDeva: 'हासपाताल', sadri: 'अस्पताल', audio: 'Haspatal' },
+      'बच्चा': { ho: 'होन', mundari: 'होन', santhali: 'ᱜᱤᱫᱽᱨᱟᱹ', santhaliDeva: 'गिदरा', sadri: 'छौवा', audio: 'Gidra' },
+      'उन्होंने': { ho: 'एनको', mundari: 'उनकु', santhali: 'ᱩᱱᱠᱩ', santhaliDeva: 'उनकू', sadri: 'उमन', audio: 'Unku' },
+      'तुम्हें': { ho: 'आमे', mundari: 'आमे', santhali: 'ᱟᱢ', santhaliDeva: 'आम', sadri: 'तोके', audio: 'Aam' },
+      'था': { ho: 'ताइकेना', mundari: 'ताइकेना', santhali: 'ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ', santhaliDeva: 'ताहे काना', sadri: 'रहे', audio: 'Tahe kana' },
+      'थी': { ho: 'ताइकेना', mundari: 'ताइकेना', santhali: 'ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ', santhaliDeva: 'ताहे काना', sadri: 'रहे', audio: 'Tahe kana' },
+      'थे': { ho: 'ताइकेनाको', mundari: 'ताइकेनाको', santhali: 'ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ ᱠᱚ', santhaliDeva: 'ताहे काना को', sadri: 'रहैँ', audio: 'Tahe kana ko' },
+      'गए': { ho: 'सेनकेनाको', mundari: 'सेनकेनाको', santhali: 'ᱥᱮᱱ ᱮᱱᱟ ᱠᱚ', santhaliDeva: 'सेन एना को', sadri: 'गेलँय', audio: 'Sen ena ko' },
+      'गया': { ho: 'सेनकेना', mundari: 'सेनकेना', santhali: 'ᱥᱮᱱ ᱮᱱᱟ', santhaliDeva: 'सेन एना', sadri: 'गेलक', audio: 'Sen ena' },
+      'गई': { ho: 'सेनकेना', mundari: 'सेनकेना', santhali: 'ᱥᱮᱱ ᱮᱱᱟ', santhaliDeva: 'सेन एना', sadri: 'गेलक', audio: 'Sen ena' },
+      'कहा': { ho: 'काजीकेदा', mundari: 'कजीकेद', santhali: 'ᱢᱮᱱ ᱠᱮᱫ-ᱟ', santhaliDeva: 'मेन केद-आ', sadri: 'कहलक', audio: 'Men ked-a' },
+      'प्यार': { ho: 'दुलार', mundari: 'दुलार', santhali: 'ᱫᱩᱞᱟᱹᱲ', santhaliDeva: 'दुलार', sadri: 'पिआर', audio: 'Dular' },
+      'आराम': { ho: 'सुख', mundari: 'सुख', santhali: 'ᱡᱤᱨᱟᱹᱣ', santhaliDeva: 'जिराव', sadri: 'अराम', audio: 'Jiraw' },
+      'दोबारा': { ho: 'आर मिद दोम', mundari: 'आर मियद दोम', santhali: 'ᱟᱨ ᱢᱤᱫᱫᱷᱟᱣ', santhaliDeva: 'आर मिदधाव', sadri: 'दोसरा बेर', audio: 'Aar middhaw' },
+      'फिर': { ho: 'तायोम ते', mundari: 'तायोम ते', santhali: 'ᱛᱟᱭᱚᱢ ᱛᱮ', santhaliDeva: 'तायोम ते', sadri: 'फेरु', audio: 'Tayom te' },
+      'क्योंकि': { ho: 'चीकाते', mundari: 'चीकाते', santhali: 'ᱪᱮᱫᱟᱜ ᱥᱮ', santhaliDeva: 'चेदाग से', sadri: 'काहेकि', audio: 'Chedag se' },
+      'बात': { ho: 'काजी', mundari: 'कजी', santhali: 'ᱠᱟᱛᱷᱟ', santhaliDeva: 'काथा', sadri: 'बात', audio: 'Katha' },
+      'समय': { ho: 'समोय', mundari: 'समोय', santhali: 'ᱚᱠᱛᱚ', santhaliDeva: 'ओकतो', sadri: 'टेम', audio: 'Okto' },
+      'उसने': { ho: 'एनी', mundari: 'एनी', santhali: 'ᱩᱱᱤ', santhaliDeva: 'उनी', sadri: 'उ', audio: 'Uni' },
+      'ने': { ho: '', mundari: '', santhali: '', santhaliDeva: '', sadri: '', audio: '' },
+      'हो': { ho: 'होबाओ', mundari: 'होबाओ', santhali: 'ᱦᱩᱭ', santhaliDeva: 'हुय', sadri: 'हो', audio: 'Huy' },
+      'होगा': { ho: 'होबाओ-आ', mundari: 'होबाओ-आ', santhali: 'ᱦᱩᱭᱩᱜ-ᱟ', santhaliDeva: 'हुयुग-आ', sadri: 'होवी', audio: 'Huyug-a' },
+      'होगी': { ho: 'होबाओ-आ', mundari: 'होबाओ-आ', santhali: 'ᱦᱩᱭᱩᱜ-ᱟ', santhaliDeva: 'हुयुग-आ', sadri: 'होवी', audio: 'Huyug-a' },
+      'कि': { ho: 'ची', mundari: 'ची', santhali: 'ᱡᱮ', santhaliDeva: 'जे', sadri: 'कि', audio: 'Je' },
+      'ठीक': { ho: 'ठीक', mundari: 'ठीक', santhali: 'ᱴᱷᱤᱠ', santhaliDeva: 'ठीक', sadri: 'ठीक', audio: 'Thik' },
+      'हां': { ho: 'हे', mundari: 'हे', santhali: 'ᱦᱮᱸ', santhaliDeva: 'हें', sadri: 'हाँ', audio: 'Hẽ' },
+      'सुनाओ': { ho: 'काजी पे', mundari: 'कजीपे', santhali: 'ᱞᱟᱹᱭ ᱯᱮ', santhaliDeva: 'लई पे', sadri: 'सुनावा', audio: 'Lay pe' },
+      'सुनाएं': { ho: 'काजी पे', mundari: 'कजीपे', santhali: 'ᱞᱟᱹᱭ ᱯᱮ', santhaliDeva: 'लई पे', sadri: 'सुनावा', audio: 'Lay pe' },
+      'सुनाना': { ho: 'काजी', mundari: 'कजी', santhali: 'ᱞᱟᱹᱭ', santhaliDeva: 'लई', sadri: 'सुनाएक', audio: 'Lay' },
     };
 
     // Replace multi-word syntactic chunks first
@@ -1312,9 +1656,12 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
     const chunkSubstitutions = [];
 
     MULTI_WORD_CHUNKS.forEach((chunk, idx) => {
-      if (chunk.pattern.test(workingText)) {
+      const gPattern = chunk.pattern.global
+        ? chunk.pattern
+        : new RegExp(chunk.pattern.source, chunk.pattern.flags + 'g');
+      if (gPattern.test(workingText)) {
         const placeholder = `__CHUNK_${idx}__`;
-        workingText = workingText.replace(chunk.pattern, placeholder);
+        workingText = workingText.replace(gPattern, ` ${placeholder} `);
         chunkSubstitutions.push({ placeholder, chunk });
       }
     });
@@ -1327,15 +1674,16 @@ export function translateSingleClause(hindiText, targetLang = 'santhali') {
 
     for (const token of rawTokens) {
       // Check if this token is a replaced chunk placeholder
-      const chunkMatch = chunkSubstitutions.find((cs) => cs.placeholder === token);
+      const cleanPlaceholder = token.replace(/^[^\w\u0900-\u097F_]+|[^\w\u0900-\u097F_]+$/g, '');
+      const chunkMatch = chunkSubstitutions.find((cs) => cs.placeholder === token || cs.placeholder === cleanPlaceholder);
       if (chunkMatch) {
         const c = chunkMatch.chunk;
         const native = targetLang === 'santhali' ? c.santhali : c[targetLang] || c.ho;
         const deva = targetLang === 'santhali' ? c.santhaliDeva : c[targetLang] || c.ho;
-        translatedTokens.push(native);
-        phoneticDevaTokens.push(deva);
-        phoneticLatinTokens.push(c.audio);
-        audioTokens.push(c.audio);
+        if (native) translatedTokens.push(native);
+        if (deva) phoneticDevaTokens.push(deva);
+        if (c.audio) phoneticLatinTokens.push(c.audio);
+        if (c.audio) audioTokens.push(c.audio);
         continue;
       }
 
