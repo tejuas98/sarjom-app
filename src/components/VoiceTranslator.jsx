@@ -2339,7 +2339,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <button
                 type="button"
                 onClick={() => {
-                  voiceService.speakText('जोहार! नमस्ते, कक्षा में आपका स्वागत है।', 'hi-IN');
+                  voiceService.speakText('नमस्ते, कक्षा में आपका स्वागत है। शिक्षक ध्वनि परीक्षण सक्रिय है।', 'hi-IN');
                   toast.success(isEn ? 'Testing natural speech audio...' : 'प्राकृतिक आवाज़ परीक्षण चल रहा है...');
                 }}
                 style={{
@@ -2359,7 +2359,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 }}
               >
                 <Volume2 size={15} />
-                <span>{isEn ? 'Test Voice (जोहार! नमस्ते)' : 'आवाज़ सुनकर देखें (Play Demo)'}</span>
+                <span>{isEn ? 'Test Voice (कक्षा नमस्ते)' : 'आवाज़ सुनकर देखें (Play Demo)'}</span>
               </button>
             </div>
           </div>

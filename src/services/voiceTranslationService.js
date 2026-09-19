@@ -247,144 +247,10 @@ class VoiceTranslationService {
 
   /**
    * Pre-recorded Studio Audio Bank lookup:
-   * Returns pre-recorded studio human voice clip when matching standard curriculum phrases,
-   * greetings, or self-introductions. 100% human, zero robotic artifacts.
+   * Returns null so text-to-speech engine directly synthesizes the actual user text
+   * with zero canned audio hijacking or false substitutions.
    */
   getStudioAudioClip(text) {
-    if (!text || typeof text !== 'string') return null;
-    const clean = text.trim();
-    const lower = clean.toLowerCase();
-
-    // If text contains multiple names, conjunctions, or compound phrases, let TTS speak the full compound text
-    const hasMultipleNamesOrConjunction =
-      lower.includes('pranab') ||
-      lower.includes('ayaush') ||
-      lower.includes('ayush') ||
-      lower.includes(' and ') ||
-      lower.includes(' aur ') ||
-      clean.includes('और') ||
-      clean.includes('प्रणब') ||
-      clean.includes('आयुष');
-
-    // Rudra Customary Land Rights & Administrative Directive
-    if (clean.includes('रुद्र') || lower.includes('rudra') || clean.includes('ᱨᱩᱫᱽᱨᱚ')) {
-      if (clean.includes('शिकायत') || clean.includes('नालीज') || clean.includes('ᱱᱟᱞᱤᱥ') || clean.includes('नालिस') || clean.includes('बिचौलिया') || clean.includes('दलाल') || clean.includes('मानकी-मुंडा') || clean.includes('ᱢᱟᱹᱧᱡᱷᱤ-ᱢᱩᱱᱰᱟ') || clean.includes('पैमाइश') || clean.includes('जोखाओ') || clean.includes('नापि') || clean.includes('ᱡᱚᱠᱷᱟ') || clean.includes('नाप-जोख') || clean.includes('प्रशासनिक')) {
-        if (clean.includes('ओमेकेद') || clean.includes('नालीज') || clean.includes('काए नापि-ए') || clean.includes('बोदोलोकेद') || clean.includes('नियाय व्यवस्था') || clean.includes('मानतिंग') || clean.includes('बिसार')) {
-          return '/audio/rudra_legal_mundari.mp3';
-        }
-        if (clean.includes('ओल-ओमा') || clean.includes('सोबेन-हतिंग') || clean.includes('काए बाइ-ए') || clean.includes('बदलाओ केदा') || clean.includes('रेआः') || clean.includes('ब्यवस्था') || lower.includes('alea')) {
-          return '/audio/rudra_legal_ho.mp3';
-        }
-        if (clean.includes('ᱪᱮᱫᱟᱜ') || clean.includes('ᱥᱚᱨᱠᱟᱨᱤ') || clean.includes('ᱪᱟᱪᱞᱟᱣ') || clean.includes('चेदाग') || clean.includes('कामिया') || clean.includes('हांतियार') || clean.includes('दालाल') || clean.includes('सांवतारी')) {
-          return '/audio/rudra_legal_santhali.mp3';
-        }
-        if (clean.includes('काहेकि') || clean.includes('दरज') || clean.includes('पुरखौती') || clean.includes('एके-मते') || clean.includes('नाप-जोख') || clean.includes('नी करबंय')) {
-          return '/audio/rudra_legal_sadri.mp3';
-        }
-      }
-    }
-
-    if (!hasMultipleNamesOrConjunction) {
-      // Ho self-introduction
-      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-          (clean.includes('अञाः') || clean.includes('अञा') || clean.includes('अयिङ') || lower.includes('aying') || clean.includes('अयिंगा'))) {
-        return '/audio/ho_rudra_output.mp3';
-      }
-
-      // Mundari self-introduction
-      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-          (clean.includes('अइङाः') || clean.includes('अइङा') || clean.includes('आइङ') || lower.includes('ainga') || clean.includes('आइंगा'))) {
-        return '/audio/mundari_rudra_output.mp3';
-      }
-
-      // Santhali self-introduction (Ol Chiki, Devanagari, or Latin phonetics)
-      if ((lower.includes('rudra') || clean.includes('रुद्र') || clean.includes('ᱨᱩᱫᱽᱨᱚ')) &&
-          (clean.includes('ᱧᱩᱛᱩᱢ') || clean.includes('इञाग') || lower.includes('inyaag') || lower.includes('iñag') || lower.includes('nyutum'))) {
-        return '/audio/santhali_rudra_output.mp3';
-      }
-
-      // Sadri self-introduction
-      if ((lower.includes('rudra') || clean.includes('रुद्र')) &&
-          (clean.includes('मोर नाम') || lower.includes('mor naam'))) {
-        return '/audio/sadri_rudra_output.mp3';
-      }
-    }
-
-    // Universal Tribal Johar Greeting (Authentic tribal audio)
-    if (clean === 'जोहार' || clean === 'ᱡᱚᱦᱟᱨ' || lower === 'johar' || clean.includes('जोहार!') || clean.includes('ᱡᱚᱦᱟᱨ!')) {
-      return '/audio/johar_greeting.mp3';
-    }
-
-    // Science Lesson - Plants & Sunlight (Strictly full lesson phrase, never individual words)
-    if (clean.includes('पौधों को बढ़ने के लिए पानी और सूरज')) {
-      return '/audio/lesson_plants_hi.mp3';
-    }
-    if ((clean.includes('ᱫᱟᱨᱮ ᱠᱚ ᱦᱟᱨᱟᱜ') || clean.includes('दारे को हाराग')) && (clean.includes('ᱞᱟᱹᱜᱤᱫ') || clean.includes('लागिद')) && (clean.includes('ᱥᱤᱧᱡᱚ ᱢᱟᱨᱥᱟᱞ') || clean.includes('सिंजो मार्सल'))) {
-      return '/audio/lesson_plants_santhali.mp3';
-    }
-    if (clean.includes('दारु को हाराओ नान्ते') && clean.includes('सिंगी मार्सल दरकार')) {
-      return '/audio/lesson_plants_ho.mp3';
-    }
-    if ((clean.includes('दारु को हाराओ लगिद') || clean.includes('दाराे को हाराओ लगिद')) && clean.includes('सिंगी मार्सल दरकार')) {
-      return '/audio/lesson_plants_mundari.mp3';
-    }
-    if ((clean.includes('गाछ-बिरिछ') || clean.includes('गाछ बिरिछ')) && clean.includes('बाढ़े ले पानी') && clean.includes('सुरुज कर')) {
-      return '/audio/lesson_plants_sadri.mp3';
-    }
-
-    // Student Comprehension Responses
-    if (clean.includes('ᱱᱤᱛᱚᱜ ᱵᱩᱡᱷᱟᱹᱣ') || clean.includes('नितोग बुझाव')) {
-      return '/audio/student_understand_santhali.mp3';
-    }
-    if (clean.includes('नाहः बुझाव') || clean.includes('नाहः बुझाव याना')) {
-      return clean.includes('mundari') ? '/audio/student_understand_mundari.mp3' : '/audio/student_understand_ho.mp3';
-    }
-
-    // Student Curious Queries
-    if (clean.includes('ᱫᱟᱨᱮ ᱠᱚ ᱦᱚᱭ') || clean.includes('दारे को होय')) {
-      return '/audio/student_query_santhali.mp3';
-    }
-    if (clean.includes('दारु को होयो')) {
-      return clean.includes('mundari') ? '/audio/student_query_mundari.mp3' : '/audio/student_query_ho.mp3';
-    }
-
-    // Teacher & System Affirmations
-    if (clean === 'हाँ, बिलकुल!' || clean === 'हाँ बिलकुल!' || clean === 'हाँ, बिलकुल') {
-      return '/audio/confirm_teacher_hi.mp3';
-    }
-    if (clean.includes('ᱦᱮᱸ, ᱥᱟᱹᱨᱤ ᱜᱮ') || clean.includes('हें, सारि गे') || clean.includes('हें सारि गे')) {
-      return '/audio/confirm_santhali.mp3';
-    }
-    if (clean.includes('हेअ, सरि गे') || clean.includes('हेअ सरि गे')) {
-      return '/audio/confirm_ho.mp3';
-    }
-    if (clean.includes('हाँ, एकदम सही') || clean.includes('हाँ एकदम सही')) {
-      return '/audio/confirm_sadri.mp3';
-    }
-
-    // Praise & Encouragement
-    if (clean.includes('शाबाश') || clean.includes('बहुत अच्छा') || clean.includes('बेस गे') || clean.includes('ताली बजाओ')) {
-      return '/audio/teacher_praise.mp3';
-    }
-
-    // Classroom Directives
-    if (clean.includes('यहाँ आओ') || clean.includes('बैठ जाओ') || clean.includes('किताब खोलो') || clean.includes('शान्त रहो') || clean.includes('शांत रहो')) {
-      return '/audio/classroom_command.mp3';
-    }
-
-    // NIPUN Lesson & Take-Home QR Prompt
-    if (clean.includes('प्यारे बच्चों') || clean.includes('नई भाषा सीखेंगे')) {
-      return '/audio/nipun_lesson_opening.mp3';
-    }
-    if (clean.includes('ध्वनि साथी') || clean.includes('क्यूआर कोड')) {
-      return '/audio/worksheet_qr_prompt.mp3';
-    }
-
-    // System Overview / Jury Briefing
-    if (clean.includes('सरजोम हूँ') || clean.includes('शिक्षण सेतु') || clean.includes('sarjom briefing')) {
-      return '/audio/sarjom_overview.mp3';
-    }
-
     return null;
   }
 
@@ -672,46 +538,19 @@ class VoiceTranslationService {
   }
 
   /**
-   * Synthesizes tribal audio output using high-fidelity natural voices with
-   * pre-recorded studio audio bank fallback. Suppresses microphone echo loop
-   * during speaker output.
+   * Synthesizes tribal audio output using high-fidelity natural voices.
+   * Directly synthesizes the exact requested text with zero canned audio hijacking.
    */
   speakText(text, lang = 'hi-IN', onEnd = () => {}) {
     this.isSpeaking = true;
-
-    // 1. Pre-recorded Studio Audio Bank Lookup (100% human studio quality)
-    const studioClip = this.getStudioAudioClip(text);
-    if (studioClip && typeof Audio !== 'undefined') {
+    if (this.activeAudio) {
       try {
-        if (this.activeAudio) {
-          this.activeAudio.pause();
-          this.activeAudio = null;
-        }
-        const audio = new Audio(studioClip);
-        this.activeAudio = audio;
-
-        const finishPlayback = () => {
-          this.isSpeaking = false;
-          this.activeAudio = null;
-          onEnd();
-        };
-
-        audio.onended = finishPlayback;
-        audio.onerror = () => {
-          // Graceful fallback to natural synthetic voice if file missing
-          this.synthesizeSpeech(text, lang, onEnd);
-        };
-
-        audio.play().catch(() => {
-          this.synthesizeSpeech(text, lang, onEnd);
-        });
-        return;
-      } catch (e) {
-        // Fall back to synthesis
-      }
+        this.activeAudio.pause();
+        this.activeAudio = null;
+      } catch (e) {}
     }
 
-    // 2. High-Fidelity Natural Voice Synthesis
+    // High-Fidelity Natural Voice Synthesis directly speaking the exact text
     this.synthesizeSpeech(text, lang, onEnd);
   }
 

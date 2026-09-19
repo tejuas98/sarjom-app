@@ -1687,10 +1687,10 @@ export const CONVERSATIONAL_PHRASES = [
       'shukriya',
     ],
     ho: {
-      native: 'जोहार (𑢪𑣉𑣹𑣁𑣜)',
-      phoneticDeva: 'जोहार',
-      phoneticLatin: 'Johar',
-      audioText: 'Johar',
+      native: 'सारहाव (𑢷𑣁𑣜𑣄𑣁𑣖)',
+      phoneticDeva: 'सारहाव',
+      phoneticLatin: 'Sarhaw',
+      audioText: 'Sarhaw',
     },
     santhali: {
       nativeOlChiki: 'ᱥᱟᱨᱦᱟᱣ',
@@ -1700,10 +1700,10 @@ export const CONVERSATIONAL_PHRASES = [
       audioText: 'Sarhaw',
     },
     mundari: {
-      native: 'जोहार / सराहना',
-      phoneticDeva: 'जोहार',
-      phoneticLatin: 'Johar',
-      audioText: 'Johar',
+      native: 'सारहाव',
+      phoneticDeva: 'सारहाव',
+      phoneticLatin: 'Sarhaw',
+      audioText: 'Sarhaw',
     },
     sadri: {
       native: 'धन्यवाद / जोहार',
@@ -1725,10 +1725,10 @@ export const CONVERSATIONAL_PHRASES = [
       'theek hai dhanyawad',
     ],
     ho: {
-      native: 'बुगीया, जोहार (𑢤𑣃𑣋𑣂𑣕𑣁 𑢪𑣉𑣹𑣁𑣜)',
-      phoneticDeva: 'बुगीया, जोहार',
-      phoneticLatin: 'Bugiya, Johar',
-      audioText: 'Bugiya, Johar',
+      native: 'बुगीया, सारहाव (𑢤𑣃𑣋𑣂𑣕𑣁 𑢷𑣁𑣜𑣄𑣁𑣖)',
+      phoneticDeva: 'बुगीया, सारहाव',
+      phoneticLatin: 'Bugiya, Sarhaw',
+      audioText: 'Bugiya, Sarhaw',
     },
     santhali: {
       nativeOlChiki: 'ᱴᱷᱤᱠ ᱜᱮᱭᱟ, ᱥᱟᱨᱦᱟᱣ',
@@ -1738,10 +1738,10 @@ export const CONVERSATIONAL_PHRASES = [
       audioText: 'Thik gea, Sarhaw',
     },
     mundari: {
-      native: 'ठीक गिया, जोहार',
-      phoneticDeva: 'ठीक गिया, जोहार',
-      phoneticLatin: 'Thik giya, Johar',
-      audioText: 'Thik giya, Johar',
+      native: 'ठीक गिया, सारहाव',
+      phoneticDeva: 'ठीक गिया, सारहाव',
+      phoneticLatin: 'Thik giya, Sarhaw',
+      audioText: 'Thik giya, Sarhaw',
     },
     sadri: {
       native: 'ठीक हे, धन्यवाद',
@@ -2273,15 +2273,15 @@ export const CONVERSATIONAL_TOKENS = {
     sadri: { native: 'ना', phoneticDeva: 'ना', audioText: 'Na' },
   },
   thanks: {
-    ho: { native: 'जोहार', phoneticDeva: 'जोहार', audioText: 'Johar' },
+    ho: { native: 'सारहाव', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
     santhali: { native: 'ᱥᱟᱨᱦᱟᱣ', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
-    mundari: { native: 'जोहार', phoneticDeva: 'जोहार', audioText: 'Johar' },
+    mundari: { native: 'सारहाव', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
     sadri: { native: 'धन्यवाद', phoneticDeva: 'धन्यवाद', audioText: 'Dhanyawad' },
   },
   thank: {
-    ho: { native: 'जोहार', phoneticDeva: 'जोहार', audioText: 'Johar' },
+    ho: { native: 'सारहाव', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
     santhali: { native: 'ᱥᱟᱨᱦᱟᱣ', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
-    mundari: { native: 'जोहार', phoneticDeva: 'जोहार', audioText: 'Johar' },
+    mundari: { native: 'सारहाव', phoneticDeva: 'सारहाव', audioText: 'Sarhaw' },
     sadri: { native: 'धन्यवाद', phoneticDeva: 'धन्यवाद', audioText: 'Dhanyawad' },
   },
   please: {
