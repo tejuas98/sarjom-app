@@ -120,6 +120,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const adoptionAudioRef = useRef(null);
   const silenceTimerRef = useRef(null);
   const latestSpokenRef = useRef('');
+  const lastFinalizedRef = useRef({ text: '', timestamp: 0 });
 
   useEffect(() => {
     return () => {
@@ -132,6 +133,19 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   }, []);
 
   const toggleAdoptionAudio = () => {
+    // Silence any TTS speech output
+    voiceService.stopSpeaking();
+    setIsPlayingAudio(false);
+
+    // Stop mic recording if active
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+    voiceService.stopListening();
+    setIsRecording(false);
+    setAudioLevel(0);
+
     if (!adoptionAudioRef.current) {
       adoptionAudioRef.current = new Audio('/audio/adoption_audiobook_preview.mp3');
       adoptionAudioRef.current.onended = () => setIsPlayingAdoptionAudio(false);
@@ -287,6 +301,24 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   };
 
   const handleSpeakAudio = (textToSpeak, label, speechLang = 'hi-IN') => {
+    // 1. Immediately halt microphone listening so speaker output does not loop into mic
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+    voiceService.stopListening();
+    setIsRecording(false);
+    setAudioLevel(0);
+
+    // 2. Pause adoption audiobook if playing
+    if (adoptionAudioRef.current && isPlayingAdoptionAudio) {
+      adoptionAudioRef.current.pause();
+      setIsPlayingAdoptionAudio(false);
+    }
+
+    // 3. Immediately halt any current speech
+    voiceService.stopSpeaking();
+
     setIsPlayingAudio(true);
     toast.info(isEn ? `Classroom broadcast: "${label || textToSpeak}"` : `कक्षा प्रसारण: "${label || textToSpeak}"`);
     voiceService.speakText(textToSpeak, speechLang, () => {
@@ -300,9 +332,23 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       silenceTimerRef.current = null;
     }
     setIsRecording(false);
-    if (!transcript || !transcript.trim()) return;
+    setAudioLevel(0);
+    voiceService.stopListening();
 
-    const res = executeTranslation(transcript);
+    const cleanText = (transcript || '').trim();
+    if (!cleanText) return;
+
+    // Guard against duplicate execution within 3 seconds
+    const now = Date.now();
+    if (
+      lastFinalizedRef.current.text === cleanText &&
+      now - lastFinalizedRef.current.timestamp < 3000
+    ) {
+      return;
+    }
+    lastFinalizedRef.current = { text: cleanText, timestamp: now };
+
+    const res = executeTranslation(cleanText);
     if (res) {
       const textToBroadcast = isTeacherMode
         ? (res.phoneticDeva || res.nativeScript || res.audioText)
@@ -310,20 +356,30 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       if (autoBroadcast) {
         handleSpeakAudio(textToBroadcast, res.nativeScript);
       }
-      addToHistory(transcript, res, isTeacherMode ? 'teacher' : 'student');
+      addToHistory(cleanText, res, isTeacherMode ? 'teacher' : 'student');
       setLiveSessionCount((prev) => prev + 1);
       toast.success(
         isEn
-          ? `Captured: "${transcript.length > 30 ? transcript.slice(0, 30) + '...' : transcript}"`
-          : `वाक अनुवादित: "${transcript.length > 30 ? transcript.slice(0, 30) + '...' : transcript}"`
+          ? `Captured: "${cleanText.length > 30 ? cleanText.slice(0, 30) + '...' : cleanText}"`
+          : `वाक अनुवादित: "${cleanText.length > 30 ? cleanText.slice(0, 30) + '...' : cleanText}"`
       );
     }
   };
 
   const handleStartMic = async () => {
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    silenceTimerRef.current = null;
     latestSpokenRef.current = '';
     setSessionSeconds(0);
+
+    // Stop all audio playback before opening the microphone
+    voiceService.stopSpeaking();
+    setIsPlayingAudio(false);
+    if (adoptionAudioRef.current && isPlayingAdoptionAudio) {
+      adoptionAudioRef.current.pause();
+      setIsPlayingAdoptionAudio(false);
+    }
+
     setIsRecording(true);
     const recognitionLang = isTeacherMode ? speechInputLang : 'hi-IN';
 
@@ -357,6 +413,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       },
       (error) => {
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
         setIsRecording(false);
         setAudioLevel(0);
         if (error.code === 'not-allowed') {
@@ -375,12 +432,11 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       },
       recognitionLang,
       () => {
+        // Recognition session finished: clean up recording state only, do NOT re-finalize
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
         setIsRecording(false);
         setAudioLevel(0);
-        if (latestSpokenRef.current && latestSpokenRef.current.trim()) {
-          handleFinalizeSpeech(latestSpokenRef.current);
-        }
       },
       (level) => {
         setAudioLevel(level);
@@ -394,6 +450,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
       silenceTimerRef.current = null;
     }
     setAudioLevel(0);
+    setIsRecording(false);
     voiceService.stopListening((finalText) => {
       const textToUse = (finalText && finalText.trim()) || latestSpokenRef.current;
       if (textToUse && textToUse.trim()) {
@@ -407,7 +464,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         );
       }
     });
-    setIsRecording(false);
   };
 
   const addToHistory = (source, res, direction = 'teacher') => {

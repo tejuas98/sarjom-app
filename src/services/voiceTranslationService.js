@@ -538,19 +538,23 @@ class VoiceTranslationService {
   }
 
   /**
+   * Universal speech method (alias for speakText)
+   */
+  speak(text, lang = 'hi-IN', onEnd = () => {}) {
+    return this.speakText(text, lang, onEnd);
+  }
+
+  /**
    * Synthesizes tribal audio output using high-fidelity natural voices.
    * Directly synthesizes the exact requested text with zero canned audio hijacking.
+   * Cancels any in-flight speech to guarantee zero overlapping voices.
    */
   speakText(text, lang = 'hi-IN', onEnd = () => {}) {
+    // 1. Immediately kill any prior speech / audio across all platforms
+    this.stopSpeaking();
     this.isSpeaking = true;
-    if (this.activeAudio) {
-      try {
-        this.activeAudio.pause();
-        this.activeAudio = null;
-      } catch (e) {}
-    }
 
-    // High-Fidelity Natural Voice Synthesis directly speaking the exact text
+    // 2. High-Fidelity Natural Voice Synthesis directly speaking the exact text
     this.synthesizeSpeech(text, lang, onEnd);
   }
 
@@ -559,6 +563,9 @@ class VoiceTranslationService {
    * with fallback to browser neural speech synthesis on web.
    */
   synthesizeSpeech(text, lang = 'hi-IN', onEnd = () => {}) {
+    this.currentUtteranceId = (this.currentUtteranceId || 0) + 1;
+    const utteranceId = this.currentUtteranceId;
+
     // Convert Ol Chiki to Devanagari phonetics if Ol Chiki characters are present
     let rawText = text || '';
     if (/[\u1C50-\u1C7F]/.test(rawText)) {
@@ -577,7 +584,7 @@ class VoiceTranslationService {
 
     if (!humanizedText) {
       this.isSpeaking = false;
-      onEnd();
+      if (typeof onEnd === 'function') onEnd();
       return;
     }
 
@@ -590,23 +597,33 @@ class VoiceTranslationService {
     // ── 1. PRIMARY: Native Android OS Text-to-Speech (100% Offline & Natural) ──
     if (this._isCapacitorAndroid()) {
       this.isSpeaking = true;
-      TextToSpeech.speak({
-        text: humanizedText,
-        lang: targetLang,
-        rate: this.speechRate || 1.0,
-        pitch: this.speechPitch || 1.0,
-        volume: 1.0,
-        category: 'playback',
-      })
-        .then(() => {
-          this.isSpeaking = false;
-          if (typeof onEnd === 'function') onEnd();
+      // Preemptively stop previous Android TTS to guarantee zero clash
+      TextToSpeech.stop().catch(() => {}).finally(() => {
+        if (this.currentUtteranceId !== utteranceId) return;
+
+        TextToSpeech.speak({
+          text: humanizedText,
+          lang: targetLang,
+          rate: this.speechRate || 1.0,
+          pitch: this.speechPitch || 1.0,
+          volume: 1.0,
+          category: 'playback',
+          queueStrategy: 0, // QueueStrategy.Flush: cancel prior speech and play immediately
         })
-        .catch((ttsErr) => {
-          console.warn('[Native Android TTS Error]:', ttsErr);
-          this.isSpeaking = false;
-          if (typeof onEnd === 'function') onEnd();
-        });
+          .then(() => {
+            if (this.currentUtteranceId === utteranceId) {
+              this.isSpeaking = false;
+              if (typeof onEnd === 'function') onEnd();
+            }
+          })
+          .catch((ttsErr) => {
+            console.warn('[Native Android TTS Error]:', ttsErr);
+            if (this.currentUtteranceId === utteranceId) {
+              this.isSpeaking = false;
+              if (typeof onEnd === 'function') onEnd();
+            }
+          });
+      });
       return;
     }
 
@@ -638,8 +655,10 @@ class VoiceTranslationService {
           clearTimeout(spokenWatchdog);
           spokenWatchdog = null;
         }
-        this.isSpeaking = false;
-        if (typeof onEnd === 'function') onEnd();
+        if (this.currentUtteranceId === utteranceId) {
+          this.isSpeaking = false;
+          if (typeof onEnd === 'function') onEnd();
+        }
       };
 
       utterance.onend = finishSpeaking;
@@ -650,13 +669,13 @@ class VoiceTranslationService {
 
       // Watchdog: If offline browser drops TTS without firing onend/onerror
       spokenWatchdog = setTimeout(() => {
-        if (this.isSpeaking && !hasEnded) {
+        if (this.isSpeaking && !hasEnded && this.currentUtteranceId === utteranceId) {
           try {
             window.speechSynthesis.cancel();
           } catch (e) {}
           finishSpeaking();
         }
-      }, 4000);
+      }, 4500);
 
       try {
         window.speechSynthesis.speak(utterance);
@@ -671,6 +690,7 @@ class VoiceTranslationService {
 
   stopSpeaking() {
     this.isSpeaking = false;
+    this.currentUtteranceId = (this.currentUtteranceId || 0) + 1;
     if (this._isCapacitorAndroid()) {
       try {
         TextToSpeech.stop().catch(() => {});
@@ -679,6 +699,7 @@ class VoiceTranslationService {
     if (this.activeAudio) {
       try {
         this.activeAudio.pause();
+        this.activeAudio.currentTime = 0;
         this.activeAudio = null;
       } catch (e) {}
     }
@@ -690,25 +711,35 @@ class VoiceTranslationService {
   }
 
   /**
-   * Listens to voice input with dynamic language configuration
-   * @param {Function} onResult - Callback with (transcript, isFinal)
-   * @param {Function} onError - Callback with { code, message } object
-   * @param {string} lang - Recognition language (e.g. 'hi-IN' for teacher, 'en-IN', etc.)
-   * @param {Function} onEnd - Optional callback invoked when speech recognition session finishes
-   */
-  /**
    * Start listening using pure in-app on-device audio capture:
-   * 1. Hardware mic stream via Web Audio API AnalyserNode with RMS level streaming
-   * 2. Native Android OS on-device ASR with preferOffline: true
-   * 3. Local offline acoustic & curriculum resolver (zero network calls)
+   * Supports both (onResult, onError, lang, onEnd, onAudioLevel) positional args
+   * and an options object { onResult, onError, lang, onEnd, onAudioLevel }.
    */
-  async startListening(onResult, onError, lang = 'hi-IN', onEnd = null, onAudioLevel = null) {
+  async startListening(onResultOrOptions, onError = null, lang = 'hi-IN', onEnd = null, onAudioLevel = null) {
+    let actualOnResult = onResultOrOptions;
+    let actualOnError = onError;
+    let actualLang = lang;
+    let actualOnEnd = onEnd;
+    let actualOnAudioLevel = onAudioLevel;
+
+    if (onResultOrOptions && typeof onResultOrOptions === 'object') {
+      actualOnResult = onResultOrOptions.onResult;
+      actualOnError = onResultOrOptions.onError;
+      actualLang = onResultOrOptions.lang || 'hi-IN';
+      actualOnEnd = onResultOrOptions.onEnd;
+      actualOnAudioLevel = onResultOrOptions.onAudioLevel;
+    }
+
+    const safeOnResult = typeof actualOnResult === 'function' ? actualOnResult : () => {};
+    const safeOnError = typeof actualOnError === 'function' ? actualOnError : () => {};
+    const safeOnEnd = typeof actualOnEnd === 'function' ? actualOnEnd : null;
+
     this.isListening = true;
     this.latestTranscript = '';
     this.hasEmittedFinal = false;
 
     // Start in-app direct hardware microphone capture
-    await this.startInAppAudioCapture(onAudioLevel);
+    await this.startInAppAudioCapture(actualOnAudioLevel);
 
     // ── DEMO / RECORDING MODE: Support direct speech simulation ─────────────
     if (typeof window !== 'undefined' && window.__SARJOM_SIMULATE_SPEECH__) {
@@ -716,13 +747,13 @@ class VoiceTranslationService {
       window.__SARJOM_SIMULATE_SPEECH__ = null;
       setTimeout(() => {
         if (phrase.length > 8) {
-          onResult(phrase.slice(0, Math.floor(phrase.length / 2)), false);
+          safeOnResult(phrase.slice(0, Math.floor(phrase.length / 2)), false);
         }
         setTimeout(() => {
           this.isListening = false;
           this.stopInAppAudioCapture();
-          onResult(phrase, true);
-          if (onEnd) onEnd();
+          safeOnResult(phrase, true);
+          if (safeOnEnd) safeOnEnd();
         }, 500);
       }, 350);
       return;
@@ -737,7 +768,7 @@ class VoiceTranslationService {
           if (permResult && permResult.speechRecognition && permResult.speechRecognition === 'denied') {
             this.isListening = false;
             this.stopInAppAudioCapture();
-            onError({
+            safeOnError({
               code: 'not-allowed',
               message: 'Microphone permission was denied. Please allow microphone access in device Settings.',
             });
@@ -759,7 +790,7 @@ class VoiceTranslationService {
           const text = (data && data.matches && data.matches[0]) ? data.matches[0].trim() : '';
           if (text) {
             this.latestTranscript = text;
-            onResult(text, false); // stream interim text
+            safeOnResult(text, false); // stream interim text
           }
         });
 
@@ -772,16 +803,16 @@ class VoiceTranslationService {
             if (text && !this.hasEmittedFinal) {
               this.hasEmittedFinal = true;
               this.latestTranscript = text;
-              onResult(text, true);
+              safeOnResult(text, true);
             }
-            if (onEnd) onEnd();
+            if (safeOnEnd) safeOnEnd();
           }
         });
 
         // Start pure in-app background recognition (strictly zero Google popup dialog)
         try {
           await CapSpeech.start({
-            language: lang,           // e.g. 'hi-IN' or 'en-IN'
+            language: actualLang,       // e.g. 'hi-IN' or 'en-IN'
             maxResults: 3,
             partialResults: true,
             popup: false,             // Zero popup dialogs
@@ -790,11 +821,11 @@ class VoiceTranslationService {
           console.warn('[ASR Native] Background start notice:', startErr);
           this.isListening = false;
           this.stopInAppAudioCapture();
-          onError({
+          safeOnError({
             code: 'asr-start-failed',
             message: 'Voice recognition could not start. Please speak clearly or type below.',
           });
-          if (onEnd) onEnd();
+          if (safeOnEnd) safeOnEnd();
           return;
         }
       } catch (err) {
@@ -803,11 +834,11 @@ class VoiceTranslationService {
         this.stopInAppAudioCapture();
         const code = (err && err.message) || String(err) || 'unknown';
         console.warn('[ASR Native] Notice:', err);
-        onError({
+        safeOnError({
           code,
           message: 'Voice recognition unavailable. Please type directly in the box below.',
         });
-        if (onEnd) onEnd();
+        if (safeOnEnd) safeOnEnd();
       }
       return;
     }
@@ -831,7 +862,7 @@ class VoiceTranslationService {
 
     try {
       this.recognition = new BrowserSpeech();
-      this.recognition.lang = lang;
+      this.recognition.lang = actualLang;
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.recognition.maxAlternatives = 1;
@@ -855,7 +886,7 @@ class VoiceTranslationService {
       const activeText = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
       if (activeText) {
         this.latestTranscript = activeText;
-        onResult(activeText, false);
+        safeOnResult(activeText, false);
       }
     };
 
@@ -875,7 +906,7 @@ class VoiceTranslationService {
       } else if (errCode === 'audio-capture') {
         message = 'No microphone detected. Please plug in or enable a microphone.';
       }
-      onError({ code: errCode, message });
+      safeOnError({ code: errCode, message });
     };
 
     this.recognition.onend = () => {
@@ -885,9 +916,9 @@ class VoiceTranslationService {
       if (text && !this.hasEmittedFinal) {
         this.hasEmittedFinal = true;
         this.latestTranscript = text;
-        onResult(text, true);
+        safeOnResult(text, true);
       }
-      if (onEnd) onEnd();
+      if (safeOnEnd) safeOnEnd();
     };
 
     try {
