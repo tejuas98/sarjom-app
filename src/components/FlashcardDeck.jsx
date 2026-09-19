@@ -22,7 +22,6 @@ import {
   MessageSquare,
   BookOpen,
   Layers,
-  Check,
   X,
   HelpCircle,
 } from 'lucide-react';
@@ -45,7 +44,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [customHindiInput, setCustomHindiInput] = useState('');
   const [customEnglishInput, setCustomEnglishInput] = useState('');
-  const [customCategory, setCustomCategory] = useState('classroom');
+  const [customCategory, _setCustomCategory] = useState('classroom');
   const [customTranslations, setCustomTranslations] = useState(null);
   const [isAutoTranslating, setIsAutoTranslating] = useState(false);
   const [isDictatingModal, setIsDictatingModal] = useState(false);

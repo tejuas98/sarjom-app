@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { TRIBAL_LANGUAGES } from '../data/tribalLexicon';
-import { Mic, Volume2, Award, Sparkles, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mic, Volume2, Award } from 'lucide-react';
+import { voiceService } from '../services/voiceTranslationService';
 import { toast } from 'sonner';
 
 const ORF_TARGET_WORDS = {
@@ -82,7 +83,14 @@ export function AcousticPronunciationCoach({ selectedLang }) {
     return () => cancelAnimationFrame(animationFrame);
   }, [isListening]);
 
+  const handleListenModel = () => {
+    voiceService.stopSpeaking();
+    toast.info(`आदर्श उच्चारण: "${currentWord.word}"`);
+    voiceService.speakText(currentWord.roman || currentWord.word, 'hi-IN');
+  };
+
   const handleStartPractice = () => {
+    voiceService.stopSpeaking();
     setIsListening(true);
     setEvaluationResult(null);
     toast.info(`माइक सक्रिय: छात्र "${currentWord.word}" का स्पष्ट उच्चारण करें`);
@@ -199,23 +207,45 @@ export function AcousticPronunciationCoach({ selectedLang }) {
             </div>
           </div>
 
-          {/* Mic Action */}
-          <button
-            onClick={handleStartPractice}
-            disabled={isListening}
-            className={`btn-brutal ${isListening ? 'btn-palash' : 'btn-forest'}`}
-            style={{
-              padding: '14px 20px',
-              fontSize: '1.05rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-            }}
-          >
-            <Mic size={20} className={isListening ? 'audio-pulse' : ''} />
-            <span>{isListening ? 'छात्र की आवाज़ रिकॉर्ड हो रही है...' : 'छात्र से कहें: बोलकर पढ़ें (Start ORF Test)'}</span>
-          </button>
+          {/* Actions: Listen to Model Pronunciation & Mic Practice */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={handleListenModel}
+              className="btn-brutal btn-ochre"
+              style={{
+                flex: '1 1 140px',
+                padding: '14px 18px',
+                fontSize: '0.98rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+              }}
+            >
+              <Volume2 size={18} />
+              <span>आदर्श उच्चारण सुनें</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleStartPractice}
+              disabled={isListening}
+              className={`btn-brutal ${isListening ? 'btn-palash' : 'btn-forest'}`}
+              style={{
+                flex: '2 1 200px',
+                padding: '14px 20px',
+                fontSize: '1.02rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+              }}
+            >
+              <Mic size={20} className={isListening ? 'audio-pulse' : ''} />
+              <span>{isListening ? 'छात्र की आवाज़ रिकॉर्ड हो रही है...' : 'छात्र से कहें: बोलकर पढ़ें (Start ORF Test)'}</span>
+            </button>
+          </div>
         </div>
 
         {/* Right: Real-time Audio Spectrum & Formant Scoring */}

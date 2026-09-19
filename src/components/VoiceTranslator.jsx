@@ -1,30 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Mic,
-  MicOff,
   Volume2,
   VolumeX,
-  Clock,
-  Sparkles,
   Send,
-  RefreshCw,
-  MessageSquare,
-  ArrowRight,
-  ArrowLeftRight,
   User,
   School,
   FileDown,
   Printer,
-  FileText,
   Trash2,
   CheckCircle2,
   Radio,
   Wrench,
-  AlertCircle,
-  Check,
   HardDrive,
   SlidersHorizontal,
-  AudioWaveform,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -230,7 +219,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     }
     return 0; // Starts strictly at 00:00 when mic is tapped
   });
-  const [liveSessionCount, setLiveSessionCount] = useState(1);
 
   // Live session timer for continuous microphone mode
   useEffect(() => {
@@ -357,7 +345,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         handleSpeakAudio(textToBroadcast, res.nativeScript);
       }
       addToHistory(cleanText, res, isTeacherMode ? 'teacher' : 'student');
-      setLiveSessionCount((prev) => prev + 1);
       toast.success(
         isEn
           ? `Captured: "${cleanText.length > 30 ? cleanText.slice(0, 30) + '...' : cleanText}"`
@@ -523,7 +510,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         ? (res.phoneticDeva || res.nativeScript || res.audioText)
         : (res.hindiTranslation || res.nativeScript);
       addToHistory(inputText, res, isTeacherMode ? 'teacher' : 'student');
-      setLiveSessionCount((prev) => prev + 1);
       toast.success(
         isEn
           ? `Sentence Logged: "${inputText}"`
@@ -1565,7 +1551,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                     }}
                   >
                     <span>⚡</span>
-                    <span>{isEn ? '8ms Fast SLA' : '8ms त्वरित अनुवाद'}</span>
+                    <span>{measuredLatency || 8}ms {isEn ? 'Fast SLA' : 'त्वरित अनुवाद'}</span>
                   </span>
                 </div>
 

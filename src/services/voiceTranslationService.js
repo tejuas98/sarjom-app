@@ -574,7 +574,7 @@ class VoiceTranslationService {
 
     // Clean Ho Warang Chiti SMP annotations in parentheses like 'बीर (𑢤𑣂𑣜)' -> 'बीर'
     rawText = rawText
-      .replace(/\([^\)]*[\uD800-\uDFFF][^\)]*\)/g, '')
+      .replace(/\([^)]*[\uD800-\uDFFF][^)]*\)/g, '')
       .replace(/[\uD800-\uDFFF]/g, '')
       .replace(/[-_]/g, ' ')
       .replace(/\s+/g, ' ')
