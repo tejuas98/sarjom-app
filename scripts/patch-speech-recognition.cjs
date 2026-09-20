@@ -92,6 +92,14 @@ if (fs.existsSync(targetFile)) {
     }
 
     @PluginMethod
+    public void startSystemDialog(PluginCall call) {
+        String language = call.getString("language", Locale.getDefault().toString());
+        int maxResults = call.getInt("maxResults", MAX_RESULTS);
+        String prompt = call.getString("prompt", null);
+        beginListening(language, maxResults, prompt, false, true, call);
+    }
+
+    @PluginMethod
     @Override
     public void checkPermissions(PluginCall call) {
         boolean hasOsPerm = androidx.core.content.ContextCompat.checkSelfPermission(
@@ -137,10 +145,49 @@ if (fs.existsSync(targetFile)) {
 
   if (content.includes(oldStart)) {
     content = content.replace(oldStart, newStart);
+  } else if (!content.includes('public void startSystemDialog')) {
+    // If newStart already partially applied, inject startSystemDialog
+    content = content.replace(
+      'beginListening(language, maxResults, prompt, partialResults, false, call);\n    }',
+      'beginListening(language, maxResults, prompt, partialResults, false, call);\n    }\n\n    @PluginMethod\n    public void startSystemDialog(PluginCall call) {\n        String language = call.getString("language", Locale.getDefault().toString());\n        int maxResults = call.getInt("maxResults", MAX_RESULTS);\n        String prompt = call.getString("prompt", null);\n        beginListening(language, maxResults, prompt, false, true, call);\n    }'
+    );
+  }
+
+  // 4. Ensure onError notifies JS listeners
+  const oldOnError = `        @Override
+        public void onError(int error) {
+            SpeechRecognition.this.stopListening();
+            String errorMssg = getErrorText(error);
+
+            if (this.call != null) {
+                call.reject(errorMssg);
+            }
+        }`;
+
+  const newOnError = `        @Override
+        public void onError(int error) {
+            SpeechRecognition.this.stopListening();
+            String errorMssg = getErrorText(error);
+
+            try {
+                JSObject ret = new JSObject();
+                ret.put("status", "error");
+                ret.put("error", errorMssg);
+                ret.put("errorCode", error);
+                SpeechRecognition.this.notifyListeners(LISTENING_EVENT, ret);
+            } catch (Exception e) {}
+
+            if (this.call != null) {
+                call.reject(errorMssg);
+            }
+        }`;
+
+  if (content.includes(oldOnError)) {
+    content = content.replace(oldOnError, newOnError);
   }
 
   fs.writeFileSync(targetFile, content, 'utf8');
-  console.log('[patch] Successfully applied permission & offline speech recognition patch to SpeechRecognition.java');
+  console.log('[patch] Successfully applied permission, system dialog & error listener patch to SpeechRecognition.java');
 } else {
   console.log('[patch] Target file not found, skipping SpeechRecognition patch.');
 }

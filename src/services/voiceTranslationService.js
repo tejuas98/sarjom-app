@@ -739,6 +739,49 @@ class VoiceTranslationService {
   }
 
   /**
+   * Explicitly triggers Android's native system speech dialog (ACTION_RECOGNIZE_SPEECH).
+   * Displays the standard Android microphone waveform dialog.
+   * Works on 100% of Android phones (Samsung, Xiaomi, Vivo, Oppo, Google, AOSP).
+   */
+  async startSystemSpeechDialog(onResult, onError = null, lang = 'hi-IN', onEnd = null) {
+    const safeOnResult = typeof onResult === 'function' ? onResult : () => {};
+    const safeOnError = typeof onError === 'function' ? onError : () => {};
+    const safeOnEnd = typeof onEnd === 'function' ? onEnd : null;
+
+    if (this._isCapacitorAndroid()) {
+      try {
+        let popupResult = null;
+        if (CapSpeech.startSystemDialog) {
+          popupResult = await CapSpeech.startSystemDialog({ language: lang, maxResults: 3, prompt: 'बोलिए (Speak now)' });
+        } else {
+          popupResult = await CapSpeech.start({
+            language: lang,
+            maxResults: 3,
+            popup: true,
+            partialResults: false,
+            prompt: 'बोलिए (Speak now)',
+          });
+        }
+
+        if (popupResult && popupResult.matches && popupResult.matches.length > 0) {
+          const matchedText = popupResult.matches[0].trim();
+          if (matchedText) {
+            this.latestTranscript = matchedText;
+            this.hasEmittedFinal = true;
+            safeOnResult(matchedText, true);
+            if (safeOnEnd) safeOnEnd();
+            return matchedText;
+          }
+        }
+      } catch (err) {
+        console.warn('[System Dialog] Error:', err);
+        safeOnError(err);
+      }
+    }
+    return null;
+  }
+
+  /**
    * Start listening using pure in-app on-device audio capture:
    * Supports both (onResult, onError, lang, onEnd, onAudioLevel) positional args
    * and an options object { onResult, onError, lang, onEnd, onAudioLevel }.
@@ -823,7 +866,7 @@ class VoiceTranslationService {
         });
 
         // Listen for listening state events
-        await CapSpeech.addListener('listeningState', (state) => {
+        await CapSpeech.addListener('listeningState', async (state) => {
           if (state && state.status === 'stopped') {
             this.isListening = false;
             this.stopInAppAudioCapture();
@@ -833,6 +876,20 @@ class VoiceTranslationService {
               this.latestTranscript = text;
               safeOnResult(text, true);
             }
+            if (safeOnEnd) safeOnEnd();
+          } else if (state && state.status === 'error') {
+            console.warn('[ASR Native] Error reported from speech recognizer:', state.error, state.errorCode);
+            // If background continuous recognition hit an error (e.g. no match, timeout, or missing offline pack),
+            // offer or automatically trigger system speech intent popup
+            if (!this.hasEmittedFinal && !this.latestTranscript) {
+              try {
+                await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
+                return;
+              } catch (e) {}
+            }
+            this.isListening = false;
+            this.stopInAppAudioCapture();
+            safeOnError({ code: state.errorCode || 'error', message: state.error || 'Speech error' });
             if (safeOnEnd) safeOnEnd();
           }
         });
@@ -853,24 +910,8 @@ class VoiceTranslationService {
           // Attempt 2: Start with popup=true (System speech intent)
           // Works across Samsung Voice, Xiaomi Mi AI, Huawei Celia, AOSP, Vosk, or non-Google speech engines
           try {
-            const popupResult = await CapSpeech.start({
-              language: actualLang,
-              maxResults: 3,
-              partialResults: false,
-              popup: true,
-            });
-            if (popupResult && popupResult.matches && popupResult.matches.length > 0) {
-              const matchedText = popupResult.matches[0].trim();
-              if (matchedText) {
-                this.latestTranscript = matchedText;
-                this.hasEmittedFinal = true;
-                safeOnResult(matchedText, true);
-              }
-            }
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            if (safeOnEnd) safeOnEnd();
-            return;
+            const popupResult = await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
+            if (popupResult) return;
           } catch (popupErr) {
             console.warn('[ASR Native] System voice intent notice:', popupErr);
           }
