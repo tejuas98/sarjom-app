@@ -11,7 +11,7 @@ Offline mother-tongue translation and pedagogical bridge for Jharkhand primary s
 
 <br/>
 
-[![Download Latest APK](https://img.shields.io/badge/Download%20Latest%20APK-v3.0%20(102.2%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
+[![Download Latest APK](https://img.shields.io/badge/Download%20Latest%20APK-v3.0%20(7.7%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
 [![Download Debug Build](https://img.shields.io/badge/Download%20Debug%20Build-v2.4%20(18.5%20MB)-4285F4?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v2.4/SARJOM-v2.4-debug.apk)
 
 Direct downloads: **[Latest Production APK (v3.0)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[Debug Build (v2.4)](https://github.com/tejuas98/sarjom-app/releases/download/v2.4/SARJOM-v2.4-debug.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
