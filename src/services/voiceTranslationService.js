@@ -467,9 +467,20 @@ class VoiceTranslationService {
   }
 
   /**
-   * Actively requests hardware microphone permission via getUserMedia
+   * Actively requests hardware microphone permission via native plugin or getUserMedia
    */
   async requestMicPermission() {
+    if (this._isCapacitorAndroid()) {
+      try {
+        const res = await CapSpeech.requestPermissions();
+        if (res && res.speechRecognition === 'granted') {
+          return { status: 'granted', message: 'Microphone permission granted' };
+        }
+      } catch (capErr) {
+        console.warn('Native CapSpeech requestPermissions error:', capErr);
+      }
+    }
+
     if (typeof navigator === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       return { status: 'unsupported', message: 'MediaDevices API not supported in this browser' };
     }
@@ -485,10 +496,27 @@ class VoiceTranslationService {
       return {
         status: isDenied ? 'denied' : 'error',
         message: isDenied
-          ? 'Microphone permission was denied. Please allow microphone access in browser settings.'
+          ? 'Microphone permission was denied. Please allow microphone access in device settings.'
           : (err.message || 'Microphone access failed'),
       };
     }
+  }
+
+  /**
+   * Directly opens Android App Settings for SARJOM so the user can grant microphone permission with 1 tap
+   */
+  async openAppSettings() {
+    if (this._isCapacitorAndroid()) {
+      try {
+        if (CapSpeech.openAppSettings) {
+          await CapSpeech.openAppSettings();
+          return true;
+        }
+      } catch (e) {
+        console.warn('Error opening app settings:', e);
+      }
+    }
+    return false;
   }
 
   /**
@@ -809,7 +837,8 @@ class VoiceTranslationService {
           }
         });
 
-        // Start pure in-app background recognition (strictly zero Google popup dialog)
+        // Attempt 1: Start native background recognition (offline preference, zero popup)
+        let backgroundStarted = false;
         try {
           await CapSpeech.start({
             language: actualLang,       // e.g. 'hi-IN' or 'en-IN'
@@ -817,30 +846,42 @@ class VoiceTranslationService {
             partialResults: true,
             popup: false,             // Zero popup dialogs
           });
+          backgroundStarted = true;
         } catch (startErr) {
-          console.warn('[ASR Native] Background start notice:', startErr);
-          this.isListening = false;
-          this.stopInAppAudioCapture();
-          safeOnError({
-            code: 'asr-start-failed',
-            message: 'Voice recognition could not start. Please speak clearly or type below.',
-          });
-          if (safeOnEnd) safeOnEnd();
+          console.warn('[ASR Native] Background start notice, trying system voice intent fallback:', startErr);
+
+          // Attempt 2: Start with popup=true (System speech intent)
+          // Works across Samsung Voice, Xiaomi Mi AI, Huawei Celia, AOSP, Vosk, or non-Google speech engines
+          try {
+            const popupResult = await CapSpeech.start({
+              language: actualLang,
+              maxResults: 3,
+              partialResults: false,
+              popup: true,
+            });
+            if (popupResult && popupResult.matches && popupResult.matches.length > 0) {
+              const matchedText = popupResult.matches[0].trim();
+              if (matchedText) {
+                this.latestTranscript = matchedText;
+                this.hasEmittedFinal = true;
+                safeOnResult(matchedText, true);
+              }
+            }
+            this.isListening = false;
+            this.stopInAppAudioCapture();
+            if (safeOnEnd) safeOnEnd();
+            return;
+          } catch (popupErr) {
+            console.warn('[ASR Native] System voice intent notice:', popupErr);
+          }
+        }
+
+        if (backgroundStarted) {
           return;
         }
       } catch (err) {
-        await CapSpeech.removeAllListeners().catch(() => {});
-        this.isListening = false;
-        this.stopInAppAudioCapture();
-        const code = (err && err.message) || String(err) || 'unknown';
-        console.warn('[ASR Native] Notice:', err);
-        safeOnError({
-          code,
-          message: 'Voice recognition unavailable. Please type directly in the box below.',
-        });
-        if (safeOnEnd) safeOnEnd();
+        console.warn('[ASR Native] General notice, proceeding to Web Speech fallback:', err);
       }
-      return;
     }
 
     // ── FALLBACK: In-App Browser Speech API with Offline Resilience ─────────
