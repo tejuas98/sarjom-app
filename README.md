@@ -11,10 +11,10 @@ Offline mother-tongue translation and pedagogical bridge for Jharkhand primary s
 
 <br/>
 
-[![Download Latest APK v3.1](https://img.shields.io/badge/Download%20Latest%20APK-v3.1%20(67%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.1/SARJOM-v3.1-vosk-offline.apk)
+[![Download Latest APK v3.2](https://img.shields.io/badge/Download%20Latest%20APK-v3.2%20(67%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.2/SARJOM-v3.2-release.apk)
 [![Download Production APK v3.0](https://img.shields.io/badge/Download%20Production%20APK-v3.0%20(67%20MB)-4285F4?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
 
-Direct downloads: **[Latest Release v3.1 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.1/SARJOM-v3.1-vosk-offline.apk)** | **[Production Build v3.0 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
+Direct downloads: **[Latest Release v3.2 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.2/SARJOM-v3.2-release.apk)** | **[Release v3.1 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.1/SARJOM-v3.1-vosk-offline.apk)** | **[Production Build v3.0 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
 
 Local APK file: `/Users/toru/Downloads/SARJOM-v3.0-final.apk`
 
@@ -28,6 +28,8 @@ SARJOM is an on-device, zero-cloud speech recognition, translation, and foundati
 
 Key breakthroughs:
 - **100% Offline Speech Recognition**: Native Vosk neural acoustic decoding embedded directly in the APK via Android hardware `AudioRecord`. Eliminates all dependencies on Google Speech Services (`com.google.android.googlequicksearchbox`), Google dialogs, and internet connectivity.
+- **Continuous Phrase Accumulation & Natural Pauses**: Decouples intermediate acoustic phrase chunks from session finalization so teachers and students can speak multi-clause sentences naturally across pauses (with a 2.5-second silence detection window) without the microphone shutting down mid-sentence.
+- **Classroom Discourse & ASR Error Recovery**: Intelligently recovers classroom sentences like *"Aaj hamari hindi ki kaksha hai"* from common phonetic and ASR misrecognitions (*"toh hamari hindi hh"*, *"aaj hamari hindi class hai"*, *"our hindi class"*) into standard Hindi and delivers instant, authentic translations in Santhali (Ol Chiki), Ho, Mundari, and Sadri.
 - **Spoken Hinglish / English / Hindi Normalizer**: Automatically normalizes spoken colloquial commands (*"kitab kholo"*, *"open book"*, *"pani piyo"*, *"chup raho"*, *"baith jao"*, *"namaste"*, *"likho"*, *"padho"*, *"shabash"*) into standard Hindi keywords before routing to tribal translation.
 - **Clean Interface (Zero Hardcoded Words)**: The interface is clean and live, driven purely by real-time voice input and live typing without hardcoded words, canned prompts, or demo chips.
 - **Continuous Speech & Essay Streaming**: Verified through a 619-word SIH technical pitch essay stream with 100% continuity and ~2.1ms average sentence latency (well beneath the 3,000ms SLA).
