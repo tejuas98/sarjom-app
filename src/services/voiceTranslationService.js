@@ -743,44 +743,11 @@ class VoiceTranslationService {
    * Displays the standard Android microphone waveform dialog.
    * Works on 100% of Android phones (Samsung, Xiaomi, Vivo, Oppo, Google, AOSP).
    */
+  /**
+   * Pure in-app speech capture (redirects to startListening with zero Google popups)
+   */
   async startSystemSpeechDialog(onResult, onError = null, lang = 'hi-IN', onEnd = null) {
-    const safeOnResult = typeof onResult === 'function' ? onResult : () => {};
-    const safeOnError = typeof onError === 'function' ? onError : () => {};
-    const safeOnEnd = typeof onEnd === 'function' ? onEnd : null;
-
-    if (this._isCapacitorAndroid()) {
-      try {
-        let popupResult = null;
-        if (CapSpeech.startSystemDialog) {
-          popupResult = await CapSpeech.startSystemDialog({ language: lang, maxResults: 3, prompt: 'बोलिए (Speak now)' });
-        } else {
-          popupResult = await CapSpeech.start({
-            language: lang,
-            maxResults: 3,
-            popup: true,
-            partialResults: false,
-            prompt: 'बोलिए (Speak now)',
-          });
-        }
-
-        if (popupResult && popupResult.matches && popupResult.matches.length > 0) {
-          const matchedText = popupResult.matches[0].trim();
-          if (matchedText) {
-            this.latestTranscript = matchedText;
-            this.hasEmittedFinal = true;
-            safeOnResult(matchedText, true);
-            if (safeOnEnd) safeOnEnd();
-            return matchedText;
-          }
-        }
-        if (safeOnEnd) safeOnEnd();
-      } catch (err) {
-        console.warn('[System Dialog] Error:', err);
-        safeOnError(err);
-        if (safeOnEnd) safeOnEnd();
-      }
-    }
-    return null;
+    return this.startListening(onResult, onError, lang, onEnd);
   }
 
   /**
@@ -811,12 +778,10 @@ class VoiceTranslationService {
     this.latestTranscript = '';
     this.hasEmittedFinal = false;
 
-    // Start in-app direct hardware microphone capture for web audio visualizer (Web-only to avoid Android mic locks)
-    if (!this._isCapacitorAndroid()) {
-      await this.startInAppAudioCapture(actualOnAudioLevel);
-    }
+    // Start in-app direct hardware microphone capture for web audio visualizer
+    await this.startInAppAudioCapture(actualOnAudioLevel).catch(() => {});
 
-    // ── PRIMARY: Capacitor Android on-device ASR ──────────────────────────
+    // ── PRIMARY: Capacitor Android Native On-Device In-App ASR ───────────
     if (this._isCapacitorAndroid()) {
       try {
         // Request mic permission if not already granted
@@ -824,6 +789,7 @@ class VoiceTranslationService {
           const permResult = await CapSpeech.requestPermissions();
           if (permResult && permResult.speechRecognition && permResult.speechRecognition === 'denied') {
             this.isListening = false;
+            this.stopInAppAudioCapture();
             safeOnError({
               code: 'not-allowed',
               message: 'Microphone permission was denied. Please allow microphone access in device Settings.',
@@ -841,16 +807,40 @@ class VoiceTranslationService {
         // Clean any stale listeners first
         await CapSpeech.removeAllListeners().catch(() => {});
 
-        // On Android, use System Speech Dialog which provides 100% reliable hardware microphone capture
-        // across all device manufacturers (Samsung, Xiaomi, Vivo, Oppo, Google, Realme, etc.)
-        const result = await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
-        this.isListening = false;
-        return result;
+        // Listen for live speech stream partial results (pure in-app, zero Google popups!)
+        await CapSpeech.addListener('partialResults', (data) => {
+          if (data && data.matches && data.matches.length > 0) {
+            const current = data.matches[0].trim();
+            if (current) {
+              this.latestTranscript = current;
+              safeOnResult(current, false);
+            }
+          }
+        });
+
+        // Listen for speech stopped / finalized
+        await CapSpeech.addListener('listening', (data) => {
+          if (data && data.status === 'stopped') {
+            const final = this.latestTranscript ? this.latestTranscript.trim() : '';
+            if (final && !this.hasEmittedFinal) {
+              this.hasEmittedFinal = true;
+              safeOnResult(final, true);
+            }
+            if (safeOnEnd) safeOnEnd();
+          }
+        });
+
+        // Start native in-app background speech recognizer (popup: false -> NO GOOGLE DIALOG!)
+        await CapSpeech.start({
+          language: actualLang,
+          maxResults: 3,
+          partialResults: true,
+          popup: false,
+        });
+
+        return;
       } catch (err) {
-        console.warn('[ASR Native] General notice, proceeding to Web Speech fallback:', err);
-        this.isListening = false;
-        safeOnError(err);
-        if (safeOnEnd) safeOnEnd();
+        console.warn('[ASR Native] Notice, falling back to In-App Web Speech:', err);
       }
     }
 
@@ -906,7 +896,7 @@ class VoiceTranslationService {
       if (errCode === 'no-speech') return; // natural pause
       if (errCode === 'network') {
         // Browser Web Speech throws 'network' when offline.
-        // Do NOT fail! In-app hardware mic capture continues silently on-device.
+        // In-app hardware mic capture continues silently on-device.
         return;
       }
       this.isListening = false;
@@ -967,80 +957,5 @@ class VoiceTranslationService {
     }
   }
 }
-
-export const IN_APP_CURRICULUM_CORPUS = [
-  {
-    id: 'lesson_plants',
-    category: 'science',
-    label: 'Science: Plants & Sunlight',
-    labelHi: 'विज्ञान पाठ: पौधे व धूप',
-    hi: 'पौधों को बढ़ने के लिए पानी और सूरज चाहिए',
-    santhali: 'ᱫᱟᱨᱮ ᱠᱚ ᱦᱟᱨᱟᱜ ᱞᱟᱹᱜᱤᱫ ᱥᱤᱧᱡᱚ ᱢᱟᱨᱥᱟᱞ ᱟᱨ ᱫᱟᱜ ᱞᱟᱹᱠᱛᱤᱭᱟ',
-    ho: 'दारु को हाराओ नान्ते सिंगी मार्सल दरकार',
-    mundari: 'दाराे को हाराओ लगिद सिंगी मार्सल दरकार',
-    sadri: 'गाछ-बिरिछ बाढ़े ले पानी आउर सुरुज कर धूप चाही',
-    audioClip: '/audio/lesson_plants_hi.mp3',
-  },
-  {
-    id: 'classroom_command',
-    category: 'command',
-    label: 'Classroom: Open Book',
-    labelHi: 'कक्षा निर्देश: किताब खोलो',
-    hi: 'बच्चों, अपनी किताब खोलो',
-    santhali: 'ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ, ᱟᱯᱱᱟᱨ ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡ ᱯᱮ',
-    ho: 'होनको, अपना पुथी उतावेपे',
-    mundari: 'होनाको, अपना पुथी उतावेपे',
-    sadri: 'छौवा मन, आपन किताब खोला',
-    audioClip: '/audio/classroom_command.mp3',
-  },
-  {
-    id: 'teacher_praise',
-    category: 'praise',
-    label: 'Praise: Well Done',
-    labelHi: 'प्रशंसा: बहुत अच्छा',
-    hi: 'शाबाश, बहुत अच्छा काम किया!',
-    santhali: 'ᱥᱟᱵᱟᱥ, ᱟᱹᱰᱤ ᱵᱮᱥ ᱠᱟᱹᱢᱤ!',
-    ho: 'शाबाश, बेस गे कामिया!',
-    mundari: 'शाबाश, बेस गे कामिया!',
-    sadri: 'शाबाश, बहुत बेस काम करली!',
-    audioClip: '/audio/teacher_praise.mp3',
-  },
-  {
-    id: 'affirmation',
-    category: 'affirm',
-    label: 'Affirm: Exactly Right',
-    labelHi: 'स्वीकृति: बिलकुल सही',
-    hi: 'हाँ, बिलकुल सही है!',
-    santhali: 'ᱦᱮᱸ, ᱥᱟᱹᱨᱤ ᱜᱮ!',
-    ho: 'हेअ, सरि गे!',
-    mundari: 'हेअ, सारि गे!',
-    sadri: 'हाँ, एकदम सही है!',
-    audioClip: '/audio/confirm_teacher_hi.mp3',
-  },
-  {
-    id: 'johar_greeting',
-    category: 'greeting',
-    label: 'Greeting: Johar',
-    labelHi: 'अभिवादन: जोहार',
-    hi: 'जोहार, आप कैसे हैं?',
-    santhali: 'ᱡᱚᱦᱟᱨ! ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱵᱤᱱᱟ?',
-    ho: 'जोहार! चिलके मेनाया?',
-    mundari: 'जोहार! चिलके मेनाया?',
-    sadri: 'जोहार! रउरे मन केसन अही?',
-    audioClip: '/audio/johar_greeting.mp3',
-  },
-  {
-    id: 'self_intro',
-    category: 'intro',
-    label: 'Intro: My Name is Rudra',
-    labelHi: 'परिचय: मेरा नाम रुद्र है',
-    hi: 'मेरा नाम रुद्र है',
-    santhali: 'ᱤᱧᱟᱜ ᱧᱩᱛᱩᱢ ᱨᱩᱫᱽᱨᱚ ᱠᱟᱱᱟ',
-    ho: 'अयिङाः नुतूम रुद्र',
-    mundari: 'अइङाः नुतूम रुद्र',
-    sadri: 'मोर नाम रुद्र हेके',
-    audioClip: '/audio/santhali_rudra_output.mp3',
-  },
-];
 
 export const voiceService = new VoiceTranslationService();

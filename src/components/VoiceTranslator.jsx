@@ -15,7 +15,6 @@ import {
   HardDrive,
   SlidersHorizontal,
   MessageSquare,
-  Smartphone,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -107,7 +106,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const [speechInputLang, setSpeechInputLang] = useState('hi-IN'); // 'hi-IN' (Hindi) or 'en-IN' (Indian English)
   const [showOfflineHelpModal, setShowOfflineHelpModal] = useState(false);
   const [audioLevel, setAudioLevel] = useState(0);
-  const [isSystemMicActive, setIsSystemMicActive] = useState(false);
   const silenceTimerRef = useRef(null);
   const latestSpokenRef = useRef('');
   const lastFinalizedRef = useRef({ text: '', timestamp: 0 });
@@ -413,31 +411,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         );
       }
     });
-  };
-
-  const handleStartSystemSpeech = async () => {
-    if (isRecording) handleStopMic();
-    setIsSystemMicActive(true);
-    toast.info(isEn ? 'Opening Android System Speech Dialog...' : 'एंड्रॉयड सिस्टम माइक खुल रहा है...');
-    try {
-      await voiceService.startSystemSpeechDialog(
-        (transcript) => {
-          setIsSystemMicActive(false);
-          if (transcript) {
-            setInputText(transcript);
-            handleFinalizeSpeech(transcript);
-          }
-        },
-        (err) => {
-          setIsSystemMicActive(false);
-          console.warn('System speech dialog error:', err);
-          toast.error(isEn ? 'System speech was cancelled or unavailable' : 'सिस्टम आवाज़ संवाद रद्द या अनुपलब्ध');
-        },
-        isTeacherMode ? speechInputLang : 'hi-IN'
-      );
-    } catch (e) {
-      setIsSystemMicActive(false);
-    }
   };
 
   const addToHistory = (source, res, direction = 'teacher') => {
@@ -1176,32 +1149,6 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 }
               >
                 {isRecording ? <Mic size={32} className="audio-pulse" /> : <Mic size={30} />}
-              </button>
-
-              {/* Native Android System Dialog Mic Button */}
-              <button
-                type="button"
-                id="system-speech-dialog-btn"
-                onClick={handleStartSystemSpeech}
-                style={{
-                  padding: '10px 14px',
-                  borderRadius: '8px',
-                  backgroundColor: isSystemMicActive ? '#059669' : 'var(--color-surface-tint)',
-                  color: isSystemMicActive ? '#FFFFFF' : 'var(--color-slate)',
-                  border: '1px solid var(--color-border)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  transition: 'all 0.15s ease',
-                }}
-                title={isEn ? 'Open Native Android Speech Dialog (Direct OS Voice Recognition)' : 'एंड्रॉयड सिस्टम माइक संवाद (OS डायरेक्ट वाक पहचान)'}
-              >
-                <Smartphone size={18} color="var(--color-palash)" />
-                <div style={{ textAlign: 'left', lineHeight: 1.2 }}>
-                  <div style={{ fontSize: '0.80rem', fontWeight: 800 }}>{isEn ? 'Android OS Mic' : 'सिस्टम माइक'}</div>
-                  <div style={{ fontSize: '0.67rem', color: 'var(--color-slate-muted)' }}>{isEn ? 'OS Speech Dialog' : 'डायरेक्ट वॉइस'}</div>
-                </div>
               </button>
             </div>
 

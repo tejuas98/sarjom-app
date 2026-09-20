@@ -59,15 +59,9 @@ if (fs.existsSync(targetFile)) {
         String language = call.getString("language", Locale.getDefault().toString());
         int maxResults = call.getInt("maxResults", MAX_RESULTS);
         String prompt = call.getString("prompt", null);
-        boolean partialResults = call.getBoolean("partialResults", false);
-        boolean popup = call.getBoolean("popup", false);
+        boolean partialResults = call.getBoolean("partialResults", true);
 
-        // If background recognition is unavailable or popup requested, launch system speech intent
-        if (!isSpeechRecognitionAvailable() || popup) {
-            beginListening(language, maxResults, prompt, partialResults, true, call);
-            return;
-        }
-
+        // Always listen in-app in the background with zero external Google popup dialogs
         beginListening(language, maxResults, prompt, partialResults, false, call);
     }
 
@@ -87,10 +81,8 @@ if (fs.existsSync(targetFile)) {
 
     @PluginMethod
     public void startSystemDialog(PluginCall call) {
-        String language = call.getString("language", Locale.getDefault().toString());
-        int maxResults = call.getInt("maxResults", MAX_RESULTS);
-        String prompt = call.getString("prompt", null);
-        beginListening(language, maxResults, prompt, false, true, call);
+        // Redirect to in-app start with zero Google popup dialogs
+        start(call);
     }
 
     @PluginMethod
@@ -250,6 +242,60 @@ if (fs.existsSync(targetFile)) {
       oldOfflineExtra,
       '// Allow online or offline speech recognition dynamically depending on available device language packs\n        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, language);\n        // intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);'
     );
+  }
+
+  // 6. Ensure onResults always notifies partialResults and listening listeners
+  const oldOnResults = `        @Override
+        public void onResults(Bundle results) {
+            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+
+            try {
+                JSArray jsArray = new JSArray(matches);
+
+                if (this.call != null) {
+                    if (!this.partialResults) {
+                        this.call.resolve(new JSObject().put("status", "success").put("matches", jsArray));
+                    } else {
+                        JSObject ret = new JSObject();
+                        ret.put("matches", jsArray);
+                        notifyListeners("partialResults", ret);
+                    }
+                }
+            } catch (Exception ex) {
+                this.call.resolve(new JSObject().put("status", "error").put("message", ex.getMessage()));
+            }
+        }`;
+
+  const newOnResults = `        @Override
+        public void onResults(Bundle results) {
+            ArrayList<String> matches = results != null ? results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) : null;
+
+            try {
+                if (matches != null && matches.size() > 0) {
+                    JSArray jsArray = new JSArray(matches);
+                    JSObject ret = new JSObject();
+                    ret.put("matches", jsArray);
+                    ret.put("isFinal", true);
+                    notifyListeners("partialResults", ret);
+
+                    JSObject stoppedEvent = new JSObject();
+                    stoppedEvent.put("status", "stopped");
+                    stoppedEvent.put("matches", jsArray);
+                    notifyListeners(LISTENING_EVENT, stoppedEvent);
+                }
+
+                if (this.call != null && !this.partialResults) {
+                    this.call.resolve(new JSObject().put("status", "success").put("matches", matches != null ? new JSArray(matches) : new JSArray()));
+                }
+            } catch (Exception ex) {
+                if (this.call != null && !this.partialResults) {
+                    this.call.reject(ex.getMessage());
+                }
+            }
+        }`;
+
+  if (content.includes(oldOnResults)) {
+    content = content.replace(oldOnResults, newOnResults);
   }
 
   fs.writeFileSync(targetFile, content, 'utf8');
