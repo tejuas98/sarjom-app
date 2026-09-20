@@ -15,6 +15,7 @@ import {
   HardDrive,
   SlidersHorizontal,
   MessageSquare,
+  Zap,
 } from 'lucide-react';
 import { translateHindiToTribal, translateTribalToHindi } from '../services/nlpTranslationEngine';
 import { voiceService } from '../services/voiceTranslationService';
@@ -1513,7 +1514,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                       marginLeft: '4px',
                     }}
                   >
-                    <span>⚡</span>
+                    <Zap size={11} color="#059669" />
                     <span>{measuredLatency || 8}ms {isEn ? 'Fast SLA' : 'त्वरित अनुवाद'}</span>
                   </span>
                 </div>
