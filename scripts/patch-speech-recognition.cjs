@@ -243,12 +243,17 @@ if (fs.existsSync(targetFile)) {
             }
         }`;
 
-  if (content.includes(oldOnError)) {
-    content = content.replace(oldOnError, newOnError);
+  // 5. Remove forced EXTRA_PREFER_OFFLINE so devices without pre-downloaded Hindi offline models can transcribe seamlessly
+  const oldOfflineExtra = 'intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);';
+  if (content.includes(oldOfflineExtra)) {
+    content = content.replace(
+      oldOfflineExtra,
+      '// Allow online or offline speech recognition dynamically depending on available device language packs\n        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, language);\n        // intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);'
+    );
   }
 
   fs.writeFileSync(targetFile, content, 'utf8');
-  console.log('[patch] Successfully applied permission callbacks, system dialog & error listener patch to SpeechRecognition.java');
+  console.log('[patch] Successfully applied permission callbacks, system dialog, error listener & offline resilience patch to SpeechRecognition.java');
 } else {
   console.log('[patch] Target file not found, skipping SpeechRecognition patch.');
 }
