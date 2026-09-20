@@ -176,7 +176,4 @@ npm install
 
 # Start local server
 npm run dev
-
-# Run automated offline translation benchmark (72 tests, 100% passing)
-node test_adoption_audiobook_translation.cjs
 ```

@@ -816,24 +816,6 @@ class VoiceTranslationService {
       await this.startInAppAudioCapture(actualOnAudioLevel);
     }
 
-    // ── DEMO / RECORDING MODE: Support direct speech simulation ─────────────
-    if (typeof window !== 'undefined' && window.__SARJOM_SIMULATE_SPEECH__) {
-      const phrase = window.__SARJOM_SIMULATE_SPEECH__;
-      window.__SARJOM_SIMULATE_SPEECH__ = null;
-      setTimeout(() => {
-        if (phrase.length > 8) {
-          safeOnResult(phrase.slice(0, Math.floor(phrase.length / 2)), false);
-        }
-        setTimeout(() => {
-          this.isListening = false;
-          this.stopInAppAudioCapture();
-          safeOnResult(phrase, true);
-          if (safeOnEnd) safeOnEnd();
-        }, 500);
-      }, 350);
-      return;
-    }
-
     // ── PRIMARY: Capacitor Android on-device ASR ──────────────────────────
     if (this._isCapacitorAndroid()) {
       try {
