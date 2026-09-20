@@ -11,9 +11,10 @@ Offline mother-tongue translation and pedagogical bridge for Jharkhand primary s
 
 <br/>
 
-[![Download Production APK](https://img.shields.io/badge/Download%20Production%20APK-v3.0%20(67%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
+[![Download Latest APK v3.1](https://img.shields.io/badge/Download%20Latest%20APK-v3.1%20(67%20MB)-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.1/SARJOM-v3.1-vosk-offline.apk)
+[![Download Production APK v3.0](https://img.shields.io/badge/Download%20Production%20APK-v3.0%20(67%20MB)-4285F4?style=for-the-badge&logo=android&logoColor=white)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)
 
-Direct downloads: **[Production APK v3.0 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
+Direct downloads: **[Latest Release v3.1 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.1/SARJOM-v3.1-vosk-offline.apk)** | **[Production Build v3.0 (67 MB)](https://github.com/tejuas98/sarjom-app/releases/download/v3.0/SARJOM-v3.0-final.apk)** | **[All Releases](https://github.com/tejuas98/sarjom-app/releases)**
 
 Local APK file: `/Users/toru/Downloads/SARJOM-v3.0-final.apk`
 
