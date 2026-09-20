@@ -942,7 +942,20 @@ class VoiceTranslationService {
     };
 
     this.recognition.onend = () => {
-      this.isListening = false;
+      if (this.isListening) {
+        // Continuous teacher lecture mode: Keep recognition active across browser speech timeouts
+        try {
+          this.recognition.start();
+          return;
+        } catch (restartErr) {
+          setTimeout(() => {
+            if (this.isListening) {
+              try { this.recognition.start(); } catch (e) {}
+            }
+          }, 300);
+          return;
+        }
+      }
       this.stopInAppAudioCapture();
       const text = this.latestTranscript ? this.latestTranscript.trim() : '';
       if (text && !this.hasEmittedFinal) {

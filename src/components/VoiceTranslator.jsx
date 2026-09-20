@@ -110,6 +110,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
   const silenceTimerRef = useRef(null);
   const latestSpokenRef = useRef('');
   const lastFinalizedRef = useRef({ text: '', timestamp: 0 });
+  const loggedPhrasesRef = useRef(new Set());
 
   useEffect(() => {
     return () => {
@@ -272,42 +273,16 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     });
   };
 
-  const handleFinalizeSpeech = (transcript) => {
-    if (silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
-    }
-    setIsRecording(false);
-    setAudioLevel(0);
-    voiceService.stopListening();
+  const commitSentenceToHistory = (textToCommit) => {
+    const clean = (textToCommit || '').trim();
+    if (!clean || clean.length < 2) return;
+    const lowerKey = clean.toLowerCase();
+    if (loggedPhrasesRef.current.has(lowerKey)) return;
+    loggedPhrasesRef.current.add(lowerKey);
 
-    const cleanText = (transcript || '').trim();
-    if (!cleanText) return;
-
-    // Guard against duplicate execution within 3 seconds
-    const now = Date.now();
-    if (
-      lastFinalizedRef.current.text === cleanText &&
-      now - lastFinalizedRef.current.timestamp < 3000
-    ) {
-      return;
-    }
-    lastFinalizedRef.current = { text: cleanText, timestamp: now };
-
-    const res = executeTranslation(cleanText);
+    const res = executeTranslation(clean);
     if (res) {
-      const textToBroadcast = isTeacherMode
-        ? (res.phoneticDeva || res.nativeScript || res.audioText)
-        : (res.hindiTranslation || res.nativeScript);
-      if (autoBroadcast) {
-        handleSpeakAudio(textToBroadcast, res.nativeScript);
-      }
-      addToHistory(cleanText, res, isTeacherMode ? 'teacher' : 'student');
-      toast.success(
-        isEn
-          ? `Captured: "${cleanText.length > 30 ? cleanText.slice(0, 30) + '...' : cleanText}"`
-          : `वाक अनुवादित: "${cleanText.length > 30 ? cleanText.slice(0, 30) + '...' : cleanText}"`
-      );
+      addToHistory(clean, res, isTeacherMode ? 'teacher' : 'student');
     }
   };
 
@@ -315,6 +290,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
     silenceTimerRef.current = null;
     latestSpokenRef.current = '';
+    loggedPhrasesRef.current = new Set();
     setSessionSeconds(0);
 
     // Stop all audio playback before opening the microphone
@@ -327,10 +303,10 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     toast.info(
       isEn
         ? isTeacherMode
-          ? `Microphone active (${recognitionLang === 'en-IN' ? 'English' : 'Hindi'}): Speak now...`
+          ? `Microphone active (${recognitionLang === 'en-IN' ? 'English' : 'Hindi'}): Teaching session started. Speak continuously...`
           : `Student microphone active: Speak in ${langMeta.name}...`
         : isTeacherMode
-        ? `माइक्रोफ़ोन सक्रिय (${recognitionLang === 'en-IN' ? 'अंग्रेज़ी' : 'हिंदी'}): अब बोलें...`
+        ? `माइक्रोफ़ोन सक्रिय (${recognitionLang === 'en-IN' ? 'अंग्रेज़ी' : 'हिंदी'}): कक्षा पाठ प्रारंभ। बोलते रहें...`
         : `छात्र माइक्रोफ़ोन सक्रिय: ${langMeta.name} में बोलें...`
     );
 
@@ -340,16 +316,17 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         latestSpokenRef.current = transcript;
         setInputText(transcript);
 
-        // Reset silence timer on every new speech packet
+        // Continuous teaching session: Auto-commit distinct completed sentences to history on pauses without stopping the microphone
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = setTimeout(() => {
+          if (latestSpokenRef.current && latestSpokenRef.current.trim()) {
+            commitSentenceToHistory(latestSpokenRef.current.trim());
+          }
+        }, 1800);
 
+        // The microphone STAYS ON continuously throughout the lesson. It does not stop on pauses until the teacher taps the mic button!
         if (isFinal) {
-          handleFinalizeSpeech(transcript);
-        } else {
-          // Keep listening continuously across pauses; auto-finalize after 2.5s of silence
-          silenceTimerRef.current = setTimeout(() => {
-            handleStopMic();
-          }, 2500);
+          commitSentenceToHistory(transcript);
         }
       },
       (error) => {
@@ -373,14 +350,14 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         } else {
           toast.info(
             isEn
-              ? 'No speech recognized. Please speak into the mic or type in the box below.'
-              : 'कोई आवाज़ पहचानी नहीं गई। कृपया माइक के पास बोलें या नीचे बॉक्स में लिखें।'
+              ? 'Microphone active: Speak your lesson.'
+              : 'माइक सक्रिय है: पाठ बोलना जारी रखें।'
           );
         }
       },
       recognitionLang,
       () => {
-        // Recognition session finished: clean up recording state only, do NOT re-finalize
+        // Recognition session finished: clean up recording state only when explicitly stopped
         if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         silenceTimerRef.current = null;
         setIsRecording(false);
@@ -399,16 +376,31 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
     }
     setAudioLevel(0);
     setIsRecording(false);
+
     voiceService.stopListening((finalText) => {
       const textToUse = (finalText && finalText.trim()) || latestSpokenRef.current;
       if (textToUse && textToUse.trim()) {
         setInputText(textToUse);
-        handleFinalizeSpeech(textToUse);
+        commitSentenceToHistory(textToUse);
+
+        const res = executeTranslation(textToUse);
+        if (res && autoBroadcast) {
+          const textToBroadcast = isTeacherMode
+            ? (res.phoneticDeva || res.nativeScript || res.audioText)
+            : (res.hindiTranslation || res.nativeScript);
+          handleSpeakAudio(textToBroadcast, res.nativeScript);
+        }
+
+        toast.success(
+          isEn
+            ? `Teaching session concluded. Total duration: ${formatTimer(sessionSeconds)}`
+            : `कक्षा पाठ संपन्न। कुल समय: ${formatTimer(sessionSeconds)}`
+        );
       } else {
         toast.info(
           isEn
-            ? 'No speech recognized. Please speak into the mic or type in the box below.'
-            : 'कोई आवाज़ पहचानी नहीं गई। कृपया माइक के पास बोलें या नीचे बॉक्स में लिखें।'
+            ? 'Teaching session concluded.'
+            : 'कक्षा पाठ संपन्न।'
         );
       }
     });
