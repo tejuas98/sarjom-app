@@ -1578,7 +1578,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               </div>
             </div>
           ) : (
-            /* Real-Time Voice & Text Translation Empty State */
+            /* Real-Time Voice & Text Translation Empty State (100% Live, Zero Hardcoded Words) */
             <div
               style={{
                 display: 'flex',
@@ -1586,7 +1586,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                padding: '24px 16px',
+                padding: '36px 16px',
                 textAlign: 'center',
                 backgroundColor: 'rgba(255, 255, 255, 0.4)',
                 borderRadius: '8px',
@@ -1595,50 +1595,20 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 gap: '12px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(230, 81, 0, 0.08)', border: '1px solid rgba(230, 81, 0, 0.2)' }}>
-                <Mic size={20} color="var(--color-palash)" />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'rgba(230, 81, 0, 0.08)', border: '1px solid rgba(230, 81, 0, 0.2)' }}>
+                <Mic size={24} color="var(--color-palash)" />
               </div>
-              <div style={{ width: '100%', maxWidth: '480px' }}>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.90rem', color: 'var(--color-slate)' }}>
+              <div style={{ width: '100%', maxWidth: '440px' }}>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.94rem', color: 'var(--color-slate)' }}>
                   {isTeacherMode
-                    ? (isEn ? 'Speak into the mic or choose a classroom keyword:' : 'माइक से बोलें या त्वरित कक्षा वाक चुनें:')
-                    : (isEn ? 'Speak or type in tribal language:' : 'जनजातीय भाषा में बोलें या लिखें:')}
+                    ? (isEn ? 'Tap the microphone or type above to begin translation' : 'माइक दबाएं या ऊपर लिखकर अनुवाद शुरू करें')
+                    : (isEn ? 'Tap the microphone or type student speech' : 'माइक दबाएं या छात्र की बात लिखें')}
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center', marginTop: '10px' }}>
-                  {[
-                    { hi: 'किताब खोलो', en: 'Open book' },
-                    { hi: 'पानी पियो', en: 'Drink water' },
-                    { hi: 'चुप रहो', en: 'Be quiet' },
-                    { hi: 'बैठ जाओ', en: 'Sit down' },
-                    { hi: 'लिखो', en: 'Write' },
-                    { hi: 'पढ़ो', en: 'Read' },
-                    { hi: 'खेलने चलो', en: 'Go play' },
-                    { hi: 'नमस्ते', en: 'Namaste' },
-                    { hi: 'शाबाश', en: 'Well done' },
-                  ].map((phrase, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => {
-                        setInputText(phrase.hi);
-                        handleFinalizeSpeech(phrase.hi);
-                      }}
-                      style={{
-                        padding: '4px 10px',
-                        borderRadius: '16px',
-                        border: '1px solid var(--color-border)',
-                        backgroundColor: 'var(--color-surface)',
-                        color: 'var(--color-slate)',
-                        fontSize: '0.76rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
-                    >
-                      {phrase.hi}
-                    </button>
-                  ))}
-                </div>
+                <p style={{ margin: '6px 0 0 0', fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
+                  {isEn
+                    ? '100% on-device speech recognition • Zero cloud dependency'
+                    : '100% ऑन-डिवाइस वाक पहचान • पूरी तरह ऑफलाइन'}
+                </p>
               </div>
             </div>
           )}
