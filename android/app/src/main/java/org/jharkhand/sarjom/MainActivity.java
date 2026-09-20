@@ -1,6 +1,7 @@
 package org.jharkhand.sarjom;
 
 import android.os.Bundle;
+import android.webkit.WebView;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.community.speechrecognition.SpeechRecognition;
 
@@ -10,5 +11,6 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(SpeechRecognition.class);
         registerPlugin(com.getcapacitor.community.tts.TextToSpeechPlugin.class);
         super.onCreate(savedInstanceState);
+        WebView.setWebContentsDebuggingEnabled(true);
     }
 }
