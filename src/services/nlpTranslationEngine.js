@@ -482,6 +482,74 @@ export const ENGLISH_TO_HINDI_LEMMA_MAP = {
   'very good': 'बहुत अच्छा',
   'thank you': 'धन्यवाद',
   'thanks': 'धन्यवाद',
+  // Romanized Hinglish Classroom & Conversational Vocab
+  'hamari': 'हमारी',
+  'hamara': 'हमारा',
+  'hamare': 'हमारे',
+  'hamaari': 'हमारी',
+  'hamaara': 'हमारा',
+  'humari': 'हमारी',
+  'humara': 'हमारा',
+  'humare': 'हमारे',
+  'hamar': 'हमर',
+  'hindi': 'हिंदी',
+  'ki': 'की',
+  'ka': 'का',
+  'ke': 'के',
+  'ko': 'को',
+  'se': 'से',
+  'me': 'में',
+  'mein': 'में',
+  'par': 'पर',
+  'pe': 'पर',
+  'tak': 'तक',
+  'kaksha': 'कक्षा',
+  'kakshya': 'कक्षा',
+  'kasha': 'कक्षा',
+  'class': 'कक्षा',
+  'classes': 'कक्षाएं',
+  'classroom': 'कक्षा',
+  'hai': 'है',
+  'haii': 'है',
+  'haiii': 'है',
+  'hain': 'हैं',
+  'he': 'है',
+  'hh': 'है',
+  'h': 'है',
+  'tha': 'था',
+  'thi': 'थी',
+  'the': 'थे',
+  'hoga': 'होगा',
+  'hogi': 'होगी',
+  'honge': 'होंगे',
+  'ganit': 'गणित',
+  'math': 'गणित',
+  'maths': 'गणित',
+  'english': 'अंग्रेज़ी',
+  'angrezi': 'अंग्रेज़ी',
+  'vigyan': 'विज्ञान',
+  'science': 'विज्ञान',
+  'adhyayan': 'अध्ययन',
+  'padhai': 'पढ़ाई',
+  'padhenge': 'पढ़ेंगे',
+  'padho': 'पढ़ो',
+  'shuru': 'शुरू',
+  'khatam': 'खत्म',
+  'start': 'शुरू',
+  'period': 'कक्षा',
+  'ghanti': 'घंटी',
+  'toh hamari': 'आज हमारी',
+  'to hamari': 'आज हमारी',
+  'toh humari': 'आज हमारी',
+  'to humari': 'आज हमारी',
+  'toh hamara': 'आज हमारा',
+  'to hamara': 'आज हमारा',
+  'toh hindi': 'आज हिंदी',
+  'to hindi': 'आज हिंदी',
+  'hindi ki kaksha': 'हिंदी की कक्षा',
+  'hindi ki class': 'हिंदी की कक्षा',
+  'hindi kaksha': 'हिंदी की कक्षा',
+  'hindi class': 'हिंदी की कक्षा',
 };
 
 /**
@@ -491,15 +559,40 @@ export const ENGLISH_TO_HINDI_LEMMA_MAP = {
  */
 export function convertHinglishEnglishToHindiKeywords(rawText) {
   if (!rawText || typeof rawText !== 'string') return '';
-  const trimmed = rawText.trim();
+  let trimmed = rawText.trim();
   if (!trimmed) return '';
 
-  // If already predominantly Devanagari Hindi, return as is
+  // 1. High-frequency ASR Phonetic & Classroom Phrase Normalizations
+  const lower = trimmed.toLowerCase();
+  if (
+    /^(?:toh|to)\s+(?:hamari|humari|hamaari)\s+hindi(?:\s+(?:hh|hai|haii|haiii|h))?$/i.test(lower) ||
+    /^(?:toh|to)\s+hindi\s+(?:hh|hai|haii|haiii|h)$/i.test(lower) ||
+    /^(?:aaj|aj)\s+(?:hamari|humari|hamaari)\s+hindi\s+(?:ki\s+)?(?:kaksha|kakshya|class|classroom)(?:\s+(?:hai|haii|haiii|hh|h))?$/i.test(lower) ||
+    /^(?:aaj|aj)\s+(?:hamari|humari|hamaari)\s+hindi(?:\s+(?:hai|haii|haiii|hh|h))?$/i.test(lower) ||
+    /^(?:today\s+(?:is\s+)?(?:our\s+)?hindi\s+class)$/i.test(lower)
+  ) {
+    return 'आज हमारी हिंदी की कक्षा है';
+  }
+
+  if (
+    /^(?:hamari|humari|hamaari)\s+hindi\s+(?:ki\s+)?(?:kaksha|kakshya|class|classroom)(?:\s+(?:hai|haii|haiii|hh|h))?$/i.test(lower) ||
+    /^(?:our\s+hindi\s+class)$/i.test(lower)
+  ) {
+    return 'हमारी हिंदी की कक्षा है';
+  }
+
+  // If already pure Devanagari with zero Latin characters, return as is
   const devaCharCount = (trimmed.match(/[\u0900-\u097F]/g) || []).length;
   const latinCharCount = (trimmed.match(/[a-zA-Z]/g) || []).length;
-  if (devaCharCount >= latinCharCount && devaCharCount > 0) {
+  if (latinCharCount === 0 && devaCharCount > 0) {
     return trimmed;
   }
+
+  // Pre-normalize repeated letters from speech hesitation / acoustic drag (e.g. 'haiii' -> 'hai', 'hh' -> 'hai')
+  trimmed = trimmed
+    .replace(/\bhaii+\b/gi, 'hai')
+    .replace(/\bhh+\b/gi, 'hai')
+    .replace(/\baa+j\b/gi, 'aaj');
 
   // Tokenize words (ignoring punctuation)
   const tokens = trimmed.toLowerCase().split(/[\s,.;:!?।॥]+/);
@@ -508,6 +601,16 @@ export function convertHinglishEnglishToHindiKeywords(rawText) {
   for (let i = 0; i < tokens.length; i++) {
     const word = tokens[i].trim();
     if (!word) continue;
+
+    // Check trigrams
+    if (i + 2 < tokens.length) {
+      const trigram = `${word} ${tokens[i + 1].trim()} ${tokens[i + 2].trim()}`;
+      if (ENGLISH_TO_HINDI_LEMMA_MAP[trigram]) {
+        convertedTokens.push(ENGLISH_TO_HINDI_LEMMA_MAP[trigram]);
+        i += 2;
+        continue;
+      }
+    }
 
     // Check bigrams (two-word phrases)
     if (i + 1 < tokens.length) {

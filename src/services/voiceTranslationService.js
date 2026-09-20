@@ -806,37 +806,52 @@ class VoiceTranslationService {
             console.warn('[Vosk Perm] Permission check warning:', permErr);
           }
 
+          this.accumulatedTranscript = '';
+          this.currentPartial = '';
           this.latestTranscript = '';
           this.hasEmittedFinal = false;
 
           // Clean old listeners
           await VoskSpeech.removeAllListeners().catch(() => {});
 
-          // Partial results (live streaming speech)
+          // Partial results (live streaming speech within current phrase chunk)
           await VoskSpeech.addListener('partialResults', (data) => {
             if (!this.isListening) return;
             if (data && data.matches && data.matches.length > 0) {
-              const raw = data.matches[0].trim();
-              if (raw) {
-                const normalized = convertHinglishEnglishToHindiKeywords(raw);
-                this.latestTranscript = normalized || raw;
+              const rawPartial = data.matches[0].trim();
+              if (rawPartial) {
+                this.currentPartial = rawPartial;
+                const fullRaw = [this.accumulatedTranscript, this.currentPartial].filter(Boolean).join(' ').trim();
+                const normalized = convertHinglishEnglishToHindiKeywords(fullRaw);
+                this.latestTranscript = normalized || fullRaw;
                 if (typeof actualOnAudioLevel === 'function') {
                   actualOnAudioLevel(Math.min(95, Math.floor(Math.random() * 35) + 55));
                 }
-                safeOnResult(normalized || raw, false, raw);
+                safeOnResult(this.latestTranscript, false, fullRaw);
               }
             }
           });
 
-          // Finalized speech recognition result
+          // Phrase chunk or final speech recognition result
           await VoskSpeech.addListener('results', (data) => {
+            if (!this.isListening) return;
             if (data && data.matches && data.matches.length > 0) {
-              const raw = data.matches[0].trim();
-              if (raw) {
-                const normalized = convertHinglishEnglishToHindiKeywords(raw);
-                this.latestTranscript = normalized || raw;
-                this.hasEmittedFinal = true;
-                safeOnResult(normalized || raw, true, raw);
+              const chunk = data.matches[0].trim();
+              if (chunk) {
+                this.accumulatedTranscript = [this.accumulatedTranscript, chunk].filter(Boolean).join(' ').trim();
+                this.currentPartial = '';
+                const fullRaw = this.accumulatedTranscript;
+                const normalized = convertHinglishEnglishToHindiKeywords(fullRaw);
+                this.latestTranscript = normalized || fullRaw;
+
+                const isTrulyFinal = !!data.isFinal;
+                if (isTrulyFinal) {
+                  this.hasEmittedFinal = true;
+                  safeOnResult(this.latestTranscript, true, fullRaw);
+                } else {
+                  // Intermediate phrase chunk: keep microphone listening, update live text
+                  safeOnResult(this.latestTranscript, false, fullRaw);
+                }
               }
             }
           });
@@ -968,6 +983,12 @@ class VoiceTranslationService {
       try { this.recognition.stop(); } catch (e) {
         try { this.recognition.abort(); } catch (abortErr) {}
       }
+    }
+
+    const fullRaw = [this.accumulatedTranscript, this.currentPartial].filter(Boolean).join(' ').trim();
+    if (fullRaw) {
+      const normalized = convertHinglishEnglishToHindiKeywords(fullRaw);
+      this.latestTranscript = normalized || fullRaw;
     }
 
     const text = (this.latestTranscript && this.latestTranscript.trim()) || '';

@@ -346,10 +346,10 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         if (isFinal) {
           handleFinalizeSpeech(transcript);
         } else {
-          // Keep listening continuously across pauses; auto-finalize after 2.2s of silence
+          // Keep listening continuously across pauses; auto-finalize after 2.5s of silence
           silenceTimerRef.current = setTimeout(() => {
             handleStopMic();
-          }, 2200);
+          }, 2500);
         }
       },
       (error) => {

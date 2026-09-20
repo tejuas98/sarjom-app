@@ -139,7 +139,7 @@ public class VoskSpeechRecognitionPlugin extends Plugin {
                             ArrayList<String> list = new ArrayList<>();
                             list.add(text);
                             ret.put("matches", new JSArray(list));
-                            ret.put("isFinal", true);
+                            ret.put("isFinal", false);
                             notifyListeners("results", ret);
                             notifyListeners("partialResults", ret);
                         }
@@ -151,15 +151,15 @@ public class VoskSpeechRecognitionPlugin extends Plugin {
                     try {
                         JSONObject json = new JSONObject(hypothesis);
                         String text = json.optString("text", "").trim();
+                        JSObject ret = new JSObject();
+                        ArrayList<String> list = new ArrayList<>();
                         if (!text.isEmpty()) {
-                            JSObject ret = new JSObject();
-                            ArrayList<String> list = new ArrayList<>();
                             list.add(text);
-                            ret.put("matches", new JSArray(list));
-                            ret.put("isFinal", true);
-                            notifyListeners("results", ret);
-                            notifyListeners("partialResults", ret);
                         }
+                        ret.put("matches", new JSArray(list));
+                        ret.put("isFinal", true);
+                        notifyListeners("results", ret);
+                        notifyListeners("partialResults", ret);
                     } catch (Exception e) {}
                 }
 
