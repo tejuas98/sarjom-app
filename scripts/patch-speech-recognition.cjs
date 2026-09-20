@@ -24,15 +24,15 @@ const targetFile = path.join(
 if (fs.existsSync(targetFile)) {
   let content = fs.readFileSync(targetFile, 'utf8');
 
-  // 1. Add EXTRA_PREFER_OFFLINE if missing
-  if (!content.includes('RecognizerIntent.EXTRA_PREFER_OFFLINE')) {
+  // 0. Ensure PermissionCallback import
+  if (!content.includes('import com.getcapacitor.annotation.PermissionCallback;')) {
     content = content.replace(
-      'intent.putExtra("android.speech.extra.DICTATION_MODE", partialResults);',
-      'intent.putExtra("android.speech.extra.DICTATION_MODE", partialResults);\n        intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);'
+      'import com.getcapacitor.annotation.Permission;',
+      'import com.getcapacitor.annotation.Permission;\nimport com.getcapacitor.annotation.PermissionCallback;'
     );
   }
 
-  // 2. Remove hardcoded com.google.android.googlequicksearchbox so non-Google speech engines work
+  // 1. Remove hardcoded com.google.android.googlequicksearchbox so non-Google speech engines work
   const oldPackageCheck = `        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             detailsIntent.setPackage("com.google.android.googlequicksearchbox");
         }`;
@@ -43,35 +43,15 @@ if (fs.existsSync(targetFile)) {
     );
   }
 
-  // 3. Robust start() and permission methods
-  const oldStart = `    @PluginMethod
-    public void start(PluginCall call) {
-        if (!isSpeechRecognitionAvailable()) {
-            call.unavailable(NOT_AVAILABLE);
-            return;
-        }
-
-        if (getPermissionState(SPEECH_RECOGNITION) != PermissionState.GRANTED) {
-            call.reject(MISSING_PERMISSION);
-            return;
-        }
-
-        String language = call.getString("language", Locale.getDefault().toString());
-        int maxResults = call.getInt("maxResults", MAX_RESULTS);
-        String prompt = call.getString("prompt", null);
-        boolean partialResults = call.getBoolean("partialResults", false);
-        boolean popup = call.getBoolean("popup", false);
-        beginListening(language, maxResults, prompt, partialResults, popup, call);
-    }`;
-
-  const newStart = `    @PluginMethod
+  // 2. Replace start, startSystemDialog, checkPermissions, requestPermissions with fully robust implementations
+  const newMethods = `    @PluginMethod
     public void start(PluginCall call) {
         boolean hasOsPerm = androidx.core.content.ContextCompat.checkSelfPermission(
             getContext(),
             Manifest.permission.RECORD_AUDIO
         ) == android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-        if (!hasOsPerm && getPermissionState(SPEECH_RECOGNITION) != PermissionState.GRANTED) {
+        if (!hasOsPerm) {
             requestPermissionForAlias(SPEECH_RECOGNITION, call, "permissionCallback");
             return;
         }
@@ -89,6 +69,20 @@ if (fs.existsSync(targetFile)) {
         }
 
         beginListening(language, maxResults, prompt, partialResults, false, call);
+    }
+
+    @PermissionCallback
+    private void permissionCallback(PluginCall call) {
+        boolean hasOsPerm = androidx.core.content.ContextCompat.checkSelfPermission(
+            getContext(),
+            Manifest.permission.RECORD_AUDIO
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+        if (hasOsPerm) {
+            start(call);
+        } else {
+            call.reject(MISSING_PERMISSION);
+        }
     }
 
     @PluginMethod
@@ -128,7 +122,19 @@ if (fs.existsSync(targetFile)) {
             call.resolve(permissionsResult);
             return;
         }
-        super.requestPermissions(call);
+        requestPermissionForAlias(SPEECH_RECOGNITION, call, "permissionsCallbackHelper");
+    }
+
+    @PermissionCallback
+    private void permissionsCallbackHelper(PluginCall call) {
+        boolean hasOsPerm = androidx.core.content.ContextCompat.checkSelfPermission(
+            getContext(),
+            Manifest.permission.RECORD_AUDIO
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+        JSObject permissionsResult = new JSObject();
+        permissionsResult.put(SPEECH_RECOGNITION, hasOsPerm ? "granted" : "denied");
+        call.resolve(permissionsResult);
     }
 
     @PluginMethod
@@ -143,14 +149,69 @@ if (fs.existsSync(targetFile)) {
         }
     }`;
 
-  if (content.includes(oldStart)) {
-    content = content.replace(oldStart, newStart);
-  } else if (!content.includes('public void startSystemDialog')) {
-    // If newStart already partially applied, inject startSystemDialog
-    content = content.replace(
-      'beginListening(language, maxResults, prompt, partialResults, false, call);\n    }',
-      'beginListening(language, maxResults, prompt, partialResults, false, call);\n    }\n\n    @PluginMethod\n    public void startSystemDialog(PluginCall call) {\n        String language = call.getString("language", Locale.getDefault().toString());\n        int maxResults = call.getInt("maxResults", MAX_RESULTS);\n        String prompt = call.getString("prompt", null);\n        beginListening(language, maxResults, prompt, false, true, call);\n    }'
-    );
+  // Replace from start(PluginCall call) through openAppSettings
+  const startRegex = /@PluginMethod\s+public void start\(PluginCall call\)[\s\S]*?call\.resolve\(\);\s*\}\s*catch \(Exception e\) \{\s*call\.reject\(e\.getMessage\(\)\);\s*\}\s*\}/;
+  if (startRegex.test(content)) {
+    content = content.replace(startRegex, newMethods);
+  }
+
+  // 3. Ensure listeningResult handles null data safely
+  const oldListeningResult = `@ActivityCallback
+    private void listeningResult(PluginCall call, ActivityResult result) {
+        if (call == null) {
+            return;
+        }
+
+        int resultCode = result.getResultCode();
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                ArrayList<String> matchesList = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                JSObject resultObj = new JSObject();
+                resultObj.put("matches", new JSArray(matchesList));
+                call.resolve(resultObj);
+            } catch (Exception ex) {
+                call.reject(ex.getMessage());
+            }
+        } else {
+            call.reject(Integer.toString(resultCode));
+        }
+
+        SpeechRecognition.this.lock.lock();
+        SpeechRecognition.this.listening(false);
+        SpeechRecognition.this.lock.unlock();
+    }`;
+
+  const newListeningResult = `@ActivityCallback
+    private void listeningResult(PluginCall call, ActivityResult result) {
+        if (call == null) {
+            return;
+        }
+
+        int resultCode = result.getResultCode();
+        if (resultCode == Activity.RESULT_OK && result.getData() != null) {
+            try {
+                ArrayList<String> matchesList = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if (matchesList != null && matchesList.size() > 0) {
+                    JSObject resultObj = new JSObject();
+                    resultObj.put("matches", new JSArray(matchesList));
+                    call.resolve(resultObj);
+                } else {
+                    call.reject("No voice input recognized");
+                }
+            } catch (Exception ex) {
+                call.reject(ex.getMessage());
+            }
+        } else {
+            call.reject(Integer.toString(resultCode));
+        }
+
+        SpeechRecognition.this.lock.lock();
+        SpeechRecognition.this.listening(false);
+        SpeechRecognition.this.lock.unlock();
+    }`;
+
+  if (content.includes(oldListeningResult)) {
+    content = content.replace(oldListeningResult, newListeningResult);
   }
 
   // 4. Ensure onError notifies JS listeners
@@ -187,7 +248,7 @@ if (fs.existsSync(targetFile)) {
   }
 
   fs.writeFileSync(targetFile, content, 'utf8');
-  console.log('[patch] Successfully applied permission, system dialog & error listener patch to SpeechRecognition.java');
+  console.log('[patch] Successfully applied permission callbacks, system dialog & error listener patch to SpeechRecognition.java');
 } else {
   console.log('[patch] Target file not found, skipping SpeechRecognition patch.');
 }

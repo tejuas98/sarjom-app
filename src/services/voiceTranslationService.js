@@ -773,9 +773,11 @@ class VoiceTranslationService {
             return matchedText;
           }
         }
+        if (safeOnEnd) safeOnEnd();
       } catch (err) {
         console.warn('[System Dialog] Error:', err);
         safeOnError(err);
+        if (safeOnEnd) safeOnEnd();
       }
     }
     return null;
@@ -809,8 +811,10 @@ class VoiceTranslationService {
     this.latestTranscript = '';
     this.hasEmittedFinal = false;
 
-    // Start in-app direct hardware microphone capture
-    await this.startInAppAudioCapture(actualOnAudioLevel);
+    // Start in-app direct hardware microphone capture for web audio visualizer (Web-only to avoid Android mic locks)
+    if (!this._isCapacitorAndroid()) {
+      await this.startInAppAudioCapture(actualOnAudioLevel);
+    }
 
     // ── DEMO / RECORDING MODE: Support direct speech simulation ─────────────
     if (typeof window !== 'undefined' && window.__SARJOM_SIMULATE_SPEECH__) {
@@ -838,11 +842,11 @@ class VoiceTranslationService {
           const permResult = await CapSpeech.requestPermissions();
           if (permResult && permResult.speechRecognition && permResult.speechRecognition === 'denied') {
             this.isListening = false;
-            this.stopInAppAudioCapture();
             safeOnError({
               code: 'not-allowed',
               message: 'Microphone permission was denied. Please allow microphone access in device Settings.',
             });
+            if (safeOnEnd) safeOnEnd();
             return;
           }
         } catch (permErr) {
@@ -855,73 +859,16 @@ class VoiceTranslationService {
         // Clean any stale listeners first
         await CapSpeech.removeAllListeners().catch(() => {});
 
-        // Listen for partial results streamed from native
-        await CapSpeech.addListener('partialResults', (data) => {
-          if (this.isSpeaking) return;
-          const text = (data && data.matches && data.matches[0]) ? data.matches[0].trim() : '';
-          if (text) {
-            this.latestTranscript = text;
-            safeOnResult(text, false); // stream interim text
-          }
-        });
-
-        // Listen for listening state events
-        await CapSpeech.addListener('listeningState', async (state) => {
-          if (state && state.status === 'stopped') {
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            const text = this.latestTranscript ? this.latestTranscript.trim() : '';
-            if (text && !this.hasEmittedFinal) {
-              this.hasEmittedFinal = true;
-              this.latestTranscript = text;
-              safeOnResult(text, true);
-            }
-            if (safeOnEnd) safeOnEnd();
-          } else if (state && state.status === 'error') {
-            console.warn('[ASR Native] Error reported from speech recognizer:', state.error, state.errorCode);
-            // If background continuous recognition hit an error (e.g. no match, timeout, or missing offline pack),
-            // offer or automatically trigger system speech intent popup
-            if (!this.hasEmittedFinal && !this.latestTranscript) {
-              try {
-                await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
-                return;
-              } catch (e) {}
-            }
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            safeOnError({ code: state.errorCode || 'error', message: state.error || 'Speech error' });
-            if (safeOnEnd) safeOnEnd();
-          }
-        });
-
-        // Attempt 1: Start native background recognition (offline preference, zero popup)
-        let backgroundStarted = false;
-        try {
-          await CapSpeech.start({
-            language: actualLang,       // e.g. 'hi-IN' or 'en-IN'
-            maxResults: 3,
-            partialResults: true,
-            popup: false,             // Zero popup dialogs
-          });
-          backgroundStarted = true;
-        } catch (startErr) {
-          console.warn('[ASR Native] Background start notice, trying system voice intent fallback:', startErr);
-
-          // Attempt 2: Start with popup=true (System speech intent)
-          // Works across Samsung Voice, Xiaomi Mi AI, Huawei Celia, AOSP, Vosk, or non-Google speech engines
-          try {
-            const popupResult = await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
-            if (popupResult) return;
-          } catch (popupErr) {
-            console.warn('[ASR Native] System voice intent notice:', popupErr);
-          }
-        }
-
-        if (backgroundStarted) {
-          return;
-        }
+        // On Android, use System Speech Dialog which provides 100% reliable hardware microphone capture
+        // across all device manufacturers (Samsung, Xiaomi, Vivo, Oppo, Google, Realme, etc.)
+        const result = await this.startSystemSpeechDialog(safeOnResult, safeOnError, actualLang, safeOnEnd);
+        this.isListening = false;
+        return result;
       } catch (err) {
         console.warn('[ASR Native] General notice, proceeding to Web Speech fallback:', err);
+        this.isListening = false;
+        safeOnError(err);
+        if (safeOnEnd) safeOnEnd();
       }
     }
 
