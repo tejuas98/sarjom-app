@@ -13,7 +13,10 @@
 
 import { SpeechRecognition as CapSpeech } from '@capacitor-community/speech-recognition';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, registerPlugin } from '@capacitor/core';
+import { convertHinglishEnglishToHindiKeywords } from './nlpTranslationEngine';
+
+const VoskSpeech = registerPlugin('VoskSpeech');
 
 const OL_CHIKI_MAP = {
   '\u1C5A': 'ओ', // ᱚ
@@ -280,22 +283,17 @@ class VoiceTranslationService {
   }
 
   initSpeechRecognition() {
-    if (this._isCapacitorAndroid()) {
-      console.info('[ASR] Using Android OS on-device SpeechRecognizer (100% offline)');
-      return;
-    }
-
     if (typeof window === 'undefined') return;
     const BrowserSpeech = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (BrowserSpeech) {
       try {
         this.recognition = new BrowserSpeech();
-        this.recognition.continuous = false;
-        this.recognition.interimResults = false;
-        this.recognition.maxAlternatives = 1;
+        this.recognition.continuous = true;
+        this.recognition.interimResults = true;
+        this.recognition.maxAlternatives = 3;
         this.recognition.lang = 'hi-IN';
       } catch (err) {
-        // In-app hardware audio capture handles offline processing
+        // Handled dynamically on start
       }
     }
   }
@@ -471,6 +469,12 @@ class VoiceTranslationService {
    */
   async requestMicPermission() {
     if (this._isCapacitorAndroid()) {
+      try {
+        const res = await VoskSpeech.requestPermissions();
+        if (res && res.speechRecognition === 'granted') {
+          return { status: 'granted', message: 'Microphone permission granted' };
+        }
+      } catch (e) {}
       try {
         const res = await CapSpeech.requestPermissions();
         if (res && res.speechRecognition === 'granted') {
@@ -778,84 +782,100 @@ class VoiceTranslationService {
     this.latestTranscript = '';
     this.hasEmittedFinal = false;
 
-    // Start in-app direct hardware microphone capture for web audio visualizer
-    await this.startInAppAudioCapture(actualOnAudioLevel).catch(() => {});
-
-    // ── PRIMARY: Capacitor Android Native On-Device In-App ASR ───────────
+    // ── 1. PRIMARY: Vosk 100% Offline On-Device Open-Source Speech Engine (Android) ──
     if (this._isCapacitorAndroid()) {
+      let isVoskHandled = false;
       try {
-        // Request mic permission if not already granted
-        try {
-          const permResult = await CapSpeech.requestPermissions();
-          if (permResult && permResult.speechRecognition && permResult.speechRecognition === 'denied') {
-            this.isListening = false;
-            this.stopInAppAudioCapture();
-            safeOnError({
-              code: 'not-allowed',
-              message: 'Microphone permission was denied. Please allow microphone access in device Settings.',
-            });
-            if (safeOnEnd) safeOnEnd();
-            return;
+        const voskStatus = await VoskSpeech.isAvailable();
+        if (voskStatus && (voskStatus.available || voskStatus.loading)) {
+          isVoskHandled = true;
+
+          // Proactively request mic permissions via Vosk plugin
+          try {
+            const perm = await VoskSpeech.requestPermissions();
+            if (perm && perm.speechRecognition === 'denied') {
+              this.isListening = false;
+              safeOnError({
+                code: 'not-allowed',
+                message: 'Microphone permission was denied. Please allow microphone access in device Settings.',
+              });
+              if (safeOnEnd) safeOnEnd();
+              return;
+            }
+          } catch (permErr) {
+            console.warn('[Vosk Perm] Permission check warning:', permErr);
           }
-        } catch (permErr) {
-          console.warn('[ASR Perm] Permission check warning:', permErr);
+
+          this.latestTranscript = '';
+          this.hasEmittedFinal = false;
+
+          // Clean old listeners
+          await VoskSpeech.removeAllListeners().catch(() => {});
+
+          // Partial results (live streaming speech)
+          await VoskSpeech.addListener('partialResults', (data) => {
+            if (!this.isListening) return;
+            if (data && data.matches && data.matches.length > 0) {
+              const raw = data.matches[0].trim();
+              if (raw) {
+                const normalized = convertHinglishEnglishToHindiKeywords(raw);
+                this.latestTranscript = normalized || raw;
+                if (typeof actualOnAudioLevel === 'function') {
+                  actualOnAudioLevel(Math.min(95, Math.floor(Math.random() * 35) + 55));
+                }
+                safeOnResult(normalized || raw, false, raw);
+              }
+            }
+          });
+
+          // Finalized speech recognition result
+          await VoskSpeech.addListener('results', (data) => {
+            if (data && data.matches && data.matches.length > 0) {
+              const raw = data.matches[0].trim();
+              if (raw) {
+                const normalized = convertHinglishEnglishToHindiKeywords(raw);
+                this.latestTranscript = normalized || raw;
+                this.hasEmittedFinal = true;
+                safeOnResult(normalized || raw, true, raw);
+              }
+            }
+          });
+
+          // Listen for speech engine lifecycle & errors
+          await VoskSpeech.addListener('listening', (data) => {
+            if (data && data.status === 'error') {
+              console.warn('[Vosk ASR Engine Notice]:', data.error);
+            } else if (data && data.status === 'stopped') {
+              const text = this.latestTranscript ? this.latestTranscript.trim() : '';
+              if (text && !this.hasEmittedFinal) {
+                this.hasEmittedFinal = true;
+                safeOnResult(text, true);
+              }
+              if (safeOnEnd) safeOnEnd();
+            }
+          });
+
+          // Start native on-device Vosk microphone recognizer
+          await VoskSpeech.startListening();
+          return;
         }
-
-        this.latestTranscript = '';
-        this.hasEmittedFinal = false;
-
-        // Clean any stale listeners first
-        await CapSpeech.removeAllListeners().catch(() => {});
-
-        // Listen for live speech stream partial results (pure in-app, zero Google popups!)
-        await CapSpeech.addListener('partialResults', (data) => {
-          if (data && data.matches && data.matches.length > 0) {
-            const current = data.matches[0].trim();
-            if (current) {
-              this.latestTranscript = current;
-              safeOnResult(current, false);
-            }
-          }
-        });
-
-        // Listen for speech stopped / finalized
-        await CapSpeech.addListener('listening', (data) => {
-          if (data && data.status === 'stopped') {
-            const final = this.latestTranscript ? this.latestTranscript.trim() : '';
-            if (final && !this.hasEmittedFinal) {
-              this.hasEmittedFinal = true;
-              safeOnResult(final, true);
-            }
-            if (safeOnEnd) safeOnEnd();
-          }
-        });
-
-        // Start native in-app background speech recognizer (popup: false -> NO GOOGLE DIALOG!)
-        await CapSpeech.start({
-          language: actualLang,
-          maxResults: 3,
-          partialResults: true,
-          popup: false,
-        });
-
-        return;
-      } catch (err) {
-        console.warn('[ASR Native] Notice, falling back to In-App Web Speech:', err);
+      } catch (voskErr) {
+        console.warn('[Vosk ASR Engine Notice, falling back to Web Speech]:', voskErr);
       }
     }
 
-    // ── FALLBACK: In-App Browser Speech API with Offline Resilience ─────────
+    // ── 2. FALLBACK: Web Audio Hardware Capture + In-App SpeechRecognition ──
+    await this.startInAppAudioCapture(actualOnAudioLevel).catch(() => {});
+
     const BrowserSpeech =
       typeof window !== 'undefined'
         ? (window.SpeechRecognition || window.webkitSpeechRecognition)
         : null;
 
     if (!BrowserSpeech) {
-      // In-app hardware mic capture is active even without browser speech recognition
       return;
     }
 
-    // Stop any previous browser recognition instance
     if (this.recognition) {
       try { this.recognition.abort(); } catch (e) {}
       this.recognition = null;
@@ -868,7 +888,6 @@ class VoiceTranslationService {
       this.recognition.interimResults = true;
       this.recognition.maxAlternatives = 1;
     } catch (initErr) {
-      // Continue with in-app audio capture
       return;
     }
 
@@ -884,21 +903,18 @@ class VoiceTranslationService {
         if (event.results[i].isFinal) finalTranscript += text + ' ';
         else interimTranscript += text;
       }
-      const activeText = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
-      if (activeText) {
-        this.latestTranscript = activeText;
-        safeOnResult(activeText, false);
+      const rawText = (finalTranscript + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
+      if (rawText) {
+        const normalized = convertHinglishEnglishToHindiKeywords(rawText);
+        this.latestTranscript = normalized || rawText;
+        safeOnResult(normalized || rawText, false, rawText);
       }
     };
 
     this.recognition.onerror = (err) => {
       const errCode = err.error || 'unknown';
-      if (errCode === 'no-speech') return; // natural pause
-      if (errCode === 'network') {
-        // Browser Web Speech throws 'network' when offline.
-        // In-app hardware mic capture continues silently on-device.
-        return;
-      }
+      if (errCode === 'no-speech') return;
+      if (errCode === 'network') return;
       this.isListening = false;
       this.stopInAppAudioCapture();
       let message = 'Microphone notice: ' + errCode;
@@ -926,7 +942,7 @@ class VoiceTranslationService {
       this.recognition.start();
     } catch (startErr) {
       if (startErr.name !== 'InvalidStateError') {
-        // Continue with in-app audio recording
+        // Fallback
       }
     }
   }
@@ -935,8 +951,12 @@ class VoiceTranslationService {
     this.isListening = false;
     this.stopInAppAudioCapture();
 
-    // Stop Capacitor Android on-device ASR
+    // Stop Vosk on-device ASR
     if (this._isCapacitorAndroid()) {
+      try {
+        VoskSpeech.stopListening().catch(() => {});
+        VoskSpeech.removeAllListeners().catch(() => {});
+      } catch (e) {}
       try {
         CapSpeech.stop().catch(() => {});
         CapSpeech.removeAllListeners().catch(() => {});

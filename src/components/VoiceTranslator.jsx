@@ -937,7 +937,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             }}
             title={isTeacherMode ? (isEn ? 'Click to switch Mic between Hindi and English' : 'हिंदी और अंग्रेज़ी वाक इनपुट बदलने के लिए क्लिक करें') : `वाक इनपुट: ${langMeta.name}`}
           >
-            <span>🎙️</span>
+            <Mic size={13} style={{ flexShrink: 0 }} />
             <span>{isTeacherMode ? (speechInputLang === 'en-IN' ? (isEn ? 'English Mic' : 'अंग्रेज़ी वाक') : (isEn ? 'Hindi Mic' : 'हिंदी वाक')) : `${langMeta.name} वाक`}</span>
             {isTeacherMode && <span style={{ fontSize: '0.65rem', opacity: 0.7 }}>⇄</span>}
           </button>
@@ -1035,7 +1035,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
             }}
             title={isEn ? 'Offline Voice Setup: 100% Offline Speech' : 'ऑफ़लाइन वाक सेटअप: बिना इंटरनेट 100% वाक'}
           >
-            <span>📦</span>
+            <HardDrive size={13} style={{ flexShrink: 0 }} />
             <span>{isEn ? 'Offline Voice' : 'ऑफ़लाइन वाक'}</span>
           </button>
         </div>
@@ -1360,7 +1360,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '0.72rem', letterSpacing: '0.02em', fontFamily: 'var(--font-sans)', color: 'var(--color-forest-light)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>🗣️</span>
+                    <MessageSquare size={13} style={{ flexShrink: 0 }} />
                     <span>
                       {isTeacherMode
                         ? (isEn ? `${langMeta.name} Live Translation:` : `${langMeta.nativeName || langMeta.name} लाइव अनुवाद (मातृभाषा):`)
@@ -1594,18 +1594,50 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
                 gap: '12px',
               }}
             >
-              <div style={{ fontSize: '1.8rem', opacity: 0.85 }}>🎙️</div>
-              <div>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.92rem', color: 'var(--color-slate)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(230, 81, 0, 0.08)', border: '1px solid rgba(230, 81, 0, 0.2)' }}>
+                <Mic size={20} color="var(--color-palash)" />
+              </div>
+              <div style={{ width: '100%', maxWidth: '480px' }}>
+                <p style={{ margin: 0, fontWeight: 700, fontSize: '0.90rem', color: 'var(--color-slate)' }}>
                   {isTeacherMode
-                    ? (isEn ? 'Tap the mic above or type any sentence' : 'ऊपर माइक दबाकर बोलें या बॉक्स में कोई भी वाक्य लिखें')
-                    : (isEn ? 'Speak or type in tribal language' : 'जनजातीय भाषा में बोलें या लिखें')}
+                    ? (isEn ? 'Speak into the mic or choose a classroom keyword:' : 'माइक से बोलें या त्वरित कक्षा वाक चुनें:')
+                    : (isEn ? 'Speak or type in tribal language:' : 'जनजातीय भाषा में बोलें या लिखें:')}
                 </p>
-                <p style={{ margin: '4px 0 0 0', fontSize: '0.78rem', color: 'var(--color-slate-muted)' }}>
-                  {isTeacherMode
-                    ? (isEn ? '100% dynamic offline translation into Ho, Santhali, Mundari & Sadri' : 'हो, संथाली, मुंडारी और सादरी में शत-प्रतिशत त्वरित ऑफलाइन अनुवाद')
-                    : (isEn ? 'Direct translation to standard Hindi' : 'मानक हिंदी में सीधा अनुवाद')}
-                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center', marginTop: '10px' }}>
+                  {[
+                    { hi: 'किताब खोलो', en: 'Open book' },
+                    { hi: 'पानी पियो', en: 'Drink water' },
+                    { hi: 'चुप रहो', en: 'Be quiet' },
+                    { hi: 'बैठ जाओ', en: 'Sit down' },
+                    { hi: 'लिखो', en: 'Write' },
+                    { hi: 'पढ़ो', en: 'Read' },
+                    { hi: 'खेलने चलो', en: 'Go play' },
+                    { hi: 'नमस्ते', en: 'Namaste' },
+                    { hi: 'शाबाश', en: 'Well done' },
+                  ].map((phrase, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => {
+                        setInputText(phrase.hi);
+                        handleFinalizeSpeech(phrase.hi);
+                      }}
+                      style={{
+                        padding: '4px 10px',
+                        borderRadius: '16px',
+                        border: '1px solid var(--color-border)',
+                        backgroundColor: 'var(--color-surface)',
+                        color: 'var(--color-slate)',
+                        fontSize: '0.76rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {phrase.hi}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -2266,7 +2298,7 @@ export function VoiceTranslator({ selectedLang, uiLang = 'hi' }) {
         </div>
       )}
 
-      {/* 📦 100% Offline Voice Model Guide Modal */}
+      {/* 100% Offline Voice Model Guide Modal */}
       {showOfflineHelpModal && (
         <div
           style={{

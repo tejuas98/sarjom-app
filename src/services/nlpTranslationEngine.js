@@ -427,7 +427,109 @@ export const ENGLISH_TO_HINDI_LEMMA_MAP = {
   'padho': 'पढ़ो',
   'khelo': 'खेलो',
   'dekho': 'देखो',
+  'baccho': 'बच्चों',
+  'bacho': 'बच्चों',
+  'bache': 'बच्चे',
+  'bachon': 'बच्चों',
+  'suno': 'सुनो',
+  'samjho': 'समझो',
+  'utho': 'उठो',
+  'chalo': 'चलो',
+  'aaj': 'आज',
+  'kal': 'कल',
+  'shabash': 'शाबाश',
+  'namaste': 'नमस्ते',
+  'johar': 'जोहार',
+  'kya': 'क्या',
+  'kaise': 'कैसे',
+  'kahan': 'कहाँ',
+  'kyun': 'क्यों',
+  'sahi': 'सही',
+  'theek': 'ठीक',
+  'thik': 'ठीक',
+  'accha': 'अच्छा',
+  'acha': 'अच्छा',
+  'didi': 'दीदी',
+  'sir': 'सर',
+  'baith': 'बैठ',
+  'baitho': 'बैठो',
+  'baith jao': 'बैठ जाओ',
+  'sit down': 'बैठ जाओ',
+  'stand up': 'खड़े हो जाओ',
+  'be quiet': 'चुप रहो',
+  'quiet': 'चुप',
+  'open book': 'किताब खोलो',
+  'open your book': 'किताब खोलो',
+  'open books': 'किताब खोलो',
+  'drink water': 'पानी पियो',
+  'eat food': 'खाना खाओ',
+  'khana khao': 'खाना खाओ',
+  'go play': 'खेलने चलो',
+  'go to play': 'खेलने चलो',
+  'khelne': 'खेलने',
+  'khelne chalo': 'खेलने चलो',
+  'ghar jao': 'घर जाओ',
+  'go home': 'घर जाओ',
+  'dhyan do': 'ध्यान दो',
+  'pay attention': 'ध्यान दो',
+  'listen': 'सुनो',
+  'read': 'पढ़ो',
+  'write': 'लिखो',
+  'come here': 'यहाँ आओ',
+  'yahan aao': 'यहाँ आओ',
+  'well done': 'शाबाश',
+  'good': 'अच्छा',
+  'very good': 'बहुत अच्छा',
+  'thank you': 'धन्यवाद',
+  'thanks': 'धन्यवाद',
 };
+
+/**
+ * Converts English, Hinglish, or mixed spoken voice input into standard Hindi keywords.
+ * Enables teachers to speak naturally in English, Hinglish, or Hindi, producing clean Hindi phrases
+ * that feed directly into the SARJOM tribal translation pipeline.
+ */
+export function convertHinglishEnglishToHindiKeywords(rawText) {
+  if (!rawText || typeof rawText !== 'string') return '';
+  const trimmed = rawText.trim();
+  if (!trimmed) return '';
+
+  // If already predominantly Devanagari Hindi, return as is
+  const devaCharCount = (trimmed.match(/[\u0900-\u097F]/g) || []).length;
+  const latinCharCount = (trimmed.match(/[a-zA-Z]/g) || []).length;
+  if (devaCharCount >= latinCharCount && devaCharCount > 0) {
+    return trimmed;
+  }
+
+  // Tokenize words (ignoring punctuation)
+  const tokens = trimmed.toLowerCase().split(/[\s,.;:!?।॥]+/);
+  const convertedTokens = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const word = tokens[i].trim();
+    if (!word) continue;
+
+    // Check bigrams (two-word phrases)
+    if (i + 1 < tokens.length) {
+      const nextWord = tokens[i + 1].trim();
+      const bigram = `${word} ${nextWord}`;
+      if (ENGLISH_TO_HINDI_LEMMA_MAP[bigram]) {
+        convertedTokens.push(ENGLISH_TO_HINDI_LEMMA_MAP[bigram]);
+        i++; // skip next token
+        continue;
+      }
+    }
+
+    // Single token lookup
+    if (ENGLISH_TO_HINDI_LEMMA_MAP[word]) {
+      convertedTokens.push(ENGLISH_TO_HINDI_LEMMA_MAP[word]);
+    } else {
+      convertedTokens.push(word);
+    }
+  }
+
+  return convertedTokens.join(' ').trim();
+}
 
 /**
  * Single Clause / Sentence Translation Worker

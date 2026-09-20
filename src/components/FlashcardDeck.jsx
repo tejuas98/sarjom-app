@@ -659,7 +659,7 @@ export function FlashcardDeck({ selectedLang, uiLang = 'hi' }) {
                 fontWeight: deckTab === 'all' ? 700 : 500,
               }}
             >
-              🌟 {isEn ? `All (${allCards.length})` : `सभी (${allCards.length})`}
+              {isEn ? `All (${allCards.length})` : `सभी (${allCards.length})`}
             </button>
 
             <button
