@@ -22,7 +22,7 @@ Direct downloads: **[Latest Production APK (v3.0)](https://github.com/tejuas98/s
 
 ## Demo Video
 
-[Watch Live Tablet Walkthrough on YouTube]([https://www.youtube.com](https://youtu.be/QPtIu_tslwM?si=tN8bPEbk0ig4fGLt))
+[Watch Live Tablet Walkthrough on YouTube]([https://www.youtube.com](https://youtu.be/QPtIu_tslwM?si=tN8bPEbk0ig4fGLt)
 
 ---
 
